@@ -141,7 +141,7 @@ export const projects: Content["projects"] = {
         portfolio: {
             name: "MyPortfolio",
             context: "Proyecto personal",
-            summary: "Este sitio es un portafolio bilingüe en React y TypeScript con páginas prerenderizadas, una vista por rol, una página para cada proyecto y un asistente que responde en el navegador.",
+            summary: "Este sitio es un portafolio bilingüe en SolidJS y TypeScript con páginas prerenderizadas, una vista por rol, una página para cada proyecto y un asistente que responde en el navegador.",
             screen: "La portada real de este portafolio en la vista full-stack, con la disponibilidad, el nombre, el rol, el resumen y el selector de perfiles.",
             highlights: [
                 {

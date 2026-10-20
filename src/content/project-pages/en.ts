@@ -90,7 +90,7 @@ export const projectPages: ProjectPagesCopy = {
             decisions: [
                 {
                     title: "Prerendering instead of a server",
-                    problem: "A React app built in the browser arrives empty until its JavaScript runs.",
+                    problem: "A single-page app built in the browser arrives empty until its JavaScript runs.",
                     solution: "Every page is prerendered at build time, so it arrives complete without JavaScript and Nginx serves it as a static file.",
                     tradeoff: "every content change needs a new build and deployment.",
                 },
@@ -105,6 +105,12 @@ export const projectPages: ProjectPagesCopy = {
                     problem: "An assistant wired to an outside service could contradict the page and would send the questions to third parties.",
                     solution: "It answers by searching the site's own content, so it never contradicts the page or sends questions to third parties.",
                     tradeoff: "it only knows what the page knows.",
+                },
+                {
+                    title: "SolidJS instead of React",
+                    problem: "React's runtime was most of the startup JavaScript, and hydrating ran every component again before the page could respond.",
+                    solution: "SolidJS compiles each view to direct DOM updates and hydrates the prerendered HTML in place, so the startup script went from 63 KB to under 10 KB compressed and a role change only touches what depends on it.",
+                    tradeoff: "every hydrated element carries a small key, which makes the HTML somewhat larger.",
                 },
             ],
             figures: {views: "role views", languages: "languages"},
@@ -135,7 +141,7 @@ export const projectPages: ProjectPagesCopy = {
                 project: "A real project page of this portfolio, the lettuce disease detector's, with its metrics board, its facts and its figures.",
             },
             seo: {
-                title: "MyPortfolio, this portfolio in React and TypeScript · Project",
+                title: "MyPortfolio, this portfolio in SolidJS and TypeScript · Project",
                 description: "A bilingual prerendered portfolio with role views, a page per project, GitHub figures refreshed on every build and a local assistant.",
             },
         },

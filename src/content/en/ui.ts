@@ -57,7 +57,7 @@ export const ui: Content["ui"] = {
     },
     footer: {
         rights: "All rights reserved.",
-        builtWith: "Built with React, TypeScript and Tailwind CSS.",
+        builtWith: "Built with SolidJS, TypeScript and Tailwind CSS.",
         elsewhere: "Find me elsewhere",
         explore: "Explore the portfolio",
         pages: {

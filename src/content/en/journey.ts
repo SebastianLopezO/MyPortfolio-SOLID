@@ -323,7 +323,7 @@ export const journey: JourneyCopy = {
             zoho: {name: "Zoho CRM · Deluge", note: "CRM modules, functions, widgets and OAuth integrations."},
             integrations: {name: "REST · SOAP · Webhooks", note: "Connecting academic, legacy and marketing systems."},
             spring: {name: "Java · Spring Boot", note: "APIs for SmartPot, PepperCRM and GoPoli."},
-            react: {name: "React · TypeScript", note: "PWAs and this portfolio, kept sharp for full-stack work."},
+            react: {name: "React · TypeScript", note: "PWAs, landing pages and CRM widgets, kept sharp for full-stack work."},
             jobs: {
                 name: "Background jobs",
                 note: "Long processes that answer 202, avoid duplicates with an idempotency key and leave a status to query."

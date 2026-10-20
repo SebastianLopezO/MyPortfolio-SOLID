@@ -107,7 +107,7 @@ test("shows each decision's problem first and its solution on demand", async ({p
     const switchAll = section.getByRole("group", {name: "Switch every decision at once"});
     await switchAll.and(page.locator("[data-interactive]")).waitFor({state: "attached"});
     const first = section.locator("ol > li").first();
-    await expect(first.getByRole("tabpanel")).toHaveText("A React app built in the browser arrives empty until its JavaScript runs.");
+    await expect(first.getByRole("tabpanel")).toHaveText("A single-page app built in the browser arrives empty until its JavaScript runs.");
     await first.getByRole("tab", {name: "Solution"}).click();
     await expect(first.getByRole("tab", {name: "Solution"})).toHaveAttribute("aria-selected", "true");
     await expect(first.getByRole("tabpanel")).toContainText("The cost: every content change needs a new build and deployment.");
@@ -116,7 +116,7 @@ test("shows each decision's problem first and its solution on demand", async ({p
     await expect(first.getByRole("tab", {name: "Problem"})).toBeFocused();
     await expect(first.getByRole("tab", {name: "Problem"})).toHaveAttribute("aria-selected", "true");
     await switchAll.getByRole("button", {name: "Show the solutions"}).click();
-    await expect(section.getByRole("tab", {name: "Solution", selected: true})).toHaveCount(3);
+    await expect(section.getByRole("tab", {name: "Solution", selected: true})).toHaveCount(4);
     await expect(switchAll.getByRole("button", {name: "Show the solutions"})).toHaveAttribute("aria-pressed", "true");
     expect(consoleErrors).toEqual([]);
 });
@@ -130,7 +130,7 @@ test("starts the next project's decision tabs fresh after moving to it on the cl
     await page.getByRole("link", {name: /Next project/}).click();
     await expect(page).toHaveURL(/\/en\/projects\/portfolio$/);
     const cards = page.locator('section[aria-labelledby="project-decisions"] ol > li');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
     for (const card of await cards.all()) {
         await expect(card.getByRole("tab", {name: "Problem"})).toHaveAttribute("aria-selected", "true");
         await expect(card.getByRole("tabpanel")).toHaveCount(1);
@@ -163,7 +163,7 @@ test.describe("without JavaScript", () => {
     test("shows both sides of every decision under their labels", async ({page}) => {
         await page.goto("/en/projects/portfolio");
         const section = page.locator('section[aria-labelledby="project-decisions"]');
-        await expect(section.getByText("A React app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
+        await expect(section.getByText("A single-page app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
         await expect(section.getByText(/^Every page is prerendered at build time/)).toBeVisible();
         await expect(section.locator("[data-decision-tabs]").first()).toBeHidden();
         expect(await section.locator("[data-decision-panel]").first().evaluate((panel) => getComputedStyle(panel, "::before").content)).toBe('"Problem"');
