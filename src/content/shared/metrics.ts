@@ -7,8 +7,7 @@ import {
     wakatime
 } from "@/content/shared/github-stats.json";
 import {EXPERIENCE_YEARS} from "@/content/shared/profile";
-import {certifications} from "@/content/shared/certifications";
-import {testimonials} from "@/content/shared/testimonials";
+import {CERTIFICATION_COUNT, RECOMMENDATION_COUNT} from "@/content/shared/counts";
 
 const PROFILE_REPO = "https://raw.githubusercontent.com/SebastianLopezO/SebastianLopezO/main";
 const ACCOUNT_METRICS = `${PROFILE_REPO}/metrics/account`;
@@ -55,10 +54,10 @@ export const highlightValues: Record<HighlightId, HighlightValue> = {
     contributions: {value: totals.contributions},
     prsReviewed: {value: totals.reviews},
     streak: {value: streaks.current.days, atLeast: true},
-    certifications: {value: certifications.length},
+    certifications: {value: CERTIFICATION_COUNT},
     organizations: {value: organizationCount.member},
     repositories: {value: repositories.contributedTo},
-    recommendations: {value: testimonials.length},
+    recommendations: {value: RECOMMENDATION_COUNT},
     codingHours: {value: Math.round(wakatime.totalSeconds / 3600)},
     // 2,273 of the 2,446 non-merge commits made by people across the 11 SmartPotTech repositories (GitHub API, 2026-10-14).
     smartpotCommits: {value: 93, unit: "%"},

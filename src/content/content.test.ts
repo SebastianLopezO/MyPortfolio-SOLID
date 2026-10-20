@@ -5,6 +5,7 @@ import {projectImages, projects} from "@/content/shared/projects";
 import {certifications} from "@/content/shared/certifications";
 import {testimonials} from "@/content/shared/testimonials";
 import {EXPERIENCE_YEARS, profile, YEARS, yearsBetween} from "@/content/shared/profile";
+import {CERTIFICATION_COUNT, RECOMMENDATION_COUNT} from "@/content/shared/counts";
 import {formatHighlight, highlightValues, metricValues} from "@/content/shared/metrics";
 import {ROLE_IDS} from "@/content/roles";
 import {assistant as enAssistant} from "@/content/en/assistant";
@@ -125,6 +126,11 @@ describe("bilingual content", () => {
             expect(item.url, item.id).toMatch(/^https:\/\//);
             expect(item.url, item.id).not.toMatch(/platzi\.com\/p\/[^/]+\/?$/);
         }
+    });
+
+    it("counts the certifications and recommendations the hero's figures show", () => {
+        expect(CERTIFICATION_COUNT).toBe(certifications.length);
+        expect(RECOMMENDATION_COUNT).toBe(testimonials.length);
     });
 
     it("formats figures with the number grouping of each language", () => {

@@ -222,15 +222,17 @@ Measured on the same content (`pnpm build`, gzip level 9):
 | Measure                                         | React 19 | SolidJS |
 |-------------------------------------------------|---------:|--------:|
 | Entry script                                    |  63.3 KB |  9.6 KB |
-| JavaScript before hydration on `/en`            |  91.3 KB | 45.4 KB |
+| JavaScript before hydration on `/en`            |  91.3 KB | 39.8 KB |
 | Every JavaScript chunk                          | 359.2 KB | 327.0 KB |
 | First paint on `/en` (HTML up to the first section) | 17.0 KB | 17.0 KB |
-| Whole `/en` page                                |  59.7 KB | 67.2 KB |
-| Project page (`/en/projects/smartpot`)          |  23.2 KB | 24.4 KB |
+| Whole `/en` page                                |  59.7 KB | 67.3 KB |
+| Project page (`/en/projects/smartpot`)          |  23.2 KB | 24.5 KB |
 | `node_modules`                                  |   523 MB |   56 MB |
 
 The pages grow because Solid marks every hydratable element with a `data-hk` key; the first paint does not, and the
-JavaScript that has to download, parse and run before the page responds is half of what it was.
+JavaScript that has to download, parse and run before the page responds is less than half of what it was. Part of that
+saving is outside Solid: the hero's figures count the certifications and recommendations from
+`content/shared/counts.ts` instead of importing both lists, which a test keeps in step.
 
 ## Documentation
 
