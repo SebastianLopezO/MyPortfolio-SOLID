@@ -25,7 +25,6 @@ export function BrowserRouter(props: ParentProps) {
 
 export function MemoryRouter(props: ParentProps<{ initialUrl: string }>) {
     // The initial URL seeds the router once, like a browser's address bar on load.
-    // eslint-disable-next-line solid/reactivity
     const [location, setLocation] = createSignal(parseUrl(props.initialUrl));
     const navigate = (to: string) => setLocation(parseUrl(to));
     return <RouterContext.Provider value={{location, navigate}}>{props.children}</RouterContext.Provider>;

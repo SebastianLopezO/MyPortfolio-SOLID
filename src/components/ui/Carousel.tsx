@@ -1,16 +1,13 @@
-import {createSignal, createUniqueId, For, type JSX, onCleanup, onMount, Show} from "solid-js";
+import {type Accessor, createEffect, createSignal, createUniqueId, For, type JSX, on, onCleanup, onMount, Show} from "solid-js";
 import {ChevronLeft, ChevronRight} from "@/components/ui/icons";
 import {cn} from "@/lib/utils";
 
-export interface CarouselItem {
-    key: string;
-    node: JSX.Element;
-    /** Classes for this item's list element, such as a grid span once the carousel becomes a grid. */
-    class?: string;
-}
-
-interface CarouselProps {
-    items: CarouselItem[];
+interface CarouselProps<T> {
+    items: readonly T[];
+    /** Draws one slide; it runs once per item and moves with it when the order changes. */
+    children: (item: T, index: Accessor<number>) => JSX.Element;
+    /** Classes for an item's list element, such as a grid span once the carousel becomes a grid. */
+    itemClass?: (item: T, index: number) => string | undefined;
     previousLabel: string;
     nextLabel: string;
     /** Width of each slide per breakpoint, e.g. "basis-[85%] sm:basis-[calc((100%-1.25rem)/2)]". */
@@ -33,7 +30,7 @@ const samePosition = (a: Position, b: Position) => a.index === b.index && a.perV
  * screen sees several. All slides stay in the page (and the prerendered HTML); the buttons and the counter only move
  * the scroll position, so a screen reader reads the list as a plain list.
  */
-export function Carousel(props: CarouselProps) {
+export function Carousel<T>(props: CarouselProps<T>) {
     const trackId = createUniqueId();
     let track: HTMLUListElement | undefined;
     const [position, setPosition] = createSignal<Position>({index: 0, perView: 1}, {equals: samePosition});
@@ -60,6 +57,8 @@ export function Carousel(props: CarouselProps) {
             });
         };
         measure();
+        // Slides added after hydration lengthen the track without resizing it.
+        createEffect(on(() => props.items.length, measure, {defer: true}));
         element.addEventListener("scroll", measure, {passive: true});
         const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
         observer?.observe(element);
@@ -92,7 +91,11 @@ export function Carousel(props: CarouselProps) {
                 )}
             >
                 <For each={props.items}>
-                    {(item) => <li class={cn("shrink-0 snap-start", props.slideClass, item.class)}>{item.node}</li>}
+                    {(item, index) => (
+                        <li class={cn("shrink-0 snap-start", props.slideClass, props.itemClass?.(item, index()))}>
+                            {props.children(item, index)}
+                        </li>
+                    )}
                 </For>
             </ul>
             {/* Centered, so on phones the buttons stay clear of the floating WhatsApp and assistant buttons on the right. */}

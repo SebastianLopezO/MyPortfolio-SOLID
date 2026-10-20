@@ -7,7 +7,8 @@ import {isServer} from "solid-js/web";
  * waits for it, so hydration always finds the markup the server wrote.
  */
 export const useHydrated = (): Accessor<boolean> => {
-    const [hydrated, setHydrated] = createSignal(!isServer && !sharedConfig.context);
-    if (!hydrated()) onMount(() => setHydrated(true));
+    const fresh = !isServer && !sharedConfig.context;
+    const [hydrated, setHydrated] = createSignal(fresh);
+    if (!fresh) onMount(() => setHydrated(true));
     return hydrated;
 };
