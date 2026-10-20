@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: 40px 1fr;
+            background: #dfe3ea;
+        }
+
+        .chrome {
+            background: #e9ecf1;
+            border-bottom: 1px solid #cfd5de;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 14px;
+        }
+
+        .chrome .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .chrome .dots i {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #c4cad4;
+        }
+
+        .url {
+            flex: 1;
+            background: #fff;
+            border-radius: 14px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 12.5px;
+            color: var(--muted);
+            font-family: "Code", monospace;
+        }
+
+        .url b {
+            color: var(--fg);
+            font-weight: 400;
+        }
+
+        .site {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            min-height: 0;
+        }
+
+        .landing {
+            background: linear-gradient(135deg, #12355b 0%, #1c4f80 60%, #2a6aa3 100%);
+            color: #fff;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 36px;
+            padding: 30px 40px;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .brand i {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 4px solid #9fd0ff;
+        }
+
+        h1 {
+            font-size: 40px;
+            line-height: 1.1;
+            margin-top: 30px;
+            font-weight: 700;
+        }
+
+        .lead {
+            font-size: 16px;
+            margin-top: 14px;
+            color: #d8e6f5;
+            max-width: 460px;
+        }
+
+        .facts {
+            display: flex;
+            gap: 26px;
+            margin-top: 26px;
+            font-size: 13px;
+            color: #d8e6f5;
+        }
+
+        .facts b {
+            display: block;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .form {
+            background: #fff;
+            color: var(--fg);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            gap: 11px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .form .btn.primary {
+            background: #f2a33a;
+            border-color: #f2a33a;
+            color: #1d2330;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        .consent {
+            font-size: 11.5px;
+            color: var(--muted);
+            display: flex;
+            gap: 8px;
+        }
+
+        .consent i {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            background: #2f6fde;
+            flex: none;
+            margin-top: 2px;
+        }
+
+        .devtools {
+            background: #1e1f24;
+            color: #d6dbe4;
+            padding: 14px 16px;
+            font-family: "Code", monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            display: grid;
+            align-content: start;
+            gap: 12px;
+            border-left: 1px solid #000;
+        }
+
+        .devtools .t {
+            font-family: "Plex", sans-serif;
+            font-weight: 600;
+            font-size: 12.5px;
+            color: #fff;
+        }
+
+        .devtools .k {
+            color: #9cdcfe;
+        }
+
+        .devtools .s {
+            color: #ce9178;
+        }
+
+        .devtools .g {
+            color: #6a9955;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="chrome"><span class="dots"><i></i><i></i><i></i></span>
+    <div class="url"><b>programas.universidad-a.example/maestria-datos</b>?utm_source=meta&amp;utm_medium=paid&amp;utm_campaign=admisiones-2027-1
+    </div>
+</div>
+<div class="site">
+    <section class="landing">
+        <div>
+            <div class="brand"><i></i>Universidad A · Posgrados</div>
+            <h1>Maestría en Ciencia de Datos</h1>
+            <p class="lead">Modalidad virtual con encuentros en vivo. Inscripciones abiertas para el periodo 2027-1.</p>
+            <div class="facts"><span><b>4</b>semestres</span><span><b>Virtual</b>con clases en vivo</span><span><b>2027-1</b>inicio</span>
+            </div>
+        </div>
+        <div class="form">
+            <div style="font-weight: 700; font-size: 17px">Recibe información del programa</div>
+            <div class="field"><label>Nombre completo</label>
+                <div class="input filled">Ana Martínez Ríos</div>
+            </div>
+            <div class="field"><label>Correo</label>
+                <div class="input filled">ana.martinez@ejemplo.com</div>
+            </div>
+            <div class="field"><label>Celular</label>
+                <div class="input filled">+57 300 000 0000</div>
+            </div>
+            <div class="consent"><i></i><span>Acepto el tratamiento de mis datos personales según la política de la universidad.</span>
+            </div>
+            <span class="btn primary">Quiero más información</span>
+        </div>
+    </section>
+    <aside class="devtools">
+        <div class="t">Lo que sale al enviar (datos de ejemplo)</div>
+        <div>
+            <div class="g">// campos ocultos que la landing llena desde la URL</div>
+            <div><span class="k">utm_source</span>: <span class="s">"meta"</span></div>
+            <div><span class="k">utm_medium</span>: <span class="s">"paid"</span></div>
+            <div><span class="k">utm_campaign</span>: <span class="s">"admisiones-2027-1"</span></div>
+            <div><span class="k">programa</span>: <span class="s">"maestria-datos"</span></div>
+        </div>
+        <div>
+            <div class="g">// 1. el botón se bloquea: no hay dobles envíos</div>
+            <div class="g">// 2. el formulario de Zoho crea el lead en el CRM</div>
+            <div>POST forms.zoho… <span class="s">200</span></div>
+            <div class="g">// 3. evento de conversión en Google Tag Manager</div>
+            <div>dataLayer.push({<span class="k">event</span>: <span class="s">"form_submit"</span>})</div>
+            <div class="g">// 4. redirección a la página de gracias</div>
+            <div>/maestria-datos/gracias</div>
+        </div>
+    </aside>
+</div>
+</body>
+</html>

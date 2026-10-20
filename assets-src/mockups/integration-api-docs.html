@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .light {
+            --bg: #fafafa;
+        }
+
+        body {
+            padding: 0 0 0 0;
+            display: grid;
+            grid-template-rows: 52px 1fr;
+        }
+
+        .top {
+            background: #1b1b1b;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+        }
+
+        .top b {
+            font-size: 15px;
+        }
+
+        .page {
+            display: grid;
+            grid-template-columns: 1fr 520px;
+            gap: 22px;
+            padding: 16px 34px;
+            min-height: 0;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h1 small {
+            font-size: 12px;
+            font-weight: 600;
+            background: #7d8492;
+            color: #fff;
+            border-radius: 10px;
+            padding: 2px 8px;
+            vertical-align: 5px;
+            margin-left: 6px;
+        }
+
+        .tag {
+            font-weight: 700;
+            font-size: 14px;
+            border-bottom: 1px solid var(--line);
+            padding: 6px 0 4px;
+            margin-top: 6px;
+        }
+
+        .op {
+            display: grid;
+            grid-template-columns: 74px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            border-radius: 5px;
+            padding: 3px 8px;
+            margin-top: 5px;
+            font-size: 13.5px;
+            border: 1px solid;
+        }
+
+        .op .m {
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 12px;
+            text-align: center;
+            padding: 4px 0;
+        }
+
+        .op .p {
+            font-family: "Code", monospace;
+            font-weight: 600;
+        }
+
+        .get {
+            background: #ebf3fb;
+            border-color: #61affe;
+        }
+
+        .get .m {
+            background: #61affe;
+        }
+
+        .post {
+            background: #e8f6f0;
+            border-color: #49cc90;
+        }
+
+        .post .m {
+            background: #49cc90;
+        }
+
+        .patch {
+            background: #fcf5ea;
+            border-color: #e9a23b;
+        }
+
+        .patch .m {
+            background: #e9a23b;
+        }
+
+        .lock {
+            width: 12px;
+            height: 10px;
+            border: 1.5px solid #7d8492;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .detail {
+            border: 1px solid #49cc90;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .detail header {
+            background: #e8f6f0;
+            padding: 8px 12px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .detail .body {
+            padding: 12px 14px;
+            display: grid;
+            gap: 10px;
+            align-content: start;
+            font-size: 13px;
+        }
+
+        pre {
+            font-family: "Code", monospace;
+            font-size: 12px;
+            background: #333;
+            color: #f0f0f0;
+            border-radius: 4px;
+            padding: 10px 12px;
+            line-height: 1.55;
+        }
+
+        .h {
+            font-weight: 700;
+            font-size: 12.5px;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="top"><b>Servicio de integración</b><span class="btn"
+                                                     style="background: transparent; color: #fff; border-color: #49cc90">Autorizar</span>
+</div>
+<div class="page">
+    <section style="overflow: hidden">
+        <h1>Integración CRM · sistema académico <small>2.4.0</small> <small>OAS 3.1</small></h1>
+        <p class="muted" style="font-size: 13px; margin-top: 4px">Una instancia por institución. Salvo la documentación
+            y la salud, cada ruta pide credenciales de cliente en los encabezados; las métricas usan un token propio de
+            Prometheus.</p>
+        <div class="tag">Formularios y CRM</div>
+        <div class="op post"><span class="m">POST</span><span class="p">/leads <span class="muted"
+                                                                                     style="font-family: Plex; font-weight: 400">· registro del aspirante</span></span><span
+                class="lock"></span></div>
+        <div class="op patch"><span class="m">PATCH</span><span class="p">/deals/{id} <span class="muted"
+                                                                                            style="font-family: Plex; font-weight: 400">· solicitud completa</span></span><span
+                class="lock"></span></div>
+        <div class="op get"><span class="m">GET</span><span class="p">/academicHierarchy <span class="muted"
+                                                                                               style="font-family: Plex; font-weight: 400">· unidades, niveles y programas</span></span><span
+                class="lock"></span></div>
+        <div class="tag">Catálogos</div>
+        <div class="op post"><span class="m">POST</span><span class="p">/catalogs/sync/database <span class="muted"
+                                                                                                      style="font-family: Plex; font-weight: 400">· catálogos del sistema académico al CRM</span></span><span
+                class="lock"></span></div>
+        <div class="tag">Trabajos en segundo plano</div>
+        <div class="op get"><span class="m">GET</span><span class="p">/jobs <span class="muted"
+                                                                                  style="font-family: Plex; font-weight: 400">· recientes, por tipo y estado</span></span><span
+                class="lock"></span></div>
+        <div class="op get"><span class="m">GET</span><span class="p">/jobs/{job_id} <span class="muted"
+                                                                                           style="font-family: Plex; font-weight: 400">· estado, progreso y eventos</span></span><span
+                class="lock"></span></div>
+        <div class="op post"><span class="m">POST</span><span class="p">/jobs/{job_id}/cancel</span><span
+                class="lock"></span></div>
+        <div class="tag">Operación</div>
+        <div class="op get"><span class="m">GET</span><span class="p">/health</span><span></span></div>
+        <div class="op get"><span class="m">GET</span><span class="p">/metrics <span class="muted"
+                                                                                     style="font-family: Plex; font-weight: 400">· Prometheus</span></span><span
+                class="lock"></span></div>
+    </section>
+    <aside class="detail">
+        <header><span class="badge" style="background: #49cc90; color: #fff; border-color: #49cc90">POST</span><b
+                class="mono">/catalogs/sync/database</b></header>
+        <div class="body">
+            <div><span class="h">Encabezados</span>
+                <pre>client_id: ••••••••
+secret_id: ••••••••••••</pre>
+            </div>
+            <div><span class="h">Cuerpo</span>
+                <pre>{
+  "idempotency_key": "catalogs:2027-1:sede-norte",
+  "periodo": "2027-1"
+}</pre>
+            </div>
+            <div><span class="h">Respuesta 202</span>
+                <pre>{
+  "job_id": "8f1c9a2e-4d7b-4c11-9a3e-2b6d5f0e1c44",
+  "reutilizado": false,
+  "consulta_estado": "/jobs/8f1c9a2e-4d7b-4c11-9a3e-2b6d5f0e1c44"
+}</pre>
+            </div>
+            <div class="muted" style="font-size: 12px">Un 202 significa recibido, no aplicado. Si alguien repite la
+                misma petición, la clave de idempotencia devuelve el trabajo que ya existe en vez de lanzar otro.
+            </div>
+        </div>
+    </aside>
+</div>
+</body>
+</html>

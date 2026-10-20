@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 0 22px 18px;
+            display: grid;
+            grid-template-rows: 54px auto 1fr;
+            gap: 14px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--line);
+            margin: 0 -22px;
+            padding: 0 22px;
+        }
+
+        .summary {
+            display: flex;
+            gap: 28px;
+            font-size: 13px;
+        }
+
+        .summary b {
+            display: block;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        .trace {
+            display: grid;
+            grid-template-columns: 430px 1fr;
+            align-content: start;
+            overflow: hidden;
+        }
+
+        .trace > div {
+            height: 46px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+        }
+
+        .name {
+            gap: 8px;
+            padding-right: 12px;
+            white-space: nowrap;
+        }
+
+        .svc {
+            font-weight: 600;
+        }
+
+        .bar {
+            position: relative;
+        }
+
+        .bar span {
+            position: absolute;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .bar em {
+            position: absolute;
+            font-style: normal;
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .ticks {
+            display: grid;
+            grid-template-columns: 430px 1fr;
+            font-size: 11.5px;
+            color: var(--subtle);
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 6px;
+        }
+
+        .ticks div:last-child {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .attrs {
+            margin-top: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+        }
+
+        .attrs dl {
+            display: grid;
+            grid-template-columns: 160px 1fr 160px 1fr 160px 1fr;
+            gap: 6px 12px;
+            margin-top: 10px;
+            font-family: "Code", monospace;
+            font-size: 12.5px;
+        }
+
+        .attrs dt {
+            color: var(--muted);
+        }
+
+        .a {
+            background: #5b9cf5;
+        }
+
+        .b {
+            background: #3fb68b;
+        }
+
+        .c {
+            background: #e0a43a;
+        }
+
+        .d {
+            background: #b083f0;
+        }
+
+        .e {
+            background: #e5534b;
+        }
+    </style>
+</head>
+<body class="dark">
+<header class="between">
+    <div class="row" style="font-size: 14px"><span class="muted">Explorar › Tempo ›</span> <b>Traza
+        4bf92f3577b34da6a3ce929d0e0e4736</b></div>
+    <div class="row"><span class="badge">integracion-b</span><span class="badge ok">201 Created</span><span class="btn">Ver logs de esta traza</span>
+    </div>
+</header>
+
+<section class="summary muted">
+    <div>Operación<b>POST /leads</b></div>
+    <div>Duración<b>1,46 s</b></div>
+    <div>Tramos<b>9</b></div>
+    <div>Servicios<b>3</b></div>
+    <div>Reintentos<b style="color: var(--warn)">1</b></div>
+    <div>Inicio<b>02:14:02,118</b></div>
+</section>
+
+<section>
+    <div class="ticks">
+        <div>Servicio y operación</div>
+        <div><span>0 ms</span><span>365 ms</span><span>730 ms</span><span>1,09 s</span><span>1,46 s</span></div>
+    </div>
+    <div class="trace">
+        <div class="name"><span class="svc">integracion-b</span><span class="muted">POST /leads</span></div>
+        <div class="bar"><span class="a" style="left: 0; width: 100%"></span></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">integracion-b</span><span class="muted">validar solicitud (Pydantic)</span>
+        </div>
+        <div class="bar"><span class="a" style="left: 0.5%; width: 2%"></span><em style="left: 3.2%">14 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">integracion-b</span><span class="muted">verificar credenciales del cliente</span>
+        </div>
+        <div class="bar"><span class="a" style="left: 2.6%; width: 1.4%"></span><em style="left: 4.6%">9 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">crm-api</span><span class="muted">buscar lead por correo</span>
+        </div>
+        <div class="bar"><span class="b" style="left: 4.2%; width: 14%"></span><em style="left: 18.8%">205 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">crm-api</span><span class="muted">upsert lead · 429 límite de cuota</span>
+        </div>
+        <div class="bar"><span class="e" style="left: 18.6%; width: 6%"></span><em style="left: 25.2%">reintento en 400
+            ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">crm-api</span><span class="muted">upsert lead · reintento 1</span>
+        </div>
+        <div class="bar"><span class="b" style="left: 52%; width: 15%"></span><em style="left: 67.6%">219 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">sis-academico</span><span class="muted">consultar programa y periodo</span>
+        </div>
+        <div class="bar"><span class="c" style="left: 67.4%; width: 13%"></span><em style="left: 81%">190 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">integracion-b</span><span class="muted">persistir job en PostgreSQL</span>
+        </div>
+        <div class="bar"><span class="d" style="left: 80.8%; width: 4%"></span><em style="left: 85.4%">58 ms</em></div>
+
+        <div class="name" style="padding-left: 18px"><span class="svc">integracion-b</span><span class="muted">responder 201 y registrar métricas</span>
+        </div>
+        <div class="bar"><span class="a" style="left: 85%; width: 2%"></span><em style="left: 87.6%">31 ms</em></div>
+    </div>
+    <div class="panel attrs">
+        <div class="between"><b>Tramo seleccionado · crm-api upsert lead</b><span class="badge bad">429</span></div>
+        <dl>
+            <dt>http.status_code</dt>
+            <dd>429</dd>
+            <dt>crm.module</dt>
+            <dd>Leads</dd>
+            <dt>retry.attempt</dt>
+            <dd>1 de 5</dd>
+            <dt>retry.backoff</dt>
+            <dd>400 ms</dd>
+            <dt>auth.client</dt>
+            <dd>formularios-web</dd>
+            <dt>job.id</dt>
+            <dd>8f2c</dd>
+        </dl>
+    </div>
+</section>
+</body>
+</html>

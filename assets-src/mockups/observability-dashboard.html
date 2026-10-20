@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: 52px 1fr;
+        }
+
+        .rail {
+            background: #0c0d11;
+            border-right: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            padding-top: 14px;
+        }
+
+        .rail span {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1.5px solid #4a5161;
+        }
+
+        .rail span.on {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 20%, transparent);
+        }
+
+        main {
+            padding: 0 16px 16px;
+            display: grid;
+            grid-template-rows: 48px 96px 1fr;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        header {
+            border-bottom: 1px solid var(--line);
+            margin: 0 -16px;
+            padding: 0 16px;
+        }
+
+        .crumbs {
+            font-size: 14px;
+        }
+
+        .crumbs b {
+            font-weight: 600;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        .stat {
+            padding: 12px 14px;
+            display: grid;
+            align-content: space-between;
+        }
+
+        .stat .value {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .stat .value small {
+            font-size: 18px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr 0.95fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
+            min-height: 0;
+        }
+
+        .chart {
+            padding: 0 14px 10px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .legend i {
+            display: inline-block;
+            width: 12px;
+            height: 3px;
+            border-radius: 2px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .probes td {
+            padding: 5px 10px;
+            font-size: 12.5px;
+        }
+
+        .logs {
+            font-family: "Code", monospace;
+            font-size: 11.5px;
+            line-height: 1.75;
+            padding: 6px 14px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .logs .t {
+            color: var(--subtle);
+        }
+
+        .lvl-info {
+            color: var(--accent);
+        }
+
+        .lvl-warn {
+            color: var(--warn);
+        }
+    </style>
+</head>
+<body class="dark">
+<nav class="rail"><span></span><span class="on"></span><span></span><span></span><span></span></nav>
+<main>
+    <header class="between">
+        <div class="crumbs muted">Paneles › Integraciones › <b style="color: var(--fg)">Servicios de integración</b>
+        </div>
+        <div class="row">
+            <span class="badge">servicio: todos</span>
+            <span class="badge">entorno: producción</span>
+            <span class="btn">Últimas 24 horas</span>
+            <span class="btn">Actualizar cada 1 min</span>
+        </div>
+    </header>
+
+    <section class="stats">
+        <div class="panel stat"><span class="muted">Jobs de Prometheus</span><span class="value">26</span></div>
+        <div class="panel stat"><span class="muted">Sondas en verde</span><span class="value" style="color: var(--ok)">18 <small>/ 18</small></span>
+        </div>
+        <div class="panel stat"><span class="muted">Reglas de alerta</span><span
+                class="value">12 <small>· 0 activas</small></span></div>
+        <div class="panel stat"><span class="muted">Paneles de Grafana</span><span class="value">4</span></div>
+        <div class="panel stat"><span class="muted">Certificados TLS</span><span class="value">41 <small>días al más próximo</small></span>
+        </div>
+    </section>
+
+    <section class="grid">
+        <div class="panel chart" style="grid-row: span 1">
+            <div class="panel-title" style="padding-left: 0">Peticiones por minuto por servicio</div>
+            <svg preserveAspectRatio="none" viewBox="0 0 520 150">
+                <g stroke="#2a2f39" stroke-width="1">
+                    <line x1="0" x2="520" y1="30" y2="30"/>
+                    <line x1="0" x2="520" y1="70" y2="70"/>
+                    <line x1="0" x2="520" y1="110" y2="110"/>
+                </g>
+                <polyline fill="none"
+                          points="0,118 40,112 80,104 120,96 160,70 200,52 240,48 280,58 320,66 360,62 400,74 440,90 480,102 520,108"
+                          stroke="#5b9cf5"
+                          stroke-width="2"/>
+                <polyline fill="none"
+                          points="0,128 40,126 80,120 120,114 160,98 200,86 240,82 280,84 320,92 360,88 400,96 440,108 480,116 520,120"
+                          stroke="#3fb68b"
+                          stroke-width="2"/>
+                <polyline fill="none"
+                          points="0,136 40,135 80,132 120,126 160,118 200,108 240,104 280,110 320,112 360,108 400,116 440,124 480,128 520,131"
+                          stroke="#e0a43a"
+                          stroke-width="2"/>
+                <polyline fill="none"
+                          points="0,142 40,141 80,140 120,136 160,130 200,124 240,122 280,126 320,128 360,126 400,130 440,134 480,137 520,139"
+                          stroke="#b083f0"
+                          stroke-width="2"/>
+            </svg>
+            <div class="legend"><span><i style="background:#5b9cf5"></i>integracion-a</span><span><i
+                    style="background:#3fb68b"></i>integracion-b</span><span><i style="background:#e0a43a"></i>integracion-c</span><span><i
+                    style="background:#b083f0"></i>integracion-d</span></div>
+        </div>
+
+        <div class="panel chart">
+            <div class="panel-title" style="padding-left: 0">Latencia p95 por servicio (ms)</div>
+            <svg preserveAspectRatio="none" viewBox="0 0 400 150">
+                <g stroke="#2a2f39" stroke-width="1">
+                    <line x1="0" x2="400" y1="30" y2="30"/>
+                    <line x1="0" x2="400" y1="70" y2="70"/>
+                    <line x1="0" x2="400" y1="110" y2="110"/>
+                </g>
+                <line stroke="#e5534b" stroke-dasharray="5 5" stroke-width="1.5" x1="0" x2="400" y1="40" y2="40"/>
+                <polyline fill="none"
+                          points="0,100 30,96 60,98 90,92 120,84 150,88 180,80 210,62 240,70 270,84 300,90 330,94 360,92 400,96"
+                          stroke="#5b9cf5"
+                          stroke-width="2"/>
+                <polyline fill="none"
+                          points="0,118 30,116 60,114 90,112 120,108 150,110 180,104 210,98 240,100 270,106 300,110 330,112 360,113 400,114"
+                          stroke="#3fb68b"
+                          stroke-width="2"/>
+            </svg>
+            <div class="legend"><span><i style="background:#e5534b"></i>umbral de la alerta</span><span><i
+                    style="background:#5b9cf5"></i>integracion-a</span><span><i style="background:#3fb68b"></i>integracion-b</span>
+            </div>
+        </div>
+
+        <div class="panel" style="grid-row: span 2; overflow: hidden">
+            <div class="panel-title">Sondas (Blackbox Exporter)</div>
+            <table class="probes" style="margin-top: 6px">
+                <thead>
+                <tr>
+                    <th>Sonda</th>
+                    <th>Tipo</th>
+                    <th class="num">Respuesta</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>integracion-a /health</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">118 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>integracion-b /health</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">96 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>integracion-c /health</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">141 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>integracion-d /health</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">102 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>formularios /</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">87 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>api.ejemplo.edu</td>
+                    <td class="muted">TLS</td>
+                    <td class="num">41 días</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>proxy :443</td>
+                    <td class="muted">TCP</td>
+                    <td class="num">12 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>base de datos :5432</td>
+                    <td class="muted">TCP</td>
+                    <td class="num">4 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>cola de trabajos</td>
+                    <td class="muted">HTTP</td>
+                    <td class="num">64 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td>servidor de correo</td>
+                    <td class="muted">TCP</td>
+                    <td class="num">28 ms</td>
+                    <td><span class="badge ok">OK</span></td>
+                </tr>
+                <tr>
+                    <td class="subtle" colspan="4">8 sondas más</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel" style="grid-column: span 2; overflow: hidden">
+            <div class="between" style="padding: 10px 14px 0">
+                <span class="panel-title" style="padding: 0">Logs recientes (Loki) · <span class="muted mono"
+                                                                                           style="font-weight: 400">{servicio=~"integracion-.*"}</span></span>
+                <span class="badge info">Abrir la traza en Tempo</span>
+            </div>
+            <div class="logs">
+                <div><span class="t">02:14:07</span> <span class="lvl-info">INFO</span> integracion-a sync deals
+                    lote=200 actualizados=200 duración=1,8 s
+                </div>
+                <div><span class="t">02:14:05</span> <span class="lvl-warn">WARN</span> integracion-c CRM respondió 429,
+                    reintento 1 de 5 en 2 s (backoff)
+                </div>
+                <div><span class="t">02:14:02</span> <span class="lvl-info">INFO</span> integracion-b POST /jobs 202
+                    job_id=8f1c reutilizado=true 41 ms
+                </div>
+                <div><span class="t">02:13:58</span> <span class="lvl-info">INFO</span> integracion-d documentos
+                    subidos=3 carpeta=solicitud-20931 1,2 s
+                </div>
+                <div><span class="t">02:13:51</span> <span class="lvl-info">INFO</span> integracion-a job 8f2c
+                    persistido estado=completado intentos=1
+                </div>
+                <div><span class="t">02:13:47</span> <span class="lvl-info">INFO</span> integracion-b GET
+                    /academicHierarchy 200 programas=412 64 ms
+                </div>
+                <div><span class="t">02:13:40</span> <span class="lvl-warn">WARN</span> integracion-d SIS tardó 4,1 s,
+                    por encima del objetivo; la petición siguió
+                </div>
+                <div><span class="t">02:13:36</span> <span class="lvl-info">INFO</span> integracion-c reintento 1 de 5
+                    resuelto, lote=200 actualizados=200
+                </div>
+                <div><span class="t">02:13:30</span> <span class="lvl-info">INFO</span> formularios POST /solicitudes
+                    201 pasos=4 documentos=3
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

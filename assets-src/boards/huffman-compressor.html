@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="board.css" rel="stylesheet">
+    <style>
+        .body {
+            grid-template-columns: 620px 1fr;
+        }
+
+        .size {
+            font-family: "Code", monospace;
+        }
+
+        .bar-cell {
+            width: 220px;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="bar"><span class="title">DataCompressor · codificación de Huffman en Python, PyQt5 y Graphviz</span><span
+        class="path">ARQH/DataCompressor · Data/Lorem Ipsum</span></div>
+<div class="body">
+    <div class="figure"><img alt="" src="img/huffman-tree.png" style="height: 600px"></div>
+    <div class="side">
+        <h2>El árbol que arma para cada archivo</h2>
+        <p class="note">Cuenta la frecuencia de cada carácter, construye el árbol, escribe los códigos en binario dentro
+            del archivo .slo junto con el árbol, y al descomprimir lo reconstruye para volver al texto.</p>
+        <h2>El mismo texto con cada compresor</h2>
+        <table class="panel">
+            <tr>
+                <th>Archivo</th>
+                <th class="num">Bytes</th>
+                <th class="num">Del original</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Lorem Ipsum.txt</td>
+                <td class="num size">3.215.616</td>
+                <td class="num">100 %</td>
+                <td><span class="bar-cell"><i style="width: 100%"></i></span></td>
+            </tr>
+            <tr>
+                <td>.slo, Huffman</td>
+                <td class="num size">1.712.850</td>
+                <td class="num">53,3 %</td>
+                <td><span class="bar-cell"><i style="width: 53.3%"></i></span></td>
+            </tr>
+            <tr>
+                <td>.rar</td>
+                <td class="num size">25.136</td>
+                <td class="num">0,8 %</td>
+                <td><span class="bar-cell"><i style="width: 0.8%"></i></span></td>
+            </tr>
+            <tr>
+                <td>.7z</td>
+                <td class="num size">23.219</td>
+                <td class="num">0,7 %</td>
+                <td><span class="bar-cell"><i style="width: 0.7%"></i></span></td>
+            </tr>
+            <tr>
+                <td>_unslo.txt, descomprimido</td>
+                <td class="num size">3.215.616</td>
+                <td class="num">idéntico</td>
+                <td></td>
+            </tr>
+        </table>
+        <p class="note">El texto de relleno repite las mismas frases: 7-Zip y RAR guardan cada repetición una sola vez,
+            mientras Huffman solo acorta los caracteres más frecuentes.</p>
+    </div>
+</div>
+</body>
+</html>

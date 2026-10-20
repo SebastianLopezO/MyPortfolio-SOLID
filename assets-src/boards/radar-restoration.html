@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="board.css" rel="stylesheet">
+    <style>
+        .body {
+            grid-template-rows: auto 1fr;
+        }
+
+        .labels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            font-size: 12.5px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .tables {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            align-content: start;
+        }
+
+        .tables h2 {
+            margin-bottom: 6px;
+        }
+
+        .worse {
+            color: var(--bad);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="bar"><span class="title">Reducción de speckle con aprendizaje profundo · autoencoder y SwinIR</span><span
+        class="path">CV_GuideFour · pares con ruido y referencia promediada</span></div>
+<div class="body">
+    <div>
+        <div class="figure" style="padding: 6px"><img alt="" src="img/radar-swinir.png"></div>
+        <div class="labels">
+            <span>Entrada con ruido</span><span>Referencia: promedio de las fechas alineadas</span><span>Salida de SwinIR</span>
+        </div>
+    </div>
+    <div class="tables">
+        <div>
+            <h2>Autoencoder convolucional</h2>
+            <table class="panel">
+                <tr>
+                    <th>Métrica</th>
+                    <th class="num">Entrada</th>
+                    <th class="num">Salida</th>
+                </tr>
+                <tr>
+                    <td>PSNR (dB)</td>
+                    <td class="num">25,80</td>
+                    <td class="num worse">22,66</td>
+                </tr>
+                <tr>
+                    <td>SSIM</td>
+                    <td class="num">0,859</td>
+                    <td class="num worse">0,824</td>
+                </tr>
+                <tr>
+                    <td>ENL (referencia 0,586)</td>
+                    <td class="num">0,603</td>
+                    <td class="num">0,594</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h2>SwinIR preentrenado</h2>
+            <table class="panel">
+                <tr>
+                    <th>Métrica</th>
+                    <th class="num">Entrada</th>
+                    <th class="num">Salida</th>
+                </tr>
+                <tr>
+                    <td>PSNR (dB)</td>
+                    <td class="num">19,91</td>
+                    <td class="num worse">19,64</td>
+                </tr>
+                <tr>
+                    <td>SSIM</td>
+                    <td class="num">0,623</td>
+                    <td class="num worse">0,611</td>
+                </tr>
+                <tr>
+                    <td>ENL (referencia 91,87)</td>
+                    <td class="num">25,57</td>
+                    <td class="num worse">23,61</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

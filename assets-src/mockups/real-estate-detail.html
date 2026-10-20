@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <link href="real-estate.css" rel="stylesheet">
+    <style>
+        .page {
+            display: grid;
+            grid-template-rows: 58px 1fr;
+            min-height: 0;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            padding: 16px 28px;
+            min-height: 0;
+        }
+
+        .crumbs {
+            font-size: 12px;
+            color: var(--subtle);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 116px 116px;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .gallery > div {
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .gallery .main {
+            grid-row: span 2;
+        }
+
+        .gallery .more {
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            background: rgba(20, 26, 30, 0.5);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 14px;
+        }
+
+        .heading h1 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .heading .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--brand);
+        }
+
+        .facts {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            margin-top: 12px;
+        }
+
+        .facts div {
+            padding: 9px 12px;
+            border-right: 1px solid var(--line);
+            display: grid;
+            gap: 1px;
+        }
+
+        .facts div:last-child {
+            border-right: 0;
+        }
+
+        .facts span {
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .facts b {
+            font-size: 15px;
+        }
+
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .amenities span {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 12px;
+            background: var(--panel);
+        }
+
+        .side {
+            display: grid;
+            align-content: start;
+            gap: 12px;
+        }
+
+        .box {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 13px 15px;
+            display: grid;
+            gap: 9px;
+        }
+
+        .box h2 {
+            font-size: 14.5px;
+            font-weight: 700;
+        }
+
+        .pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .result {
+            background: color-mix(in srgb, var(--brand) 8%, var(--panel));
+            border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
+            border-radius: 8px;
+            padding: 9px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .result b {
+            font-size: 19px;
+            color: var(--brand);
+        }
+
+        .small {
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body class="light">
+<div class="chrome"><span class="dots"><i></i><i></i><i></i></span>
+    <div class="url"><b>inmobiliaria-b.example/inmuebles/apartamento-venta-cedritos-10234</b></div>
+</div>
+<div class="page">
+    <header class="nav">
+        <div class="brand"><i></i>Inmobiliaria B</div>
+        <nav><span
+                class="active">Inmuebles</span><span>Herramientas</span><span>Asesoría</span><span>Nosotros</span><span>Contacto</span>
+        </nav>
+        <div class="row"><span class="fav-count">♥ 2</span><span class="btn wa">WhatsApp</span></div>
+    </header>
+    <div class="content">
+        <main>
+            <div class="crumbs">Inmuebles › Venta › Bogotá D.C. › Usaquén</div>
+            <div class="gallery">
+                <div class="main ph-room"></div>
+                <div class="ph-kitchen"></div>
+                <div class="ph-bedroom"></div>
+                <div class="ph-a"></div>
+                <div class="ph-view"><span class="more">+10 fotos</span></div>
+            </div>
+            <div class="heading">
+                <div><span class="badge info">Destacado</span>
+                    <h1>Apartamento en venta en Cedritos</h1><span class="muted" style="font-size: 12.5px">Usaquén, Bogotá D.C. · Cód. 10234 · Usado</span>
+                </div>
+                <span class="price">$ 480.000.000</span>
+            </div>
+            <div class="facts">
+                <div><span>Área privada</span><b>92 m²</b></div>
+                <div><span>Habitaciones</span><b>3</b></div>
+                <div><span>Baños</span><b>2</b></div>
+                <div><span>Parqueaderos</span><b>1</b></div>
+                <div><span>Estrato</span><b>4</b></div>
+                <div><span>Administración</span><b>$ 420.000</b></div>
+            </div>
+            <p class="muted" style="margin-top: 12px; font-size: 13px; max-width: 760px">Apartamento exterior en tercer
+                piso, con balcón hacia el parque, cocina abierta y estudio. El conjunto tiene portería, gimnasio y salón
+                comunal, a dos cuadras de una vía principal y de un centro comercial. Descripción de ejemplo.</p>
+            <div class="amenities">
+                <span>Balcón</span><span>Gimnasio</span><span>Portería 24 horas</span><span>Ascensor</span><span>Salón comunal</span><span>Parque infantil</span><span>Depósito</span>
+            </div>
+        </main>
+        <aside class="side">
+            <div class="box">
+                <h2>Simulador de crédito</h2>
+                <div class="pair">
+                    <div class="field"><label>Valor del inmueble</label>
+                        <div class="input filled">$ 480.000.000</div>
+                    </div>
+                    <div class="field"><label>Cuota inicial</label>
+                        <div class="input filled">30 %</div>
+                    </div>
+                </div>
+                <div class="pair">
+                    <div class="field"><label>Tasa (E.A.)</label>
+                        <div class="input filled">12,5 %</div>
+                    </div>
+                    <div class="field"><label>Plazo</label>
+                        <div class="input select">20 años</div>
+                    </div>
+                </div>
+                <div class="result"><span class="muted" style="font-size: 12.5px">Cuota mensual aprox.</span><b>$
+                    3.661.374</b></div>
+                <span class="small">Crédito de $ 336.000.000 a 0,986 % M.V. durante 240 meses (sistema francés). Datos de ejemplo.</span>
+            </div>
+            <div class="box">
+                <h2>Agendar una visita</h2>
+                <div class="field"><label>Nombre</label>
+                    <div class="input filled">Laura Gómez</div>
+                </div>
+                <div class="pair">
+                    <div class="field"><label>Correo</label>
+                        <div class="input filled">laura@ejemplo.com</div>
+                    </div>
+                    <div class="field"><label>Celular</label>
+                        <div class="input filled">300 000 0000</div>
+                    </div>
+                </div>
+                <div class="field"><label>Fecha preferida</label>
+                    <div class="input select">Sábado, 10:00 a. m.</div>
+                </div>
+                <span class="btn brand-fill">Solicitar visita</span>
+            </div>
+        </aside>
+    </div>
+</div>
+</body>
+</html>

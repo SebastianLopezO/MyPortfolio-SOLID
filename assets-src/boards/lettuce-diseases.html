@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="board.css" rel="stylesheet">
+    <style>
+        .body {
+            grid-template-columns: 560px 1fr;
+        }
+
+        td.name {
+            font-family: "Code", monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="bar"><span class="title">SmartPot Lettuce AI · MobileNetV2 con transferencia de aprendizaje</span><span
+        class="path">CV_GuideFive/reports · evaluación sobre el conjunto de prueba</span></div>
+<div class="body">
+    <div class="figure"><img alt="" src="img/lettuce-confusion-matrix.png" style="height: 590px"></div>
+    <div class="side">
+        <h2>2.337 imágenes de prueba, 8 clases</h2>
+        <div class="big">
+            <div><b>97,9 %</b><span>exactitud</span></div>
+            <div><b>97,7 %</b><span>F1 ponderado</span></div>
+            <div><b>65,7 %</b><span>recall promedio por clase</span></div>
+            <div><b>71,5 %</b><span>F1 promedio por clase</span></div>
+        </div>
+        <h2>Recall por clase</h2>
+        <table class="panel">
+            <tr>
+                <th>Clase</th>
+                <th class="num">Imágenes</th>
+                <th class="num">Recall</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td class="name">Shepherd_purse_weeds</td>
+                <td class="num">1.106</td>
+                <td class="num">100 %</td>
+                <td><span class="bar-cell"><i style="width: 100%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Healthy</td>
+                <td class="num">1.123</td>
+                <td class="num">99,9 %</td>
+                <td><span class="bar-cell"><i style="width: 99.9%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Viral</td>
+                <td class="num">15</td>
+                <td class="num">66,7 %</td>
+                <td><span class="bar-cell low"><i style="width: 66.7%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Septoria_blight_on_lettuce</td>
+                <td class="num">19</td>
+                <td class="num">63,2 %</td>
+                <td><span class="bar-cell low"><i style="width: 63.2%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Powdery_mildew_on_lettuce</td>
+                <td class="num">18</td>
+                <td class="num">61,1 %</td>
+                <td><span class="bar-cell low"><i style="width: 61.1%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Bacterial</td>
+                <td class="num">20</td>
+                <td class="num">55,0 %</td>
+                <td><span class="bar-cell low"><i style="width: 55%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Downy_mildew_on_lettuce</td>
+                <td class="num">30</td>
+                <td class="num">46,7 %</td>
+                <td><span class="bar-cell low"><i style="width: 46.7%"></i></span></td>
+            </tr>
+            <tr>
+                <td class="name">Wilt_and_leaf_blight_on_lettuce</td>
+                <td class="num">6</td>
+                <td class="num">33,3 %</td>
+                <td><span class="bar-cell low"><i style="width: 33.3%"></i></span></td>
+            </tr>
+        </table>
+        <p class="note">Las dos clases grandes sostienen la exactitud; en las seis enfermedades, con 6 a 30 imágenes
+            cada una, el modelo acierta entre un tercio y dos tercios.</p>
+    </div>
+</div>
+</body>
+</html>

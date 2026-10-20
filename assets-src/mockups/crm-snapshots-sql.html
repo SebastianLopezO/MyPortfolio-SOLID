@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .dark {
+            --bg: #1e1f22;
+            --panel: #2b2d30;
+            --line: #393b40;
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            grid-template-rows: 38px 1fr;
+        }
+
+        .bar {
+            grid-column: span 2;
+            background: #2b2d30;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 0 14px;
+            font-size: 13px;
+        }
+
+        .tree {
+            border-right: 1px solid var(--line);
+            padding: 10px 8px;
+            font-size: 13px;
+            display: grid;
+            align-content: start;
+            gap: 2px;
+        }
+
+        .tree div {
+            padding: 3px 6px;
+            white-space: nowrap;
+        }
+
+        .tree .t {
+            padding-left: 34px;
+        }
+
+        .tree .t::before {
+            content: "";
+            display: inline-block;
+            width: 11px;
+            height: 9px;
+            border: 1.5px solid #7aa2f7;
+            border-radius: 2px;
+            margin-right: 8px;
+        }
+
+        .tree .sel {
+            background: #2e436e;
+            border-radius: 4px;
+        }
+
+        .work {
+            display: grid;
+            grid-template-rows: 46% 1fr;
+            min-width: 0;
+        }
+
+        .editor {
+            font-family: "Code", monospace;
+            font-size: 13px;
+            line-height: 1.75;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            overflow: hidden;
+        }
+
+        .ln {
+            color: #5f6370;
+            text-align: right;
+            padding-right: 14px;
+        }
+
+        .k {
+            color: #cf8e6d;
+        }
+
+        .s {
+            color: #6aab73;
+        }
+
+        .f {
+            color: #56a8f5;
+        }
+
+        .c {
+            color: #7a7e85;
+        }
+
+        .results {
+            display: grid;
+            grid-template-rows: 34px 1fr 30px;
+            min-height: 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            align-items: end;
+            padding: 0 10px;
+            border-bottom: 1px solid var(--line);
+            font-size: 12.5px;
+        }
+
+        .tabs span {
+            padding: 6px 12px;
+        }
+
+        .tabs .on {
+            border-bottom: 2px solid #56a8f5;
+        }
+
+        .grid td, .grid th {
+            font-family: "Code", monospace;
+            font-size: 12.5px;
+            padding: 5px 12px;
+        }
+
+        .grid th {
+            background: #2b2d30;
+            color: #bcbec4;
+        }
+
+        .status {
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            border-top: 1px solid var(--line);
+        }
+    </style>
+</head>
+<body class="dark">
+<div class="bar"><b>snapshot_crm</b><span class="muted">PostgreSQL · esquema snapshot</span><span class="muted">consola: logs_y_etapas.sql</span>
+</div>
+<aside class="tree">
+    <div>▾ snapshot_crm</div>
+    <div style="padding-left: 18px">▾ snapshot</div>
+    <div class="t">campaigns</div>
+    <div class="t">campaign_contacts</div>
+    <div class="t">campaign_potential_clients</div>
+    <div class="t">contacts</div>
+    <div class="t sel">deals</div>
+    <div class="t">leads</div>
+    <div class="t">notes</div>
+    <div class="t">users</div>
+    <div class="t">history</div>
+    <div class="t" style="color: #e0a43a">snapshot_logs</div>
+    <div class="subtle" style="padding-left: 18px; margin-top: 8px; white-space: normal">Cada tabla se vacía y se vuelve
+        a llenar con la exportación masiva de su módulo del CRM.
+    </div>
+</aside>
+<section class="work">
+    <div class="editor">
+        <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        <div>
+            <div><span class="c">-- Último snapshot de cada módulo y su estado</span></div>
+            <div><span class="k">select</span> module_name, <span class="f">max</span>(snapshot_creation_date) <span
+                    class="k">as</span> ultimo, status
+            </div>
+            <div><span class="k">from</span> snapshot.snapshot_logs</div>
+            <div><span class="k">group by</span> module_name, status</div>
+            <div><span class="k">order by</span> ultimo <span class="k">desc</span>;</div>
+            <div>&nbsp;</div>
+            <div><span class="c">-- Oportunidades por etapa en el periodo de admisiones</span></div>
+            <div><span class="k">select</span> stage, <span class="f">count</span>(*) <span class="k">from</span>
+                snapshot.deals
+            </div>
+            <div><span class="k">where</span> admission_period = <span class="s">'2027-1'</span> <span class="k">group by</span>
+                stage <span class="k">order by</span> 2 <span class="k">desc</span>;
+            </div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+    <div class="results">
+        <div class="tabs"><span class="on">snapshot_logs</span><span class="muted">deals por etapa</span></div>
+        <table class="grid">
+            <thead>
+            <tr>
+                <th>module_name</th>
+                <th>ultimo</th>
+                <th>status</th>
+                <th>client</th>
+                <th>platform</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Deals</td>
+                <td>2026-10-15 02:00:41</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Leads</td>
+                <td>2026-10-15 02:00:37</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Contacts</td>
+                <td>2026-10-15 02:00:30</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Campaigns</td>
+                <td>2026-10-15 02:00:22</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Campaign_Contacts</td>
+                <td>2026-10-15 02:00:19</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Notes</td>
+                <td>2026-10-15 02:00:12</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            <tr>
+                <td>Users</td>
+                <td>2026-10-15 02:00:05</td>
+                <td style="color: #3fb68b">COMPLETED</td>
+                <td>institucion-a</td>
+                <td>Zoho CRM</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="status"><span>9 módulos · 7 filas visibles</span><span>38 ms</span></div>
+    </div>
+</section>
+</body>
+</html>

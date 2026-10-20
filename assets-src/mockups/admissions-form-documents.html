@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .light {
+            --accent: #7a1f3d;
+            --bg: #f6f4f2;
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: 64px 1fr;
+        }
+
+        .site {
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 17px;
+            color: #7a1f3d;
+        }
+
+        .brand i {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 5px solid #7a1f3d;
+        }
+
+        .menu {
+            display: flex;
+            gap: 26px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .wrap {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            padding: 22px 40px;
+            min-height: 0;
+        }
+
+        .form {
+            padding: 20px 24px;
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            gap: 16px;
+        }
+
+        .progress {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .progress div {
+            display: grid;
+            gap: 6px;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .progress span {
+            height: 5px;
+            border-radius: 3px;
+            background: #7a1f3d;
+        }
+
+        .progress .on {
+            color: var(--fg);
+            font-weight: 600;
+        }
+
+        .docs {
+            display: grid;
+            gap: 10px;
+            align-content: start;
+        }
+
+        .doc {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        .file {
+            width: 34px;
+            height: 40px;
+            border-radius: 4px;
+            background: #f3e7eb;
+            color: #7a1f3d;
+            font-size: 10px;
+            font-weight: 700;
+            display: grid;
+            place-items: end center;
+            padding-bottom: 5px;
+        }
+
+        .bar {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--line);
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            width: 64%;
+            background: #7a1f3d;
+        }
+
+        .drop {
+            border: 1.5px dashed #d9bcc6;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn.primary {
+            background: #7a1f3d;
+            border-color: #7a1f3d;
+        }
+
+        aside {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+        }
+
+        .card {
+            padding: 16px 18px;
+            font-size: 13px;
+        }
+
+        .flow {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .flow div {
+            display: grid;
+            grid-template-columns: 22px 1fr;
+            gap: 8px;
+        }
+
+        .flow b {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #f3e7eb;
+            color: #7a1f3d;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body class="light">
+<header class="site">
+    <div class="brand"><i></i>Universidad Ejemplo</div>
+    <nav class="menu">
+        <span>Programas</span><span>Becas</span><span>Admisiones</span><span>Vida universitaria</span><span>Contacto</span>
+    </nav>
+</header>
+<div class="wrap">
+    <section class="panel form">
+        <div class="between">
+            <div>
+                <div style="font-size: 22px; font-weight: 700">Formulario de admisión</div>
+                <div class="muted">Último paso: adjunta tus documentos</div>
+            </div>
+            <span class="badge">Paso 4 de 4</span>
+        </div>
+        <div class="progress">
+            <div><span></span>1 · Datos personales</div>
+            <div><span></span>2 · Programa</div>
+            <div><span></span>3 · Colegio y familia</div>
+            <div class="on"><span></span>4 · Documentos</div>
+        </div>
+        <div class="docs">
+            <div class="doc"><span class="file">PDF</span>
+                <div><b>Documento de identidad</b>
+                    <div class="muted" style="font-size: 12.5px">dni-ana-martinez.pdf · 1,2 MB</div>
+                </div>
+                <span class="badge ok">Subido</span></div>
+            <div class="doc"><span class="file">PDF</span>
+                <div><b>Certificado de estudios de secundaria</b>
+                    <div class="muted" style="font-size: 12.5px">certificado-estudios.pdf · 2,8 MB</div>
+                </div>
+                <span class="badge ok">Subido</span></div>
+            <div class="doc"><span class="file">JPG</span>
+                <div><b>Fotografía tamaño carné</b>
+                    <div class="muted" style="font-size: 12.5px">foto.jpg · 640 KB · subiendo</div>
+                    <div class="bar"><i></i></div>
+                </div>
+                <span class="badge info">64 %</span></div>
+            <div class="doc"><span class="file">PDF</span>
+                <div><b>Constancia del responsable de pago</b>
+                    <div class="muted" style="font-size: 12.5px">Opcional para becas y convenios</div>
+                </div>
+                <span class="badge">Pendiente</span></div>
+            <div class="drop">Arrastra aquí un archivo o <b style="color: #7a1f3d">elígelo de tu equipo</b> · PDF, JPG o
+                PNG hasta 10 MB
+            </div>
+        </div>
+        <div class="actions"><span class="btn">Anterior</span><span class="btn primary">Enviar solicitud</span></div>
+    </section>
+    <aside>
+        <div class="panel card">
+            <div style="font-weight: 700; font-size: 15px">Qué pasa al enviar</div>
+            <div class="flow">
+                <div>
+                    <b>1</b><span>Los archivos quedan en la carpeta de tu solicitud, con el nombre de cada documento.</span>
+                </div>
+                <div><b>2</b><span>La oportunidad del CRM se actualiza con los datos de los cuatro pasos, sin que nadie los vuelva a escribir.</span>
+                </div>
+                <div><b>3</b><span>Ves la página de agradecimiento, y la solicitud queda completa en el CRM para el equipo de admisiones.</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel card">
+            <div style="font-weight: 700; font-size: 15px">Tu solicitud</div>
+            <dl style="display: grid; grid-template-columns: 110px 1fr; gap: 7px 10px; margin-top: 10px">
+                <dt class="muted">Nombre</dt>
+                <dd>Ana Martínez Ríos</dd>
+                <dt class="muted">Programa</dt>
+                <dd>Ingeniería de Software</dd>
+                <dt class="muted">Ingreso</dt>
+                <dd>2027-1 · presencial</dd>
+                <dt class="muted">Documentos</dt>
+                <dd>2 de 4 subidos</dd>
+            </dl>
+        </div>
+    </aside>
+</div>
+</body>
+</html>

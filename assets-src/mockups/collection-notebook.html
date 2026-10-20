@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .light {
+            --bg: #ffffff;
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: 42px 36px 1fr;
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--line);
+            font-size: 14px;
+        }
+
+        .top b {
+            font-weight: 600;
+        }
+
+        .tools {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--line);
+            background: #fafbfc;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .notebook {
+            padding: 14px 40px 0 10px;
+            overflow: hidden;
+        }
+
+        .output table {
+            width: auto;
+            font-family: "Plex", sans-serif;
+        }
+
+        .output td, .output th {
+            font-size: 12px;
+            padding: 3px 12px;
+            border-bottom: 1px solid #eceff3;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="top"><b>seguimiento_campanas_recaudo.ipynb</b><span class="subtle">guardado hace 5 minutos</span><span
+        class="badge" style="margin-left: auto">Python 3 · kernel inactivo</span></div>
+<div class="tools"><span>Archivo</span><span>Editar</span><span>Ver</span><span>Ejecutar</span><span>Kernel</span><span
+        style="margin-left: 20px">▶ Ejecutar</span><span>■ Detener</span><span>↻ Reiniciar</span></div>
+<div class="notebook">
+    <div class="cell">
+        <div class="prompt">[1]:</div>
+        <div class="code"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+            base = pd.<span class="fn">read_excel</span>(<span class="str">"descargas/base_comprada_octubre.xlsx"</span>,
+            dtype={<span class="str">"documento"</span>: <span class="bi">str</span>})
+            exclusiones = pd.<span class="fn">concat</span>([pd.<span class="fn">read_csv</span>(<span class="str">f"listas/{canal}.csv"</span>)
+            <span class="kw">for</span> canal <span class="kw">in</span> (<span class="str">"correo"</span>, <span
+                    class="str">"sms"</span>)])
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[2]:</div>
+        <div class="code"><span
+                class="cm"># Fuera quien pidió no ser contactado, los datos inválidos y los duplicados</span>
+            limpia = (base[~base[<span class="str">"documento"</span>].<span class="fn">isin</span>(exclusiones[<span
+                    class="str">"documento"</span>])]
+            .<span class="fn">query</span>(<span
+                    class="str">"celular.str.len() == 10 and correo.str.contains('@')"</span>, engine=<span class="str">"python"</span>)
+            .<span class="fn">drop_duplicates</span>(<span class="str">"documento"</span>))
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{len(base):,} en la base · {len(limpia):,} contactables"</span>)
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out"></div>
+        <div class="output">48,600 en la base · 41,275 contactables</div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[3]:</div>
+        <div class="code">seguimiento = limpia.<span class="fn">merge</span>(pagos, on=<span
+                class="str">"documento"</span>, how=<span class="str">"left"</span>).<span
+                class="fn">groupby</span>(<span class="str">"campana"</span>).<span class="fn">agg</span>(
+            contactados=(<span class="str">"documento"</span>, <span class="str">"count"</span>), pagaron=(<span
+                    class="str">"fecha_pago"</span>, <span class="str">"count"</span>))
+            seguimiento
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out">[3]:</div>
+        <div class="output">
+            <table>
+                <thead>
+                <tr>
+                    <th>campaña</th>
+                    <th class="num">contactados</th>
+                    <th class="num">pagaron</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>recordatorio_sms_semana_1</td>
+                    <td class="num">14,820</td>
+                    <td class="num">2,106</td>
+                </tr>
+                <tr>
+                    <td>correo_acuerdo_de_pago</td>
+                    <td class="num">12,377</td>
+                    <td class="num">1,544</td>
+                </tr>
+                <tr>
+                    <td>sms_ultimo_aviso</td>
+                    <td class="num">9,031</td>
+                    <td class="num">1,268</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[4]:</div>
+        <div class="code">limpia.<span class="fn">to_csv</span>(<span class="str">"salidas/campana_noviembre.csv"</span>,
+            index=<span class="kw">False</span>) <span class="cm"># archivo listo para la plataforma de envíos</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

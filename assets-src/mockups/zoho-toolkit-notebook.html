@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .light {
+            --bg: #ffffff;
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: 42px 36px 1fr;
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--line);
+            font-size: 14px;
+        }
+
+        .top b {
+            font-weight: 600;
+        }
+
+        .tools {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--line);
+            background: #fafbfc;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .notebook {
+            padding: 14px 40px 0 10px;
+            overflow: hidden;
+        }
+
+        .output table {
+            width: auto;
+            font-family: "Plex", sans-serif;
+        }
+
+        .output td, .output th {
+            font-size: 12px;
+            padding: 3px 12px;
+            border-bottom: 1px solid #eceff3;
+        }
+
+        .ok {
+            color: #1f9d6a;
+        }
+
+        .err {
+            color: #d2463e;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="top"><b>carga_masiva_leads.ipynb</b><span class="subtle">guardado hace 2 minutos</span><span
+        class="badge" style="margin-left: auto">Python 3 · kernel inactivo</span></div>
+<div class="tools"><span>Archivo</span><span>Editar</span><span>Ver</span><span>Ejecutar</span><span>Kernel</span><span
+        style="margin-left: 20px">▶ Ejecutar</span><span>■ Detener</span><span>↻ Reiniciar</span></div>
+<div class="notebook">
+    <div class="cell">
+        <div class="prompt">[1]:</div>
+        <div class="code"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+            <span class="kw">from</span> zoho <span class="kw">import</span> crm, bulk <span class="cm"># funciones del repositorio sobre la API de Zoho</span>
+
+            origen = pd.<span class="fn">read_csv</span>(<span
+                    class="str">"entradas/cliente-a/leads_feria_2026.csv"</span>, dtype=<span class="bi">str</span>)
+            origen = origen.<span class="fn">rename</span>(columns=crm.<span class="fn">mapa_campos</span>(<span
+                    class="str">"Leads"</span>)).<span class="fn">drop_duplicates</span>(<span
+                    class="str">"Email"</span>)
+            <span class="fn">len</span>(origen)
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out">[1]:</div>
+        <div class="output">18240</div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[2]:</div>
+        <div class="code">job = bulk.<span class="fn">write</span>(<span class="str">"Leads"</span>, origen,
+            operacion=<span class="str">"upsert"</span>, clave=<span class="str">"Email"</span>, lote=<span class="bi">25000</span>)
+            job.<span class="fn">esperar</span>(cada=<span class="bi">30</span>, reanudar_desde=<span class="str">"checkpoints/leads_feria.json"</span>)
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out">[2]:</div>
+        <div class="output">job 5728139000041203 subido (zip 1,9 MB) · en cola · en proceso · <span
+                class="ok">COMPLETED</span> 4 min 12 s
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[3]:</div>
+        <div class="code">resumen = job.<span class="fn">resultado</span>()
+            resumen.<span class="fn">fallidos</span>().<span class="fn">to_csv</span>(<span class="str">"salidas/cliente-a/leads_feria_errores.csv"</span>,
+            index=<span class="kw">False</span>)
+            resumen.<span class="fn">tabla</span>()
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out">[3]:</div>
+        <div class="output">
+            <table>
+                <thead>
+                <tr>
+                    <th>módulo</th>
+                    <th class="num">creados</th>
+                    <th class="num">actualizados</th>
+                    <th class="num">fallidos</th>
+                    <th>motivo principal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Leads</td>
+                    <td class="num ok">11.904</td>
+                    <td class="num">6.324</td>
+                    <td class="num err">12</td>
+                    <td>correo con formato inválido</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[4]:</div>
+        <div class="code">crm.<span class="fn">vincular</span>(<span class="str">"Leads"</span>, <span class="str">"Campaigns"</span>,
+            por=<span class="str">"Codigo_campana"</span>, ids=resumen.<span class="fn">ids</span>()) <span class="cm"># relaciona cada lead con su campaña</span>
+        </div>
+    </div>
+    <div class="cell">
+        <div class="prompt out">[4]:</div>
+        <div class="output">18.228 leads vinculados a 3 campañas en 8 lotes</div>
+    </div>
+    <div class="cell">
+        <div class="prompt">[5]:</div>
+        <div class="code">crm.<span class="fn">etiquetar</span>(<span class="str">"Leads"</span>, ids=resumen.<span
+                class="fn">ids</span>(), etiqueta=<span class="str">"feria-2026"</span>)
+        </div>
+    </div>
+</div>
+</body>
+</html>

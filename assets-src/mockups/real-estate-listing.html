@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <link href="real-estate.css" rel="stylesheet">
+    <style>
+        .site {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            min-height: 0;
+        }
+
+        .page {
+            display: grid;
+            grid-template-rows: 58px 1fr;
+            min-height: 0;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 236px 1fr;
+            gap: 22px;
+            padding: 18px 24px;
+            min-height: 0;
+        }
+
+        .filters {
+            display: grid;
+            align-content: start;
+            gap: 13px;
+        }
+
+        .segmented {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 12.5px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .segmented span {
+            padding: 7px 0;
+            color: var(--muted);
+        }
+
+        .segmented .on {
+            background: var(--brand);
+            color: #fff;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .chip {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 12px;
+            background: var(--panel);
+        }
+
+        .chip::after {
+            content: " ×";
+            color: var(--subtle);
+        }
+
+        .results-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .results-head h1 {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card .photo {
+            height: 104px;
+            position: relative;
+        }
+
+        .card .photo .badge-on {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #fff;
+            border-color: #fff;
+            font-weight: 600;
+        }
+
+        .pages {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .pages .row span {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            display: grid;
+            place-items: center;
+            background: var(--panel);
+            color: var(--fg);
+            font-weight: 600;
+        }
+
+        .pages .row .on {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #fff;
+        }
+
+        .lines {
+            white-space: pre;
+        }
+
+        .card .photo .fav {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            color: var(--brand);
+        }
+
+        .card .photo .count {
+            position: absolute;
+            bottom: 7px;
+            right: 8px;
+            font-size: 11px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 4px;
+            padding: 0 6px;
+        }
+
+        .card .body {
+            padding: 9px 11px 10px;
+            display: grid;
+            gap: 3px;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .meta {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .log {
+            background: #16181d;
+            color: #d6dbe4;
+            padding: 14px 16px;
+            font-family: "Code", monospace;
+            font-size: 11.5px;
+            line-height: 1.65;
+            display: grid;
+            align-content: start;
+            gap: 11px;
+            border-left: 1px solid #000;
+        }
+
+        .log .t {
+            font-family: "Plex", sans-serif;
+            font-weight: 600;
+            font-size: 12.5px;
+            color: #fff;
+        }
+
+        .log .ok {
+            color: #6fcf97;
+        }
+
+        .log .k {
+            color: #9cdcfe;
+        }
+
+        .log .g {
+            color: #7f8a99;
+        }
+
+        .step {
+            display: flex;
+            gap: 8px;
+            font-family: "Plex", sans-serif;
+            font-size: 12.5px;
+        }
+
+        .step i {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #2f9e6a;
+            flex: none;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="chrome"><span class="dots"><i></i><i></i><i></i></span>
+    <div class="url"><b>inmobiliaria-b.example/inmuebles</b>?operacion=venta&amp;ciudad=bogota-dc&amp;precio=600000000
+    </div>
+</div>
+<div class="site">
+    <div class="page">
+        <header class="nav">
+            <div class="brand"><i></i>Inmobiliaria B</div>
+            <nav><span
+                    class="active">Inmuebles</span><span>Herramientas</span><span>Asesoría</span><span>Nosotros</span><span>Contacto</span>
+            </nav>
+            <div class="row"><span class="fav-count">♥ 2</span><span class="btn wa">WhatsApp</span></div>
+        </header>
+        <div class="content">
+            <aside class="filters">
+                <div class="segmented"><span class="on">Compro</span><span>Rento</span><span>Proyectos</span></div>
+                <div class="field"><label>Tipo de inmueble</label>
+                    <div class="input select">Apartamento</div>
+                </div>
+                <div class="field"><label>Ubicación</label>
+                    <div class="input select">Bogotá D.C.</div>
+                </div>
+                <div class="field"><label>Precio hasta</label>
+                    <div class="input filled">$ 600.000.000</div>
+                </div>
+                <div class="field"><label>Habitaciones</label>
+                    <div class="input select">2 o más</div>
+                </div>
+                <div class="field"><label>Amenidades</label>
+                    <div class="chips"><span class="chip">Balcón</span><span class="chip">Gimnasio</span></div>
+                </div>
+                <span class="btn ghost">Limpiar filtros</span>
+            </aside>
+            <main>
+                <div class="results-head"><h1>18 apartamentos en venta en Bogotá D.C.</h1><span class="muted"
+                                                                                                style="font-size: 12.5px">Ordenar: más recientes</span>
+                </div>
+                <div class="grid">
+                    <article class="card">
+                        <div class="photo ph-a"><span class="badge info badge-on">Destacado</span><span
+                                class="fav">♥</span><span class="count">14 fotos</span></div>
+                        <div class="body"><span class="price">$ 480.000.000</span><span class="title">Apartamento en Cedritos</span><span
+                                class="meta">3 hab · 2 baños · 1 parq · 92 m²</span><span class="meta subtle">Usaquén · Cód. 10234</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="photo ph-b"><span class="badge ok badge-on">Nuevo</span><span
+                                class="fav">♡</span><span class="count">9 fotos</span></div>
+                        <div class="body"><span class="price">$ 395.000.000</span><span class="title">Apartamento en Pasadena</span><span
+                                class="meta">2 hab · 2 baños · 1 parq · 68 m²</span><span class="meta subtle">Suba · Cód. 10251</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="photo ph-c"><span class="badge warn badge-on">Exclusivo</span><span
+                                class="fav">♥</span><span class="count">21 fotos</span></div>
+                        <div class="body"><span class="price">$ 590.000.000</span><span class="title">Apartamento en El Chicó</span><span
+                                class="meta">3 hab · 3 baños · 2 parq · 118 m²</span><span class="meta subtle">Chapinero · Cód. 10198</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="photo ph-d"><span class="fav">♡</span><span class="count">11 fotos</span></div>
+                        <div class="body"><span class="price">$ 352.000.000</span><span class="title">Apartamento en Modelia</span><span
+                                class="meta">3 hab · 2 baños · 1 parq · 74 m²</span><span class="meta subtle">Fontibón · Cód. 10177</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="photo ph-e"><span class="badge info badge-on">Oportunidad</span><span
+                                class="fav">♡</span><span class="count">8 fotos</span></div>
+                        <div class="body"><span class="price">$ 310.000.000</span><span class="title">Apartamento en Hayuelos</span><span
+                                class="meta">2 hab · 2 baños · 1 parq · 59 m²</span><span class="meta subtle">Fontibón · Cód. 10262</span>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="photo ph-f"><span class="fav">♡</span><span class="count">16 fotos</span></div>
+                        <div class="body"><span class="price">$ 545.000.000</span><span class="title">Apartamento en Santa Bárbara</span><span
+                                class="meta">3 hab · 2 baños · 2 parq · 101 m²</span><span class="meta subtle">Usaquén · Cód. 10129</span>
+                        </div>
+                    </article>
+                </div>
+                <div class="pages"><span>Mostrando 6 de 18 apartamentos</span>
+                    <div class="row"><span class="on">1</span><span>2</span><span>3</span><span>›</span></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <aside class="log">
+        <div class="t">Sincronizar propiedades Wasi · 03:00
+            <div class="g" style="font-family: 'Code', monospace; font-weight: 400; font-size: 11.5px">datos de
+                ejemplo
+            </div>
+        </div>
+        <div>
+            <div class="step"><i></i>Generar índice, amenidades y detalles</div>
+            <div class="step"><i></i>Commit y push si algo cambió</div>
+            <div class="step"><i></i>Lanzar el deploy</div>
+        </div>
+        <div>
+            <div class="g">// solo inmuebles disponibles</div>
+            <div><span class="k">WASI_EXTRA_PARAMS</span>=id_availability=1</div>
+        </div>
+        <div class="lines">Índice : 96 inmuebles · 25 columnas
+            <span class="ok">actualizado</span>
+            Amenidades : 58 etiquetas · sin cambios
+            Detalles : 96 archivos · 3 escritos
+            2 eliminados
+        </div>
+        <div>
+            <div class="g">// los retirados de Wasi se borran solos</div>
+            <div>- properties-details/10087.json</div>
+            <div>- properties-details/10112.json</div>
+        </div>
+        <div>
+            <div>git commit -m "Sync properties from Wasi"</div>
+            <div>gh workflow run deploy.yml <span class="ok">✓</span></div>
+        </div>
+    </aside>
+</div>
+</body>
+</html>

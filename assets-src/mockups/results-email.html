@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: 200px 400px 1fr;
+        }
+
+        .folders {
+            background: #eef1f6;
+            padding: 18px 14px;
+            display: grid;
+            gap: 4px;
+            align-content: start;
+            font-size: 13.5px;
+        }
+
+        .folders .on {
+            background: #d9e4f8;
+            border-radius: 16px;
+            font-weight: 600;
+        }
+
+        .folders span {
+            padding: 6px 12px;
+        }
+
+        .list {
+            border-right: 1px solid var(--line);
+            background: #fff;
+            display: grid;
+            align-content: start;
+        }
+
+        .list .item {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+            display: grid;
+            gap: 2px;
+        }
+
+        .list .item.on {
+            background: #eef4ff;
+            box-shadow: inset 3px 0 #2f6fde;
+        }
+
+        .list .from {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .reader {
+            background: #f4f6f9;
+            padding: 16px 22px;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .subject {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .email {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        .brand {
+            background: #0f5132;
+            color: #fff;
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand b {
+            font-size: 18px;
+        }
+
+        .draws {
+            padding: 14px 22px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            align-content: start;
+        }
+
+        .draw {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .draw .name {
+            font-weight: 600;
+            font-size: 13.5px;
+        }
+
+        .balls {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .balls span {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 14px;
+            background: #e8f3ee;
+            color: #0f5132;
+            border: 1px solid #b9dccb;
+        }
+
+        .balls em {
+            font-style: normal;
+            font-size: 12px;
+            color: var(--muted);
+            align-self: center;
+            margin-left: 6px;
+        }
+
+        .foot {
+            padding: 10px 22px;
+            border-top: 1px solid var(--line);
+            font-size: 11.5px;
+            color: var(--subtle);
+        }
+    </style>
+</head>
+<body class="light">
+<nav class="folders">
+    <span class="on">Recibidos</span><span>Destacados</span><span>Enviados</span><span>Promociones</span><span>Todos</span>
+</nav>
+<section class="list">
+    <div class="item on">
+        <div class="from"><span>Lotería Ejemplo</span><span class="muted" style="font-weight: 400">23:31</span></div>
+        <div>Resultados del jueves 15 de octubre de 2026</div>
+        <div class="subtle">Sorteo de la noche, Lotería del día y 6 sorteos más…</div>
+    </div>
+    <div class="item">
+        <div class="from"><span>Lotería Ejemplo</span><span class="muted" style="font-weight: 400">14 oct</span></div>
+        <div>Resultados del miércoles 14 de octubre de 2026</div>
+        <div class="subtle">Sorteo de la noche, Lotería del día y 6 sorteos más…</div>
+    </div>
+    <div class="item">
+        <div class="from"><span>Lotería Ejemplo</span><span class="muted" style="font-weight: 400">13 oct</span></div>
+        <div>Resultados del martes 13 de octubre de 2026</div>
+        <div class="subtle">Sorteo de la noche, Lotería del día y 6 sorteos más…</div>
+    </div>
+    <div class="item">
+        <div class="from"><span>Lotería Ejemplo</span><span class="muted" style="font-weight: 400">12 oct</span></div>
+        <div>Resultados del lunes 12 de octubre de 2026</div>
+        <div class="subtle">Sorteo de la noche, Lotería del día y 6 sorteos más…</div>
+    </div>
+    <div class="item" style="border-bottom: 0">
+        <div class="subtle" style="font-size: 12px">Cada día llega en su propio correo: la fecha en el asunto evita que
+            el buzón los agrupe en una sola conversación.
+        </div>
+    </div>
+</section>
+<section class="reader">
+    <div>
+        <div class="subject">Resultados del jueves 15 de octubre de 2026</div>
+        <div class="muted" style="font-size: 13px">Lotería Ejemplo &lt;resultados@loteria.example&gt; · para mí ·
+            23:31
+        </div>
+    </div>
+    <div class="email">
+        <div class="brand"><b>Lotería Ejemplo</b><span>Resultados oficiales · 15/10/2026</span></div>
+        <div class="draws">
+            <div class="draw">
+                <div class="name">Sorteo de la noche</div>
+                <div class="balls"><span>4</span><span>8</span><span>1</span><span>2</span><em>serie 045</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Lotería del día</div>
+                <div class="balls"><span>7</span><span>3</span><span>0</span><span>9</span><em>serie 112</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Sorteo de la tarde</div>
+                <div class="balls"><span>2</span><span>6</span><span>6</span><span>1</span><em>serie 078</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Chance de la mañana</div>
+                <div class="balls"><span>9</span><span>0</span><span>5</span><span>4</span><em>quinta 3</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Sorteo regional</div>
+                <div class="balls"><span>1</span><span>4</span><span>8</span><span>7</span><em>serie 201</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Sorteo extraordinario</div>
+                <div class="balls"><span>5</span><span>5</span><span>2</span><span>0</span><em>serie 009</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Sorteo de los jueves</div>
+                <div class="balls"><span>3</span><span>9</span><span>4</span><span>6</span><em>serie 150</em></div>
+            </div>
+            <div class="draw">
+                <div class="name">Chance de la noche</div>
+                <div class="balls"><span>8</span><span>1</span><span>7</span><span>3</span><em>quinta 6</em></div>
+            </div>
+        </div>
+        <div class="foot">Datos de ejemplo. El correo real se arma con una plantilla de Jinja2 y se envía con Amazon SES
+            cuando todos los sorteos del día están publicados. Para dejar de recibirlo, cancela la suscripción.
+        </div>
+    </div>
+</section>
+</body>
+</html>

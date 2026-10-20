@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="board.css" rel="stylesheet">
+    <style>
+        .body {
+            grid-template-rows: 1fr auto;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .tile {
+            display: grid;
+            gap: 8px;
+        }
+
+        .tile img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            display: block;
+            max-height: 470px;
+            object-fit: cover;
+        }
+
+        .tile b {
+            font-size: 13.5px;
+        }
+
+        .tile span {
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body class="light">
+<div class="bar"><span class="title">Sentinel-1 en polarización VV · filtro de Lee y agrupamiento K-Means</span><span
+        class="path">CV_GuideThree · 10 imágenes mensuales, mayo de 2025 a febrero de 2026</span></div>
+<div class="body">
+    <div class="row">
+        <div class="tile"><img alt="" src="img/radar-unfiltered.png"><b>Reescalada, sin filtrar</b><span>El speckle del radar: ruido multiplicativo de sal y pimienta.</span>
+        </div>
+        <div class="tile"><img alt="" src="img/radar-lee.png"><b>Filtro de Lee con ventana de 7 × 7</b><span>Promedia donde la varianza local es baja y conserva los bordes.</span>
+        </div>
+        <div class="tile"><img alt="" src="img/radar-kmeans.png"><b>K-Means con k = 3 sobre la imagen filtrada</b><span>Negro el agua, gris la vegetación y el suelo, blanco las construcciones.</span>
+        </div>
+    </div>
+    <p class="note" style="font-size: 13.5px; max-width: 1100px">Después, las 10 fechas se alinean y se promedian para
+        obtener una referencia sin ruido, y de cada par (fecha con ruido, referencia) se cortan parches de 512 × 512
+        para entrenar modelos de restauración.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: 48px 1fr;
+        }
+
+        .appbar {
+            background: #1f3b6e;
+            color: #e8eefb;
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            padding: 0 20px;
+            font-size: 13.5px;
+        }
+
+        .appbar .mark {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            background: #e8eefb;
+            opacity: 0.85;
+        }
+
+        .appbar .on {
+            font-weight: 600;
+            border-bottom: 2px solid #fff;
+            padding: 13px 0 11px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 560px;
+            gap: 18px;
+            padding: 18px 20px;
+            min-height: 0;
+        }
+
+        .record {
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .record-head {
+            padding: 16px 18px;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #dbe6fb;
+            color: #1f3b6e;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .stages {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+        }
+
+        .stages span {
+            height: 30px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            background: #e7ebf2;
+            color: var(--muted);
+            clip-path: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%, 8% 50%);
+        }
+
+        .stages span.done {
+            background: #cfe0fb;
+            color: #1f3b6e;
+        }
+
+        .stages span.on {
+            background: #2f6fde;
+            color: #fff;
+        }
+
+        .fields {
+            padding: 14px 18px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 26px;
+            align-content: start;
+        }
+
+        .fields div {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            font-size: 13px;
+            border-bottom: 1px dashed var(--line);
+            padding-bottom: 7px;
+        }
+
+        .fields .timeline {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            border-bottom: 0;
+            margin-top: 6px;
+        }
+
+        .timeline p {
+            font-size: 13px;
+            padding-left: 14px;
+            border-left: 2px solid var(--line);
+        }
+
+        .widget {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            overflow: hidden;
+        }
+
+        .widget header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .widget .body {
+            padding: 14px 16px;
+            display: grid;
+            gap: 12px;
+            align-content: start;
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .totals td, .totals th, .discounts td {
+            padding: 5px 4px;
+        }
+
+        .discounts td:last-child {
+            width: 92px;
+            text-align: right;
+        }
+
+        .totals tr.total td {
+            font-weight: 700;
+            font-size: 15px;
+            border-top: 1.5px solid var(--fg);
+        }
+
+        .note {
+            font-size: 12px;
+            background: #fff7e8;
+            border: 1px solid #f1d9a8;
+            color: #7a5410;
+            border-radius: 6px;
+            padding: 7px 10px;
+        }
+
+        footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body class="light">
+<nav class="appbar">
+    <span class="mark"></span>
+    <span>Inicio</span><span>Leads</span><span>Contactos</span><span
+        class="on">Oportunidades</span><span>Campañas</span><span>Actividades</span><span>Informes</span>
+</nav>
+<div class="layout">
+    <section class="record">
+        <div class="panel record-head between">
+            <div class="row" style="gap: 14px">
+                <span class="avatar">AM</span>
+                <div>
+                    <div class="subtle" style="font-size: 12px">Oportunidad</div>
+                    <div style="font-size: 20px; font-weight: 600">Ana Martínez Ríos · Ingeniería de Software</div>
+                </div>
+            </div>
+            <div class="row"><span class="btn">Editar</span><span class="btn">Enviar correo</span></div>
+        </div>
+        <div class="stages"><span class="done">Contacto</span><span class="done">Interesado</span><span class="on">Cotización</span><span>Admitido</span><span>Matriculado</span>
+        </div>
+        <div class="panel fields">
+            <div><span class="muted">Programa</span><span>Ingeniería de Software</span></div>
+            <div><span class="muted">Sede</span><span>Campus Norte</span></div>
+            <div><span class="muted">Nivel</span><span>Pregrado</span></div>
+            <div><span class="muted">Periodo</span><span>2027-1</span></div>
+            <div><span class="muted">Modalidad</span><span>Presencial</span></div>
+            <div><span class="muted">Origen</span><span>Formulario web</span></div>
+            <div><span class="muted">Asesor</span><span>Carlos Gómez</span></div>
+            <div><span class="muted">Campaña</span><span>Admisiones 2027-1</span></div>
+            <div><span class="muted">Convenio</span><span>Empresa aliada</span></div>
+            <div><span class="muted">Último contacto</span><span>15 oct 2026, 10:42</span></div>
+            <div class="timeline">
+                <div class="muted" style="font-size: 12px; font-weight: 600">Actividad reciente</div>
+                <p><b>Cotización 2 aplicada</b> · plan de 6 pagos · Carlos Gómez · 14 oct</p>
+                <p><b>Llamada</b> · pidió comparar 4 y 6 pagos con el convenio de su empresa · 14 oct</p>
+                <p><b>Plan de inversión</b> · PDF generado desde el cotizador · 12 oct</p>
+            </div>
+        </div>
+    </section>
+
+    <aside class="panel widget">
+        <header class="between">
+            <div>
+                <div style="font-weight: 600; font-size: 15px">Cotizador de precios</div>
+                <div class="subtle" style="font-size: 12px">Se calcula en el navegador; el CRM se escribe al aplicar
+                </div>
+            </div>
+            <span class="badge info">Cotización 3</span>
+        </header>
+        <div class="body">
+            <div class="two">
+                <div class="field"><label>Plan de pagos</label>
+                    <div class="input select filled">4 pagos</div>
+                </div>
+                <div class="field"><label>Ciclo modular (.5)</label>
+                    <div class="input select filled">No</div>
+                </div>
+            </div>
+            <table class="discounts">
+                <tr>
+                    <td>Beca base <span class="subtle">· fija</span></td>
+                    <td class="num">20 %</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Convenio <span class="subtle">· fijo</span></td>
+                    <td class="num">10 %</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Promoción del catálogo <span class="subtle">· 80 %</span></td>
+                    <td class="num">50 %</td>
+                    <td><span class="badge warn">recortada</span></td>
+                </tr>
+            </table>
+            <table class="totals">
+                <thead>
+                <tr>
+                    <th>Pago</th>
+                    <th class="num">Bruto</th>
+                    <th class="num">Descuento</th>
+                    <th class="num">A pagar</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>1 · inscripción</td>
+                    <td class="num">$ 4.600</td>
+                    <td class="num">30 %</td>
+                    <td class="num">$ 3.220</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td class="num">$ 4.600</td>
+                    <td class="num">30 %</td>
+                    <td class="num">$ 3.220</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="num">$ 4.600</td>
+                    <td class="num">30 %</td>
+                    <td class="num">$ 3.220</td>
+                </tr>
+                <tr>
+                    <td>4 · última colegiatura</td>
+                    <td class="num">$ 4.600</td>
+                    <td class="num">80 %</td>
+                    <td class="num">$ 920</td>
+                </tr>
+                <tr class="total">
+                    <td>Total del periodo</td>
+                    <td></td>
+                    <td></td>
+                    <td class="num">$ 10.580</td>
+                </tr>
+            </table>
+            <div class="note">Tope del 80 % por pago: la beca y el convenio no se tocan y la promoción entra por lo que
+                queda libre. La oportunidad guarda el 50 % efectivo.
+            </div>
+        </div>
+        <footer>
+            <span class="btn">Plan de inversión (PDF)</span>
+            <span class="btn primary">Aplicar cotización</span>
+        </footer>
+    </aside>
+</div>
+</body>
+</html>

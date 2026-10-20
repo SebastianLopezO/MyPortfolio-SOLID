@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .dark {
+            --bg: #0f1216;
+            --panel: #161b22;
+            --line: #2b323c;
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        header {
+            padding: 16px 24px 14px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .title .ok-icon {
+            display: inline-grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--ok);
+            color: #0f1216;
+            font-size: 13px;
+            margin-right: 8px;
+            vertical-align: 2px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 22px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 0;
+        }
+
+        nav {
+            border-right: 1px solid var(--line);
+            padding: 16px;
+            display: grid;
+            gap: 6px;
+            align-content: start;
+            font-size: 13px;
+        }
+
+        nav .on {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 7px 10px;
+        }
+
+        nav span {
+            padding: 7px 10px;
+        }
+
+        .job {
+            padding: 16px 24px;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            align-content: start;
+            gap: 10px;
+            min-height: 0;
+        }
+
+        .notes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .notes div {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            padding: 10px 14px;
+        }
+
+        .notes b {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .steps {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            overflow: hidden;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 22px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13.5px;
+        }
+
+        .step:last-child {
+            border-bottom: 0;
+        }
+
+        .check {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--ok);
+            position: relative;
+        }
+
+        .check::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 3px;
+            width: 4px;
+            height: 7px;
+            border-right: 2px solid #0f1216;
+            border-bottom: 2px solid #0f1216;
+            transform: rotate(45deg);
+        }
+
+        .time {
+            font-size: 12.5px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .log {
+            background: #0b0e12;
+            border-top: 1px solid var(--line);
+            padding: 8px 14px 10px 46px;
+            font-family: "Code", monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .log .n {
+            color: #6c7484;
+            display: inline-block;
+            width: 26px;
+        }
+
+        .log .g {
+            color: var(--ok);
+        }
+    </style>
+</head>
+<body class="dark">
+<header>
+    <div class="title"><span class="ok-icon">✓</span>Ajusta el formulario de la landing de posgrados</div>
+    <div class="meta muted">
+        <span>Workflow reutilizable <b style="color: var(--fg)">deploy-landing</b></span>
+        <span>rama <b class="mono" style="color: var(--fg)">main</b> · 3f9c2e1</span>
+        <span>Duración <b style="color: var(--fg)">1 min 52 s</b></span>
+        <span>Destino <b class="mono" style="color: var(--fg)">/srv/landings/cliente-a/posgrados</b></span>
+    </div>
+</header>
+<div class="layout">
+    <nav>
+        <span class="muted" style="font-size: 12px; font-weight: 600">EJECUCIÓN</span>
+        <span>Resumen</span>
+        <span class="muted" style="font-size: 12px; font-weight: 600; margin-top: 8px">JOBS</span>
+        <div class="on row"><span class="check"></span>build y despliegue</div>
+        <span class="muted" style="margin-top: 8px; font-size: 12px; font-weight: 600">MONITOREO</span>
+        <span>Monitor diario</span>
+        <span>Lighthouse semanal</span>
+    </nav>
+    <section class="job">
+        <div class="between"><b>build y despliegue</b><span
+                class="badge ok">Correcto · el sitio público sirve 3f9c2e1</span></div>
+        <div class="steps">
+            <div class="step"><span class="check"></span>Checkout</div>
+            <div class="step"><span class="check"></span>Node 22<span class="time">3 s</span></div>
+            <div class="step"><span class="check"></span>Instalar dependencias (con el lockfile de npm si está
+                sincronizado)<span class="time">21 s</span></div>
+            <div class="step"><span class="check"></span>Build<span class="time">18 s</span></div>
+            <div class="step"><span class="check"></span>Verificar el build antes de tocar producción<span class="time">1 s</span>
+            </div>
+            <div class="step"><span class="check"></span>Post-procesado: gzip del texto y WebP al lado de cada imagen;
+                el HTML no se precomprime<span class="time">9 s</span></div>
+            <div class="step"><span class="check"></span>Preparar SSH con la llave del host fijada<span
+                    class="time">1 s</span></div>
+            <div class="step"><span class="check"></span>Desplegar: rsync en dos fases para un cambio casi atómico<span
+                    class="time">12 s</span></div>
+            <div class="log">
+                <div><span class="n">1</span>fase 1 · assets nuevos con hash, sin borrar nada: no pisan lo que está en
+                    uso
+                </div>
+                <div><span class="n">2</span>fase 2 · index.html y el resto; borra lo sobrante salvo assets/</div>
+                <div><span class="n">3</span>los assets anteriores quedan para quien tiene abierto el HTML viejo</div>
+                <div><span class="n">4</span><span class="g">sin reconstruir imágenes ni reiniciar el contenedor de Nginx</span>
+                </div>
+            </div>
+            <div class="step"><span class="check"></span>Verificación posterior: el sitio público sirve este commit<span
+                    class="time">4 s</span></div>
+        </div>
+        <div class="notes">
+            <div><b>Commits que no se despliegan</b><span class="muted">Un mensaje con <span
+                    class="mono">[skip deploy]</span> o <span class="mono">#no-deploy</span> sube el cambio sin publicarlo.</span>
+            </div>
+            <div><b>Volver atrás</b><span class="muted">Se ejecuta el mismo workflow sobre un commit anterior, o se hace revert y push.</span>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

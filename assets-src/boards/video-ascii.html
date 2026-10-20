@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="board.css" rel="stylesheet">
+    <style>
+        .body {
+            grid-template-rows: auto 1fr;
+        }
+
+        .frames {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: start;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .terminal pre {
+            font-size: 7.6px;
+            line-height: 1.1;
+            color: #e8e2c8;
+        }
+
+        .terminal.green pre {
+            color: #9be7a7;
+        }
+
+        ol {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            padding-left: 18px;
+            font-size: 13px;
+        }
+
+        ol code {
+            font-family: "Code", monospace;
+            font-size: 12px;
+            background: var(--panel-2);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+<body class="light">
+<div class="bar"><span class="title">VideoToAscii · OpenCV, conversores a ASCII y una consola en C#</span><span
+        class="path">animacion ascii/bin/Source · cuadros reales de las animaciones</span></div>
+<div class="body">
+    <div class="frames">
+        <div class="terminal">
+            <div class="top"><i></i><i></i><i></i>saturno(wizard).txt · cuadro 13 de 25</div>
+            <pre>-`&#x27;.``..```,-```.````.`.`.```````````..```.````````````&#x27;-.```````          `   `````&#x27;`````..```\/:-`````&#x27;.``.````````````&#x27;,.`````&#x27;!;&quot;-_,_:,::,:::,,,:&#x27;
+_`-..~&#x27;..`..-/.````~_`.````````````````````..`.&#x27;`````.``.`..  `_/v]u{1khhVFsYlL(:`   ```.`.````.`.````-.`````````.-`````&#x27;`````.``.:~:~x(,&#x27;.&#x27;&#x27;----&#x27;--&#x27;.
+&#x27;.````,....``&#x27;``.``...&#x27;_.`````.`,````````...``._&#x27;`_,`-``  :L7XADB@@@@@@@@@@@@@@WRbPs*&quot;  ```````.````..```````````````````````.```````&#x27;;,`````````````.
+.```..``````````...````.`````&#x27;-...```````...`.`.&#x27;``````(7qO@@@@@@@@@@@@ggg$$$$$gg@@@gRf{|`  ``````_```````.-````````````````.`````````  `````````````.
+&#x27;.```.&#x27;````._.```_,```````````-.``````````.`````````:nfN@@@@@@@@@@g$$$$WWWWWWWBBBBWWW$ggNS}&quot;  ``.`-.`````````````````````````````````````````.```````.
+_&#x27;..`.-.````..`..````.`..```.-!:&#x27;``````.``````````~s&amp;@@@@@@@@@g$$WWWWWBBBNBNMNNNNNNNMMQQQNW&amp;F! `.``-.&#x27;--,,~,,---...&#x27;. `       ``````````-&#x27;`````..``` ;
+.````&#x27;.``````.``..```..~-```-.``..```,&#x27;.````&#x27;&#x27;.&#x27;`u&amp;@@@@@@@ggg$WWWWWWWBBBNNNMM88O%&amp;&amp;OOOOO#O&amp;%8bP5dfmSApEbbbbbbpASmfdq9XaFo}r[&gt;\:.    ```````````.`````.
+.````````````````..`.-.`,.``````....```.,^&#x27;.-.`&quot;9@@@@@@@@@gg$WWWWBBNNM8RD%&amp;OHGKbEpApAASSAAApEGO%MBBBBBBNNBBNBBWWBWWBBNNNMQQRO&amp;KU4jl)-  ``````````````.
+&#x27;...```````&#x27;.``_.```.``.``..````.`.-```.-&quot;.```(K@@gg$$$WWWWBNNMQ8RO%#OGGKEpASSmUffdwqqqqqwdddddwfEAbKGO#&amp;&amp;%%%DDOOOORQNBWBBNMQ8RRRR8%Ak&gt; `````````````.
+,~-&#x27;..-....-.:.......-(&#x27;..`..&#x27;,.&#x27;``.``.:`.```&quot;G@$WWWWBBNNNMQ8OD&amp;#HGKbEASmUfdq569PZZ44X4444XXX2226qL^(&gt;LinyI4wAEK#&amp;%&amp;#O#%8BWWBBM88D&amp;DO8OC.````````````.
+.``.``..`.```-.``-&#x27;``.:.`.``.``:,``&#x27;````-^&lt;lySgWWWBBBNMMQRO%&amp;HGbEpASUfdwq5PZXX222333eahhIkkIVa32Zda.      .:|nk4qmG&amp;%D#HH&amp;MBWWWMRNDOO&amp;RR\ ```````````.
+-``````.``.`....````.````.````````_(*YI5b%MW$$WBBNNNQ8RO&amp;#HGKEASmUfw569PZX23eaVIkkFC11jjj1kkha3XXZfx ```````  xoZZUHOD%OGOQBWWWM8M%&amp;DOQh&#x27;````````````&#x27;
+~&#x27;.`,..&#x27;---.``.&#x27;....,..`````.!=nk5KONWWWBNNQQMMMQ88O%&amp;OHKbEAmfdq5PZ423eaVkFC11jjjojjjjjj1CFkVhae245k```````.`^Ja9dK#%%HG&amp;8BWWNQ88%%R8bu``````````````-
+:&#x27;````....`.,.`&#x27;``-&#x27;````~=Jhf#QWWWBMQQ8OHfe}EQO%#HGKEASmfdq6PZ423eahVIFFF1jjjjjjjjjjj11CCCCFFkVh3XZa-```  -|nIPfb#&amp;&amp;OO&amp;8NWWNM8RDD8OU}~ --`````..`````.
+&#x27;.`.````,-``..`.````;?o6H8B$$BMQ8RO%GwIT+:``UNRO#HKpASUdwq6PZ22223aaaaIkFFC11111jjjossssss1FFFFFIh3I&#x27; .:|rFPUEO&amp;&amp;OO%8MWWBM8RRRR%m1=. ``----````.`````.
+-````.``.&#x27;.`.```,&lt;y5OQBWWWN8OOO%OE9{v&quot;.````-2BRR%#HHKpSSUwq56PXXX23aahVkFFFCC1jjoss{yyyyyy{sjjjo{7YT=r14UbH&amp;&amp;#&amp;%RQNWBNQ8888DGP}|-  .&#x27;````..``&#x27;``:_```.
+:.```....`.``&#x27;vFAOMNBBWB8%%DD%Ed2Y! ``.`````xNRD&amp;OHGbASmfdq56ZXXX3aahIkFFCCCCj{y{{{{{{{yt7JurTTn7je5AGO#&amp;%%O8MNBBMQQ88R%EZyL~`  ``~&#x27;`````````,``&#x27;&#x27;``.`
+.`..```.`.`~JUOQQQNWWW8&amp;#DRD#Uq27~ ``````.``&#x27;6NRD%&amp;HbEAmUdq66P4XX2eaaIkFFFFCj{{yy7JuzrrTrJyCe9UEH#&amp;&amp;%DO8MNBBBNMMQR%b5Cr+,   `.```..`````````````&#x27;``.--
+.``````-&#x27;.rEQORQMBWWWM#O&amp;RR&amp;Od5Pji&quot;` ```````.)m%##HGbpSmUwq559Z4X2ahkCjo{7JnrTTrnJ7jI25fpG#&amp;%%DO8QMNBBNNNMM8OHmXo])~`   ``.``````&#x27;.`````.````````.```!
+,,.`-``.-y88&amp;DN8NWWWWM&amp;OO%OD&amp;#bU5Zht]v);_-.```\344ZXX22ahICjosy7YJunuuJ7{jIXZ6dSEGO&amp;%DORRRQMNNNNNNNMM8%Kd2or=;&#x27;   .```````..````````````&#x27;`````````````
+,:&quot;`...._SQO%%MQQNWWWWNR&amp;&amp;O&amp;%%%%#HHbpmd643hk1j{y{y{{{sjj1kkVa3XZ5wfSEbGO#%DDOROR8QMMNNNNNNMQ8RO#EdXCJ[):.   `-.`&#x27;&#x27;-.```.`````````````````````&#x27;```````.
+-.,``.-.`[b88D%R8QMNBBWWBNQRO%%%&amp;&amp;&amp;&amp;%%%&amp;&amp;&amp;&amp;#####OOOO#&amp;&amp;&amp;&amp;&amp;%%DDOOOROR88QMMMNNNNNNNNMQ8O&amp;OKAf6P2u/:.```````````````.`..```&#x27;`-.``..~````````:~``````````.
+.```....`.^J6KORORRR88QMNNNBBBBBNNNMMQQQ8Q888888QQQQQMMMMNNNNNNNNNNNNNMQ88OD&amp;HKAf5ZeI1o{yyssl!```````.`````.````&#x27;&#x27;``&#x27;.``,```````--.````&#x27;``````````.``_
+&#x27;`.``````,:-&#x27;~v}XqUbO%O88QQQMMMNMMNNNNNBNNBBBBBNNNNNNNMNM8ROO%&amp;#OKEAmw6Z2aICj{t7}Y}}7t{j1{i!``&#x27;.`..```````..&#x27;.`,,`````&#x27;```````&#x27;`.```````.````..``````.
+,.`...`````&#x27;&#x27;.`-&lt;!,~)&gt;*]utjkh24Z66qddffffdwwq5P4X2hkCj{}yeP6PXaVkF11jss{{{{{{{sssoj1C1yl),````...&#x27;.````````.,``--.`-.`````~-```````-```-&#x27;`````````..`.
+_.`...``-,`,...```````````````````-,.&#x27;&#x27;.--````&#x27;`-````&#x27;-``.;vz{kaeeeahhVVIIIIIIIkFo}u]!-``.&#x27;.``..``.....``.````&#x27;.`.`````-.`^,````````&#x27;`.`````````````..
+.`..``....`````.```````&#x27;.````````````&#x27;-`.`````...&#x27;...,_&#x27;..````_!)vxTnuY}}Jur]?=(;,&#x27;--``.`.&#x27;```..``...``.`````````-``.``-..`````.```.:--```-``````.```.
+&#x27;`.&#x27;``..`.,..``.``-``&#x27;&#x27;-,&#x27;.`.`..````.`~.&#x27;-`.`&#x27;`.`..&#x27;-.````````.````````````````````.-```..`..```````...&#x27;`````````.``--`.```````.-````````-:`````._```.
+.``.....`.:...```.,-.`...`&#x27;..`.&#x27;.&#x27;.``.-...-`.:.`..&#x27;..`&#x27;~~..```-...`..``..`...``-.~..`````.`.-``````.````````````````.,`````````````````.````.`````.``.
+&#x27;-```..````.`..``-&#x27;-&#x27;`````....`.&#x27;..`.&#x27;.&#x27;.````....`&#x27;```-:-`.```..&#x27;.`.`..&#x27;,.-`.````-.`.``..`..`&#x27;````.```````````````````````````,````````````..````````.
+.````.`&#x27;`````..``.&#x27;``.``````..``-.`...``````.,````````.`````````,.``.`..,..``...&#x27;.`.`.`....`.-``..,&#x27;`..``..`````.```````````````````..`````&#x27;`````````.
+-......&#x27;.........&#x27;.............&#x27;-............-........&quot;_..-&#x27;:.........-&#x27;....._-.&#x27;&#x27;.&#x27;-.......-&quot;......,,......```&#x27;&#x27;`-&#x27;``.```````````````.&#x27;``_-``````,``.</pre>
+        </div>
+        <div class="terminal green">
+            <div class="top"><i></i><i></i><i></i>stickman(magic).txt · cuadro 10 de 18</div>
+            <pre>QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQKAAUMQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQRgl,.._\nDQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQX        !QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQRWUk4pToo7##FmV#        zQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQMq[r\^`               _/=)IgRQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ$&quot;  .,|cI7f6S2&gt;       :YNRQQQQW0QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQDZG&amp;DMQQQQQV%`  `{=   zQDkpe%/&lt;50QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQgl   `]ZQy   _%^    .&quot;30QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQWu-  .sPQQQB/     /{LhAMQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQPi  .cbQQQQQQbo]jqONQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQke_   _o2VPAKMQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ0gI-  `&#x27;       &#x27;&quot;%?SQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQNqx   :aY$YV5ua{&gt;=.   FQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQMUf\   /T$QQQQQQQQQQWb/  &#x27;gQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQN$GmC[%/-   )5BQQQQQQQQQQQQQQG:  =&amp;QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQAJ]i+`    .^i}z4MQQQQQQQQQQQQQQQQQS.  )HQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQ&amp;}`  ./i?nmX8WQQQQQQQQQQQQQQQQQQQQQQQw   cCyb0QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQOc|r28MQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQj;-   cBQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQMQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQK&amp;ObYBQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ</pre>
+        </div>
+    </div>
+    <div class="side">
+        <h2>Del video a la consola</h2>
+        <ol>
+            <li><code>frames.py</code> abre el video con OpenCV y guarda cada cuadro como una imagen PNG.</li>
+            <li><code>convert(wizard).py</code> pasa cada cuadro por ascii_wizard a 150 columnas, y <code>convert(magic).py</code>
+                hace lo mismo con ascii_magic; entre cuadro y cuadro escriben una línea <code>break</code>.
+            </li>
+            <li><code>Program.cs</code>, una consola de .NET 6, pide el archivo y los milisegundos por cuadro, y lo
+                reproduce en bucle: imprime hasta cada <code>break</code>, espera y limpia la pantalla.
+            </li>
+        </ol>
+    </div>
+</div>
+</body>
+</html>

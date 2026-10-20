@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .dark {
+            --bg: #0f1216;
+            --panel: #161b22;
+            --line: #2b323c;
+        }
+
+        body {
+            padding: 20px 28px;
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            gap: 14px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        h1 span {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .issue {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .comment {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .comment header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--line);
+            padding: 9px 14px;
+            font-size: 13px;
+        }
+
+        .body {
+            padding: 14px 16px;
+            display: grid;
+            gap: 10px;
+            align-content: start;
+        }
+
+        .body h2 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        td.c {
+            text-align: center;
+        }
+
+        .y {
+            color: var(--ok);
+            font-weight: 600;
+        }
+
+        .x {
+            color: var(--bad);
+            font-weight: 600;
+        }
+
+        .w {
+            color: var(--warn);
+            font-weight: 600;
+        }
+
+        .history {
+            display: grid;
+            gap: 8px;
+            font-size: 13.5px;
+        }
+
+        .history div {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: 10px;
+            padding-left: 12px;
+            border-left: 2px solid var(--line);
+        }
+
+        aside {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+            font-size: 13px;
+        }
+
+        aside div {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+
+        aside b {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body class="dark">
+<h1>Monitor diario de landings: 2 hallazgos <span>#214</span></h1>
+<div class="meta"><span class="badge ok">Abierto</span><span class="muted">abierto por el workflow diario <b
+        class="mono" style="color: var(--fg)">monitor</b>, que comenta aquí cada vez que encuentra fallos</span></div>
+<div class="issue">
+    <div class="comment">
+        <header class="muted">Resumen en Markdown generado por <span class="mono">tools/monitor.py</span></header>
+        <div class="body">
+            <h2>Landings con algún fallo</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Landing</th>
+                    <th class="c">HTTP y HTML</th>
+                    <th class="c">GTM una vez</th>
+                    <th class="c">JS/CSS comprimidos y en caché</th>
+                    <th class="c">Despliegue al día</th>
+                    <th class="c">TLS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="mono">posgrados.universidad-a.example/mba</td>
+                    <td class="c y">sí</td>
+                    <td class="c x">2 veces</td>
+                    <td class="c y">sí</td>
+                    <td class="c y">sí</td>
+                    <td class="c y">63 días</td>
+                </tr>
+                <tr>
+                    <td class="mono">programas.universidad-b.example/derecho</td>
+                    <td class="c y">sí</td>
+                    <td class="c y">sí</td>
+                    <td class="c y">sí</td>
+                    <td class="c w">pendiente</td>
+                    <td class="c y">63 días</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 style="margin-top: 6px">Qué revisar</h2>
+            <ul style="padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px">
+                <li><b>GTM dos veces:</b> la etiqueta ya la inyecta el servidor y la landing también la trae en su HTML;
+                    quitarla del código de la landing.
+                </li>
+                <li><b>Despliegue pendiente:</b> el <span class="mono">__build.json</span> publicado no coincide con el
+                    último commit de <span class="mono">main</span>; el último push traía <span class="mono">[skip deploy]</span>.
+                </li>
+            </ul>
+            <h2 style="margin-top: 6px">Sin hallazgos</h2>
+            <p class="muted" style="font-size: 13.5px">Las demás landings responden 200 con sus propios assets, cargan
+                un solo GTM con el ID esperado, sirven JS y CSS comprimidos con caché inmutable, están en el último
+                commit y tienen certificados con más de 30 días.</p>
+            <h2 style="margin-top: 6px">Comentarios anteriores</h2>
+            <div class="history">
+                <div><span
+                        class="mono subtle">14 oct</span><span><b>monitor</b> comentó: 1 hallazgo, GTM dos veces en <span
+                        class="mono">posgrados.universidad-a.example/mba</span></span></div>
+                <div><span class="mono subtle">13 oct</span><span><b>monitor</b> abrió el issue: 1 hallazgo, el mismo GTM duplicado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside>
+        <div><b>Etiquetas</b><span class="badge warn">monitor</span> <span class="badge">landings</span></div>
+        <div><b>Se ejecuta</b>todos los días; Lighthouse móvil de las landings clave, una vez por semana</div>
+        <div><b>Solo lectura</b>peticiones GET y HEAD contra el sitio público, sin tocar el servidor</div>
+        <div><b>Sale con error</b>si hay al menos un fallo, para que el issue no pase desapercibido</div>
+    </aside>
+</div>
+</body>
+</html>

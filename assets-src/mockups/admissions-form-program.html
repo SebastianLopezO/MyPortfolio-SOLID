@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="mockup.css" rel="stylesheet">
+    <style>
+        .light {
+            --accent: #7a1f3d;
+            --bg: #f6f4f2;
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: 64px 1fr;
+        }
+
+        .site {
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 17px;
+            color: #7a1f3d;
+        }
+
+        .brand i {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 5px solid #7a1f3d;
+        }
+
+        .menu {
+            display: flex;
+            gap: 26px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .wrap {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            padding: 22px 40px;
+            min-height: 0;
+        }
+
+        .form {
+            padding: 20px 24px;
+            display: grid;
+            grid-template-rows: auto auto auto 1fr auto;
+            gap: 16px;
+        }
+
+        .progress {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .progress div {
+            display: grid;
+            gap: 6px;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .progress span {
+            height: 5px;
+            border-radius: 3px;
+            background: var(--line);
+        }
+
+        .progress .done span, .progress .on span {
+            background: #7a1f3d;
+        }
+
+        .progress .on {
+            color: var(--fg);
+            font-weight: 600;
+        }
+
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px 16px;
+        }
+
+        .chain {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            background: #faf6f7;
+            border: 1px dashed #d9bcc6;
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+
+        .chain b {
+            color: #7a1f3d;
+            font-weight: 600;
+        }
+
+        .options {
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(29, 35, 48, 0.12);
+            font-size: 13px;
+            margin-top: -10px;
+        }
+
+        .options div {
+            padding: 7px 11px;
+        }
+
+        .options .hl {
+            background: #f3e7eb;
+            color: #7a1f3d;
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn.primary {
+            background: #7a1f3d;
+            border-color: #7a1f3d;
+        }
+
+        aside {
+            padding: 18px 20px;
+            display: grid;
+            gap: 10px;
+            align-content: start;
+            font-size: 13px;
+        }
+
+        aside dl {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 7px 10px;
+        }
+
+        aside dt {
+            color: var(--muted);
+        }
+
+        .verified {
+            color: var(--ok);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="light">
+<header class="site">
+    <div class="brand"><i></i>Universidad Ejemplo</div>
+    <nav class="menu">
+        <span>Programas</span><span>Becas</span><span>Admisiones</span><span>Vida universitaria</span><span>Contacto</span>
+    </nav>
+</header>
+<div class="wrap">
+    <section class="panel form">
+        <div class="between">
+            <div>
+                <div style="font-size: 22px; font-weight: 700">Formulario de admisión</div>
+                <div class="muted">Pregrado · periodo 2027-1</div>
+            </div>
+            <span class="badge">Paso 2 de 4</span>
+        </div>
+        <div class="progress">
+            <div class="done"><span></span>1 · Datos personales</div>
+            <div class="on"><span></span>2 · Programa</div>
+            <div><span></span>3 · Colegio y familia</div>
+            <div><span></span>4 · Documentos</div>
+        </div>
+        <div class="chain">Cada lista depende de la anterior y llega del servicio de integración: <b>unidad</b> › <b>nivel</b>
+            › <b>modalidad</b> › <b>periodicidad</b> › <b>ciclo</b> › <b>programa</b></div>
+        <div class="grid3">
+            <div class="field"><label>Unidad de negocio</label>
+                <div class="input select filled">Sede Central</div>
+            </div>
+            <div class="field"><label>Nivel de programa</label>
+                <div class="input select filled">Pregrado</div>
+            </div>
+            <div class="field"><label>Modalidad</label>
+                <div class="input select filled">Presencial</div>
+            </div>
+            <div class="field"><label>Periodicidad</label>
+                <div class="input select filled">Semestral</div>
+            </div>
+            <div class="field"><label>Ciclo académico</label>
+                <div class="input select filled">2027-1</div>
+            </div>
+            <div class="field"><label>Programa académico</label>
+                <div class="input select filled" style="box-shadow: 0 0 0 3px #f3e7eb">Ingeniería de Soft…</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div class="options">
+                <div>Administración de Empresas</div>
+                <div>Contabilidad y Finanzas</div>
+                <div>Derecho</div>
+                <div class="hl">Ingeniería de Software</div>
+                <div>Ingeniería Industrial</div>
+            </div>
+        </div>
+        <div class="actions"><span class="btn">Anterior</span><span class="btn primary">Continuar</span></div>
+    </section>
+    <aside class="panel">
+        <div style="font-weight: 700; font-size: 15px">Tu solicitud</div>
+        <dl>
+            <dt>Nombre</dt>
+            <dd>Ana Martínez Ríos</dd>
+            <dt>Documento</dt>
+            <dd>DNI ·····821</dd>
+            <dt>Correo</dt>
+            <dd>ana.martinez@ejemplo.com</dd>
+            <dt>Celular</dt>
+            <dd>+51 9·· ··· 412 <span class="verified">verificado</span></dd>
+            <dt>Programa</dt>
+            <dd>Ingeniería de Software</dd>
+            <dt>Ingreso</dt>
+            <dd>2027-1 · presencial</dd>
+        </dl>
+        <div class="muted" style="font-size: 12px; border-top: 1px solid var(--line); padding-top: 10px">Al continuar,
+            la solicitud se guarda en el CRM de la institución: el primer paso creó el lead y cada paso siguiente
+            actualiza la misma oportunidad.
+        </div>
+    </aside>
+</div>
+</body>
+</html>

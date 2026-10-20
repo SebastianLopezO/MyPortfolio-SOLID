@@ -1,0 +1,193 @@
+/*
+ * The fictional agency of the real estate screens: browser chrome, its header and the drawn property photos. The
+ * palette is the mockups' own, not the client's.
+ */
+body {
+    display: grid;
+    grid-template-rows: 40px 1fr;
+    --brand: #1f4d43;
+    --brand-2: #c8963e;
+}
+
+.chrome {
+    background: #e9ecf1;
+    border-bottom: 1px solid #cfd5de;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+}
+
+.chrome .dots {
+    display: flex;
+    gap: 6px;
+}
+
+.chrome .dots i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #c4cad4;
+}
+
+.url {
+    flex: 1;
+    background: #fff;
+    border-radius: 14px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-family: "Code", monospace;
+}
+
+.url b {
+    color: var(--fg);
+    font-weight: 400;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+}
+
+.nav nav {
+    display: flex;
+    gap: 22px;
+    font-size: 13.5px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.nav nav .active {
+    color: var(--brand);
+    font-weight: 700;
+    box-shadow: inset 0 -2px 0 var(--brand-2);
+    padding-bottom: 4px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--brand);
+}
+
+.brand i {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(135deg, transparent 50%, var(--brand-2) 50%) top / 100% 45% no-repeat, var(--brand);
+}
+
+.fav-count {
+    font-size: 13px;
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.btn.wa {
+    background: #1f9d6a;
+    border-color: #1f9d6a;
+    color: #fff;
+}
+
+.btn.brand-fill {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+.btn.ghost {
+    background: transparent;
+}
+
+/* Drawn photos: a sky, a facade with its windows and the street in front. */
+.photo {
+    background-color: #9cb8cf;
+}
+
+.ph-a {
+    background: repeating-linear-gradient(90deg, #f3e9d8 0 14px, #6d8aa3 14px 24px) 22% 38% / 46% 40% no-repeat,
+    linear-gradient(#e8d9bf, #e8d9bf) 18% 100% / 54% 78% no-repeat,
+    linear-gradient(#8a7f72, #8a7f72) 82% 100% / 26% 52% no-repeat,
+    linear-gradient(#b7c9b3, #9fb79a) 0 100% / 100% 14% no-repeat,
+    linear-gradient(#a9c7e3, #dbe7f1);
+}
+
+.ph-b {
+    background: repeating-linear-gradient(0deg, #c2603f 0 9px, #f2ece4 9px 20px) 70% 40% / 40% 52% no-repeat,
+    linear-gradient(#d9cfc2, #d9cfc2) 70% 100% / 44% 70% no-repeat,
+    linear-gradient(#6f8f6a, #57764f) 10% 100% / 30% 46% no-repeat,
+    linear-gradient(#c9d6c4, #c9d6c4) 0 100% / 100% 12% no-repeat,
+    linear-gradient(#f0c49a, #f7e3cf);
+}
+
+.ph-c {
+    background: repeating-linear-gradient(90deg, #26313d 0 18px, #a5c4dd 18px 22px) 50% 30% / 62% 58% no-repeat,
+    linear-gradient(#26313d, #26313d) 50% 100% / 66% 80% no-repeat,
+    linear-gradient(#cfd8df, #cfd8df) 0 100% / 100% 10% no-repeat,
+    linear-gradient(#7aa0c4, #c5d8ea);
+}
+
+.ph-d {
+    background: repeating-linear-gradient(90deg, #f6f1ea 0 12px, #7a6a5a 12px 20px) 30% 44% / 50% 34% no-repeat,
+    linear-gradient(#b5643c, #a3552f) 30% 100% / 56% 72% no-repeat,
+    linear-gradient(#3f6b4f, #3f6b4f) 92% 100% / 18% 40% no-repeat,
+    linear-gradient(#d7d2c8, #d7d2c8) 0 100% / 100% 13% no-repeat,
+    linear-gradient(#b9d3e8, #e4eef6);
+}
+
+.ph-e {
+    background: radial-gradient(circle at 78% 30%, #f6d48b 0 9%, transparent 10%),
+    repeating-linear-gradient(0deg, #ffffff 0 8px, #9fb3c4 8px 16px) 28% 60% / 36% 46% no-repeat,
+    linear-gradient(#e6e1d8, #e6e1d8) 28% 100% / 42% 66% no-repeat,
+    linear-gradient(#b8c7b2, #b8c7b2) 0 100% / 100% 12% no-repeat,
+    linear-gradient(#f2a679, #fbe2c8);
+}
+
+.ph-f {
+    background: repeating-linear-gradient(90deg, #efe7da 0 16px, #5d7b8f 16px 26px) 60% 40% / 52% 36% no-repeat,
+    linear-gradient(#c9b8a0, #c9b8a0) 60% 100% / 58% 74% no-repeat,
+    linear-gradient(#557a5d, #46684d) 4% 100% / 22% 54% no-repeat,
+    linear-gradient(#ccd4c8, #ccd4c8) 0 100% / 100% 11% no-repeat,
+    linear-gradient(#a3c0da, #d9e6f1);
+}
+
+/* A living room seen from the door: floor, wall, window and a sofa. */
+.ph-room {
+    background: linear-gradient(#5f6f63, #5f6f63) 30% 86% / 34% 16% no-repeat,
+    linear-gradient(#7d8c80, #7d8c80) 30% 74% / 30% 10% no-repeat,
+    linear-gradient(#cfe0ee, #e9f1f7) 74% 32% / 26% 40% no-repeat,
+    linear-gradient(#b9967a, #a5826a) 0 100% / 100% 26% no-repeat,
+    linear-gradient(#efe9df, #e6ddd0);
+}
+
+.ph-kitchen {
+    background: repeating-linear-gradient(90deg, #ffffff 0 30px, #d7dde2 30px 32px) 50% 34% / 80% 22% no-repeat,
+    linear-gradient(#3c4650, #3c4650) 50% 76% / 84% 30% no-repeat,
+    linear-gradient(#cfc6b8, #cfc6b8) 0 100% / 100% 16% no-repeat,
+    linear-gradient(#f4f1ec, #ebe5dc);
+}
+
+.ph-bedroom {
+    background: linear-gradient(#ffffff, #f1ece4) 40% 80% / 46% 26% no-repeat,
+    linear-gradient(#8aa1b5, #8aa1b5) 40% 64% / 46% 10% no-repeat,
+    linear-gradient(#d7e5ef, #eef4f8) 85% 30% / 20% 36% no-repeat,
+    linear-gradient(#a98d74, #a98d74) 0 100% / 100% 20% no-repeat,
+    linear-gradient(#ece5f0, #e2dbe6);
+}
+
+.ph-view {
+    background: repeating-linear-gradient(90deg, #8aa0b6 0 10px, #6f86a0 10px 22px) 0 100% / 100% 34% no-repeat,
+    linear-gradient(#5b7f63, #4d6f55) 0 100% / 100% 50% no-repeat,
+    linear-gradient(#9fbfdc, #dfeaf4);
+}
