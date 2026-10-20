@@ -1,0 +1,296 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./fallback-fonts.css";
+
+@layer base {
+    :root {
+        color-scheme: dark;
+    }
+
+    *,
+    ::before,
+    ::after {
+        border-color: var(--color-border);
+    }
+
+    html {
+        background-color: var(--color-bg);
+        scroll-padding-top: calc(var(--header-height) + 1rem);
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: color-mix(in oklch, var(--color-primary) 20%, transparent);
+        touch-action: manipulation;
+    }
+
+    body {
+        min-height: 100dvh;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+        font-family: var(--font-sans);
+        font-synthesis: none;
+        line-height: 1.6;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        text-wrap: balance;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    ::selection {
+        background-color: oklch(0.73 0.116 185 / 0.35);
+        color: var(--color-fg);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-ring);
+        outline-offset: 3px;
+    }
+
+    button,
+    [role="button"] {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: default;
+    }
+
+    html[data-locked="true"] [data-role-switcher] {
+        display: none;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--color-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-neutral-700);
+        border-radius: 999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-neutral-600);
+    }
+}
+
+@layer components {
+    .container-page {
+        width: 100%;
+        max-width: var(--container-page);
+        margin-inline: auto;
+        padding-inline: clamp(1rem, 4vw, 2rem);
+    }
+
+    .section {
+        padding-block: var(--section-py);
+        /* Sections off screen skip style and layout until they come near; Section.tsx gives each one its measured
+           height so the scrollbar and the restored scroll position stay close to the real page. */
+        content-visibility: auto;
+        contain-intrinsic-block-size: auto var(--section-height, 2000px);
+
+        @media (width >= 64rem) {
+            contain-intrinsic-block-size: auto var(--section-height-lg, 2000px);
+        }
+    }
+
+    .text-gradient {
+        background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero-backdrop {
+        background: radial-gradient(60rem 32rem at 85% 0%, oklch(0.73 0.116 185 / 0.16), transparent 60%),
+        radial-gradient(40rem 26rem at 0% 100%, oklch(0.8 0.12 170 / 0.08), transparent 60%);
+    }
+
+    .ascii-frame {
+        container-type: inline-size;
+    }
+
+    .ascii-art {
+        margin-inline: auto;
+        width: fit-content;
+        font-size: min(0.9375rem, calc(100cqi / (var(--ascii-cols) * 0.62)));
+        line-height: 1.15;
+        white-space: pre;
+    }
+
+    .hex-frame {
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+
+    /*
+     * The WhatsApp and assistant buttons float over the right edge of the page. Below 78rem there is no margin beside
+     * the content, so they would cover the contact form, which offers the same actions; they step aside while it is on
+     * screen (ContactSection sets the flag).
+     */
+    .floating-action {
+        transition-property: opacity, translate, scale, visibility;
+        transition-duration: 200ms;
+        transition-timing-function: ease-out;
+    }
+
+    @media (width < 40rem) {
+        :root[data-hero-actions-covered] .floating-action {
+            opacity: 0;
+            visibility: hidden;
+            translate: 0 1rem;
+        }
+    }
+
+    @media (width < 78rem) {
+        :root[data-contact-visible] .floating-action {
+            opacity: 0;
+            visibility: hidden;
+            translate: 0 1rem;
+        }
+    }
+
+    @media (width >= 64rem) {
+        .timeline::before,
+        .timeline::after {
+            content: "";
+            position: absolute;
+            inset-block: 2.25rem 0;
+            left: 0.5rem;
+            width: 2px;
+            translate: -50% 0;
+            border-radius: 1px;
+        }
+
+        .timeline::before {
+            background: var(--color-border);
+        }
+
+        .timeline::after {
+            background: linear-gradient(var(--color-primary), var(--color-accent));
+            transform-origin: top;
+        }
+    }
+
+    @supports (animation-timeline: view()) {
+        @media (width >= 64rem) and (prefers-reduced-motion: no-preference) {
+            .timeline::after {
+                animation: timeline-fill linear both;
+                animation-timeline: view(block 50% 50%);
+            }
+
+            .timeline-card {
+                animation: timeline-enter linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 90%;
+            }
+        }
+
+        /* The sections of a project or detail page rise into place as they enter; one already on screen when the page
+           loads is past its range, so nothing above the fold starts faded. */
+        @media (prefers-reduced-motion: no-preference) {
+            .section-enter {
+                animation: section-enter linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 40%;
+            }
+
+            .bar-grow {
+                animation: bar-grow linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 60%;
+            }
+        }
+    }
+
+    .journey-station {
+        outline: none;
+    }
+
+    .journey-station:hover .journey-station-ring {
+        stroke: var(--color-fg-subtle);
+    }
+
+    .journey-station:focus-visible .journey-station-ring {
+        stroke: var(--color-ring);
+        stroke-width: 3;
+    }
+
+    /* Planned values keep their level color, hatched so that a target never reads as a fact. */
+    .journey-target {
+        background-image: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in oklch, var(--color-bg) 55%, transparent) 5px 8px);
+        outline: 1px dashed var(--color-fg-subtle);
+        outline-offset: -4px;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -100%;
+        z-index: 100;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+        font-weight: 600;
+    }
+
+    .skip-link:focus {
+        top: 1rem;
+    }
+}
+
+@utility scrollbar-none {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@keyframes timeline-fill {
+    from {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes timeline-enter {
+    from {
+        translate: -1.5rem 0;
+    }
+}
+
+@keyframes section-enter {
+    from {
+        opacity: 0;
+        translate: 0 1.5rem;
+    }
+}
+
+@keyframes bar-grow {
+    from {
+        scale: 0 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
