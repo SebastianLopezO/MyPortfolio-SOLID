@@ -1,4 +1,4 @@
-import {createSignal, type JSX, onCleanup, onMount, type ParentProps, splitProps, useContext} from "solid-js";
+import {createSignal, type JSX, onCleanup, onMount, type ParentProps, useContext} from "solid-js";
 import {parseUrl, RouterContext, type RouterLocation} from "@/routes/router-context";
 
 const currentLocation = (): RouterLocation => ({
@@ -35,24 +35,45 @@ export function StaticRouter(props: ParentProps<{ url: string }>) {
     return <RouterContext.Provider value={{location, navigate: () => undefined}}>{props.children}</RouterContext.Provider>;
 }
 
-type LinkProps = Omit<JSX.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick"> & {
+interface LinkProps {
     to: string;
+    class?: string;
     onClick?: (event: MouseEvent) => void;
-};
+    tabindex?: number;
+    translate?: "yes" | "no";
+    "aria-current"?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>["aria-current"];
+    "aria-hidden"?: "true";
+    children?: JSX.Element;
+}
 
+/**
+ * An internal link that moves without reloading. Its attributes are listed rather than spread, so each one compiles
+ * to a direct update and the prerendered tag carries only the ones set.
+ */
 export function Link(props: LinkProps) {
     const router = useContext(RouterContext);
-    const [local, rest] = splitProps(props, ["to", "onClick"]);
 
     const handleClick = (event: MouseEvent) => {
-        local.onClick?.(event);
+        props.onClick?.(event);
         if (!router || event.defaultPrevented || event.button !== 0) return;
         if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
         event.preventDefault();
-        router.navigate(local.to);
+        router.navigate(props.to);
     };
 
-    return <a href={local.to} onClick={handleClick} {...rest}/>;
+    return (
+        <a
+            href={props.to}
+            onClick={handleClick}
+            class={props.class}
+            tabindex={props.tabindex}
+            translate={props.translate}
+            aria-current={props["aria-current"]}
+            aria-hidden={props["aria-hidden"]}
+        >
+            {props.children}
+        </a>
+    );
 }
 
 export function Navigate(props: { to: string }) {
