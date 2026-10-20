@@ -1,0 +1,39 @@
+name: myportfolio
+
+# The container runs as nginx's unprivileged user on a read-only root, with no Linux capabilities, no privilege
+# escalation and a small /tmp that cannot run programs. It only listens on the loopback address: the host's
+# reverse proxy terminates TLS in front of it.
+x-hardening: &hardening
+  restart: unless-stopped
+  user: "101:101"
+  read_only: true
+  stop_grace_period: 10s
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+  ulimits:
+    nofile:
+      soft: 65536
+      hard: 65536
+
+services:
+  web-portfolio:
+    <<: *hardening
+    image: ghcr.io/sebastianlopezo/myportfolio:${PORTFOLIO_TAG:-latest}
+    container_name: portfolio-web
+    ports:
+      - "${PORTFOLIO_BIND_ADDRESS:-127.0.0.1}:${PORTFOLIO_PORT:-8080}:8080"
+    tmpfs:
+      - /tmp:uid=101,gid=101,mode=0700,size=16m,noexec,nosuid,nodev
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+          pids: 64

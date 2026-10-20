@@ -1,0 +1,187 @@
+name: Deploy to Production
+run-name: "Deploy · ${{ inputs.tag || github.event.workflow_run.head_sha || github.sha }}"
+
+on:
+  workflow_run:
+    workflows: [ "Publish Docker Image" ]
+    types: [ completed ]
+    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Image tag to deploy (latest, sha-1a2b3c4 or a version)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check Deployment Secrets
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      configured: ${{ steps.secrets.outputs.configured }}
+
+    steps:
+      - name: Verify required secrets
+        id: secrets
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_KEY: ${{ secrets.SERVER_KEY }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          missing=""
+          for name in SERVER_HOST SERVER_PORT SERVER_USER SERVER_KEY DEPLOY_PATH; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::notice::Deployment skipped: missing secrets$missing."
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    name: Deploy to Server
+    needs: check
+    if: needs.check.outputs.configured == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL || 'https://sebastianlopezo.page' }}
+
+    env:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_KEY: ${{ secrets.SERVER_KEY }}
+      SERVER_KNOWN_HOSTS: ${{ secrets.SERVER_KNOWN_HOSTS }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      ENV_FILE: ${{ secrets.ENV_FILE }}
+      GHCR_USER: ${{ secrets.GHCR_USER || github.repository_owner }}
+      GHCR_READ_TOKEN: ${{ secrets.GHCR_READ_TOKEN }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://sebastianlopezo.page' }}
+      HEAD_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      REQUESTED_TAG: ${{ inputs.tag }}
+      RUN_TAG: ${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout compose file
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.HEAD_SHA }}
+          sparse-checkout: compose.yaml
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Generate temporary configuration
+        run: |
+          umask 077
+          mkdir stage
+          cp compose.yaml stage/compose.yaml
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            tag="${REQUESTED_TAG:-latest}"
+          else
+            tag="sha-${HEAD_SHA:0:7}"
+          fi
+          printf '%s\n' "$ENV_FILE" | tr -d '\r' | grep -v '^PORTFOLIO_TAG=' > stage/.env || true
+          echo "PORTFOLIO_TAG=$tag" >> stage/.env
+          if [ -n "$GHCR_READ_TOKEN" ]; then
+            printf '%s' "$GHCR_READ_TOKEN" > stage/.ghcr-token
+          else
+            echo "::notice::GHCR_READ_TOKEN is not set; the server must already be able to pull the image."
+          fi
+          docker compose --env-file stage/.env -f stage/compose.yaml config --quiet
+          echo "Deploying ghcr.io/${GITHUB_REPOSITORY,,}:$tag"
+
+      - name: Configure SSH access
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SERVER_KEY" | tr -d '\r' > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if [ -n "$SERVER_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SERVER_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::SERVER_KNOWN_HOSTS is not set; trusting the key the server presents."
+            ssh-keyscan -p "$SERVER_PORT" -H "$SERVER_HOST" > ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host portfolio-server
+            HostName $SERVER_HOST
+            Port $SERVER_PORT
+            User $SERVER_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            BatchMode yes
+            ServerAliveInterval 30
+          EOF
+
+      - name: Stage configuration on the server
+        working-directory: stage
+        run: |
+          tar -czf - $(ls -A) | ssh portfolio-server \
+            "S=''; [ \"\$(id -u)\" -eq 0 ] || S='sudo -n'; \
+             \$S install -d -m 750 '$DEPLOY_PATH' && \
+             \$S install -d -m 700 '$DEPLOY_PATH/.deploy-$RUN_TAG' && \
+             \$S tar -xzf - --no-same-owner -C '$DEPLOY_PATH/.deploy-$RUN_TAG'"
+
+      - name: Deploy to server
+        run: |
+          ssh portfolio-server \
+            "S=''; [ \"\$(id -u)\" -eq 0 ] || S='sudo -n'; \
+             \$S env DEPLOY_PATH='$DEPLOY_PATH' RUN_TAG='$RUN_TAG' GHCR_USER='$GHCR_USER' bash -s" <<'EOF'
+          set -euo pipefail
+          cd "$DEPLOY_PATH"
+          stage=".deploy-$RUN_TAG"
+
+          cleanup() {
+            rm -rf "$stage"
+            docker logout ghcr.io >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          exec 9>/var/lock/portfolio-deploy.lock
+          flock -w 600 9
+
+          find . -maxdepth 1 -name '.deploy-*' ! -name "$stage" -mmin +60 -exec rm -rf {} +
+          install -m 644 "$stage/compose.yaml" compose.yaml
+          install -m 600 "$stage/.env" .env
+
+          if [ -f "$stage/.ghcr-token" ]; then
+            docker login ghcr.io -u "$GHCR_USER" --password-stdin < "$stage/.ghcr-token" >/dev/null
+          fi
+
+          docker compose pull --quiet
+          docker compose up -d --remove-orphans --wait --wait-timeout 120
+          docker compose ps --format '{{.Name}}: {{.Status}}'
+          docker image prune -f >/dev/null
+          echo "Deployment finished."
+          EOF
+
+      - name: Verify public site
+        run: |
+          for _ in $(seq 1 12); do
+            if [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$SITE_URL/en")" = 200 ]; then
+              curl -fsS --max-time 10 -o /dev/null -w "Spanish page: %{http_code}\n" "$SITE_URL/es"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::$SITE_URL/en did not answer with 200."
+          exit 1
+
+      - name: Remove local credentials
+        if: always()
+        run: rm -rf ~/.ssh/deploy_key stage

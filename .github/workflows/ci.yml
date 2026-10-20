@@ -1,0 +1,213 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, Test and Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Check color contrast
+        run: pnpm check:contrast
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test build output
+        run: pnpm test:dist
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level high
+
+  e2e:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run Playwright
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build for local audit
+        run: pnpm build
+        env:
+          SITE_URL: http://127.0.0.1:4173
+
+      - name: Run Lighthouse CI
+        run: npx -y @lhci/cli@0.15 autorun
+
+      - name: Summarize scores
+        if: always() && hashFiles('.lighthouseci/reports/manifest.json') != ''
+        run: node scripts/lighthouse-summary.mjs .lighthouseci/reports "Lighthouse (local build, mobile)"
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/reports
+          retention-days: 7
+
+  docker:
+    name: Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          push: false
+          tags: myportfolio:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Scan the image for known vulnerabilities
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: myportfolio:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Run hardened container
+        run: |
+          docker run -d --name portfolio --read-only --tmpfs /tmp:uid=101,gid=101,mode=0700,size=16m,noexec,nosuid,nodev --user 101:101 \
+            --cap-drop ALL --security-opt no-new-privileges:true -p 8080:8080 myportfolio:ci
+          for _ in $(seq 1 20); do
+            [ "$(docker inspect -f '{{.State.Health.Status}}' portfolio)" = healthy ] && exit 0
+            sleep 2
+          done
+          docker logs portfolio
+          exit 1
+
+      - name: Check routes and headers
+        run: |
+          set -euo pipefail
+          base=http://127.0.0.1:8080
+          status() { curl -s -o /dev/null -w '%{http_code}' "$@"; }
+          location() { curl -s -o /dev/null -w '%{redirect_url}' "$@"; }
+          [ "$(curl -fsS $base/health)" = '{"status":"UP"}' ]
+          [ "$(status $base/en)" = 200 ]
+          [ "$(status $base/es/devops)" = 200 ]
+          [ "$(status $base/nope)" = 404 ]
+          [ "$(status -H 'Accept-Language: es' "$base/?locked=true")" = 302 ]
+          [[ "$(location -H 'Accept-Language: es' "$base/?locked=true")" == */es?locked=true ]]
+          [ "$(status $base/en/)" = 301 ]
+          [ "$(status -X POST $base/en)" = 405 ]
+          [[ "$(location $base/es/projects/results-email)" == */es/projects/email-automations ]]
+          curl -sI -H 'Accept-Encoding: gzip' $base/en | grep -qi '^content-encoding: gzip'
+          # The host's reverse proxy asks over HTTP/1.0; the scripts must still come back compressed.
+          html=$(curl -fsS $base/en)
+          script=$(printf '%s' "$html" | grep -o '/assets/[^"]*\.js' | sed -n 1p)
+          curl -sI --http1.0 -H 'Accept-Encoding: gzip' "$base$script" | grep -qi '^content-encoding: gzip'
+          # Browsers that accept Brotli get the .br files the build writes, through the proxy's HTTP/1.0 too.
+          curl -sI -H 'Accept-Encoding: gzip, deflate, br, zstd' $base/en | grep -qi '^content-encoding: br'
+          curl -sI --http1.0 -H 'Accept-Encoding: gzip, br' "$base$script" | grep -qi '^content-encoding: br'
+          curl -sI -H 'Accept-Encoding: br' "$base$script" | grep -qi '^content-type: application/javascript'
+          curl -sI $base/en | grep -qi '^content-security-policy:'
+          curl -sI $base/en | grep -qi '^cache-control: no-cache'
+          # Every response carries each security header once, the redirects, /health and the 405 included.
+          for path in /en /en/ /health; do
+            [ "$(curl -s -o /dev/null -D - "$base$path" | grep -ci '^x-content-type-options:')" = 1 ]
+          done
+          [ "$(curl -s -o /dev/null -D - -X POST $base/en | grep -ci '^x-frame-options:')" = 1 ]
+
+      - name: Remove container
+        if: always()
+        run: docker rm -f portfolio || true

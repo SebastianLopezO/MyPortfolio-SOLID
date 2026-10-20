@@ -1,0 +1,134 @@
+name: Production Checks
+
+on:
+  workflow_run:
+    workflows: [ "Deploy to Production" ]
+    types: [ completed ]
+  schedule:
+    - cron: "17 11 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-checks
+  cancel-in-progress: true
+
+env:
+  SITE_URL: ${{ vars.SITE_URL || 'https://sebastianlopezo.page' }}
+
+jobs:
+  smoke:
+    name: Routes and Headers
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check routes, redirects and headers
+        run: |
+          fail=0
+          check() {
+            if [ "$2" = "$3" ]; then echo "✔ $1"; else echo "✘ $1: expected $3, got $2"; fail=1; fi
+          }
+          status() { curl -s -o /dev/null -w '%{http_code}' "$@"; }
+          location() { curl -s -o /dev/null -w '%{redirect_url}' "$@"; }
+          for path in /en /es /en/backend /en/crm /en/data /en/devops /en/fullstack /es/backend /es/crm /es/data /es/devops /es/fullstack; do
+            check "$path" "$(status "$SITE_URL$path")" 200
+          done
+          check "/health" "$(curl -s "$SITE_URL/health")" '{"status":"UP"}'
+          check "/ redirects Spanish browsers" "$(status -H 'Accept-Language: es-CO' "$SITE_URL/?locked=true")" 302
+          check "/ keeps the query" "$(location -H 'Accept-Language: es-CO' "$SITE_URL/?locked=true" | sed 's#.*/es#/es#')" "/es?locked=true"
+          check "/en/ drops the trailing slash" "$(status "$SITE_URL/en/")" 301
+          check "unknown paths" "$(status "$SITE_URL/nope")" 404
+          check "sitemap.xml" "$(status "$SITE_URL/sitemap.xml")" 200
+          check "robots.txt" "$(status "$SITE_URL/robots.txt")" 200
+          check "ATS resume" "$(status "$SITE_URL/cv/Sebastian-Lopez-Osorno-ATS-EN.pdf")" 200
+          headers=$(curl -sI -H 'Accept-Encoding: gzip' "$SITE_URL/en")
+          for header in content-security-policy strict-transport-security x-content-type-options referrer-policy permissions-policy cross-origin-opener-policy; do
+            if echo "$headers" | grep -qi "^$header:"; then echo "✔ $header"; else echo "✘ missing $header"; fail=1; fi
+          done
+          if echo "$headers" | grep -qi '^content-encoding: gzip'; then echo "✔ gzip"; else echo "✘ HTML is not compressed"; fail=1; fi
+          if curl -sI -H 'Accept-Encoding: gzip, deflate, br, zstd' "$SITE_URL/en" | grep -qi '^content-encoding: br'; then
+            echo "✔ Brotli"
+          else
+            echo "✘ HTML is not served with Brotli to a browser that accepts it"; fail=1
+          fi
+          # The host proxy compresses HTML on its own, so the scripts are checked apart.
+          script=$(curl -s "$SITE_URL/en" | grep -o '/assets/[^"]*\.js' | sed -n 1p)
+          if curl -sI -H 'Accept-Encoding: gzip, br' "$SITE_URL$script" | grep -qiE '^content-encoding: (gzip|br)'; then
+            echo "✔ $script is compressed"
+          else
+            echo "✘ $script is not compressed"; fail=1
+          fi
+          exit $fail
+
+  e2e:
+    name: Browser Tests
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright against production
+        run: pnpm test:e2e
+        env:
+          BASE_URL: ${{ env.SITE_URL }}
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-playwright-report
+          path: playwright-report
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Run Lighthouse CI against production
+        run: npx -y @lhci/cli@0.15 autorun --config=lighthouserc.production.cjs
+
+      - name: Summarize scores
+        if: always() && hashFiles('.lighthouseci/production/manifest.json') != ''
+        run: node scripts/lighthouse-summary.mjs .lighthouseci/production "Lighthouse (production, mobile)"
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-lighthouse
+          path: .lighthouseci/production
+          retention-days: 14

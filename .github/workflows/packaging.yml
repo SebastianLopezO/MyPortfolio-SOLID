@@ -1,0 +1,97 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*.*.*" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  # Keyless signing: cosign trades the workflow's OIDC token for a short-lived certificate.
+  id-token: write
+
+concurrency:
+  group: packaging-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Resolve registries
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_APP_NAME: ${{ secrets.DOCKER_APP_NAME }}
+        run: |
+          images="ghcr.io/${GITHUB_REPOSITORY,,}"
+          if [ -n "$DOCKER_USERNAME" ] && [ -n "$DOCKER_PASSWORD" ]; then
+            images="$images"$'\n'"docker.io/$DOCKER_USERNAME/${DOCKER_APP_NAME:-myportfolio}"
+            echo "DOCKERHUB=true" >> "$GITHUB_ENV"
+          else
+            echo "::notice::Without DOCKER_USERNAME and DOCKER_PASSWORD the image is published to GHCR only."
+          fi
+          { echo "IMAGES<<EOF"; echo "$images"; echo "EOF"; } >> "$GITHUB_ENV"
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.IMAGES }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub
+        if: env.DOCKERHUB == 'true'
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign the image
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          # Sign the digest, not a tag, in every registry it was pushed to; the signature lands in the
+          # public transparency log and `cosign verify` checks it against this workflow's identity.
+          while read -r image; do
+            [ -n "$image" ] && cosign sign --yes "$image@$DIGEST"
+          done <<< "$IMAGES"

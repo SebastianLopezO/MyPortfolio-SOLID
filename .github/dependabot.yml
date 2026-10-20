@@ -1,0 +1,38 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+    groups:
+      solid:
+        patterns: [ "solid-js", "@solidjs/*", "vite-plugin-solid" ]
+      build:
+        patterns: [ "vite", "tailwindcss", "@tailwindcss/*", "lightningcss", "typescript" ]
+      lint:
+        patterns: [ "eslint", "@eslint/*", "typescript-eslint", "eslint-plugin-*", "globals" ]
+      test:
+        patterns: [ "vitest", "@testing-library/*", "jsdom", "@playwright/test" ]
+      minor-and-patch:
+        update-types: [ "minor", "patch" ]
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    ignore:
+      # Node 25 and later no longer ship Corepack, which the Dockerfile enables to get pnpm.
+      - dependency-name: "node"
+        versions: [ ">=25" ]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
