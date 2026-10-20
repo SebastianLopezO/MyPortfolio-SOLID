@@ -1,0 +1,3 @@
+# The inline scripts of index.html are allowed by their SHA-256 hash in the CSP (nginx/security-headers.conf), so a
+# checkout must not turn its line endings into CRLF, or the built page would carry a different, blocked script.
+index.html text eol=lf
