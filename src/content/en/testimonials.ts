@@ -1,0 +1,127 @@
+import type {Content} from "@/types/content";
+
+export const testimonials: Content["testimonials"] = {
+    title: "What My Colleagues Say",
+    subtitle: {
+        general: "Sixteen LinkedIn recommendations from managers, teammates and classmates",
+        backend: "Sixteen LinkedIn recommendations; those from people who worked with me on integrations and development come first",
+        crm: "Sixteen LinkedIn recommendations; those from the CRM, marketing and sales teams come first",
+        data: "Sixteen LinkedIn recommendations; those about my work with data come first",
+        devops: "Sixteen LinkedIn recommendations; those from people who saw me solve infrastructure problems come first",
+        fullstack: "Sixteen LinkedIn recommendations; those from people who built products with me come first",
+    },
+    translatedNote: "Translated from Spanish",
+    showOriginal: "Show original",
+    previous: "Previous recommendations",
+    next: "Next recommendations",
+    stats: {
+        total: "Recommendations",
+        supervisors: "From supervisors",
+        teammates: "From teammates",
+    },
+    relationships: {
+        directSupervisor: "Direct supervisor",
+        seniorPosition: "Senior colleague",
+        sameTeam: "Same team",
+        differentTeam: "Different team",
+        classmate: "Classmate",
+    },
+    items: {
+        paulaVega: {
+            role: "E-Commerce & Digital Marketing Specialist",
+            context: "CRM · Loyalty · Digital channels",
+            highlight: "Collaborative",
+            quote: "I had the opportunity to work with him, and I can say with complete confidence that he is an exceptional professional. His technical ability, commitment and skill at finding solutions make him someone who has a great impact on every project he leads or takes part in. Beyond his knowledge, I highlight his willingness to help others and share his experience. He is always ready to support the team, tackle challenges with a proactive attitude and contribute ideas that add value. He is extremely diligent, responsible and focused on meeting goals without losing sight of the quality of his work. Working with him has been a very enriching experience, both for his professionalism and for his human quality. Without a doubt, I recommend him to any organization looking for a highly competent, collaborative professional committed to excellence.",
+        },
+        cesarPedrolini: {
+            role: "Senior Zoho CRM Consultant",
+            context: "TIVENOS",
+            highlight: "Committed",
+            quote: "I have the opportunity to work with Sebastián at Tivenos, and I can highlight his commitment, his sense of responsibility and his very good attitude toward everyday challenges. Without a doubt, he is a profile with a lot of potential and an excellent person to add to any development team.",
+        },
+        lautaroBordoni: {
+            role: "Zoho CRM Expert Consultant",
+            context: "Education solutions",
+            highlight: "Reliable",
+            quote: "Sebastián performs very well within the team. He is reliable, works steadily and can move his tasks forward without much follow-up. Technically, he solves problems well and the quality of his deliveries keeps improving. He also takes feedback well and applies it, so he keeps growing steadily. Day to day, he has a great attitude, collaborates and is willing to help when needed. That adds a lot to the team and to the work environment.",
+        },
+        rodrigoSanchez: {
+            role: "IT team",
+            context: "TIVENOS",
+            highlight: "Problem solver",
+            quote: "Working with him on the IT team was an excellent experience. His technical knowledge is very broad, but the most important thing is how he approaches problems: no drama, calmly and always looking for solutions. One of those teammates who, when something breaks, you know will fix it. I recommend him without a doubt. And above all, he is an excellent person.",
+        },
+        felipeCamacho: {
+            role: "CMO",
+            context: "MarTech · Performance marketing",
+            highlight: "Well-rounded",
+            quote: "Working with Sebastián has been key for the team. He combines solid technical knowledge with a deep understanding of the business, which lets him propose viable, scalable solutions aligned with the goals. He translates business needs into architecture and concrete tasks, anticipates risks and prioritizes with good judgment. A complete and reliable profile.",
+        },
+        danielRodriguez: {
+            role: "CEO",
+            context: "Adcom Group",
+            highlight: "Strategic vision",
+            quote: "I had the opportunity to work with Sebastián, and his professionalism and commitment stand out in every project. He combines excellent technical command of web development with a strategic vision that makes each solution not only work optimally, but also add real value to the business.",
+        },
+        valentinaQuiroz: {
+            role: "Content Strategy Lead",
+            context: "Digital marketing",
+            highlight: "Innovative",
+            quote: "I had the privilege of working alongside Sebastián on a team where his contribution was absolutely key to the development and growth of our projects. From the very beginning, he stood out for his broad technical knowledge as a developer, his intelligence and his constant willingness to propose innovative technology solutions. […] Sebastián contributes not only on the technical side but also on the human side: he is collaborative, empathetic and always willing to build together. […]",
+        },
+        mateoLondono: {
+            role: "Web Designer",
+            context: "WordPress & Figma",
+            highlight: "Talented",
+            quote: "I was lucky to work with Sebastián in the IT area, and it's no exaggeration to say he is one of the most passionate and talented people I have met in software development. His technical knowledge is impressive, and his ability to find solutions even in the most complex scenarios made him a key member of the team. Beyond his intelligence and skills, Sebastián is a great teammate: noble, empathetic and always willing to listen. […]",
+        },
+        danielaBolivar: {
+            role: "Global Business Development Manager",
+            context: "International education",
+            highlight: "Proactive",
+            quote: "Sebastián is very intelligent, proactive and always looking for solutions, curious and investigative. It's wonderful to work with Sebas: you throw him one ball and he gives you back three. He is excellent at what he does, loyal and with character.",
+        },
+        kellyMejia: {
+            role: "Business Administration Professional",
+            context: "Commercial processes",
+            highlight: "Diligent",
+            quote: "I highly recommend Sebastián López. He is a diligent, proactive professional with a great ability to deliver solutions that meet the needs of each area. He stands out for his excellent teamwork, effective communication and ability to prioritize tasks efficiently, ensuring quality results on tight timelines. His commitment and creativity make him a valuable asset to any organization.",
+        },
+        darwinCastano: {
+            role: "Software Developer",
+            context: "Python · Java · React",
+            highlight: "Role model",
+            quote: "Sebastián is an exceptional classmate with whom I'm lucky to share the same university program. He always has an insatiable curiosity to learn new things and guides us through the process. In projects, he is our reference for his experience and his ability to work as a team. His comments and feedback are always precise and valuable.",
+        },
+        jenniferTuso: {
+            role: "Customer Experience Director",
+            context: "Customer experience",
+            highlight: "Self-taught",
+            quote: "Sebastián is very restless and committed to learning continuously and on his own, which lets him help solve the company's problems on his own initiative. He is very people-oriented and acts as a facilitator in the continuous improvement of both individual and team processes.",
+        },
+        tatianaDiaz: {
+            role: "Communications & Marketing Specialist",
+            context: "Digital marketing",
+            highlight: "Curious",
+            quote: "Sebastián is an outstanding collaborator in terms of innovation and proactivity. His curious instinct leads him to propose solutions beyond what is expected, which is very beneficial for any project he takes on. He also has strong data analysis skills, which allow proper traceability and follow-up of information.",
+        },
+        emmanuelBerrio: {
+            role: "Full-Stack Developer",
+            context: "C# · React · Node.js",
+            highlight: "Exceptional",
+            quote: "It's a pleasure to recommend Sebastián López Osorno as an exceptional data analyst. […] Sebastián has a deep understanding of datasets and an innate ability to identify meaningful patterns and trends. His meticulous approach and attention to detail have been fundamental to our team's success. […] I have no doubt Sebastián will keep excelling in his career […].",
+        },
+        franciscoCadavid: {
+            role: "Process Analyst",
+            context: "Quipux",
+            highlight: "Talented",
+            quote: "A talented young professional eager to keep learning.",
+        },
+        lauraGarcia: {
+            role: "Digital Marketing",
+            context: "Digital strategy",
+            highlight: "Responsible",
+            quote: "Sebastián stands out for his remarkable innovation, always pursuing effective and efficient solutions to challenges. His proactivity and responsibility in the tasks under his charge are admirable, and his contribution to teamwork is assertive and valuable.",
+        },
+    },
+};

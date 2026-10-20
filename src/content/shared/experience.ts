@@ -1,0 +1,55 @@
+import type {ExperienceFacts} from "@/types/content";
+
+export const experience: ExperienceFacts[] = [
+    {
+        id: "tivenos",
+        company: "TIVENOS – Solutions for Education",
+        start: "2025-06",
+        end: null,
+        location: "Medellín, Colombia",
+        workMode: "remote",
+        employment: "freelance",
+        organization: "tivenos",
+        tech: [
+            "FastAPI", "Python", "Pydantic", "uv", "PostgreSQL", "SQL Server", "SOAP", "Zeep", "OAuth 2.0", "Zoho CRM", "Deluge",
+            "Zoho Analytics", "Zoho Forms", "Zoho WorkDrive", "React", "Vite", "JavaScript", "jQuery", "Jinja2", "Docker", "GHCR",
+            "GitHub Actions", "Azure", "Linux", "Nginx", "OpenTelemetry", "Prometheus", "Grafana", "Loki", "Tempo",
+        ],
+    },
+    {
+        id: "adcom",
+        company: "ADCOM GROUP",
+        start: "2025-02",
+        end: null,
+        location: "Medellín, Colombia",
+        workMode: "remote",
+        organization: "adcom",
+        tech: [
+            "Zoho CRM", "Zoho One", "Deluge", "Zoho Creator", "Zoho Forms", "React", "TypeScript", "Vite", "Tailwind CSS", "Java",
+            "Spring Boot", "Thymeleaf", "Python", "FastAPI", "Jinja2", "PostgreSQL", "Amazon SES", "Amazon SNS", "WhatsApp API",
+            "Meta Ads", "Google Ads", "Google Tag Manager", "Typeform", "Shopify", "Dapta", "n8n", "Docker", "GitHub Actions", "Nginx",
+            "Linux", "Prometheus", "Nagios", "Lighthouse",
+        ],
+    },
+    {
+        id: "muvu",
+        company: "MUV-U S.A.S",
+        start: "2023-07",
+        end: "2025-01",
+        location: "Sabaneta, Colombia",
+        workMode: "hybrid",
+        employment: "fullTime",
+        tech: ["Power BI", "DAX", "SQL", "Python", "Zoho CRM", "Excel", "Data Modeling", "ETL", "Web Development", "Linux", "IT Support"],
+    },
+    {
+        id: "quipux",
+        company: "Quipux S.A.S",
+        start: "2022-08",
+        end: "2023-05",
+        location: "Medellín, Colombia",
+        workMode: "hybrid",
+        employment: "internship",
+        organization: "testlabdata",
+        tech: ["Python", "Pandas", "NumPy", "Jupyter", "SQL", "ETL", "Excel", "Data Visualization", "Batch scripting"],
+    },
+];
