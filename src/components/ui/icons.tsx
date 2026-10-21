@@ -14,6 +14,7 @@ export interface IconProps {
 
 /** Every icon is decorative: the control or text next to it carries the name, so it is hidden from assistive tech. */
 function Icon(props: { name: string; class?: string; children: JSX.Element }) {
+    // A name may carry Lucide's alias classes after it, as "folder-git2 lucide-folder-git-2" does.
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +158,7 @@ export const Flag = (props: IconProps) => (
 );
 
 export const FolderGit2 = (props: IconProps) => (
-    <Icon name="folder-git-2" class={props.class}>
+    <Icon name="folder-git2 lucide-folder-git-2" class={props.class}>
         <path d="M18 19a5 5 0 0 1-5-5v8"/>
         <path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5"/>
         <circle cx="13" cy="12" r="2"/>

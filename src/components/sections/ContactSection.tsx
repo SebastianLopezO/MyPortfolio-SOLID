@@ -143,7 +143,7 @@ export function ContactSection() {
                     <div>
                         <label for="contact-message"
                                class="mb-2 block text-sm font-semibold text-fg">{contact.form.message}</label>
-                        <Textarea id="contact-message" name="message" rows={5} required value={form().message}
+                        <Textarea id="contact-message" name="message" rows={5} required prop:value={form().message}
                                   placeholder={contact.placeholders.message}
                                   onInput={update("message")}/>
                     </div>

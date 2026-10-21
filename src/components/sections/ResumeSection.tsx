@@ -13,6 +13,8 @@ import type {ResumeId} from "@/types/content";
 /** Sheets drawn behind the preview, one per extra page, so the stack shows how long the document is. */
 const MAX_SHEETS = 4;
 const SHEET_OFFSET = 10;
+/** A length in px, with zero written bare as the stylesheet would. */
+const px = (value: number) => (value === 0 ? "0" : `${value}px`);
 
 export function ResumeSection() {
     const {lang, content} = useLanguage();
@@ -109,8 +111,8 @@ export function ResumeSection() {
                     rel="noopener noreferrer"
                     class="relative mx-auto block w-full max-w-[28rem]"
                     style={{
-                        "padding-right": `${sheets() * SHEET_OFFSET}px`,
-                        "padding-bottom": `${sheets() * SHEET_OFFSET}px`,
+                        "padding-right": px(sheets() * SHEET_OFFSET),
+                        "padding-bottom": px(sheets() * SHEET_OFFSET),
                     }}
                 >
                     {/* The other pages, stacked behind the first one. */}
@@ -120,10 +122,10 @@ export function ResumeSection() {
                                   class="absolute rounded-lg border border-border-strong bg-fg shadow-card"
                                   style={{
                                       opacity: 0.85 - depth * 0.12,
-                                      top: `${depth * SHEET_OFFSET}px`,
-                                      left: `${depth * SHEET_OFFSET}px`,
-                                      right: `${(sheets() - depth) * SHEET_OFFSET}px`,
-                                      bottom: `${(sheets() - depth) * SHEET_OFFSET}px`,
+                                      top: px(depth * SHEET_OFFSET),
+                                      left: px(depth * SHEET_OFFSET),
+                                      right: px((sheets() - depth) * SHEET_OFFSET),
+                                      bottom: px((sheets() - depth) * SHEET_OFFSET),
                                   }}
                             />
                         )}
