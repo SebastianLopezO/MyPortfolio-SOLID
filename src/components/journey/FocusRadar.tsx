@@ -52,7 +52,8 @@ export function FocusRadar() {
     return (
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
             <div>
-                <svg viewBox={`0 0 ${SIZE} ${SIZE}`} class="mx-auto block h-auto w-full max-w-130 font-sans" aria-hidden="true">
+                <svg viewBox={`0 0 ${SIZE} ${SIZE}`} class="mx-auto block h-auto w-full max-w-130 font-sans"
+                     aria-hidden="true">
                     <For each={[...RADAR_RINGS].reverse()}>
                         {(ring) => (
                             <circle cx={CENTER} cy={CENTER} r={RING_OUTER[ring]} fill="var(--color-surface)"
@@ -138,11 +139,11 @@ export function FocusRadar() {
                                                 )}
                                             >
                                                 <span aria-hidden="true"
-                                                    class={cn(
-                                                        "grid size-5 shrink-0 place-items-center rounded-full font-mono text-[10px] font-semibold",
-                                                        item.ring === "paused" ? "text-fg" : "text-bg",
-                                                    )}
-                                                    style={{background: RING_FILL[item.ring]}}
+                                                      class={cn(
+                                                          "grid size-5 shrink-0 place-items-center rounded-full font-mono text-[10px] font-semibold",
+                                                          item.ring === "paused" ? "text-fg" : "text-bg",
+                                                      )}
+                                                      style={{background: RING_FILL[item.ring]}}
                                                 >
                                                     {index() + 1}
                                                 </span>
@@ -160,7 +161,8 @@ export function FocusRadar() {
                     <For each={RADAR_RINGS}>
                         {(ring) => (
                             <li class="inline-flex items-center gap-1.5">
-                                <span aria-hidden="true" class="size-3 rounded-full" style={{background: RING_FILL[ring]}}/>
+                                <span aria-hidden="true" class="size-3 rounded-full"
+                                      style={{background: RING_FILL[ring]}}/>
                                 {radar.rings[ring].label}
                             </li>
                         )}

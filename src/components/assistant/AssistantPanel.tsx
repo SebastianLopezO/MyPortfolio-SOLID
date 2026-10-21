@@ -154,7 +154,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                      class="flex-1 space-y-4 overflow-y-auto overscroll-contain px-5 py-5">
                     <For each={messages()}>{(message) => (
                         <div
-                             class={message.from === "user" ? "flex justify-end" : "flex justify-start"}>
+                            class={message.from === "user" ? "flex justify-end" : "flex justify-start"}>
                             <div
                                 class={
                                     message.from === "user"
@@ -171,7 +171,8 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                                 </Show>
                                 <Show when={message.answer && message.answer.links.length > 0}>
                                     <ul class="mt-3 flex flex-wrap gap-2">
-                                        <For each={message.answer!.links}>{(link) => <li><AnswerLinkView link={link}/></li>}</For>
+                                        <For each={message.answer!.links}>{(link) => <li><AnswerLinkView link={link}/>
+                                        </li>}</For>
                                     </ul>
                                 </Show>
                             </div>

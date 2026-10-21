@@ -13,7 +13,10 @@ const solidIslands = () => {
     const setup = integration.hooks["astro:config:setup"];
     integration.hooks["astro:config:setup"] = (options) => setup({
         ...options,
-        addRenderer: (renderer) => options.addRenderer({...renderer, clientEntrypoint: path.resolve(import.meta.dirname, "src/islands/client.ts").replaceAll("\\", "/")}),
+        addRenderer: (renderer) => options.addRenderer({
+            ...renderer,
+            clientEntrypoint: path.resolve(import.meta.dirname, "src/islands/client.ts").replaceAll("\\", "/")
+        }),
     });
     return integration;
 };

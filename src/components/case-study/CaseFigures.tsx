@@ -22,7 +22,7 @@ export function CaseFigures(props: CaseFiguresProps) {
         <dl class={cn("grid grid-cols-2 gap-3", !props.compact && "sm:grid-cols-4", props.class)}>
             <For each={props.figures}>{(figure) => (
                 <div
-                     class={cn("flex flex-col-reverse rounded-lg border border-border bg-surface", props.compact ? "p-3" : "p-4")}>
+                    class={cn("flex flex-col-reverse rounded-lg border border-border bg-surface", props.compact ? "p-3" : "p-4")}>
                     <dt class="text-sm text-fg-muted">{props.labels[figure.id]}</dt>
                     <dd class={cn("font-display text-primary", props.compact ? "text-2xl" : "text-3xl")}>{formatFigure(figure, props.locale)}</dd>
                 </div>

@@ -48,7 +48,10 @@ function ProjectCrumbs(props: { current?: string }) {
     const items = () => {
         const home = {label: content.ui.home, to: pathFor(role(), "projects")};
         return props.current
-            ? [home, {label: ui.indexTitle, to: buildProjectPath(lang, {from: role(), locked: locked()})}, {label: props.current}]
+            ? [home, {
+                label: ui.indexTitle,
+                to: buildProjectPath(lang, {from: role(), locked: locked()})
+            }, {label: props.current}]
             : [home, {label: ui.indexTitle}];
     };
     return <PageTrail label={ui.breadcrumb} items={items()}/>;
@@ -63,30 +66,30 @@ function ProjectLinks(props: { links: { demo?: string; code?: string }; privateL
                 {props.privateLabel}
             </p>
         }>
-        <div class="flex flex-wrap gap-3">
-            <Show when={props.links.demo}>
-                <a
-                    href={props.links.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
-                >
-                    <ExternalLink class="size-4"/>
-                    {ui.liveDemo}
-                </a>
-            </Show>
-            <Show when={props.links.code}>
-                <a
-                    href={props.links.code}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary"
-                >
-                    <GithubIcon class="size-4"/>
-                    {ui.viewCode}
-                </a>
-            </Show>
-        </div>
+            <div class="flex flex-wrap gap-3">
+                <Show when={props.links.demo}>
+                    <a
+                        href={props.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
+                    >
+                        <ExternalLink class="size-4"/>
+                        {ui.liveDemo}
+                    </a>
+                </Show>
+                <Show when={props.links.code}>
+                    <a
+                        href={props.links.code}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary"
+                    >
+                        <GithubIcon class="size-4"/>
+                        {ui.viewCode}
+                    </a>
+                </Show>
+            </div>
         </Show>
     );
 }
@@ -203,66 +206,66 @@ function Related(props: { id: ProjectId; sectionId: string }) {
 
     return (
         <Show when={places().length > 0 || certified.length > 0}>
-        <TextSection id={props.sectionId} title={ui.title}>
-            <div class="space-y-10">
-                <Show when={places().length > 0}>
-                    <div>
-                        <h3 class="mb-4 font-semibold text-fg">{ui.places}</h3>
-                        <LinkRows items={places()}/>
-                    </div>
-                </Show>
-                <Show when={certified.length > 0}>
-                    <div>
-                        <h3 class="mb-4 font-semibold text-fg">{ui.certifications}</h3>
-                        <LinkRows items={certified.map((item) => ({
-                            key: item.id,
-                            to: detail("certifications", CERTIFICATION_SLUG[item.id]),
-                            label: `${formatYearMonth(item.date, content.ui.months)} · ${item.issuer}`,
-                            name: item.title,
-                        }))}/>
-                    </div>
-                </Show>
-                <Show when={siblings.length > 0 && place}>
-                    <div>
-                        <h3 class="mb-4 font-semibold text-fg">{ui.siblings.replace("{place}", place)}</h3>
-                        {/* Like the index: one card per view on phones, a grid from 48rem. */}
-                        <Carousel
-                            previousLabel={cards.slider.previous}
-                            nextLabel={cards.slider.next}
-                            slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] md:basis-auto"
-                            trackClass="md:grid md:snap-none md:grid-cols-2 md:overflow-visible xl:grid-cols-3"
-                            controlsClass="md:hidden"
-                            items={siblings}
-                        >
-                            {(sibling) => {
-                                const screens = projectImages(sibling);
-                                const screen = screens.find((image) => !shown.has(image.base)) ?? screens[0];
-                                return (
-                                    <Link
-                                        to={buildProjectPath(lang, {
-                                            slug: PROJECT_SLUG[sibling.id],
-                                            from: role(),
-                                            locked: locked()
-                                        })}
-                                        class="group block w-full overflow-hidden rounded-lg border border-border bg-surface hover:border-primary"
-                                    >
-                                        <Show when={screen}>
-                                            <CaseImage image={screen} alt="" bare
-                                                       sizes="(min-width: 80rem) 16rem, (min-width: 48rem) 45vw, 85vw"
-                                                       class={cn("aspect-[16/9]", screen.height > screen.width ? "object-contain" : "object-cover object-top")}/>
-                                        </Show>
-                                        <div class="p-4">
-                                            <p class="font-semibold text-fg group-hover:text-primary">{cards.items[sibling.id].name}</p>
-                                            <p class="mt-1 text-sm text-fg-muted">{cards.items[sibling.id].context}</p>
-                                        </div>
-                                    </Link>
-                                );
-                            }}
-                        </Carousel>
-                    </div>
-                </Show>
-            </div>
-        </TextSection>
+            <TextSection id={props.sectionId} title={ui.title}>
+                <div class="space-y-10">
+                    <Show when={places().length > 0}>
+                        <div>
+                            <h3 class="mb-4 font-semibold text-fg">{ui.places}</h3>
+                            <LinkRows items={places()}/>
+                        </div>
+                    </Show>
+                    <Show when={certified.length > 0}>
+                        <div>
+                            <h3 class="mb-4 font-semibold text-fg">{ui.certifications}</h3>
+                            <LinkRows items={certified.map((item) => ({
+                                key: item.id,
+                                to: detail("certifications", CERTIFICATION_SLUG[item.id]),
+                                label: `${formatYearMonth(item.date, content.ui.months)} · ${item.issuer}`,
+                                name: item.title,
+                            }))}/>
+                        </div>
+                    </Show>
+                    <Show when={siblings.length > 0 && place}>
+                        <div>
+                            <h3 class="mb-4 font-semibold text-fg">{ui.siblings.replace("{place}", place)}</h3>
+                            {/* Like the index: one card per view on phones, a grid from 48rem. */}
+                            <Carousel
+                                previousLabel={cards.slider.previous}
+                                nextLabel={cards.slider.next}
+                                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] md:basis-auto"
+                                trackClass="md:grid md:snap-none md:grid-cols-2 md:overflow-visible xl:grid-cols-3"
+                                controlsClass="md:hidden"
+                                items={siblings}
+                            >
+                                {(sibling) => {
+                                    const screens = projectImages(sibling);
+                                    const screen = screens.find((image) => !shown.has(image.base)) ?? screens[0];
+                                    return (
+                                        <Link
+                                            to={buildProjectPath(lang, {
+                                                slug: PROJECT_SLUG[sibling.id],
+                                                from: role(),
+                                                locked: locked()
+                                            })}
+                                            class="group block w-full overflow-hidden rounded-lg border border-border bg-surface hover:border-primary"
+                                        >
+                                            <Show when={screen}>
+                                                <CaseImage image={screen} alt="" bare
+                                                           sizes="(min-width: 80rem) 16rem, (min-width: 48rem) 45vw, 85vw"
+                                                           class={cn("aspect-[16/9]", screen.height > screen.width ? "object-contain" : "object-cover object-top")}/>
+                                            </Show>
+                                            <div class="p-4">
+                                                <p class="font-semibold text-fg group-hover:text-primary">{cards.items[sibling.id].name}</p>
+                                                <p class="mt-1 text-sm text-fg-muted">{cards.items[sibling.id].context}</p>
+                                            </div>
+                                        </Link>
+                                    );
+                                }}
+                            </Carousel>
+                        </div>
+                    </Show>
+                </div>
+            </TextSection>
         </Show>
     );
 }
@@ -528,18 +531,18 @@ function ProjectPage(props: { slug: ProjectSlug }) {
                         </Show>
                         <Show when={repositories.length > 0 && facts.repositories}>
                             {(source) => (
-                            <TextSection id="project-repositories" title={pages.ui.repositories}>
-                                <RepositoryList entries={repositories} note={pages.ui.repositoriesNote}/>
-                                <a
-                                    href={archiveOrgUrl(source().org)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="mt-4 inline-flex min-h-9 items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover"
-                                >
-                                    <GithubIcon class="size-4"/>
-                                    {pages.ui.organization}: {source().org}
-                                </a>
-                            </TextSection>
+                                <TextSection id="project-repositories" title={pages.ui.repositories}>
+                                    <RepositoryList entries={repositories} note={pages.ui.repositoriesNote}/>
+                                    <a
+                                        href={archiveOrgUrl(source().org)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="mt-4 inline-flex min-h-9 items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover"
+                                    >
+                                        <GithubIcon class="size-4"/>
+                                        {pages.ui.organization}: {source().org}
+                                    </a>
+                                </TextSection>
                             )}
                         </Show>
                         <TextSection id="project-stack" title={pages.ui.stack}>

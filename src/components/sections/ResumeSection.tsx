@@ -58,7 +58,8 @@ export function ResumeSection() {
                         </li>
                         <li>{copy().format}</li>
                         <Show when={version().updated}>
-                            {(updated) => <li>{resume.updated.replace("{date}", formatDay(updated(), content.locale))}</li>}
+                            {(updated) =>
+                                <li>{resume.updated.replace("{date}", formatDay(updated(), content.locale))}</li>}
                         </Show>
                     </ul>
                     <h3 class="mt-6 font-mono text-xs uppercase tracking-wider text-fg-subtle">{resume.includesTitle}</h3>

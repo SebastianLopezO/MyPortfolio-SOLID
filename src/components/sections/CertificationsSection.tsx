@@ -1,4 +1,4 @@
-import {createMemo, createSignal, Show, For} from "solid-js";
+import {createMemo, createSignal, For, Show} from "solid-js";
 import {ArrowRight, ExternalLink} from "@/components/ui/icons";
 import {forProfile} from "@/content/roles";
 import {certifications} from "@/content/shared/certifications";

@@ -41,7 +41,9 @@ export function ContactSection() {
             window.open(whatsappUrl(contact.whatsappIntro, form()), "_blank", "noopener,noreferrer");
         }
     };
-    const update = (field: "name" | "email" | "message") => (event: InputEvent & { currentTarget: HTMLInputElement | HTMLTextAreaElement }) =>
+    const update = (field: "name" | "email" | "message") => (event: InputEvent & {
+        currentTarget: HTMLInputElement | HTMLTextAreaElement
+    }) =>
         setForm((current) => ({...current, [field]: event.currentTarget.value}));
 
     const copyEmail = async () => {

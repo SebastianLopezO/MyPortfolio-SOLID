@@ -262,28 +262,28 @@ export function JourneyMap(props: JourneyMapProps) {
                     {showList() ? copy.map.listToggle.hide : copy.map.listToggle.show}
                 </button>
                 <Show when={showList()}>
-                <ol id="journey-list" class="mt-3 grid gap-2 sm:grid-cols-2">
-                    <For each={STATIONS}>{({id}) => {
-                        const milestone = BY_ID.get(id)!;
-                        return (
-                            <li>
-                                <button
-                                    type="button"
-                                    aria-pressed={id === props.selected}
-                                    onClick={() => props.onSelect(id)}
-                                    class={cn(
-                                        "flex w-full items-start gap-3 rounded-md border px-3 py-2 text-left text-sm",
-                                        id === props.selected ? "border-primary bg-surface-raised" : "border-border hover:border-border-strong",
-                                    )}
-                                >
+                    <ol id="journey-list" class="mt-3 grid gap-2 sm:grid-cols-2">
+                        <For each={STATIONS}>{({id}) => {
+                            const milestone = BY_ID.get(id)!;
+                            return (
+                                <li>
+                                    <button
+                                        type="button"
+                                        aria-pressed={id === props.selected}
+                                        onClick={() => props.onSelect(id)}
+                                        class={cn(
+                                            "flex w-full items-start gap-3 rounded-md border px-3 py-2 text-left text-sm",
+                                            id === props.selected ? "border-primary bg-surface-raised" : "border-border hover:border-border-strong",
+                                        )}
+                                    >
                                     <span
                                         class="w-20 shrink-0 font-mono text-xs text-fg-subtle">{formatYearMonth(milestone.start, ui.months)}</span>
-                                    <span class="text-fg">{copy.milestones[id].title}</span>
-                                </button>
-                            </li>
-                        );
-                    }}</For>
-                </ol>
+                                        <span class="text-fg">{copy.milestones[id].title}</span>
+                                    </button>
+                                </li>
+                            );
+                        }}</For>
+                    </ol>
                 </Show>
             </div>
         </div>

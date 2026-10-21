@@ -33,7 +33,11 @@ export const headFor = (route: Route) => {
     }
     if (route.kind === "detail") {
         const copy = content.lang === "es" ? esDetails : enDetails;
-        return renderHeadTags(detailHead(content, {copy, about: content.about, certifications: content.certifications}, route.collection, route.slug));
+        return renderHeadTags(detailHead(content, {
+            copy,
+            about: content.about,
+            certifications: content.certifications
+        }, route.collection, route.slug));
     }
     return renderHeadTags(buildHead(content, route.role));
 };

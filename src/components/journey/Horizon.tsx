@@ -51,7 +51,8 @@ export function Horizon(props: { onSelectMilestone: (id: MilestoneId) => void })
                                             <span
                                                 class="font-mono text-xs text-fg-subtle">{copy.horizon.sdgShort}</span>
                                             <For each={goals()}>
-                                                {(goal) => <SdgBadge id={goal} label={copy.horizon.sdgs[goal].name} compact/>}
+                                                {(goal) => <SdgBadge id={goal} label={copy.horizon.sdgs[goal].name}
+                                                                     compact/>}
                                             </For>
                                         </div>
                                     )}

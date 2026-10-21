@@ -105,7 +105,8 @@ export function CaseImages(props: CaseImagesProps) {
                         {(image) => (
                             <figure>
                                 <Enlargeable image={image} label={props.enlargeLabel}>
-                                    <CaseImage image={image} alt={props.alts[image.id]} sizes="(min-width: 640px) 15rem, 30vw"/>
+                                    <CaseImage image={image} alt={props.alts[image.id]}
+                                               sizes="(min-width: 640px) 15rem, 30vw"/>
                                 </Enlargeable>
                                 <Caption image={image} recreationLabel={props.recreationLabel}/>
                             </figure>

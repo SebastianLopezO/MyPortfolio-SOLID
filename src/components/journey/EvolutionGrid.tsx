@@ -119,7 +119,8 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                                 class={cn("px-1 font-mono text-xs font-normal", year > BUILD_YEAR ? "text-fg-subtle" : "text-fg-muted")}>
                                 {year}
                                 <Show when={year === BUILD_YEAR + 1}>
-                                    <span class="block text-[10px] uppercase tracking-wider">{copy.evolution.target}</span>
+                                    <span
+                                        class="block text-[10px] uppercase tracking-wider">{copy.evolution.target}</span>
                                 </Show>
                             </th>
                         )}</For>
@@ -209,7 +210,8 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                     {copy.areas[focus().area]} · <span class="text-primary">{copy.levels[level()]}</span>
                 </p>
                 <p class="mt-3 text-sm font-semibold text-fg-muted">{copy.evolution.evidence}</p>
-                <Show when={evidence().length} fallback={<p class="mt-2 text-sm text-fg-subtle">{copy.evolution.noEvidence}</p>}>
+                <Show when={evidence().length}
+                      fallback={<p class="mt-2 text-sm text-fg-subtle">{copy.evolution.noEvidence}</p>}>
                     <ul class="mt-2 flex flex-wrap gap-2">
                         <For each={evidence()}>{(id) => (
                             <li>

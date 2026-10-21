@@ -1,4 +1,15 @@
-import {type Accessor, createEffect, createSignal, createUniqueId, For, type JSX, on, onCleanup, onMount, Show} from "solid-js";
+import {
+    type Accessor,
+    createEffect,
+    createSignal,
+    createUniqueId,
+    For,
+    type JSX,
+    on,
+    onCleanup,
+    onMount,
+    Show
+} from "solid-js";
 import {ChevronLeft, ChevronRight} from "@/components/ui/icons";
 import {cn} from "@/lib/utils";
 

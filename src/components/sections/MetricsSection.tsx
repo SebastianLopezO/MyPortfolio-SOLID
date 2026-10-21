@@ -145,16 +145,17 @@ export function MetricsSection() {
                     <p class="mt-1 text-sm text-fg-subtle">{fill(metrics.languages.note, {hours: number(codingHours)})}</p>
                     <p class="mt-4 flex gap-5 text-xs text-fg-muted">
                         <span class="inline-flex items-center gap-2"><span aria-hidden="true"
-                                                                               class="h-2 w-5 rounded-full bg-primary"/>{metrics.languages.byCommits}</span>
+                                                                           class="h-2 w-5 rounded-full bg-primary"/>{metrics.languages.byCommits}</span>
                         <span class="inline-flex items-center gap-2"><span aria-hidden="true"
-                                                                               class="h-2 w-5 rounded-full bg-chart-3"/>{metrics.languages.byHours}</span>
+                                                                           class="h-2 w-5 rounded-full bg-chart-3"/>{metrics.languages.byHours}</span>
                     </p>
                     <ul class="mt-4 space-y-3.5">
                         <For each={LANGUAGES}>{(language) => (
                             <li class="grid grid-cols-[6rem_1fr] items-center gap-3 text-sm">
                                 <span translate="no" class="font-mono text-fg-muted">{language.name}</span>
                                 <div class="space-y-1.5">
-                                    <For each={[["commits", language.commits, "bg-primary"], ["hours", language.hours, "bg-chart-3"]] as const}>{([kind, value, color]) => (
+                                    <For
+                                        each={[["commits", language.commits, "bg-primary"], ["hours", language.hours, "bg-chart-3"]] as const}>{([kind, value, color]) => (
                                         <div class="grid grid-cols-[1fr_3.25rem] items-center gap-2">
                                             <span aria-hidden="true"
                                                   class="h-2 overflow-hidden rounded-full bg-surface-raised">
@@ -186,7 +187,8 @@ export function MetricsSection() {
                         return (
                             <li
                                 class="grid grid-cols-[3.25rem_1fr] items-center gap-x-3 lg:flex lg:flex-col lg:items-stretch">
-                                <div aria-hidden="true" class="hidden h-28 items-end rounded-md bg-surface-raised lg:flex">
+                                <div aria-hidden="true"
+                                     class="hidden h-28 items-end rounded-md bg-surface-raised lg:flex">
                                     <span class="w-full rounded-md bg-linear-to-t from-primary to-accent"
                                           style={{height: `${share}%`}}/>
                                 </div>

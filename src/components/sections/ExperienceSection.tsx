@@ -95,12 +95,14 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                     <div class="lg:col-start-2 lg:row-span-3 lg:row-start-1">
                         <Show when={bullets().visible.length > 0}>
                             <ul class="mt-4 space-y-2 text-fg-muted lg:mt-0">
-                                <For each={bullets().visible}>{(bullet) => <BulletItem bullet={bullet} role={props.role}/>}</For>
+                                <For each={bullets().visible}>{(bullet) => <BulletItem bullet={bullet}
+                                                                                       role={props.role}/>}</For>
                             </ul>
                         </Show>
                         <Show when={bullets().hidden.length > 0}>
                             <ul id={listId()} hidden={!expanded()} class="mt-2 space-y-2 text-fg-muted">
-                                <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet} role={props.role}/>}</For>
+                                <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
+                                                                                      role={props.role}/>}</For>
                             </ul>
                             <button
                                 type="button"
@@ -117,7 +119,8 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                     </div>
                 </Show>
 
-                <TechList tech={props.facts.tech} role={props.role} class="mt-5 lg:col-start-1 lg:row-start-2 lg:self-start"/>
+                <TechList tech={props.facts.tech} role={props.role}
+                          class="mt-5 lg:col-start-1 lg:row-start-2 lg:self-start"/>
 
                 <div class="mt-4 text-sm lg:col-start-1 lg:row-start-3 lg:self-start">
                     <Show when={related().length > 0}>
@@ -127,7 +130,11 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                                 {(id) => (
                                     <li>
                                         <Link
-                                            to={buildProjectPath(lang, {slug: PROJECT_SLUG[id], from: props.role, locked: locked()})}
+                                            to={buildProjectPath(lang, {
+                                                slug: PROJECT_SLUG[id],
+                                                from: props.role,
+                                                locked: locked()
+                                            })}
                                             class="inline-flex min-h-9 items-center gap-1 font-semibold text-primary hover:text-primary-hover"
                                         >
                                             {projectCopy.items[id].name}
