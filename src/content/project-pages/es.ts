@@ -90,7 +90,7 @@ export const projectPages: ProjectPagesCopy = {
             decisions: [
                 {
                     title: "Prerenderizar en vez de un servidor",
-                    problem: "Una aplicación de una sola página que se arma en el navegador llega vacía hasta que corre su JavaScript.",
+                    problem: "Una aplicación de React que se arma en el navegador llega vacía hasta que corre su JavaScript.",
                     solution: "Cada página se prerenderiza en el build, así que llega completa sin JavaScript y Nginx la sirve como archivo estático.",
                     tradeoff: "cada cambio de contenido exige un nuevo build y un despliegue.",
                 },
@@ -105,12 +105,6 @@ export const projectPages: ProjectPagesCopy = {
                     problem: "Un asistente conectado a un servicio externo podría contradecir la página y le enviaría las preguntas a terceros.",
                     solution: "Responde buscando en el mismo contenido del sitio, así que nunca contradice la página ni envía las preguntas a terceros.",
                     tradeoff: "solo sabe lo que la página sabe.",
-                },
-                {
-                    title: "SolidJS en vez de React",
-                    problem: "El runtime de React era la mayor parte del JavaScript de arranque, e hidratar volvía a ejecutar cada componente antes de que la página pudiera responder.",
-                    solution: "SolidJS compila cada vista a actualizaciones directas del DOM e hidrata el HTML prerenderizado en su lugar, así que el script de arranque pasó de 63 KB a menos de 10 KB comprimido y un cambio de rol solo toca lo que depende de él.",
-                    tradeoff: "cada elemento hidratado lleva una clave pequeña, lo que hace el HTML algo más pesado.",
                 },
             ],
             figures: {views: "vistas por rol", languages: "idiomas"},
@@ -141,7 +135,7 @@ export const projectPages: ProjectPagesCopy = {
                 project: "Una página de proyecto real de este portafolio, la del detector de enfermedades de lechuga, con su tablero de métricas, su ficha y sus cifras.",
             },
             seo: {
-                title: "MyPortfolio, este portafolio en SolidJS y TypeScript · Proyecto",
+                title: "MyPortfolio, este portafolio en React y TypeScript · Proyecto",
                 description: "Un portafolio bilingüe prerenderizado con vistas por rol, una página por proyecto, cifras de GitHub al día en cada build y un asistente local.",
             },
         },

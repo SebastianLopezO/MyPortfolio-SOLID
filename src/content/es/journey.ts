@@ -329,7 +329,7 @@ export const journey: JourneyCopy = {
                 note: "Para conectar sistemas académicos, heredados y de marketing."
             },
             spring: {name: "Java · Spring Boot", note: "APIs de SmartPot, PepperCRM y GoPoli."},
-            react: {name: "React · TypeScript", note: "PWAs, landing pages y widgets de CRM, al día para el trabajo full-stack."},
+            react: {name: "React · TypeScript", note: "PWAs y este portafolio, al día para el trabajo full-stack."},
             jobs: {
                 name: "Trabajos en segundo plano",
                 note: "Procesos largos que responden 202, evitan duplicados con una clave de idempotencia y dejan su estado consultable."

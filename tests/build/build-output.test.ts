@@ -272,7 +272,7 @@ describe("crawler files", () => {
 describe("decisions", () => {
     it("prerenders both sides of every decision and shows them without JavaScript", () => {
         const html = page("/en/projects/portfolio");
-        expect(html).toContain("A single-page app built in the browser arrives empty until its JavaScript runs.");
+        expect(html).toContain("A React app built in the browser arrives empty until its JavaScript runs.");
         expect(html).toContain("Every page is prerendered at build time");
         // The inactive panel carries the `hidden` class, which an unlayered !important rule can override.
         expect(html).toMatch(/<noscript>\s*<style>\[data-decision-panel]\.hidden\s*\{\s*display:\s*block\s*!important/);
