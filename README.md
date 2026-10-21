@@ -204,7 +204,10 @@ stored in the browser.
 ## Migration from React
 
 The SolidJS edition keeps the React edition's markup, classes, content, routes, prerender and tests; the components
-were ported one by one. What changed:
+were ported one by one. Comparing the prerendered HTML of all 182 pages and the 404 element by element against the React
+build (ignoring only Solid's `data-hk` keys, generated ids and hashed asset names) finds no difference in the head, the
+structured data, the text, the links or the attributes, and `page-dates.json` hashes every page as before, so the
+sitemap keeps its dates. The unit, build and end-to-end suites pass unchanged in what they check. What changed:
 
 - **Rendering.** `renderToString` from `solid-js/web` prerenders the pages and `hydrate` resumes them. Solid's
   `lazy` keeps a section's prerendered HTML until its chunk arrives, like React's Suspense did. The client entry sets
@@ -223,13 +226,16 @@ Measured on the same content (`pnpm build`, gzip level 9):
 |-------------------------------------------------|---------:|--------:|
 | Entry script                                    |  63.3 KB |  9.6 KB |
 | JavaScript before hydration on `/en`            |  91.3 KB | 39.8 KB |
-| Every JavaScript chunk                          | 359.2 KB | 327.0 KB |
-| First paint on `/en` (HTML up to the first section) | 17.0 KB | 17.0 KB |
-| Whole `/en` page                                |  59.7 KB | 67.3 KB |
-| Project page (`/en/projects/smartpot`)          |  23.2 KB | 24.5 KB |
+| Every JavaScript chunk                          | 359.2 KB | 326.6 KB |
+| First paint on `/en` (HTML up to the first section) | 17.0 KB | 17.2 KB |
+| Whole `/en` page                                |  59.7 KB | 67.4 KB |
+| Project page (`/en/projects/smartpot`)          |  23.2 KB | 24.6 KB |
 | `node_modules`                                  |   523 MB |   56 MB |
 
-The pages grow because Solid marks every hydratable element with a `data-hk` key; the first paint does not, and the
+Lighthouse (mobile, median of five local runs) moved from 96 to 97 on `/en` and from 94 to 99 on `/es/backend`, with
+total blocking time on the latter down from 292 to 86 ms; accessibility, best practices and SEO stay at 100.
+
+The pages grow because Solid marks every hydratable element with a `data-hk` key; the first paint barely does, and the
 JavaScript that has to download, parse and run before the page responds is less than half of what it was. Part of that
 saving is outside Solid: the hero's figures count the certifications and recommendations from
 `content/shared/counts.ts` instead of importing both lists, which a test keeps in step.
