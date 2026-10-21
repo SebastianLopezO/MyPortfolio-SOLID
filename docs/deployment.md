@@ -44,12 +44,12 @@ module, which the Dockerfile builds against the source of the image's own nginx 
 key) and loads in `nginx.conf`; the host needs nothing for it. Every response carries the headers in
 `nginx/security-headers.conf` (CSP, HSTS, `nosniff`, `SAMEORIGIN`, `Referrer-Policy`, `Permissions-Policy`, COOP).
 
-> The CSP runs no inline script it does not name by its SHA-256 hash, and no `eval`. The pages carry three inline
-> scripts (the role lock in `index.html`, the hydration loader from `scripts/prerender.ts`, which reads the entry's
-> hashed name from its `data-entry` attribute so its own text never changes, and the root's language redirect); the
-> build tests fail with the hash to add if one of them changes, even by a reformat. Solid's `HydrationScript` is not
-> rendered: the client entry (`src/main.tsx`) sets the empty hydration state it would leave, so hydrating adds no
-> inline script to allow. The GTM container holds only the
+> The CSP runs no inline script it does not name by its SHA-256 hash, and no `eval`. The pages carry six inline
+> scripts: the role lock (`src/layouts/Page.astro`), Astro's island runtime and the loaders of its `client:idle` and
+> `client:visible` directives, Solid's `HydrationScript`, which Astro writes before the first island, and the root's
+> language redirect (`scripts/postbuild.ts`). Each has the same text on every page, so one hash covers it; the build
+> tests fail with the hash to add if one of them changes, as an Astro or Solid update or a reformat of the lock can
+> do. The GTM container holds only the
 > Google tag. A Custom HTML tag or a Custom JavaScript variable added to it would need `'unsafe-inline'` or
 > `'unsafe-eval'` back, so check its browser console after publishing a container version.
 

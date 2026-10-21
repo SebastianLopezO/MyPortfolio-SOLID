@@ -43,12 +43,14 @@ the run also rewrites images that did not change; restore them with
 `pnpm test:dist` enforces them, gzipped: 110 KiB of JavaScript before hydration, 32 KiB per lazy chunk, 12 KiB per
 stylesheet, 24 KiB for everything the first paint needs (the head with its inlined styles, the hero and its figures,
 which then arrive within two TCP round trips) and 96 KiB per prerendered page (three round trips). Only the hero and the
-figures under it hydrate with the startup bundle:
-every other home section loads its code and its copy in chunks of its own (`components/sections/SectionSlot.tsx`,
-`content/sections.ts`), as the assistant and the project pages do. When a chunk crosses its budget, split it the
-same way.
+figures under it, the header and the assistant's launcher hydrate as soon as the page is idle (`client:idle` in
+`src/pages/[...path].astro`): every other home section is an island that loads its code and its copy in chunks of its
+own as it comes within 600 px of the screen (`client:visible`, `src/islands/parts.ts`, `content/sections.ts`). The
+body of a project or detail page is an idle island of its own, and the assistant's panel loads when it first opens.
+When a chunk crosses its budget, split it the same way.
 
 A section reads its copy synchronously, so its lazy chunk resolves only once that copy has arrived:
 `components/sections/section-loaders.ts` lists the copy each section reads, its own and the ones it borrows. A section
-that starts reading another section's copy must add it there, or it throws when it renders after navigation. Solid keeps
-a section's prerendered HTML in place until its chunk arrives and then hydrates it without re-creating the DOM.
+that starts reading another section's copy must add it there, or it throws when it hydrates. An island's code and copy
+load before Solid hydrates it (`src/islands/client.ts`), which then takes over its prerendered HTML without re-creating
+the DOM.

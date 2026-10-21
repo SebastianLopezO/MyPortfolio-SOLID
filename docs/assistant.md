@@ -8,7 +8,7 @@ contradict the portfolio.
 
 | Piece                                                                             | Where                                                             | Size (gzip) |
 |-----------------------------------------------------------------------------------|-------------------------------------------------------------------|-------------|
-| `AssistantLauncher`                                                               | main bundle                                                       | < 1 KB      |
+| `AssistantLauncher`                                                               | an island that hydrates when the page is idle                     | ~1.3 KB     |
 | `AssistantPanel` + engine (`lib/assistant/*`)                                     | lazy chunk                                                        | ~12 KB      |
 | `content/{en,es}/assistant.ts` copy, with the suggestions, follow-ups and catalog | lazy chunk per language                                           | ~5 KB       |
 | Section copy (`content/{en,es}/*.ts`)                                             | the chunks the home sections already load (`content/sections.ts`) | shared      |
