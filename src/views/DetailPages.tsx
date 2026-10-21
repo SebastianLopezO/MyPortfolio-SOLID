@@ -976,25 +976,25 @@ function CertificationPage(props: { slug: string }) {
         >
             <Show when={image}>
                 {(certificate) => (
-                <TextSection id="detail-certificate" title={ui.certificate.title}>
-                    <figure class={cn(certificate().height > certificate().width ? "max-w-sm" : "max-w-3xl")}>
-                        {/* The largest variant opens in a new tab, so the small print can be read. */}
-                        <a href={widestVariant(certificate())} target="_blank" rel="noopener noreferrer"
-                           class="block rounded-lg hover:opacity-90">
-                            <CaseImage
-                                image={certificate()}
-                                alt={fill(ui.certificate.alt, {title: facts.title, issuer: facts.issuer})}
-                                sizes="(min-width: 80rem) 48rem, 90vw"
-                                eager
-                            />
-                            <span class="sr-only"> ({ui.certificate.enlarge})</span>
-                        </a>
-                        <figcaption class="mt-2 text-sm text-fg-subtle">
-                            {fill(ui.certificate.caption, {issuer: facts.issuer})}
-                            {certificate().redacted && ` ${ui.certificate.redacted}`}
-                        </figcaption>
-                    </figure>
-                </TextSection>
+                    <TextSection id="detail-certificate" title={ui.certificate.title}>
+                        <figure class={cn(certificate().height > certificate().width ? "max-w-sm" : "max-w-3xl")}>
+                            {/* The largest variant opens in a new tab, so the small print can be read. */}
+                            <a href={widestVariant(certificate())} target="_blank" rel="noopener noreferrer"
+                               class="block rounded-lg hover:opacity-90">
+                                <CaseImage
+                                    image={certificate()}
+                                    alt={fill(ui.certificate.alt, {title: facts.title, issuer: facts.issuer})}
+                                    sizes="(min-width: 80rem) 48rem, 90vw"
+                                    eager
+                                />
+                                <span class="sr-only"> ({ui.certificate.enlarge})</span>
+                            </a>
+                            <figcaption class="mt-2 text-sm text-fg-subtle">
+                                {fill(ui.certificate.caption, {issuer: facts.issuer})}
+                                {certificate().redacted && ` ${ui.certificate.redacted}`}
+                            </figcaption>
+                        </figure>
+                    </TextSection>
                 )}
             </Show>
             <TextSection id="detail-earned" title={ui.sections.earned}>
@@ -1522,10 +1522,12 @@ export function DetailBody(props: { collection: DetailCollection; slug: string |
     return (
         <Switch>
             <Match when={props.collection === "experience"}>
-                <Show when={props.slug} keyed fallback={<ExperienceIndex/>}>{(slug) => <ExperiencePage slug={slug}/>}</Show>
+                <Show when={props.slug} keyed fallback={<ExperienceIndex/>}>{(slug) => <ExperiencePage
+                    slug={slug}/>}</Show>
             </Match>
             <Match when={props.collection === "education"}>
-                <Show when={props.slug} keyed fallback={<EducationIndex/>}>{(slug) => <EducationPage slug={slug}/>}</Show>
+                <Show when={props.slug} keyed fallback={<EducationIndex/>}>{(slug) => <EducationPage
+                    slug={slug}/>}</Show>
             </Match>
             <Match when={props.collection === "certifications"}>
                 <Show when={props.slug} keyed fallback={<CertificationsIndex/>}>

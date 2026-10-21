@@ -53,6 +53,8 @@ const LOCK_SCRIPT = `try {
     <Fragment set:html={head}/>
 </head>
 <body>
-<div id="root" data-islands={islands || undefined}><slot/></div>
+<div id="root" data-islands={islands || undefined}>
+    <slot/>
+</div>
 </body>
 </html>

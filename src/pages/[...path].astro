@@ -7,7 +7,10 @@ import {prerenderRoutes, type Route} from "@/lib/paths";
 import {sectionOrder} from "@/lib/role-view";
 
 // The 12 profile views, the projects index and pages, and the job, program, certification and organization pages.
-export const getStaticPaths = () => prerenderRoutes.map((route) => ({params: {path: route.path.slice(1)}, props: {route}}));
+export const getStaticPaths = () => prerenderRoutes.map((route) => ({
+    params: {path: route.path.slice(1)},
+    props: {route}
+}));
 
 const {route} = Astro.props as { route: Route };
 const home = route.kind === "profile";
@@ -23,15 +26,16 @@ const NEAR = {rootMargin: "600px"};
     <PageIsland part="skip" {...common}/>
     <PageIsland client:settled part="header" {...common}/>
     {home ? (
-        <main id="main">
-            <PageIsland client:settled part="hero" {...common}/>
-            <PageIsland part="highlights" {...common}/>
-            {sectionOrder(route.role).map((id) => <PageIsland client:settled={NEAR} part={`section:${id}`} {...common}/>)}
-        </main>
+            <main id="main">
+                <PageIsland client:settled part="hero" {...common}/>
+                <PageIsland part="highlights" {...common}/>
+                {sectionOrder(route.role).map((id) =>
+                        <PageIsland client:settled={NEAR} part={`section:${id}`} {...common}/>)}
+            </main>
     ) : (
-        <main id="main" class="pt-(--header-height)">
-            <PageIsland client:settled part={body} {...common}/>
-        </main>
+            <main id="main" class="pt-(--header-height)">
+                <PageIsland client:settled part={body} {...common}/>
+            </main>
     )}
     <PageIsland part="footer" {...common}/>
     <PageIsland part="whatsapp" {...common}/>
