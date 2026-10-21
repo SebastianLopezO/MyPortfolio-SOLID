@@ -18,7 +18,7 @@ export default function PageIsland(props: PartProps) {
     return <Dynamic component={resolved()} part={props.part} lang={props.lang} path={props.path} role={props.role}/>;
 }
 
-/** Loads a part before its island hydrates (islands/client.ts). */
-PageIsland.preload = async (props: PartProps) => {
-    if (!registeredPart(props.part, props.lang)) registerPart(props.part, props.lang, await loadPart(props.part, props.lang, props.path));
+/** Loads a part before its island hydrates (islands/client.ts), from the props Astro wrote into the page. */
+PageIsland.preload = async ({part, lang, path}: PartProps) => {
+    if (!registeredPart(part, lang)) registerPart(part, lang, await loadPart(part, lang, path));
 };
