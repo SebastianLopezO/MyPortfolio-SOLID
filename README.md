@@ -133,7 +133,7 @@ src/
   components/
     layout/             header, footer, language and role switchers
     sections/           one component per page section; below the hero each loads in its own chunk
-    assistant/          launcher (an idle island) and lazy panel
+    assistant/          launcher (an island) and lazy panel
     journey/            journey map, capability heatmap, focus radar and horizon (lazy chunk)
     case-study/         layered architecture diagram, figures and screenshots (lazy chunk)
     projects/           project card shared by the home section and the projects index
@@ -162,10 +162,11 @@ each page's text into `page-dates.json` (a page keeps the `lastmod` the live sit
 pre-compresses everything with Brotli and gzip. Every page is one catch-all route, `src/pages/[...path].astro`, built
 from the same parts: a part without a client directive is plain HTML that ships no JavaScript (the skip link, the
 highlights, the footer, the WhatsApp button, the 404), and a part with one is a Solid island (`islands/PageIsland.tsx`)
-that hydrates on its own. The header, the hero, the assistant's launcher, the body of a project or detail page and
-the part that loads the web fonts hydrate in the first idle period (`client:idle`); each home section hydrates as it
-comes within 600 px of the screen (`client:visible`). The pages are complete without JavaScript, and the first paint
-uses fallback faces with matching metrics, so the web fonts' swap does not move the layout.
+that hydrates on its own. Like the earlier editions, nothing loads before the page has settled: the header, the hero,
+the assistant's launcher, the body of a project or detail page and the part that loads the web fonts hydrate in the
+first idle period after both the `load` event and the first paint (`client:settled`, `islands/settled.ts`), and each
+home section then waits until it comes within 600 px of the screen. The pages are complete without JavaScript, and the
+first paint uses fallback faces with matching metrics, so the web fonts' swap does not move the layout.
 
 **Content.** Facts live once in `content/shared`; text lives in `content/en` and `content/es`. Collections are keyed
 by id, so a missing translation is a type error, and a unit test fails if both languages drift apart. The years of
@@ -178,7 +179,7 @@ the browser an island's component and copy load in chunks of their own (`islands
 before Solid hydrates it (`islands/client.ts` wraps Astro's Solid renderer for that), so every island hydrates in one
 synchronous pass over its prerendered HTML. A section's chunk resolves only with the copy it reads
 (`components/sections/section-loaders.ts`), so its components read the copy synchronously.
-`<html data-hydrated="true">` appears once every idle island on the page has hydrated, and each home section marks
+`<html data-hydrated="true">` appears once the islands of the first screen have hydrated, and each home section marks
 itself the same way (`lib/ready.ts`).
 
 **Projects.** Every project has its facts in `content/shared/projects.ts` (category, dates, stack, links, figures,
@@ -225,7 +226,9 @@ changed:
   hydration is written for one root, so two steps before each island make it work island by island
   (`islands/client.ts`): its code and copy load first, because Solid keeps the nodes left to hydrate in one registry
   per page that each island's hydration starts afresh; and its hydration starts again, because Solid takes the first
-  event it handles as the end of hydration and would otherwise render the islands that come later afresh.
+  event it handles as the end of hydration and would otherwise render the islands that come later afresh. Astro's own
+  `client:idle` starts loading while the page is still parsing; `client:settled` keeps the earlier editions' timing,
+  after the `load` event and the first paint, so Lighthouse does not count the islands' scripts against the first paint.
 - **Navigation.** Every page is its own document, so a role change, like any other link, loads the page of that view
   instead of re-rendering the open one; the role switcher sits in the hero, so the reader lands where they were. The
   locked view travels on every internal link, also before a section hydrates (`lib/lock.ts`).
@@ -235,8 +238,8 @@ changed:
   `components/ui/icons.tsx` and `cn()` is a local helper. The runtime dependencies are `astro`, `@astrojs/solid-js`,
   `solid-js` and the three font packages; `eslint-plugin-solid` replaces the React hooks rules and Vitest runs a jsdom
   project and a Node project for the server render.
-- **CSP.** Astro's island runtime, its directive loaders and Solid's `HydrationScript` are inline scripts, each allowed
-  by its hash (`nginx/security-headers.conf`).
+- **CSP.** Astro's island runtime, the `client:settled` directive and Solid's `HydrationScript` are inline scripts, each
+  allowed by its hash (`nginx/security-headers.conf`).
 
 Measured on the same content (`pnpm build`, gzip level 9; SolidJS + Vite is the first step, kept for reference):
 
@@ -249,8 +252,8 @@ Measured on the same content (`pnpm build`, gzip level 9; SolidJS + Vite is the 
 | Project page (`/en/projects/smartpot`)               |  23.2 KB |        24.6 KB |         27.0 KB |
 | `node_modules`                                       |   523 MB |          56 MB |          320 MB |
 
-On `/en` the islands that hydrate when the page is idle need 36.7 KB; each home section adds its own chunk only as the
-reader nears it, where the earlier editions loaded and hydrated every section after the first idle period. The pages
+On `/en` the islands of the first screen need 36.7 KB; each home section adds its own chunk only as the reader nears
+it, where the earlier editions loaded and hydrated every section once the page had settled. The pages
 grow because Solid marks every hydratable element with a `data-hk` key and Astro adds its island runtime (about 2 KB)
 before the first island; the JavaScript that has to download, parse and run before the page responds is less than half
 of what it was. `node_modules` grows again with Astro's compiler and its toolchain, which only the build uses. Part of

@@ -44,9 +44,9 @@ module, which the Dockerfile builds against the source of the image's own nginx 
 key) and loads in `nginx.conf`; the host needs nothing for it. Every response carries the headers in
 `nginx/security-headers.conf` (CSP, HSTS, `nosniff`, `SAMEORIGIN`, `Referrer-Policy`, `Permissions-Policy`, COOP).
 
-> The CSP runs no inline script it does not name by its SHA-256 hash, and no `eval`. The pages carry six inline
-> scripts: the role lock (`src/layouts/Page.astro`), Astro's island runtime and the loaders of its `client:idle` and
-> `client:visible` directives, Solid's `HydrationScript`, which Astro writes before the first island, and the root's
+> The CSP runs no inline script it does not name by its SHA-256 hash, and no `eval`. The pages carry five inline
+> scripts: the role lock (`src/layouts/Page.astro`), Astro's island runtime, the `client:settled` directive
+> (`src/islands/settled.ts`), Solid's `HydrationScript`, which Astro writes before the first island, and the root's
 > language redirect (`scripts/postbuild.ts`). Each has the same text on every page, so one hash covers it; the build
 > tests fail with the hash to add if one of them changes, as an Astro or Solid update or a reformat of the lock can
 > do. The GTM container holds only the
