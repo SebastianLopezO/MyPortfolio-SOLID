@@ -25,7 +25,8 @@ export function MemoryRouter(props: ParentProps<{ initialUrl: string }>) {
 
 export function StaticRouter(props: ParentProps<{ url: string }>) {
     const location = () => parseUrl(props.url);
-    return <RouterContext.Provider value={{location, navigate: () => undefined, soft: false}}>{props.children}</RouterContext.Provider>;
+    return <RouterContext.Provider
+        value={{location, navigate: () => undefined, soft: false}}>{props.children}</RouterContext.Provider>;
 }
 
 interface LinkProps {
