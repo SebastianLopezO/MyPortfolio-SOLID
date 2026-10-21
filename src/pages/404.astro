@@ -1,0 +1,15 @@
+---
+import "@/islands/server";
+import Page from "@/layouts/Page.astro";
+import PageIsland from "@/islands/PageIsland";
+
+// One page for both languages, kept out of search results; only the web fonts load on it.
+const head = [
+    "<title>404 · Page not found · Página no encontrada</title>",
+    '<meta name="description" content="Page not found · Página no encontrada">',
+].join("\n    ");
+---
+<Page lang="en" head={head} robots="noindex" islands="boot">
+    <PageIsland part="notFound" lang="en" path="/404"/>
+    <PageIsland client:idle part="boot" lang="en" path="/404"/>
+</Page>

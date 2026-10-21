@@ -2,7 +2,7 @@ import type {Component} from "solid-js";
 import {loadSectionCopies} from "@/content/sections";
 import type {Lang, SectionCopyKey, SectionId} from "@/types/content";
 
-/** One chunk per home section; the prerender renders them in place instead (lib/server-sections.ts). */
+/** One chunk per home section; the build renders them in place instead (islands/server.tsx). */
 const LOADERS: Record<SectionId, () => Promise<Component>> = {
     about: () => import("./AboutSection").then((module) => module.AboutSection),
     journey: () => import("./JourneySection").then((module) => module.JourneySection),
@@ -38,8 +38,3 @@ const COPIES: Record<SectionId, readonly SectionCopyKey[]> = {
 /** A section's code once its copy has arrived too, so it renders, and hydrates, without waiting for anything else. */
 export const loadSection = (id: SectionId, lang: Lang) =>
     Promise.all([LOADERS[id](), loadSectionCopies(COPIES[id], lang)]).then(([component]) => ({default: component}));
-
-/** Starts downloading every section right away instead of when hydration reaches each one. */
-export const preloadSections = (lang: Lang) => {
-    for (const id of Object.keys(LOADERS) as SectionId[]) void loadSection(id, lang);
-};

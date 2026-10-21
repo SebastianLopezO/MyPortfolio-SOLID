@@ -6,12 +6,12 @@ import {resumeVersions} from "@/content/shared/resume";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {RoleSwitcher} from "@/components/layout/RoleSwitcher";
-import profile320Avif from "@/assets/images/profile-320.avif";
-import profile480Avif from "@/assets/images/profile-480.avif";
-import profile640Avif from "@/assets/images/profile-640.avif";
-import profile320Webp from "@/assets/images/profile-320.webp";
-import profile480Webp from "@/assets/images/profile-480.webp";
-import profile640Webp from "@/assets/images/profile-640.webp";
+import profile320Avif from "@/assets/images/profile-320.avif?url";
+import profile480Avif from "@/assets/images/profile-480.avif?url";
+import profile640Avif from "@/assets/images/profile-640.avif?url";
+import profile320Webp from "@/assets/images/profile-320.webp?url";
+import profile480Webp from "@/assets/images/profile-480.webp?url";
+import profile640Webp from "@/assets/images/profile-640.webp?url";
 
 const PHOTO_SIZES = "(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 16rem";
 

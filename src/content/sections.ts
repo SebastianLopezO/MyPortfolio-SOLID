@@ -64,11 +64,6 @@ export const loadSectionCopy = <K extends SectionCopyKey>(key: K, lang: Lang): P
     return request;
 };
 
-/** Starts every download at once, so no section waits for its code before asking for its copy. */
-export const preloadSectionCopies = (lang: Lang) => {
-    for (const key of SECTION_COPY_KEYS) void loadSectionCopy(key, lang);
-};
-
 /** The prerender registers the full content up front, so rendering a section never suspends on the server. */
 export const registerSectionCopies = (content: Content) => {
     for (const key of SECTION_COPY_KEYS) loaded.set(idOf(key, content.lang), content[key]);

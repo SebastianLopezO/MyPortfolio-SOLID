@@ -41,8 +41,8 @@ const detailImage = (collection: string, slug: string | undefined, lang: string)
     slug ? `og/${collection}-${slug}-${lang}.jpg` : `og/${collection}-${lang}.jpg`;
 const ALL_PAGES = [...PAGES, ...PROJECT_PAGES, ...DETAIL_PAGES];
 const KB = 1024;
-// Solid marks each hydratable element with a data-hk attribute, so the skip link may carry one before its href.
-const ROOT_RENDERED = /<div id="root"><a (?:data-hk="\w+" )?href="#main"/;
+// The root lists the islands the page hydrates when idle; the skip link is static HTML, the first thing in it.
+const ROOT_RENDERED = /<div id="root"[^>]*><a (?:data-hk="\w+" )?href="#main"/;
 // The home sections render through the Section component, whose root carries the "section" class.
 const FIRST_SECTION = /<section\b[^>]*\sclass="section[\s"]/;
 
@@ -127,41 +127,43 @@ describe("prerendered pages", () => {
         }
     });
 
-    it("hydrates after the load event so scripts never compete with the first paint", () => {
-        for (const path of PAGES) {
+    it("hydrates islands when idle or near the screen, so scripts never compete with the first paint", () => {
+        for (const path of ALL_PAGES) {
             const html = page(path);
-            expect(html).not.toMatch(/<script type="module"/);
-            expect(html).not.toMatch(/rel="modulepreload"/);
-            expect(html).toMatch(/<script data-entry="\/assets\/[^"]+\.js">\(function\(e\)\{addEventListener\("load",function\(\)\{var d=0;function h\(\)\{/);
-            expect(html).toContain('getEntriesByName("first-contentful-paint")');
-            expect(html).toContain("requestIdleCallback(h,{timeout:1500})");
+            // No script blocks parsing: islands load their code through dynamic imports.
+            expect(html, path).not.toMatch(/<script\b(?![^>]*\btype="application\/ld\+json")[^>]*\ssrc=/);
+            expect(html, path).not.toMatch(/rel="modulepreload"/);
+            const directives = [...html.matchAll(/<astro-island\b[^>]*\sclient="(\w+)"/g)].map((match) => match[1]);
+            expect(directives.length, path).toBeGreaterThan(0);
+            expect(new Set(directives), path).toEqual(new Set(path.includes("/projects") || DETAIL_PAGES.includes(path) ? ["idle"] : ["idle", "visible"]));
         }
     });
 
     it("keeps the startup JavaScript, CSS and HTML within budget", () => {
         const html = page("/en");
-        const entry = html.match(/data-entry="\/(assets\/[^"]+\.js)"/)?.[1];
-        expect(entry).toBeDefined();
+        const assets = readdirSync(join(DIST, "assets")).map((file) => `assets/${file}`);
         const scripts = new Set<string>();
         const visit = (file: string) => {
             if (scripts.has(file)) return;
             scripts.add(file);
-            for (const match of read(file).matchAll(/(?:from|import)\s*"\.\/([^"]+\.js)"/g)) visit(`assets/${match[1]}`);
+            for (const match of read(file).matchAll(/(?:from|import)\s*["']\.\/([^"']+\.js)["']/g)) visit(`assets/${match[1]}`);
         };
-        visit(entry!);
-        // The copy the page hydrates with is the startup-*.js chunk that holds the locale; each section loads the rest.
-        const assets = readdirSync(join(DIST, "assets")).map((file) => `assets/${file}`);
-        const content = assets.find((file) => /^assets\/startup-[\w-]+\.js$/.test(file) && read(file).includes("en_US"));
-        expect(content).toBeDefined();
-        visit(content!);
+        // What the islands that hydrate when idle need: the renderer, the island root and the parts of the first screen.
+        for (const [, url] of html.matchAll(/(?:component|renderer)-url="\/(assets\/[^"]+\.js)"/g)) visit(url);
+        const part = (marker: string) => assets.find((file) => file.endsWith(".js") && read(file).includes(marker));
+        for (const marker of ["hero-backdrop", "mobile-nav", "aria-haspopup", "en_US"]) {
+            const file = part(marker);
+            expect(file, marker).toBeDefined();
+            visit(file!);
+        }
         const javascript = [...scripts].reduce((sum, script) => sum + gzipSize(script), 0);
-        const css = readdirSync(join(DIST, "assets")).filter((file) => file.endsWith(".css"));
         expect(javascript).toBeLessThanOrEqual(110 * KB);
-        // The sections arrive after the first paint, one chunk each; none may grow into a second startup bundle.
+        // The sections arrive as they come near the screen, one chunk each; none may grow into a second startup bundle.
         const lazy = assets.filter((file) => file.endsWith(".js") && !scripts.has(file));
         for (const file of lazy) expect(gzipSize(file), file).toBeLessThanOrEqual(32 * KB);
         // The CSS is inlined into every page, so the first-paint budget below is what binds it; this one catches a jump.
-        for (const file of css) expect(gzipSize(`assets/${file}`)).toBeLessThanOrEqual(12.5 * KB);
+        const styles = html.match(/<style>([\s\S]*?)<\/style>/)?.[1] ?? "";
+        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(12.5 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
         // the sections below never delay it; the whole page stays within three (+ 56 KB).

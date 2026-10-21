@@ -1,0 +1,58 @@
+---
+import "@/styles/globals.css";
+
+interface Props {
+    lang: string;
+    /** The page's title, description, canonical, alternates, social tags and structured data, from lib/seo. */
+    head: string;
+    robots?: string;
+    /** The islands that hydrate once the page is idle; <html data-hydrated> appears when all of them have. */
+    islands?: string;
+}
+
+const {lang, head, robots = "index, follow, max-image-preview:large", islands = ""} = Astro.props;
+
+// Marks a locked link before the first paint, so the role switcher never flashes. The CSP allows this script by its
+// SHA-256 hash (nginx/security-headers.conf), so its text must stay exactly as it is, whitespace included.
+const LOCK_SCRIPT = `try {
+        if (new URLSearchParams(location.search).get("locked") === "true") document.documentElement.dataset.locked = "true"
+    } catch (e) {
+    }`;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="#0d0d0d" name="theme-color">
+    <meta content="dark" name="color-scheme">
+    <meta content={robots} name="robots">
+    <meta content="Sebastián López Osorno" name="author">
+    <link href="/favicon.ico" rel="icon" sizes="any">
+    <link href="/icon.svg" rel="icon" type="image/svg+xml">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <script is:inline set:html={LOCK_SCRIPT}></script>
+    <!-- Without JavaScript the decision tabs cannot switch: both sides of every decision show, each under its label. -->
+    <noscript>
+        <style is:inline>[data-decision-panel].hidden {
+            display: block !important
+        }
+
+        [data-decision-tabs] {
+            display: none !important
+        }
+
+        [data-decision-panel]::before {
+            content: attr(data-label);
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            color: var(--color-fg)
+        }</style>
+    </noscript>
+    <Fragment set:html={head}/>
+</head>
+<body>
+<div id="root" data-islands={islands || undefined}><slot/></div>
+</body>
+</html>

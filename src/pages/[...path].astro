@@ -1,0 +1,39 @@
+---
+import "@/islands/server";
+import Page from "@/layouts/Page.astro";
+import PageIsland from "@/islands/PageIsland";
+import {headFor} from "@/islands/head";
+import {prerenderRoutes, type Route} from "@/lib/paths";
+import {sectionOrder} from "@/lib/role-view";
+
+// The 12 profile views, the projects index and pages, and the job, program, certification and organization pages.
+export const getStaticPaths = () => prerenderRoutes.map((route) => ({params: {path: route.path.slice(1)}, props: {route}}));
+
+const {route} = Astro.props as { route: Route };
+const home = route.kind === "profile";
+// A home page is one role view; a project or detail page reads the view it was opened from (?from=) once hydrated.
+const common = home ? {lang: route.lang, path: route.path, role: route.role} : {lang: route.lang, path: route.path};
+const body = route.kind === "projects" ? "projectBody" : "detailBody";
+// What hydrates once the page is idle; the home sections hydrate as they come close to the screen.
+const idle = ["boot", "header", home ? "hero" : body, "assistant"];
+const NEAR = {rootMargin: "600px"};
+---
+<Page lang={route.lang} head={headFor(route)} islands={idle.join(" ")}>
+    <PageIsland part="skip" {...common}/>
+    <PageIsland client:idle part="header" {...common}/>
+    {home ? (
+        <main id="main">
+            <PageIsland client:idle part="hero" {...common}/>
+            <PageIsland part="highlights" {...common}/>
+            {sectionOrder(route.role).map((id) => <PageIsland client:visible={NEAR} part={`section:${id}`} {...common}/>)}
+        </main>
+    ) : (
+        <main id="main" class="pt-(--header-height)">
+            <PageIsland client:idle part={body} {...common}/>
+        </main>
+    )}
+    <PageIsland part="footer" {...common}/>
+    <PageIsland part="whatsapp" {...common}/>
+    <PageIsland client:idle part="assistant" {...common}/>
+    <PageIsland client:idle part="boot" {...common}/>
+</Page>

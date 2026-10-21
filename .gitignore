@@ -37,3 +37,6 @@ scripts/og/.render-*.html
 
 # The taste-skill inspector's screenshots and report
 .taste-skill/
+
+# Astro generated types
+.astro/

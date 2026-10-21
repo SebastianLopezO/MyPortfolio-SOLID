@@ -1,17 +1,17 @@
 import {onMount} from "solid-js";
 
 /**
- * Marks `<html data-hydrated="true">` once the page and every section it shows can respond to input. The sections
- * hydrate one by one as their chunks arrive, so the root alone hydrating is not enough; the end-to-end tests and the
- * styles wait for this flag.
+ * Marks `<html data-hydrated="true">` once every island the page hydrates when idle can respond to input. The page
+ * lists them on its root (`<div id="root" data-islands="boot header hero">`, layouts/Page.astro); the sections below the
+ * first screen hydrate as they come into view and are not waited for. The end-to-end tests wait for this flag.
  */
-let rootReady = false;
-let expected: readonly string[] = [];
 const ready = new Set<string>();
 const waiting: (() => void)[] = [];
 
+const expected = () => document.getElementById("root")?.dataset.islands?.split(" ").filter(Boolean) ?? [];
+
 const flush = () => {
-    if (!rootReady || !expected.every((id) => ready.has(id))) return;
+    if (!expected().every((name) => ready.has(name))) return;
     document.documentElement.dataset.hydrated = "true";
     for (const callback of waiting.splice(0)) callback();
 };
@@ -21,19 +21,13 @@ export const whenHydrated = (callback: () => void) => {
     else waiting.push(callback);
 };
 
-export const markRootReady = () => {
-    rootReady = true;
+export const markIslandReady = (name: string) => {
+    ready.add(name);
     flush();
 };
 
-/** The home page lists the sections it renders; other pages expect none. */
-export const expectSections = (ids: readonly string[]) => {
-    expected = ids;
-    flush();
-};
-
+/** A home section marks itself too, so a section's hydration can be told apart from the rest of the page. */
 export const useSectionReady = (id: string) =>
     onMount(() => {
-        ready.add(id);
-        flush();
+        document.getElementById(id)?.setAttribute("data-hydrated", "true");
     });

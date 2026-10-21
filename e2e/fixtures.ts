@@ -24,3 +24,14 @@ export const gotoHydrated = async (page: Page, path: string) => {
     await page.goto(path);
     await page.locator('html[data-hydrated="true"]').waitFor({state: "attached"});
 };
+
+/**
+ * A home section is an island that hydrates as it comes near the screen: this brings it there and waits until it
+ * responds, as a reader scrolling to it would find it.
+ */
+export const hydrateSection = async (page: Page, id: string) => {
+    const section = page.locator(`section#${id}`);
+    await section.scrollIntoViewIfNeeded();
+    await page.locator(`section#${id}[data-hydrated="true"]`).waitFor({state: "attached"});
+    return section;
+};

@@ -4,7 +4,7 @@ import solid from "eslint-plugin-solid/configs/typescript";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-    {ignores: ["dist", "dist-ssr", "public", "coverage", "playwright-report", "test-results", ".lighthouseci", ".vite"]},
+    {ignores: ["dist", "dist-ssr", "public", "coverage", "playwright-report", "test-results", ".lighthouseci", ".vite", ".astro"]},
     {
         extends: [js.configs.recommended, ...tseslint.configs.recommended],
         files: ["**/*.{ts,tsx}"],

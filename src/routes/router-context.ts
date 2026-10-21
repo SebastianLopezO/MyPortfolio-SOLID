@@ -9,6 +9,8 @@ export interface RouterLocation {
 export interface RouterValue {
     location: Accessor<RouterLocation>;
     navigate: (to: string, options?: { replace?: boolean }) => void;
+    /** Whether links move inside the page (an in-memory router) instead of loading the next document. */
+    soft: boolean;
 }
 
 export const RouterContext = createContext<RouterValue>();
