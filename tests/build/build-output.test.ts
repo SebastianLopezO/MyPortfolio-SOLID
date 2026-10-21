@@ -255,7 +255,7 @@ describe("crawler files", () => {
 
     it("serves a bilingual 404 page that is not indexed", () => {
         const html = read("404.html");
-        // Any attribute order: index.html is reformatted by the IDE, and the build only rewrites the content value.
+        // Any attribute order: the layout writes the tag (layouts/Page.astro).
         expect(html).toMatch(/<meta(?=[^>]*\sname="robots")(?=[^>]*\scontent="noindex")[^>]*>/);
         expect(html).not.toMatch(/content="index, follow/);
         expect(html).toMatch(/Page not found/);

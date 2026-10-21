@@ -10,8 +10,8 @@ type View = (typeof VIEWS)[number];
 /**
  * Each decision as a card with two small tabs, the problem it answers and the solution, plus two buttons that turn every
  * card at once. The problems show first; the solutions are in the prerendered HTML too, hidden with the `hidden` class
- * rather than the attribute: Tailwind's preflight hides [hidden] with a layered !important that the style index.html
- * adds for pages without JavaScript could not beat.
+ * rather than the attribute: Tailwind's preflight hides [hidden] with a layered !important that the style the layout
+ * (layouts/Page.astro) adds for pages without JavaScript could not beat.
  */
 export function Decisions(props: { items: DecisionCopy[]; labels: DecisionLabels }) {
     const base = createUniqueId();

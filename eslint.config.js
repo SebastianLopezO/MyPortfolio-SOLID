@@ -29,7 +29,7 @@ export default tseslint.config(
         ...solid,
     },
     {
-        files: ["src/entry-server.tsx", "src/**/*.test.{ts,tsx}", "scripts/**/*.ts", "e2e/**/*.ts", "tests/**/*.ts", "*.config.ts"],
+        files: ["src/**/*.test.{ts,tsx}", "scripts/**/*.ts", "e2e/**/*.ts", "tests/**/*.ts", "*.config.ts"],
         languageOptions: {globals: {...globals.browser, ...globals.node}},
     },
 );

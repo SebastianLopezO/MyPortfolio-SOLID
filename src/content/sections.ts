@@ -76,7 +76,7 @@ export const loadSectionCopies = (keys: readonly SectionCopyKey[], lang: Lang) =
 /**
  * The copy of one section in the page's language. It reads what is already loaded: the server registers every copy
  * up front, and in the browser the code that renders a section waits for its copy first (section-loaders.ts,
- * main.tsx), so asking for a copy that has not arrived is a bug in that list, not a state to render.
+ * islands/parts.ts), so asking for a copy that has not arrived is a bug in that list, not a state to render.
  */
 export function useSectionCopy<K extends SectionCopyKey>(key: K): SectionCopies[K] {
     const {lang} = useLanguage();

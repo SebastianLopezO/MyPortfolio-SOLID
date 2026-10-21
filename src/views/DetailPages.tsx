@@ -115,7 +115,7 @@ const inProgress = (program: EducationFacts) =>
 
 /**
  * The links of a page, which carry the role view the visitor came from. The view is only known once the page is
- * hydrated (routes/DetailRoute.tsx), so the links read it when called: called inside JSX, they follow it.
+ * hydrated (islands/shell.tsx), so the links read it when called: called inside JSX, they follow it.
  */
 function useLinks() {
     const {lang} = useLanguage();
