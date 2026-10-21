@@ -13,7 +13,7 @@ export function RoleSwitcher(props: { class?: string }) {
 
     return (
         <Show when={!locked()}>
-            <nav aria-label={ui.roleSwitcher.label} data-role-switcher class={props.class}>
+            <nav aria-label={ui.roleSwitcher.label} data-role-switcher="true" class={props.class}>
                 <p class="mb-3 font-mono text-xs tracking-widest text-fg-subtle uppercase">{ui.roleSwitcher.label}</p>
                 <ul class="flex flex-wrap gap-2">
                     <For each={OPTIONS}>
