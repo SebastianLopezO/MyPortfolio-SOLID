@@ -41,7 +41,7 @@ const detailImage = (collection: string, slug: string | undefined, lang: string)
     slug ? `og/${collection}-${slug}-${lang}.jpg` : `og/${collection}-${lang}.jpg`;
 const ALL_PAGES = [...PAGES, ...PROJECT_PAGES, ...DETAIL_PAGES];
 const KB = 1024;
-// The root lists the islands the page hydrates when idle; the skip link is static HTML, the first thing in it.
+// The root lists the islands the page hydrates once it settles; the skip link is static HTML, the first thing in it.
 const ROOT_RENDERED = /<div id="root"[^>]*><a (?:data-hk="\w+" )?href="#main"/;
 // The home sections render through the Section component, whose root carries the "section" class.
 const FIRST_SECTION = /<section\b[^>]*\sclass="section[\s"]/;
@@ -127,15 +127,19 @@ describe("prerendered pages", () => {
         }
     });
 
-    it("hydrates islands when idle or near the screen, so scripts never compete with the first paint", () => {
+    it("hydrates islands once the page has loaded and painted, so scripts never compete with the first paint", () => {
         for (const path of ALL_PAGES) {
             const html = page(path);
             // No script blocks parsing: islands load their code through dynamic imports.
             expect(html, path).not.toMatch(/<script\b(?![^>]*\btype="application\/ld\+json")[^>]*\ssrc=/);
             expect(html, path).not.toMatch(/rel="modulepreload"/);
-            const directives = [...html.matchAll(/<astro-island\b[^>]*\sclient="(\w+)"/g)].map((match) => match[1]);
-            expect(directives.length, path).toBeGreaterThan(0);
-            expect(new Set(directives), path).toEqual(new Set(path.includes("/projects") || DETAIL_PAGES.includes(path) ? ["idle"] : ["idle", "visible"]));
+            const islands = [...html.matchAll(/<astro-island\b[^>]*>/g)].map((match) => match[0]);
+            expect(islands.length, path).toBeGreaterThan(0);
+            for (const island of islands) expect(island, path).toMatch(/\sclient="settled"/);
+            // On a home page the sections also wait until they come near the screen.
+            const near = islands.filter((island) => island.includes("rootMargin")).length;
+            if (PAGES.includes(path)) expect(near, path).toBeGreaterThan(0);
+            else expect(near, path).toBe(0);
         }
     });
 
@@ -148,7 +152,8 @@ describe("prerendered pages", () => {
             scripts.add(file);
             for (const match of read(file).matchAll(/(?:from|import)\s*["']\.\/([^"']+\.js)["']/g)) visit(`assets/${match[1]}`);
         };
-        // What the islands that hydrate when idle need: the renderer, the island root and the parts of the first screen.
+        // What the islands that hydrate once the page settles need: the renderer, the island root and the parts of the
+        // first screen.
         for (const [, url] of html.matchAll(/(?:component|renderer)-url="\/(assets\/[^"]+\.js)"/g)) visit(url);
         const part = (marker: string) => assets.find((file) => file.endsWith(".js") && read(file).includes(marker));
         for (const marker of ["hero-backdrop", "mobile-nav", "aria-haspopup", "en_US"]) {

@@ -14,26 +14,27 @@ const home = route.kind === "profile";
 // A home page is one role view; a project or detail page reads the view it was opened from (?from=) once hydrated.
 const common = home ? {lang: route.lang, path: route.path, role: route.role} : {lang: route.lang, path: route.path};
 const body = route.kind === "projects" ? "projectBody" : "detailBody";
-// What hydrates once the page is idle; the home sections hydrate as they come close to the screen.
-const idle = ["boot", "header", home ? "hero" : body, "assistant"];
+// What hydrates once the page has loaded and painted (islands/settled.ts); the home sections then wait until they come
+// close to the screen.
+const settled = ["boot", "header", home ? "hero" : body, "assistant"];
 const NEAR = {rootMargin: "600px"};
 ---
-<Page lang={route.lang} head={headFor(route)} islands={idle.join(" ")}>
+<Page lang={route.lang} head={headFor(route)} islands={settled.join(" ")}>
     <PageIsland part="skip" {...common}/>
-    <PageIsland client:idle part="header" {...common}/>
+    <PageIsland client:settled part="header" {...common}/>
     {home ? (
         <main id="main">
-            <PageIsland client:idle part="hero" {...common}/>
+            <PageIsland client:settled part="hero" {...common}/>
             <PageIsland part="highlights" {...common}/>
-            {sectionOrder(route.role).map((id) => <PageIsland client:visible={NEAR} part={`section:${id}`} {...common}/>)}
+            {sectionOrder(route.role).map((id) => <PageIsland client:settled={NEAR} part={`section:${id}`} {...common}/>)}
         </main>
     ) : (
         <main id="main" class="pt-(--header-height)">
-            <PageIsland client:idle part={body} {...common}/>
+            <PageIsland client:settled part={body} {...common}/>
         </main>
     )}
     <PageIsland part="footer" {...common}/>
     <PageIsland part="whatsapp" {...common}/>
-    <PageIsland client:idle part="assistant" {...common}/>
-    <PageIsland client:idle part="boot" {...common}/>
+    <PageIsland client:settled part="assistant" {...common}/>
+    <PageIsland client:settled part="boot" {...common}/>
 </Page>

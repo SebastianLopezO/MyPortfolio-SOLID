@@ -1,7 +1,7 @@
 import {onMount} from "solid-js";
 
 /**
- * Marks `<html data-hydrated="true">` once every island the page hydrates when idle can respond to input. The page
+ * Marks `<html data-hydrated="true">` once every island the page hydrates as it settles can respond to input. The page
  * lists them on its root (`<div id="root" data-islands="boot header hero">`, layouts/Page.astro); the sections below the
  * first screen hydrate as they come into view and are not waited for. The end-to-end tests wait for this flag.
  */

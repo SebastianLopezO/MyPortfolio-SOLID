@@ -6,7 +6,7 @@ interface Props {
     /** The page's title, description, canonical, alternates, social tags and structured data, from lib/seo. */
     head: string;
     robots?: string;
-    /** The islands that hydrate once the page is idle; <html data-hydrated> appears when all of them have. */
+    /** The islands that hydrate once the page has settled; <html data-hydrated> appears when all of them have. */
     islands?: string;
 }
 

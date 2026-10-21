@@ -21,13 +21,24 @@ const solidIslands = () => {
     return integration;
 };
 
+// The client:settled directive, which hydrates an island once the page has loaded and painted (src/islands/settled.ts).
+const settledDirective = {
+    name: "settled-directive",
+    hooks: {
+        "astro:config:setup": ({addClientDirective}) => addClientDirective({
+            name: "settled",
+            entrypoint: path.resolve(import.meta.dirname, "src/islands/settled.ts").replaceAll("\\", "/"),
+        }),
+    },
+};
+
 // Every page is generated at build time. The interactive parts are Solid islands that hydrate on their own, and the
 // rest of each page is plain HTML that ships no JavaScript (src/islands).
 export default defineConfig({
     site: siteUrl,
     output: "static",
     trailingSlash: "never",
-    integrations: [solidIslands()],
+    integrations: [solidIslands(), settledDirective],
     build: {
         format: "directory",
         // nginx serves /assets/ as immutable (nginx/default.conf), and the end-to-end tests block it to check the
