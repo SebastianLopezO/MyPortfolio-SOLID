@@ -247,9 +247,9 @@ Measured on the same content (`pnpm build`, gzip level 9; SolidJS + Vite is the 
 |------------------------------------------------------|---------:|---------------:|----------------:|
 | JavaScript before the first screen responds on `/en` |  91.3 KB |        39.8 KB |         36.7 KB |
 | Every JavaScript chunk                               | 359.2 KB |       326.6 KB |        327.0 KB |
-| First paint on `/en` (HTML up to the first section)  |  17.0 KB |        17.2 KB |         19.6 KB |
-| Whole `/en` page                                     |  59.7 KB |        67.4 KB |         70.7 KB |
-| Project page (`/en/projects/smartpot`)               |  23.2 KB |        24.6 KB |         27.0 KB |
+| First paint on `/en` (HTML up to the first section)  |  17.0 KB |        17.2 KB |         19.7 KB |
+| Whole `/en` page                                     |  59.7 KB |        67.4 KB |         70.9 KB |
+| Project page (`/en/projects/smartpot`)               |  23.2 KB |        24.6 KB |         27.2 KB |
 | `node_modules`                                       |   523 MB |          56 MB |          320 MB |
 
 On `/en` the islands of the first screen need 36.7 KB; each home section adds its own chunk only as the reader nears
@@ -259,6 +259,25 @@ before the first island; the JavaScript that has to download, parse and run befo
 of what it was. `node_modules` grows again with Astro's compiler and its toolchain, which only the build uses. Part of
 the saving is outside Solid: the hero's figures count the certifications and recommendations from
 `content/shared/counts.ts` instead of importing both lists, which a test keeps in step.
+
+The three production images were also compared side by side in Docker, each with the limits of `compose.yaml` (half a
+CPU for nginx): Chromium on a phone screen with a 4× slower CPU, median of four alternating rounds of three loads, and
+Lighthouse (mobile, median of five runs per page). Transfer sizes are Brotli.
+
+| Measure                                                   |     React 19 | SolidJS + Vite | Astro + SolidJS |
+|-----------------------------------------------------------|-------------:|---------------:|----------------:|
+| Lighthouse performance (`/en` · `/es/backend` · SmartPot) | 92 · 92 · 93 |   88 · 93 · 95 |    99 · 98 · 96 |
+| Lighthouse total blocking time on `/en`                   |       337 ms |         466 ms |          133 ms |
+| First contentful paint on `/en`                           |       832 ms |         632 ms |          474 ms |
+| JavaScript on `/en` before scrolling                      |     196.1 KB |       151.4 KB |         42.1 KB |
+| JavaScript on `/en` after scrolling to the end            |     196.1 KB |       151.4 KB |        152.6 KB |
+| Script time on `/en` before scrolling                     |      1002 ms |         174 ms |           40 ms |
+| JavaScript heap on `/en`                                  |       6.1 MB |        6.24 MB |         2.59 MB |
+| Site build inside the image (two builds)                  |  16.5–18.0 s |    19.9–30.2 s |     21.3–35.4 s |
+
+Lighthouse scores accessibility, best practices and SEO at 100 on every page of the three. A project or detail page
+loads its whole body as one island, so there Astro weighs what SolidJS + Vite did; the gain is on the home pages,
+where the sections below the first screen load only as the reader reaches them.
 
 ## Documentation
 
