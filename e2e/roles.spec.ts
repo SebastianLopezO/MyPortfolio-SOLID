@@ -1,6 +1,6 @@
 import {expect, gotoHydrated, test} from "./fixtures";
 
-test("switches role views without reloading and supports back navigation", async ({page, consoleErrors}) => {
+test("switches role views and supports back navigation", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/en");
     const switcher = page.getByRole("navigation", {name: "View profile as"});
     await switcher.getByRole("link", {name: "Backend"}).click();
