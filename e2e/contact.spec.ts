@@ -1,9 +1,9 @@
-import {expect, gotoHydrated, test} from "./fixtures";
+import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 
 test("copies the email address and announces it", async ({page, context, consoleErrors}) => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await gotoHydrated(page, "/en");
-    const contact = page.locator("#contact");
+    const contact = await hydrateSection(page, "contact");
     const address = await contact.locator('a[href^="mailto:"]').textContent();
     await contact.getByRole("button", {name: "Copy email address"}).click();
     await expect(contact.getByRole("status")).toHaveText("Email address copied");
@@ -17,7 +17,7 @@ test("moves the floating buttons aside while the contact section is on a phone s
     const whatsapp = page.locator('a[aria-label="Chat on WhatsApp"]');
     const assistant = page.locator('button[aria-label="Ask about my profile"]');
     // The buttons also step aside while the hero's buttons sit under them, so start past the hero.
-    const pastHero = page.locator("#home + section");
+    const pastHero = page.locator("main section").nth(1);
     await pastHero.scrollIntoViewIfNeeded();
     await expect(whatsapp).toBeVisible();
     await page.locator("#contact form").scrollIntoViewIfNeeded();

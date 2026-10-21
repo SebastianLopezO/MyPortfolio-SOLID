@@ -1,8 +1,9 @@
 import type {Page} from "@playwright/test";
 import {expect, gotoHydrated, test} from "./fixtures";
 
-// On a phone the floating buttons step aside while the hero's buttons sit under them, so scroll past the hero first.
-const pastHero = (page: Page) => page.locator("#home + section").scrollIntoViewIfNeeded();
+// On a phone the floating buttons step aside while the hero's buttons sit under them, so scroll past the hero first,
+// to the strip that follows it.
+const pastHero = (page: Page) => page.locator("main section").nth(1).scrollIntoViewIfNeeded();
 
 const openAssistant = async (page: Page, lang: "en" | "es") => {
     await page.getByRole("button", {name: lang === "en" ? "Ask about my profile" : "Pregunta sobre mi perfil"}).click();

@@ -1,4 +1,4 @@
-import {expect, gotoHydrated, test} from "./fixtures";
+import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 
 test("lays the profile out across a wide screen", async ({page, isMobile}) => {
     test.skip(isMobile, "Wide screens only");
@@ -13,6 +13,7 @@ test("lays the profile out across a wide screen", async ({page, isMobile}) => {
 
 test("shortens long recommendations and opens them on request", async ({page}) => {
     await gotoHydrated(page, "/en");
+    await hydrateSection(page, "testimonials");
     const toggle = page.locator("#testimonials").getByRole("button", {name: "Show more"}).first();
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     const quote = page.locator(`#${await toggle.getAttribute("aria-controls")}`);
@@ -37,7 +38,7 @@ test("keeps the case study overview and index beside the text on wide screens", 
 test("shows one recommendation at a time on phones and moves with the buttons", async ({page, isMobile}) => {
     test.skip(!isMobile, "Phones only");
     await gotoHydrated(page, "/en");
-    const section = page.locator("#testimonials");
+    const section = await hydrateSection(page, "testimonials");
     const track = section.locator("ul").first();
     await expect(track.locator(":scope > li")).toHaveCount(16);
     const card = await track.locator(":scope > li").first().boundingBox();

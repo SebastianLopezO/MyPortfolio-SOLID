@@ -1,8 +1,9 @@
-import {expect, gotoHydrated, test} from "./fixtures";
+import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 import type {Page} from "@playwright/test";
 
 const openJourney = async (page: Page, path: string) => {
     await gotoHydrated(page, path);
+    await hydrateSection(page, "journey");
     const tabs = page.locator('#journey [role="tablist"]');
     await tabs.and(page.locator("[data-interactive]")).waitFor({state: "attached"});
     return tabs;
