@@ -13,6 +13,11 @@ describe("pageText", () => {
     it("ignores changes that only touch markup", () => {
         expect(pageText(head, '<p class="mt-4">Same words</p>')).toBe(pageText(head, '<div><span>Same</span> words</div>'));
     });
+
+    it("reads the same words the same however the renderer escaped them", () => {
+        expect(pageText(head, "<p>I&#x27;m &quot;here&quot; &amp; there</p>")).toBe(pageText(head, `<p>I'm "here" &amp; there</p>`));
+        expect(pageText(head, '<div class="xl:[&amp;&gt;:first-child]:mt-0">Text</div>')).toBe(pageText(head, '<div class="xl:[&amp;>:first-child]:mt-0">Text</div>'));
+    });
 });
 
 describe("datePages", () => {

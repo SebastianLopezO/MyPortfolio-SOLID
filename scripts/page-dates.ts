@@ -1,5 +1,6 @@
 import {createHash} from "node:crypto";
 import {z} from "zod";
+import {decodeEntities} from "./llms.ts";
 
 /**
  * The sitemap's lastmod says when a page last changed what it says, not when the site was built. Each build hashes a
@@ -20,10 +21,22 @@ export const headMeta = (head: string) => ({
     description: firstMatch(head, /<meta[^>]*name="description"[^>]*content="([^"]*)"/),
 });
 
+const ESCAPES: Record<string, string> = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#x27;"};
+
+/**
+ * The visible text escaped the way React writes it, which is how the live dates were hashed: Solid escapes only the
+ * characters it must (an apostrophe stays one), so without this the move to Solid would redate every page whose words
+ * did not change.
+ */
+const escapeLikeReact = (text: string) => decodeEntities(text).replace(/[&<>"']/g, (character) => ESCAPES[character]);
+
+/** A tag, read past the quoted values: Solid leaves a ">" in an attribute as it is, such as xl:[&>:first-child]:mt-0. */
+const TAG = /<(?:"[^"]*"|'[^']*'|[^>"'])+>/g;
+
 /** What a reader and a crawler get from a page: markup, scripts and styles left out. */
 export const pageText = (head: string, html: string) => {
     const {title, description} = headMeta(head);
-    return [title, description, html.replace(/<(script|style)\b[\s\S]*?<\/\1>/g, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()].join("\n");
+    return [title, description, escapeLikeReact(html.replace(/<(script|style)\b[\s\S]*?<\/\1>/g, " ").replace(TAG, " ").replace(/\s+/g, " ").trim())].join("\n");
 };
 
 export async function fetchPageDates(url: string, {timeout = 8000} = {}): Promise<PageDates> {
