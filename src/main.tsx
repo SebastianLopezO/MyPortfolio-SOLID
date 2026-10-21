@@ -45,7 +45,8 @@ const app = () => (
     </BrowserRouter>
 );
 
-if (root.hasChildNodes()) {
+// The dev server serves index.html with only its <!--app-html--> placeholder in the root, which is not a page to hydrate.
+if (root.firstElementChild) {
     // The prerender ships no HydrationScript: the CSP would have to allow its inline code, and a page that works
     // without JavaScript needs none of the events it replays. Hydration starts from the empty state it would leave.
     globalThis._$HY ??= {events: [], completed: new WeakSet(), r: {}, fe() {}};
