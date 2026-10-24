@@ -1,4 +1,4 @@
-# MyPortfolio · Astro + SolidJS + TypeScript
+# MyPortfolio
 
 [![CI](https://github.com/SebastianLopezO/MyPortfolio-SOLID/actions/workflows/ci.yml/badge.svg)](https://github.com/SebastianLopezO/MyPortfolio-SOLID/actions/workflows/ci.yml)
 [![Publish Docker Image](https://github.com/SebastianLopezO/MyPortfolio-SOLID/actions/workflows/packaging.yml/badge.svg)](https://github.com/SebastianLopezO/MyPortfolio-SOLID/actions/workflows/packaging.yml)
