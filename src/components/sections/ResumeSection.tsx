@@ -6,6 +6,7 @@ import {useSectionCopy} from "@/content/sections";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
+import {withBase} from "@/lib/base";
 import {formatDay} from "@/lib/format";
 import {cn} from "@/lib/utils";
 import type {ResumeId} from "@/types/content";
@@ -22,8 +23,9 @@ export function ResumeSection() {
     const {role} = useRole();
     const [selected, setSelected] = createSignal<ResumeId>("ats");
     const version = () => resumeVersions.find((item) => item.id === selected()) ?? resumeVersions[0];
-    const file = () => version().files[lang];
-    const preview = () => version().preview[lang];
+    // PDFs and preview images live in public/; under a subpath they need the base. External resumes keep their URL.
+    const file = () => withBase(version().files[lang]);
+    const preview = () => withBase(version().preview[lang]);
     const copy = () => resume.versions[selected()];
     const pages = () => (version().pages === 1 ? resume.pages.one : resume.pages.other).replace("{count}", String(version().pages));
     const sheets = () => Math.min(version().pages - 1, MAX_SHEETS);

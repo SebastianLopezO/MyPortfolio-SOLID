@@ -6,6 +6,7 @@ import {resumeVersions} from "@/content/shared/resume";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {RoleSwitcher} from "@/components/layout/RoleSwitcher";
+import {withBase} from "@/lib/base";
 import profile320Avif from "@/assets/images/profile-320.avif?url";
 import profile480Avif from "@/assets/images/profile-480.avif?url";
 import profile640Avif from "@/assets/images/profile-640.avif?url";
@@ -20,7 +21,7 @@ export function HeroSection() {
     const {role} = useRole();
     const {hero, ui} = content;
     const copy = () => hero.byProfile[role() ?? "general"];
-    const cv = resumeVersions[0].files[lang];
+    const cv = withBase(resumeVersions[0].files[lang]);
     let actions: HTMLDivElement | undefined;
 
     // The floating buttons take the bottom 9.5rem of a phone screen; while the hero's buttons sit there, the page flags

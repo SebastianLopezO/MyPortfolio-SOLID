@@ -64,10 +64,12 @@ await writeFile(
         "    <title>Sebastián López Osorno</title>",
         '    <meta name="robots" content="noindex">',
         `    <link rel="canonical" href="${data.SITE_URL}/en">`,
-        '    <meta http-equiv="refresh" content="0; url=/en">',
-        '    <script>location.replace((navigator.language || "").toLowerCase().startsWith("es") ? "/es" : "/en")</script>',
+        // Relative targets so the root resolves them against wherever this file is served: "/" on the main domain, or
+        // the repository's subpath on GitHub Pages (e.g. /MyPortfolio-SOLID/en).
+        '    <meta http-equiv="refresh" content="0; url=en">',
+        '    <script>location.replace((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en")</script>',
         "</head>",
-        '<body><a href="/en" hreflang="en">English</a> · <a href="/es" hreflang="es">Español</a></body>',
+        '<body><a href="en" hreflang="en">English</a> · <a href="es" hreflang="es">Español</a></body>',
         "</html>",
         "",
     ].join("\n"),

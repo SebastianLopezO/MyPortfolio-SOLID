@@ -1,4 +1,5 @@
 import {type Accessor, createContext, useContext} from "solid-js";
+import {stripBase} from "@/lib/base";
 
 export interface RouterLocation {
     pathname: string;
@@ -17,7 +18,8 @@ export const RouterContext = createContext<RouterValue>();
 
 export const parseUrl = (url: string): RouterLocation => {
     const parsed = new URL(url, "http://localhost");
-    return {pathname: parsed.pathname, search: parsed.search, hash: parsed.hash};
+    // The rest of the app routes on base-less paths, so the subpath comes off the browser's pathname here.
+    return {pathname: stripBase(parsed.pathname), search: parsed.search, hash: parsed.hash};
 };
 
 const useRouter = () => {

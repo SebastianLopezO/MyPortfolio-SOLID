@@ -1,5 +1,6 @@
 ---
 import "@/styles/globals.css";
+import {withBase} from "@/lib/base";
 
 interface Props {
     lang: string;
@@ -28,9 +29,9 @@ const LOCK_SCRIPT = `try {
     <meta content="dark" name="color-scheme">
     <meta content={robots} name="robots">
     <meta content="Sebastián López Osorno" name="author">
-    <link href="/favicon.ico" rel="icon" sizes="any">
-    <link href="/icon.svg" rel="icon" type="image/svg+xml">
-    <link href="/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href={withBase("/favicon.ico")} rel="icon" sizes="any">
+    <link href={withBase("/icon.svg")} rel="icon" type="image/svg+xml">
+    <link href={withBase("/apple-touch-icon.png")} rel="apple-touch-icon">
     <script is:inline set:html={LOCK_SCRIPT}></script>
     <!-- Without JavaScript the decision tabs cannot switch: both sides of every decision show, each under its label. -->
     <noscript>

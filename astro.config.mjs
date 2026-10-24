@@ -5,6 +5,10 @@ import path from "node:path";
 
 const buildDate = process.env.BUILD_DATE ?? new Date().toISOString().slice(0, 10);
 const siteUrl = process.env.SITE_URL ?? "https://sebastianlopezo.page";
+// The path the site is served from: "/" on the main domain (the nginx image), or the repository's path on GitHub
+// Pages (BASE_PATH=/MyPortfolio-SOLID). It prefixes the bundled asset URLs; src/lib/base.ts carries it into the
+// app's own links and the references to files in public/.
+const base = process.env.BASE_PATH ?? "/";
 
 // Astro's Solid integration, with its browser renderer wrapped by one that loads an island's part before hydrating it
 // (src/islands/client.ts).
@@ -36,6 +40,7 @@ const settledDirective = {
 // rest of each page is plain HTML that ships no JavaScript (src/islands).
 export default defineConfig({
     site: siteUrl,
+    base,
     output: "static",
     trailingSlash: "never",
     integrations: [solidIslands(), settledDirective],

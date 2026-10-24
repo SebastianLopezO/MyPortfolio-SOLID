@@ -5,6 +5,7 @@ import {profile} from "@/content/shared/profile";
 import {useContent} from "@/context/language";
 import {useRole} from "@/context/role";
 import {LanguageSwitcher} from "@/components/layout/LanguageSwitcher";
+import {withBase} from "@/lib/base";
 import {cn} from "@/lib/utils";
 import type {SectionId} from "@/types/content";
 
@@ -28,7 +29,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             {(section) => (
                 <li>
                     <a
-                        href={props.homeLinks ? pathFor(role(), section) : `#${section}`}
+                        href={props.homeLinks ? withBase(pathFor(role(), section)) : `#${section}`}
                         onClick={() => onNavigate?.()}
                         class="block rounded-md px-3 py-2 text-sm whitespace-nowrap text-fg-muted transition-colors hover:text-primary lg:px-2 xl:px-3"
                     >

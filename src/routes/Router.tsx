@@ -1,5 +1,6 @@
 import {createSignal, type JSX, type ParentProps, useContext} from "solid-js";
 import {isServer} from "solid-js/web";
+import {withBase} from "@/lib/base";
 import {parseUrl, RouterContext} from "@/routes/router-context";
 
 /**
@@ -9,9 +10,10 @@ import {parseUrl, RouterContext} from "@/routes/router-context";
  */
 export function PageRouter(props: ParentProps<{ path: string }>) {
     const location = () => (isServer ? parseUrl(props.path) : parseUrl(window.location.href));
+    // The caller passes a base-less path; the browser needs it under the subpath the site is served from.
     const navigate = (to: string, {replace = false}: { replace?: boolean } = {}) => {
-        if (replace) window.location.replace(to);
-        else window.location.assign(to);
+        if (replace) window.location.replace(withBase(to));
+        else window.location.assign(withBase(to));
     };
     return <RouterContext.Provider value={{location, navigate, soft: false}}>{props.children}</RouterContext.Provider>;
 }
@@ -58,7 +60,7 @@ export function Link(props: LinkProps) {
 
     return (
         <a
-            href={props.to}
+            href={withBase(props.to)}
             onClick={handleClick}
             class={props.class}
             tabindex={props.tabindex}

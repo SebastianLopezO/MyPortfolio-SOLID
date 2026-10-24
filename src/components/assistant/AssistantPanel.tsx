@@ -3,6 +3,7 @@ import {ArrowUpRight, ChevronDown, Download, SendHorizontal, X} from "@/componen
 import {useRole} from "@/context/role";
 import {Input} from "@/components/ui/input";
 import {createAssistant} from "@/lib/assistant/answer";
+import {withBase} from "@/lib/base";
 import {parsePath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
@@ -103,7 +104,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                 </Link>
             </Match>
             <Match when={linkProps.link.kind === "download"}>
-                <a href={linkProps.link.href} download="" class={LINK_CLASS}>
+                <a href={withBase(linkProps.link.href)} download="" class={LINK_CLASS}>
                     <Download class="size-4"/>
                     {linkProps.link.label}
                 </a>

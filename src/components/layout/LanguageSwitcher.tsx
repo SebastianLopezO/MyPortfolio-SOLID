@@ -1,6 +1,7 @@
 import {Languages} from "@/components/ui/icons";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
+import {withBase} from "@/lib/base";
 import {buildPath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
 
@@ -13,12 +14,12 @@ export function LanguageSwitcher(props: { class?: string; href?: string }) {
     const keepHash = (event: MouseEvent) => {
         if (!window.location.hash || event.metaKey || event.ctrlKey || event.shiftKey) return;
         event.preventDefault();
-        window.location.assign(`${href()}${window.location.hash}`);
+        window.location.assign(withBase(`${href()}${window.location.hash}`));
     };
 
     return (
         <a
-            href={href()}
+            href={withBase(href())}
             hreflang={alternateLang}
             lang={alternateLang}
             onClick={keepHash}

@@ -64,6 +64,7 @@ import {
     testimonialsOfExperience,
 } from "@/lib/details";
 import {formatDay, formatDuration, formatRange, formatYearMonth, monthsBetween} from "@/lib/format";
+import {withBase} from "@/lib/base";
 import {widestVariant} from "@/lib/image-widths";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {prioritize} from "@/lib/role-view";
@@ -979,7 +980,7 @@ function CertificationPage(props: { slug: string }) {
                     <TextSection id="detail-certificate" title={ui.certificate.title}>
                         <figure class={cn(certificate().height > certificate().width ? "max-w-sm" : "max-w-3xl")}>
                             {/* The largest variant opens in a new tab, so the small print can be read. */}
-                            <a href={widestVariant(certificate())} target="_blank" rel="noopener noreferrer"
+                            <a href={withBase(widestVariant(certificate()))} target="_blank" rel="noopener noreferrer"
                                class="block rounded-lg hover:opacity-90">
                                 <CaseImage
                                     image={certificate()}

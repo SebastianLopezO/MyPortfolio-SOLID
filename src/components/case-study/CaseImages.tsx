@@ -1,10 +1,12 @@
 import {For, type JSX, Match, Show, Switch} from "solid-js";
+import {withBase} from "@/lib/base";
 import {widestVariant} from "@/lib/image-widths";
 import {cn} from "@/lib/utils";
 import type {CaseImageFacts} from "@/types/case-study";
 
+// The screens live in public/; each variant's URL carries the base so they load under a subpath too.
 const srcSet = (image: CaseImageFacts, format: "avif" | "webp") =>
-    image.widths.map((width) => `${image.base}-${width}.${format} ${width}w`).join(", ");
+    image.widths.map((width) => `${withBase(`${image.base}-${width}.${format}`)} ${width}w`).join(", ");
 
 /**
  * `bare` drops the frame (corners and outline) for a screen that fills the top of a card that already has one.
@@ -18,7 +20,7 @@ export function CaseImage(props: {
     bare?: boolean;
     class?: string;
 }) {
-    const fallback = () => `${props.image.base}-${props.image.widths[Math.min(1, props.image.widths.length - 1)]}.webp`;
+    const fallback = () => withBase(`${props.image.base}-${props.image.widths[Math.min(1, props.image.widths.length - 1)]}.webp`);
     return (
         <picture>
             <source type="image/avif" srcset={srcSet(props.image, "avif")} sizes={props.sizes}/>
@@ -70,7 +72,7 @@ interface CaseImagesProps {
 /** Each screen links to its largest variant, so its text can be read on a phone or a narrow column. */
 function Enlargeable(props: { image: CaseImageFacts; label: string; children: JSX.Element }) {
     return (
-        <a href={widestVariant(props.image)} target="_blank" rel="noopener noreferrer"
+        <a href={withBase(widestVariant(props.image))} target="_blank" rel="noopener noreferrer"
            class="block rounded-lg hover:opacity-90">
             {props.children}
             <span class="sr-only"> ({props.label})</span>
