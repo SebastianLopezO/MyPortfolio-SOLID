@@ -84,7 +84,7 @@ export const projects: ProjectFacts[] = [
         end: null,
         team: 1,
         links: {},
-        tech: ["React 19", "TypeScript", "Vite 8", "Tailwind CSS 4", "SSG", "Vitest", "Playwright", "Lighthouse CI", "Docker", "Nginx", "GHCR", "GitHub Actions"],
+        tech: ["Astro 7", "SolidJS", "TypeScript", "Vite 8", "Tailwind CSS 4", "SSG", "Vitest", "Playwright", "Lighthouse CI", "Docker", "Nginx", "GHCR", "GitHub Actions"],
         roles: ["fullstack", "devops"],
         figures: [
             {id: "views", value: 6},

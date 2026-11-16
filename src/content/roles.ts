@@ -86,7 +86,7 @@ export const ROLES: Record<RoleId, RoleConfig> = {
         featuredProject: "gopoli",
         projectCategory: "product",
         keywords: ["full stack", "frontend", "react", "typescript", "next.js", "web", "ui", "pwa"],
-        focusTech: ["React", "TypeScript", "JavaScript", "Next.js", "Vite", "Tailwind CSS", "HTML", "CSS", "Leaflet", "OSRM", "Thymeleaf", "Web Development", "Spring Boot", "FastAPI", "Node.js", "Vitest", "Figma", "AG Grid", "Plotly", "Bootstrap", "jQuery", "PWA", "Select2", "SweetAlert2", "jsPDF", "WordPress", "Playwright", "Lighthouse", "Firebase", "Netlify", "Render"],
+        focusTech: ["React", "Astro", "SolidJS", "TypeScript", "JavaScript", "Next.js", "Vite", "Tailwind CSS", "HTML", "CSS", "Leaflet", "OSRM", "Thymeleaf", "Web Development", "Spring Boot", "FastAPI", "Node.js", "Vitest", "Figma", "AG Grid", "Plotly", "Bootstrap", "jQuery", "PWA", "Select2", "SweetAlert2", "jsPDF", "WordPress", "Playwright", "Lighthouse", "Firebase", "Netlify", "Render"],
     },
 };
 

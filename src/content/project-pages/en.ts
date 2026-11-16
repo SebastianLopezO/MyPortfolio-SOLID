@@ -90,15 +90,15 @@ export const projectPages: ProjectPagesCopy = {
             decisions: [
                 {
                     title: "Prerendering instead of a server",
-                    problem: "A React app built in the browser arrives empty until its JavaScript runs.",
-                    solution: "Every page is prerendered at build time, so it arrives complete without JavaScript and Nginx serves it as a static file.",
+                    problem: "An app built in the browser arrives empty until its JavaScript runs.",
+                    solution: "Astro generates every page at build time, so it arrives complete without JavaScript and Nginx serves it as a static file.",
                     tradeoff: "every content change needs a new build and deployment.",
                 },
                 {
-                    title: "Each section in its own chunk",
-                    problem: "With every section in one file, the startup JavaScript would go over its budget.",
-                    solution: "The hero hydrates first and the rest arrives in pieces, which keeps the startup JavaScript within its budget.",
-                    tradeoff: "a short wait before each section responds.",
+                    title: "Islands that hydrate on their own",
+                    problem: "The first version, in React, loaded and hydrated every section once the page had settled, even the ones the reader never reached.",
+                    solution: "In October 2026 I moved it to Astro with SolidJS islands. The header, the hero and the assistant hydrate once the page settles and each section waits until the reader comes near, so the first screen needs less than half the JavaScript it did.",
+                    tradeoff: "every page is its own document, so changing the role view loads another page.",
                 },
                 {
                     title: "An assistant without outside services",
@@ -110,18 +110,18 @@ export const projectPages: ProjectPagesCopy = {
             figures: {views: "role views", languages: "languages"},
             diagram: {
                 title: "From content to page",
-                caption: "The typed content is prerendered at build time; the browser hydrates each section on its own.",
+                caption: "The typed content is prerendered at build time; the browser hydrates each island on its own.",
                 labels: {
                     content: "Content",
                     facts: "Facts with their source",
                     copy: "Spanish and English copy per role",
                     stats: "Daily GitHub stats",
                     build: "Build",
-                    vite: "Vite and TypeScript",
+                    vite: "Astro, Vite and TypeScript",
                     prerender: "Prerendering of every route",
                     budgets: "JavaScript, CSS and HTML budgets",
                     browser: "Browser",
-                    sections: "Sections that load on their own",
+                    sections: "SolidJS islands that hydrate on their own",
                     roles: "Six role views",
                     assistant: "Local assistant",
                     delivery: "Delivery",
@@ -135,7 +135,7 @@ export const projectPages: ProjectPagesCopy = {
                 project: "A real project page of this portfolio, the lettuce disease detector's, with its metrics board, its facts and its figures.",
             },
             seo: {
-                title: "MyPortfolio, this portfolio in React and TypeScript · Project",
+                title: "MyPortfolio, this portfolio in Astro and SolidJS · Project",
                 description: "A bilingual prerendered portfolio with role views, a page per project, GitHub figures refreshed on every build and a local assistant.",
             },
         },

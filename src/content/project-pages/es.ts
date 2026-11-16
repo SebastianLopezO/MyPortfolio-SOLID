@@ -90,15 +90,15 @@ export const projectPages: ProjectPagesCopy = {
             decisions: [
                 {
                     title: "Prerenderizar en vez de un servidor",
-                    problem: "Una aplicación de React que se arma en el navegador llega vacía hasta que corre su JavaScript.",
-                    solution: "Cada página se prerenderiza en el build, así que llega completa sin JavaScript y Nginx la sirve como archivo estático.",
+                    problem: "Una aplicación que se arma en el navegador llega vacía hasta que corre su JavaScript.",
+                    solution: "Astro genera cada página en el build, así que llega completa sin JavaScript y Nginx la sirve como archivo estático.",
                     tradeoff: "cada cambio de contenido exige un nuevo build y un despliegue.",
                 },
                 {
-                    title: "Cada sección en su propio chunk",
-                    problem: "Con todas las secciones en un solo archivo, el JavaScript de arranque se pasaría de su presupuesto.",
-                    solution: "El hero hidrata primero y el resto llega por partes, lo que mantiene el JavaScript de arranque dentro de su presupuesto.",
-                    tradeoff: "una espera corta antes de que cada sección responda.",
+                    title: "Islas que hidratan por separado",
+                    problem: "La primera versión, en React, cargaba e hidrataba todas las secciones apenas la página quedaba en reposo, incluso las que el lector nunca alcanzaba.",
+                    solution: "En octubre de 2026 lo pasé a Astro con islas de SolidJS. El encabezado, el hero y el asistente hidratan cuando la página queda en reposo y cada sección espera a que el lector se acerque, así que la primera pantalla necesita menos de la mitad del JavaScript de antes.",
+                    tradeoff: "cada página es un documento aparte, así que cambiar de vista por rol carga otra página.",
                 },
                 {
                     title: "Un asistente sin servicios externos",
@@ -110,18 +110,18 @@ export const projectPages: ProjectPagesCopy = {
             figures: {views: "vistas por rol", languages: "idiomas"},
             diagram: {
                 title: "Del contenido a la página",
-                caption: "El contenido tipado se prerenderiza en el build; el navegador hidrata cada sección por separado.",
+                caption: "El contenido tipado se prerenderiza en el build; el navegador hidrata cada isla por separado.",
                 labels: {
                     content: "Contenido",
                     facts: "Datos con su fuente",
                     copy: "Texto en español e inglés por rol",
                     stats: "Estadísticas diarias de GitHub",
                     build: "Build",
-                    vite: "Vite y TypeScript",
+                    vite: "Astro, Vite y TypeScript",
                     prerender: "Prerenderizado de cada ruta",
                     budgets: "Presupuestos de JavaScript, CSS y HTML",
                     browser: "Navegador",
-                    sections: "Secciones que cargan por separado",
+                    sections: "Islas de SolidJS que hidratan por separado",
                     roles: "Seis vistas por rol",
                     assistant: "Asistente local",
                     delivery: "Entrega",
@@ -135,7 +135,7 @@ export const projectPages: ProjectPagesCopy = {
                 project: "Una página de proyecto real de este portafolio, la del detector de enfermedades de lechuga, con su tablero de métricas, su ficha y sus cifras.",
             },
             seo: {
-                title: "MyPortfolio, este portafolio en React y TypeScript · Proyecto",
+                title: "MyPortfolio, este portafolio en Astro y SolidJS · Proyecto",
                 description: "Un portafolio bilingüe prerenderizado con vistas por rol, una página por proyecto, cifras de GitHub al día en cada build y un asistente local.",
             },
         },
