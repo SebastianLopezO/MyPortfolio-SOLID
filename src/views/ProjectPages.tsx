@@ -20,7 +20,6 @@ import {isCaseStudy, PROJECT_SLUG, projectIdBySlug, type ProjectSlug} from "@/co
 import {projectById, projectImages, projects, projectsIn} from "@/content/shared/projects";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
-import {useDocumentHead} from "@/hooks/useDocumentHead";
 import {useHydrated} from "@/hooks/useHydrated";
 import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Bullets, LinkRows, NeighborNavigation, PageIndex, PageTrail, TextSection} from "@/components/page/PageParts";
@@ -34,7 +33,6 @@ import {TechExplorer} from "@/components/projects/TechExplorer";
 import {ToggleButton} from "@/components/ui/ToggleButton";
 import {formatRange, formatYearMonth} from "@/lib/format";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
-import {buildCaseStudyHead, buildProjectPageHead, buildProjectsHead} from "@/lib/seo-projects";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
 import type {CaseStudyFacts} from "@/types/case-study";
@@ -329,7 +327,6 @@ function RepositoryList(props: { entries: ArchiveEntry[]; note?: string }) {
 }
 
 function CaseStudy(props: { slug: ProjectSlug }) {
-    const {content} = useLanguage();
     const {role} = useRole();
     const {cases: {ui, items}, pages} = useProjectsCopy();
     // The route mounts a new page for every slug.
@@ -339,7 +336,6 @@ function CaseStudy(props: { slug: ProjectSlug }) {
     const facts = caseStudyById(id);
     const copy = items[id];
     const related = hasRelated(id);
-    useDocumentHead(() => buildCaseStudyHead(content, ui, slug, copy, facts));
     const sections = [
         {id: "case-problem", title: ui.sections.problem},
         {id: "case-constraints", title: ui.sections.constraints},
@@ -435,7 +431,6 @@ const repositoriesOf = (facts: ProjectFacts) => {
 
 /** A project without a full case study: what it is, what it does, how it works, its decisions and its repositories. */
 function ProjectPage(props: { slug: ProjectSlug }) {
-    const {content} = useLanguage();
     const {role} = useRole();
     const {cases: {ui}, pages} = useProjectsCopy();
     const cards = useSectionCopy("projects");
@@ -448,7 +443,6 @@ function ProjectPage(props: { slug: ProjectSlug }) {
     const page = pages.items[id];
     const repositories = repositoriesOf(facts);
     const related = hasRelated(id);
-    useDocumentHead(() => buildProjectPageHead(content, ui, slug, card, page, facts));
     const sections = [
         {id: "project-overview", title: pages.ui.overview},
         {id: "project-what", title: pages.ui.whatItDoes},
@@ -601,11 +595,6 @@ function ProjectsIndex() {
     const {role, locked} = useRole();
     const {cases: {ui}} = useProjectsCopy();
     const cards = useSectionCopy("projects");
-    const listed = projects.map((project) => ({
-        slug: PROJECT_SLUG[project.id],
-        name: cards.items[project.id].name
-    }));
-    useDocumentHead(() => buildProjectsHead(content, ui, listed));
     const labels: ProjectCardLabels = {
         readProject: cards.readProject,
         readCaseStudy: content.ui.actions.readCaseStudy,

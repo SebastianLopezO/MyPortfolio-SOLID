@@ -21,7 +21,6 @@ import {isCaseStudy, PROJECT_SLUG} from "@/content/shared/project-links";
 import {projectImages} from "@/content/shared/projects";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
-import {useDocumentHead} from "@/hooks/useDocumentHead";
 import {useHydrated} from "@/hooks/useHydrated";
 import {useJourneyCopy} from "@/hooks/useJourneyCopy";
 import {GithubIcon} from "@/components/layout/BrandIcons";
@@ -68,7 +67,6 @@ import {withBase} from "@/lib/base";
 import {widestVariant} from "@/lib/image-widths";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {prioritize} from "@/lib/role-view";
-import {detailHead} from "@/lib/seo-details";
 import {BUILD_DATE} from "@/content/shared/site";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
@@ -151,14 +149,6 @@ function useCrumbs(collection: DetailCollection, current: string | null): () => 
         if (current === null) return [home, {label: indexes[collection].title}];
         return [home, {label: indexes[collection].title, to: links.detail(collection)}, {label: current}];
     };
-}
-
-function useDetailHead(collection: DetailCollection, slug: string | null) {
-    const {content} = useLanguage();
-    const copy = useDetailCopy();
-    const about = useSectionCopy("about");
-    const certificationCopy = useSectionCopy("certifications");
-    useDocumentHead(() => detailHead(content, {copy, about, certifications: certificationCopy}, collection, slug));
 }
 
 /** A project's one-line tagline, from its case study or its page, under its entry in a timeline. */
@@ -537,7 +527,6 @@ function ExperiencePage(props: { slug: string }) {
     const index = experience.findIndex((job) => job.id === facts.id);
     const {previous, next} = neighbors(experience, index);
     const taglineOf = useTaglines();
-    useDetailHead("experience", slug);
 
     const timeline = (): TimelineItem[] => [
         {
@@ -733,7 +722,6 @@ function EducationPage(props: { slug: string }) {
     const index = education.findIndex((item) => item.id === facts.id);
     const {previous, next} = neighbors(education, index);
     const taglineOf = useTaglines();
-    useDetailHead("education", slug);
 
     const timeline = (): TimelineItem[] => [
         {date: String(facts.start), kind: "program", text: fill(ui.events.programStart, {degree: program.degree})},
@@ -900,7 +888,6 @@ function CertificationPage(props: { slug: string }) {
     const image = certificateImage(facts.id);
     const index = certifications.findIndex((item) => item.id === facts.id);
     const {previous, next} = neighbors(certifications, index);
-    useDetailHead("certifications", slug);
 
     const workLink = (ref: WorkRef) =>
         ref.kind === "project"
@@ -1093,7 +1080,6 @@ function OrganizationPage(props: { slug: string }) {
     const index = organizations.findIndex((item) => item.id === facts.id);
     const {previous, next} = neighbors(organizations, index);
     const taglineOf = useTaglines();
-    useDetailHead("organizations", slug);
 
     const timeline = (): TimelineItem[] => [
         ...jobsHere.flatMap((job): TimelineItem[] => [
@@ -1285,7 +1271,6 @@ function ExperienceIndex() {
     const {ui} = useDetailCopy();
     const jobs = useSectionCopy("experience");
     const links = useLinks();
-    useDetailHead("experience", null);
 
     return (
         <div class="container-page py-12 md:py-16">
@@ -1325,7 +1310,6 @@ function EducationIndex() {
     const {ui} = useDetailCopy();
     const about = useSectionCopy("about");
     const links = useLinks();
-    useDetailHead("education", null);
 
     return (
         <div class="container-page py-12 md:py-16">
@@ -1417,7 +1401,6 @@ function CertificationsIndex() {
     const interactive = useHydrated();
     const [grouping, setGrouping] = createSignal<(typeof GROUPINGS)[number]>("issuer");
     const groups = certificationsByIssuer();
-    useDetailHead("certifications", null);
 
     return (
         <div class="container-page py-12 md:py-16">
@@ -1481,7 +1464,6 @@ function OrganizationsIndex() {
     const cards = useSectionCopy("projects");
     const links = useLinks();
     const numbers = useNumbers();
-    useDetailHead("organizations", null);
 
     return (
         <div class="container-page py-12 md:py-16">
