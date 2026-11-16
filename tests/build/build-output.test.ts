@@ -167,7 +167,10 @@ describe("prerendered pages", () => {
         const lazy = assets.filter((file) => file.endsWith(".js") && !scripts.has(file));
         for (const file of lazy) expect(gzipSize(file), file).toBeLessThanOrEqual(32 * KB);
         // The CSS is inlined into every page, so the first-paint budget below is what binds it; this one catches a jump.
-        const styles = html.match(/<style>([\s\S]*?)<\/style>/)?.[1] ?? "";
+        // The <noscript> block in the head carries a few rules of its own, which are not the stylesheet.
+        const styles = [...html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
+            .map((match) => match[1]).join("\n");
+        expect(styles.length).toBeGreaterThan(20 * KB);
         expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(12.5 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
