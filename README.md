@@ -71,10 +71,12 @@ highlighted numbers, and which experience bullets, skills, projects, certificati
 | Admissions funnels and lottery results | [`/en/projects/martech`](https://sebastianlopezo.page/en/projects/martech)                           | [`/es/projects/martech`](https://sebastianlopezo.page/es/projects/martech)                           |
 | Email signatures                       | [`/en/projects/email-signatures`](https://sebastianlopezo.page/en/projects/email-signatures)         | [`/es/projects/email-signatures`](https://sebastianlopezo.page/es/projects/email-signatures)         |
 
-The other fifteen pages follow the same pattern, `/en/projects/<slug>`: `observability`, `crm-widgets`,
-`admissions-forms`, `crm-snapshots`, `landing-platform`, `email-automations`, `zoho-toolkit`, `collection-automation`,
-`peppercrm`, `portfolio`, `taurus`, `computer-engineering`, `cybersecurity-labs`, `programming-technician` and
-`technical-high-school`.
+The other twenty-seven pages follow the same pattern, `/en/projects/<slug>`: `observability`, `crm-widgets`,
+`admissions-forms`, `crm-snapshots`, `landing-platform`, `email-automations`, `zoho-toolkit`, `real-estate-site`,
+`collection-automation`, `peppercrm`, `portfolio`, `taurus`, `computer-engineering`, `cybersecurity-labs`,
+`programming-technician`, `technical-high-school`, `lettuce-diseases`, `radar-imaging`, `school-services`,
+`fashionline`, `tdd-six-languages`, `artificial-intelligence`, `huffman-compressor`, `carspace`, `sitepersist`,
+`video-to-ascii` and `the-company-dream`.
 
 Links to a project page from a role view carry `?from=<role>`, and the lock when it is on, so "Back to the profile"
 returns to the same view. Clients stay anonymous; the pages about work for clients do not link to code.
@@ -185,7 +187,7 @@ itself the same way (`lib/ready.ts`).
 **Projects.** Every project has its facts in `content/shared/projects.ts` (category, dates, stack, links, figures,
 diagram and the archive organization that holds its repositories) and its card text in `content/{en,es}/projects.ts`.
 Five of them are full case studies, with facts in `content/shared/case-studies.ts` and text in
-`content/case-studies/{en,es}.ts`; the other fifteen pages take their text from `content/project-pages/{en,es}.ts`.
+`content/case-studies/{en,es}.ts`; the other twenty-seven pages take their text from `content/project-pages/{en,es}.ts`.
 The slugs, and the projects each job links to, live in `content/shared/project-links.ts`. The project pages are
 generated like the profile pages; their body is an island whose code and text load in chunks of their own
 (`content/project-copy.ts`), with the head builders in `lib/seo-projects.ts`. Each page has its
