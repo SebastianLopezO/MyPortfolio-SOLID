@@ -41,7 +41,7 @@ export function SiteHeader(props: SiteHeaderProps) {
     );
 
     return (
-        <header class="fixed inset-x-0 top-0 z-50 h-(--header-height) border-b border-border/60 bg-bg/90">
+        <header class="site-header fixed inset-x-0 top-0 z-50 h-(--header-height) border-b border-border/60 bg-bg/90">
             <div class="container-page flex h-full items-center justify-between gap-4">
                 <Link to={pathFor(role())} class="flex shrink-0 items-center gap-3">
                     <span
@@ -83,6 +83,8 @@ export function SiteHeader(props: SiteHeaderProps) {
             >
                 <ul class="container-page grid gap-1 py-3">{links(() => setOpen(false))}</ul>
             </nav>
+            {/* How far down the page the reader is (globals.css, .reading-progress). */}
+            <span aria-hidden="true" class="reading-progress"/>
         </header>
     );
 }
