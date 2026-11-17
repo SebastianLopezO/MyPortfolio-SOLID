@@ -41,7 +41,6 @@ export function CertificationsSection() {
                                 <h3 class="text-fg">
                                     <Link to={buildDetailPath(lang, "certifications", {
                                         slug: CERTIFICATION_SLUG[item.id],
-                                        from: role(),
                                         locked: locked()
                                     })} class="hover:text-primary">
                                         {item.title}
@@ -95,7 +94,7 @@ export function CertificationsSection() {
                     </button>
                 </Show>
                 <Link
-                    to={buildDetailPath(lang, "certifications", {from: role(), locked: locked()})}
+                    to={buildDetailPath(lang, "certifications", {locked: locked()})}
                     class="inline-flex min-h-10 items-center gap-2 rounded-md px-2 text-sm font-semibold text-primary hover:text-primary-hover"
                 >
                     {copy.labels.index}

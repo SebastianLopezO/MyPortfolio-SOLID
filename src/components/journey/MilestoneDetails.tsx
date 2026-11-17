@@ -31,7 +31,7 @@ const detailOf = (id: MilestoneId) => {
 /** One stop's text and links; the details panel draws it anew for each stop it shows. */
 function MilestoneContent(props: { id: MilestoneId }) {
     const {lang, content: {ui}} = useLanguage();
-    const {role, locked} = useRole();
+    const {locked} = useRole();
     const journey = useJourneyCopy();
     // The panel keys this content by stop, so the id is fixed for its life.
     // eslint-disable-next-line solid/reactivity
@@ -63,7 +63,6 @@ function MilestoneContent(props: { id: MilestoneId }) {
                                     <Link
                                         to={buildDetailPath(lang, "certifications", {
                                             slug: CERTIFICATION_SLUG[certification.id],
-                                            from: role(),
                                             locked: locked()
                                         })}
                                         class="inline-flex min-h-8 items-center rounded-full border border-border px-3 py-1 text-xs text-fg-muted hover:border-primary hover:text-primary"
@@ -100,7 +99,6 @@ function MilestoneContent(props: { id: MilestoneId }) {
                                 <Link
                                     to={buildDetailPath(lang, page().collection, {
                                         slug: page().slug,
-                                        from: role(),
                                         locked: locked()
                                     })}
                                     class="inline-flex min-h-9 items-center gap-1 text-sm font-semibold text-primary hover:text-primary-hover"

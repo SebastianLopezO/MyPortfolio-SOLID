@@ -63,7 +63,6 @@ export function ServicesSection() {
                                             <Link
                                                 to={buildProjectPath(lang, {
                                                     slug: PROJECT_SLUG[project],
-                                                    from: role(),
                                                     locked: locked()
                                                 })}
                                                 class="inline-flex min-h-6 items-center font-semibold text-primary hover:text-primary-hover"

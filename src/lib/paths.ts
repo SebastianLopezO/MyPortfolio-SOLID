@@ -16,7 +16,10 @@ export const DEFAULT_LANG: Lang = "en";
 
 export const LOCK_PARAM = "locked";
 
-/** Carries the role view a visitor came from into the project pages, so links back keep it. */
+/**
+ * Carries the role view a visitor came from into the project and detail pages, so links back keep it. The links are
+ * written without it, so search engines find one address per page; lib/role-links.ts adds it when a visitor follows one.
+ */
 export const FROM_PARAM = "from";
 
 export const PROJECTS_SEGMENT = "projects";
@@ -49,18 +52,11 @@ export const parsePath = (pathname: string): { lang: Lang; role: RoleId | null }
 
 export interface ProjectPathOptions extends PathOptions {
     slug?: ProjectSlug | null;
-    from?: RoleId | null;
 }
 
-export const buildProjectPath = (lang: Lang, {
-    slug = null,
-    from = null,
-    locked = false,
-    hash = ""
-}: ProjectPathOptions = {}) => {
+export const buildProjectPath = (lang: Lang, {slug = null, locked = false, hash = ""}: ProjectPathOptions = {}) => {
     const path = slug ? `/${lang}/${PROJECTS_SEGMENT}/${slug}` : `/${lang}/${PROJECTS_SEGMENT}`;
-    const params = [from && `${FROM_PARAM}=${from}`, locked && `${LOCK_PARAM}=true`].filter(Boolean);
-    const query = params.length ? `?${params.join("&")}` : "";
+    const query = locked ? `?${LOCK_PARAM}=true` : "";
     return `${path}${query}${fragment(hash)}`;
 };
 
@@ -75,19 +71,16 @@ export const parseProjectPath = (pathname: string): { lang: Lang; slug: ProjectS
 
 export interface DetailPathOptions extends PathOptions {
     slug?: string | null;
-    from?: RoleId | null;
 }
 
 /** A job, program, certification or organization page, or with no slug the collection's index. */
 export const buildDetailPath = (lang: Lang, collection: DetailCollection, {
     slug = null,
-    from = null,
     locked = false,
     hash = ""
 }: DetailPathOptions = {}) => {
     const path = slug ? `/${lang}/${collection}/${slug}` : `/${lang}/${collection}`;
-    const params = [from && `${FROM_PARAM}=${from}`, locked && `${LOCK_PARAM}=true`].filter(Boolean);
-    const query = params.length ? `?${params.join("&")}` : "";
+    const query = locked ? `?${LOCK_PARAM}=true` : "";
     return `${path}${query}${fragment(hash)}`;
 };
 

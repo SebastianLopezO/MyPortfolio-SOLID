@@ -34,7 +34,7 @@ function BulletItem(props: { bullet: Bullet; role: RoleId | null }) {
 function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) {
     const {lang, content: {ui}} = useLanguage();
     const copy = useSectionCopy("experience");
-    const {role: viewRole, locked} = useRole();
+    const {locked} = useRole();
     const [expanded, setExpanded] = createSignal(false);
     const projectCopy = useSectionCopy("projects");
     const related = () => EXPERIENCE_PROJECTS[props.facts.id] ?? [];
@@ -133,7 +133,6 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                                         <Link
                                             to={buildProjectPath(lang, {
                                                 slug: PROJECT_SLUG[id],
-                                                from: props.role,
                                                 locked: locked()
                                             })}
                                             class="inline-flex min-h-9 items-center gap-1 font-semibold text-primary hover:text-primary-hover"
@@ -150,7 +149,6 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                     <Link
                         to={buildDetailPath(lang, "experience", {
                             slug: EXPERIENCE_SLUG[props.facts.id],
-                            from: viewRole(),
                             locked: locked()
                         })}
                         class="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-md border border-border-strong px-3 font-semibold text-fg hover:border-primary hover:text-primary"

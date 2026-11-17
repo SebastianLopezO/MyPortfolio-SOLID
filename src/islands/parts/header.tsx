@@ -18,10 +18,9 @@ export function HeaderPart(props: PartProps) {
     const project = parseProjectPath(path);
     const detail = parseDetailPath(path);
     const languageHref = () => {
-        if (project) return buildProjectPath(alternateLang, {slug: project.slug, from: role(), locked: locked()});
+        if (project) return buildProjectPath(alternateLang, {slug: project.slug, locked: locked()});
         if (detail) return buildDetailPath(alternateLang, detail.collection, {
             slug: detail.slug,
-            from: role(),
             locked: locked()
         });
         return undefined;

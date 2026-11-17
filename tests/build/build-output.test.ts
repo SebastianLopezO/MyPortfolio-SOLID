@@ -157,6 +157,12 @@ describe("prerendered pages", () => {
         }
     });
 
+    it("links every page by its one address, without the role view a visitor follows it from", () => {
+        // ?from= is added on the click (lib/role-links.ts); written in the links, it made search engines crawl a copy of
+        // each project and detail page per role view, all pointing their canonical back at the plain address.
+        for (const path of ALL_PAGES) expect(page(path), path).not.toMatch(/href="[^"]*[?&]from=/);
+    });
+
     it("keeps the startup JavaScript, CSS and HTML within budget", () => {
         const html = page("/en");
         const assets = readdirSync(join(DIST, "assets")).map((file) => `assets/${file}`);

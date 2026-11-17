@@ -157,11 +157,10 @@ export const createAssistant = (content: Content, copy: AssistantCopy, cases?: R
         const detection = detect(query, activeRole);
         const services = prioritize(SERVICE_IDS, (id) => serviceRoles[id], activeRole).map((id) => content.services.items[id].title);
         const known: AnswerFacts = {...base, topStack: roleConfig(activeRole).topStack, services};
-        const from = activeRole;
         const pageHref = (page: PageRef) =>
             page.collection === "projects"
-                ? buildProjectPath(content.lang, {slug: (page.slug ?? null) as ProjectSlug | null, from, locked})
-                : buildDetailPath(content.lang, page.collection, {slug: page.slug ?? null, from, locked});
+                ? buildProjectPath(content.lang, {slug: (page.slug ?? null) as ProjectSlug | null, locked})
+                : buildDetailPath(content.lang, page.collection, {slug: page.slug ?? null, locked});
         // A page's link reads as the page's name, taken from the fact that links to it.
         const labelOf = (page: PageRef) =>
             (page.slug && facts.find((fact) => fact.page?.collection === page.collection && fact.page.slug === page.slug)?.label) || copy.pages[page.collection];

@@ -29,7 +29,7 @@ const FEATURED_ORGANIZATIONS = 2;
 function OrganizationCard(props: { organization: OrganizationFacts; wide: boolean }) {
     const copy = useSectionCopy("projects");
     const {lang} = useLanguage();
-    const {role, locked} = useRole();
+    const {locked} = useRole();
     const [showMetrics, setShowMetrics] = createSignal(false);
 
     return (
@@ -53,7 +53,6 @@ function OrganizationCard(props: { organization: OrganizationFacts; wide: boolea
                 <Link
                     to={buildDetailPath(lang, "organizations", {
                         slug: ORGANIZATION_SLUG[props.organization.id],
-                        from: role(),
                         locked: locked()
                     })}
                     class="inline-flex min-h-9 items-center gap-1 font-semibold text-primary hover:text-primary-hover"
@@ -197,7 +196,7 @@ export function ProjectsSection() {
     // A role switch happens without a reload, so the tabs open on the new role's category.
     createComputed(on(config, (current) => setCategory(current.projectCategory), {defer: true}));
 
-    const hrefOf = (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], from: role(), locked: locked()});
+    const hrefOf = (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()});
     const labels: ProjectCardLabels = {
         readProject: copy.readProject,
         readCaseStudy: ui.actions.readCaseStudy,
@@ -288,7 +287,7 @@ export function ProjectsSection() {
             </div>
 
             <Link
-                to={buildProjectPath(lang, {from: role(), locked: locked()})}
+                to={buildProjectPath(lang, {locked: locked()})}
                 class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
             >
                 {ui.actions.allProjects}
@@ -307,7 +306,7 @@ export function ProjectsSection() {
                     </For>
                 </ul>
                 <Link
-                    to={buildDetailPath(lang, "organizations", {from: role(), locked: locked()})}
+                    to={buildDetailPath(lang, "organizations", {locked: locked()})}
                     class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {copy.organizationsIndex}

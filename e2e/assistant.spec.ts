@@ -36,7 +36,7 @@ test("never offers other role views on locked links", async ({page}) => {
     // The only internal links allowed are project and detail pages that keep the locked view.
     const routes = await dialog.locator('a[href^="/es/"]').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
     expect(routes.length).toBeGreaterThan(0);
-    for (const href of routes) expect(href).toMatch(/^\/es\/(projects|experience|education|certifications|organizations)\/[\w-]+\?from=crm&locked=true$/);
+    for (const href of routes) expect(href).toMatch(/^\/es\/(projects|experience|education|certifications|organizations)\/[\w-]+\?locked=true$/);
 });
 
 test("follows an answer with questions about the same topic", async ({page, consoleErrors}) => {

@@ -48,7 +48,7 @@ function ProjectCrumbs(props: { current?: string }) {
         return props.current
             ? [home, {
                 label: ui.indexTitle,
-                to: buildProjectPath(lang, {from: role(), locked: locked()})
+                to: buildProjectPath(lang, {locked: locked()})
             }, {label: props.current}]
             : [home, {label: ui.indexTitle}];
     };
@@ -168,7 +168,7 @@ const hasRelated = (id: ProjectId) => {
  * show in it and the other projects of the same job or program. */
 function Related(props: { id: ProjectId; sectionId: string }) {
     const {lang, content} = useLanguage();
-    const {role, locked} = useRole();
+    const {locked} = useRole();
     const {pages} = useProjectsCopy();
     const cards = useSectionCopy("projects");
     const about = useSectionCopy("about");
@@ -178,7 +178,7 @@ function Related(props: { id: ProjectId; sectionId: string }) {
     const {id} = props;
     const facts = projectById(id);
     const detail = (collection: "experience" | "education" | "organizations" | "certifications", slug: string) =>
-        buildDetailPath(lang, collection, {slug, from: role(), locked: locked()});
+        buildDetailPath(lang, collection, {slug, locked: locked()});
     const job = experience.find((item) => item.id === facts.experience);
     const program = education.find((item) => item.id === facts.education);
     const organization = organizations.find((item) => item.id === facts.organization);
@@ -242,7 +242,6 @@ function Related(props: { id: ProjectId; sectionId: string }) {
                                         <Link
                                             to={buildProjectPath(lang, {
                                                 slug: PROJECT_SLUG[sibling.id],
-                                                from: role(),
                                                 locked: locked()
                                             })}
                                             class="group block w-full overflow-hidden rounded-lg border border-border bg-surface hover:border-primary"
@@ -271,14 +270,14 @@ function Related(props: { id: ProjectId; sectionId: string }) {
 /** The links under every project page: the projects before and after it in the list, and back to the index. */
 function ProjectNavigation(props: { id: ProjectId }) {
     const {lang} = useLanguage();
-    const {role, locked} = useRole();
+    const {locked} = useRole();
     const {cases: {ui}, pages} = useProjectsCopy();
     const cards = useSectionCopy("projects");
     const index = () => projects.findIndex((project) => project.id === props.id);
     const previous = () => projects[(index() - 1 + projects.length) % projects.length];
     const next = () => projects[(index() + 1) % projects.length];
     const linkTo = (project: ProjectFacts) => ({
-        to: buildProjectPath(lang, {slug: PROJECT_SLUG[project.id], from: role(), locked: locked()}),
+        to: buildProjectPath(lang, {slug: PROJECT_SLUG[project.id], locked: locked()}),
         label: cards.items[project.id].name,
     });
 
@@ -289,7 +288,7 @@ function ProjectNavigation(props: { id: ProjectId }) {
             next={linkTo(next())}
             previousLabel={pages.ui.previous}
             nextLabel={pages.ui.next}
-            all={{to: buildProjectPath(lang, {from: role(), locked: locked()}), label: ui.allProjects}}
+            all={{to: buildProjectPath(lang, {locked: locked()}), label: ui.allProjects}}
         />
     );
 }
@@ -637,7 +636,6 @@ function ProjectsIndex() {
                                     copy={cards.items[project.id]}
                                     href={buildProjectPath(lang, {
                                         slug: PROJECT_SLUG[project.id],
-                                        from: role(),
                                         locked: locked()
                                     })}
                                     role={role()}

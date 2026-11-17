@@ -11,10 +11,13 @@ export function LanguageSwitcher(props: { class?: string; href?: string }) {
     const {role, locked} = useRole();
     const href = () => props.href ?? buildPath(alternateLang, role(), {locked: locked()});
 
-    const keepHash = (event: MouseEvent) => {
+    const keepHash = (event: MouseEvent & { currentTarget: HTMLAnchorElement }) => {
         if (!window.location.hash || event.metaKey || event.ctrlKey || event.shiftKey) return;
         event.preventDefault();
-        window.location.assign(withBase(`${href()}${window.location.hash}`));
+        // The link as it is followed now, with the role view lib/role-links.ts may have added to it.
+        const url = new URL(event.currentTarget.href);
+        url.hash = window.location.hash;
+        window.location.assign(url.href);
     };
 
     return (

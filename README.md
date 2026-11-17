@@ -80,8 +80,9 @@ The other twenty-seven pages follow the same pattern, `/en/projects/<slug>`: `ob
 `fashionline`, `tdd-six-languages`, `artificial-intelligence`, `huffman-compressor`, `carspace`, `sitepersist`,
 `video-to-ascii` and `the-company-dream`.
 
-Links to a project page from a role view carry `?from=<role>`, and the lock when it is on, so "Back to the profile"
-returns to the same view. Clients stay anonymous; the pages about work for clients do not link to code.
+A project page opened from a role view gets `?from=<role>`, and the lock when it is on, so "Back to the profile"
+returns to the same view. The links are written without the role, which a click adds (`lib/role-links.ts`), so search
+engines find one address per page. Clients stay anonymous; the pages about work for clients do not link to code.
 
 ## Experience, education, certifications and organizations
 
@@ -235,9 +236,10 @@ changed:
   after the `load` event and the first paint, so Lighthouse does not count the islands' scripts against the first paint.
 - **Navigation.** Every page is its own document, so a role change, like any other link, loads the page of that view
   instead of re-rendering the open one; the role switcher sits in the hero, so the reader lands where they were. The
-  locked view travels on every internal link, also before a section hydrates (`lib/lock.ts`).
+  locked view travels on every internal link, also before a section hydrates (`lib/lock.ts`), and the role view rides
+  on the click that opens a project or detail page (`lib/role-links.ts`).
 - **Reactivity.** Components run once and the providers hand out accessors, so the `?from=` view a project or detail
-  page learns after hydration reaches every link, because links read it inside JSX.
+  page learns after hydration reaches every part that reads it, such as the way back, because they read it inside JSX.
 - **Dependencies.** `react`, `react-dom`, `lucide-react` and `clsx` are gone: the 31 icons are static templates in
   `components/ui/icons.tsx` and `cn()` is a local helper. The runtime dependencies are `astro`, `@astrojs/solid-js`,
   `solid-js` and the three font packages; `eslint-plugin-solid` replaces the React hooks rules and Vitest runs a jsdom

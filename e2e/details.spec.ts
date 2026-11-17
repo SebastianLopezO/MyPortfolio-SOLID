@@ -37,7 +37,7 @@ test("opens a job page from the home page and keeps the locked role view", async
     await expect(page.getByRole("heading", {level: 2, name: "What I did"})).toBeVisible();
     const breadcrumb = page.getByRole("navigation", {name: "Breadcrumb"});
     await expect(breadcrumb.getByRole("link", {name: "Home"})).toHaveAttribute("href", "/en/backend?locked=true#experience");
-    await expect(breadcrumb.getByRole("link", {name: "Professional experience"})).toHaveAttribute("href", "/en/experience?from=backend&locked=true");
+    await expect(breadcrumb.getByRole("link", {name: "Professional experience"})).toHaveAttribute("href", "/en/experience?locked=true");
     await breadcrumb.getByRole("link", {name: "Professional experience"}).click();
     await expect(page).toHaveURL(/\/en\/experience\?from=backend&locked=true$/);
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Professional experience");
@@ -206,11 +206,11 @@ test("moves between programs and switches language on the same page", async ({pa
     await gotoHydrated(page, "/en/education/computer-engineering?from=data");
     await expect(page.locator('section[aria-labelledby="detail-courses"] li')).toHaveCount(36);
     const next = page.getByRole("link", {name: /^Next/});
-    await expect(next).toHaveAttribute("href", "/en/education/cybersecurity-diploma?from=data");
+    await expect(next).toHaveAttribute("href", "/en/education/cybersecurity-diploma");
     await next.click();
     await expect(page).toHaveURL(/\/en\/education\/cybersecurity-diploma\?from=data$/);
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Diploma in Cybersecurity");
-    await expect(page.locator('a[hreflang="es"]').first()).toHaveAttribute("href", "/es/education/cybersecurity-diploma?from=data");
+    await expect(page.locator('a[hreflang="es"]').first()).toHaveAttribute("href", "/es/education/cybersecurity-diploma");
     expect(consoleErrors).toEqual([]);
 });
 

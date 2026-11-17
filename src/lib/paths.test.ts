@@ -42,11 +42,8 @@ describe("paths", () => {
     it("builds and parses the project pages", () => {
         expect(buildProjectPath("en")).toBe("/en/projects");
         expect(buildProjectPath("es", {slug: "smartpot"})).toBe("/es/projects/smartpot");
-        expect(buildProjectPath("en", {
-            slug: "gopoli",
-            from: "backend",
-            locked: true
-        })).toBe("/en/projects/gopoli?from=backend&locked=true");
+        // The view a visitor came from is added when a link is followed (lib/role-links.ts), never written in it.
+        expect(buildProjectPath("en", {slug: "gopoli", locked: true})).toBe("/en/projects/gopoli?locked=true");
         expect(parseProjectPath("/en/projects")).toEqual({lang: "en", slug: null});
         expect(parseProjectPath("/es/projects/integration-platform/")).toEqual({
             lang: "es",
@@ -64,11 +61,10 @@ describe("paths", () => {
         expect(buildDetailPath("es", "experience", {slug: "muv-u"})).toBe("/es/experience/muv-u");
         expect(buildDetailPath("en", "certifications", {
             slug: "it-specialist-python",
-            from: "data",
             locked: true,
             hash: "detail-applied"
         }))
-            .toBe("/en/certifications/it-specialist-python?from=data&locked=true#detail-applied");
+            .toBe("/en/certifications/it-specialist-python?locked=true#detail-applied");
         expect(parseDetailPath("/es/education")).toEqual({lang: "es", collection: "education", slug: null});
         expect(parseDetailPath("/en/organizations/smartpottech/")).toEqual({
             lang: "en",

@@ -149,7 +149,6 @@ export function AboutSection() {
                                 <p class="mt-1 flex flex-wrap gap-x-5">
                                     <Link to={buildDetailPath(lang, "education", {
                                         slug: EDUCATION_SLUG[item.id],
-                                        from: role(),
                                         locked: locked()
                                     })} class={LINK}>
                                         {about.educationPage}
@@ -188,7 +187,7 @@ export function AboutSection() {
                     }}</For>
                 </ol>
                 <Link
-                    to={buildDetailPath(lang, "education", {from: role(), locked: locked()})}
+                    to={buildDetailPath(lang, "education", {locked: locked()})}
                     class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {about.educationIndex}

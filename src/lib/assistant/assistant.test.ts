@@ -172,8 +172,9 @@ describe("answers", () => {
     it("never links to another role view when the profile is locked", () => {
         const answer = askEs("¿Encaja en un rol de datos?", {role: "backend", locked: true});
         expect(answer.intents).toContain("roleFit");
-        // The only pages it may open keep the locked view: projects and detail pages, never another role.
-        for (const link of answer.links.filter((item) => item.kind === "route")) expect(link.href).toMatch(/\?from=backend&locked=true$/);
+        // The only pages it may open keep the lock: projects and detail pages, never another role. The view itself is
+        // added when a link is followed (lib/role-links.ts).
+        for (const link of answer.links.filter((item) => item.kind === "route")) expect(link.href).toMatch(/^\/es\/[\w/-]+\?locked=true$/);
     });
 
     it("finds specific technologies through retrieval", () => {
@@ -227,19 +228,19 @@ describe("answers", () => {
 describe("assistant with case studies", () => {
     const ask = createAssistant(en, enCopy, enCases);
 
-    it("answers from a case study and links to its page, keeping the role view", () => {
+    it("answers from a case study and links to its page, keeping the lock", () => {
         const answer = ask("How do you integrate PeopleSoft over SOAP?", {role: "backend", locked: true});
-        expect(answer.links.map((link) => link.href)).toContain("/en/projects/integration-platform?from=backend&locked=true");
+        expect(answer.links.map((link) => link.href)).toContain("/en/projects/integration-platform?locked=true");
     });
 
-    it("links search answers to the case study, with the role only when one is on screen", () => {
+    it("links search answers to the case study, with the lock only when the profile is locked", () => {
         const general = ask("How do signatures render in desktop Outlook?", {role: null, locked: false});
         expect(general.links.map((link) => link.href)).toContain("/en/projects/email-signatures");
         const locked = createAssistant(es, esCopy, esCases)("¿Cómo se ven las firmas en Outlook de escritorio?", {
             role: "backend",
             locked: true
         });
-        expect(locked.links.map((link) => link.href)).toContain("/es/projects/email-signatures?from=backend&locked=true");
+        expect(locked.links.map((link) => link.href)).toContain("/es/projects/email-signatures?locked=true");
     });
 });
 
@@ -272,7 +273,7 @@ describe("assistant with the detail pages", () => {
         expect(answer.links[0]).toEqual({
             kind: "route",
             label: "ADCOM GROUP",
-            href: "/en/experience/adcom?from=crm&locked=true"
+            href: "/en/experience/adcom?locked=true"
         });
     });
 

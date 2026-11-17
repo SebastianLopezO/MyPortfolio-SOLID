@@ -118,14 +118,13 @@ const inProgress = (program: EducationFacts) =>
  */
 function useLinks() {
     const {lang} = useLanguage();
-    const {role, locked} = useRole();
+    const {locked} = useRole();
     return {
         detail: (collection: DetailCollection, slug: string | null = null) => buildDetailPath(lang, collection, {
             slug,
-            from: role(),
             locked: locked()
         }),
-        project: (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], from: role(), locked: locked()}),
+        project: (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()}),
     };
 }
 

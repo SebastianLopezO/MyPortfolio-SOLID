@@ -78,7 +78,6 @@ export function TechExplorer(props: TechExplorerProps) {
                                             <li>
                                                 <Link to={buildProjectPath(lang, {
                                                     slug: PROJECT_SLUG[project.id],
-                                                    from: props.role,
                                                     locked: locked()
                                                 })}
                                                       class="font-semibold text-primary hover:text-primary-hover">

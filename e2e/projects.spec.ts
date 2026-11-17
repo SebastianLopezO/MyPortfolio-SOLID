@@ -27,10 +27,10 @@ test("opens a case study from the home page and keeps the locked role view on th
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Education integration platform");
     await expect(page).toHaveTitle(/Integration platform/);
     const crumbs = page.getByRole("navigation", {name: "Breadcrumb"});
-    await expect(crumbs.getByRole("link", {name: "Projects"})).toHaveAttribute("href", "/en/projects?from=backend&locked=true");
+    await expect(crumbs.getByRole("link", {name: "Projects"})).toHaveAttribute("href", "/en/projects?locked=true");
     await expect(crumbs.getByText("Education integration platform")).toHaveAttribute("aria-current", "page");
     await expect(crumbs.getByRole("link", {name: "Home"})).toHaveAttribute("href", "/en/backend?locked=true#projects");
-    await expect(page.locator('a[hreflang="es"]').first()).toHaveAttribute("href", "/es/projects/integration-platform?from=backend&locked=true");
+    await expect(page.locator('a[hreflang="es"]').first()).toHaveAttribute("href", "/es/projects/integration-platform?locked=true");
     await crumbs.getByRole("link", {name: "Home"}).click();
     await expect(page).toHaveURL(/\/en\/backend\?locked=true#projects$/);
     expect(consoleErrors).toEqual([]);
@@ -77,7 +77,7 @@ test("tells a project without a case study, links its organization and moves to 
     await expect(page.getByRole("heading", {level: 2, name: "Repositories"})).toBeVisible();
     await expect(page.getByRole("link", {name: "GitHub organization: EngineeringSebastian-s"})).toHaveAttribute("href", "https://github.com/EngineeringSebastian-s");
     const next = page.getByRole("link", {name: /Next project/});
-    await expect(next).toHaveAttribute("href", "/en/projects/cybersecurity-labs?from=data");
+    await expect(next).toHaveAttribute("href", "/en/projects/cybersecurity-labs");
     await next.click();
     await expect(page).toHaveURL(/\/en\/projects\/cybersecurity-labs\?from=data$/);
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Cybersecurity Labs");
@@ -90,14 +90,14 @@ test("links a project to its job, its organization, the certifications it uses a
                                                                                                                           }) => {
     await gotoHydrated(page, "/en/projects/email-automations?from=backend");
     const related = page.getByRole("region", {name: "Related"});
-    await expect(related.getByRole("link", {name: /ADCOM GROUP/})).toHaveAttribute("href", "/en/experience/adcom?from=backend");
-    await expect(related.getByRole("link", {name: /ADCOM-Group/})).toHaveAttribute("href", "/en/organizations/adcom-group?from=backend");
-    await expect(related.getByRole("link", {name: /IT Specialist – Python/})).toHaveAttribute("href", "/en/certifications/it-specialist-python?from=backend");
+    await expect(related.getByRole("link", {name: /ADCOM GROUP/})).toHaveAttribute("href", "/en/experience/adcom");
+    await expect(related.getByRole("link", {name: /ADCOM-Group/})).toHaveAttribute("href", "/en/organizations/adcom-group");
+    await expect(related.getByRole("link", {name: /IT Specialist – Python/})).toHaveAttribute("href", "/en/certifications/it-specialist-python");
     await expect(related.getByRole("heading", {name: "More projects from ADCOM GROUP"})).toBeVisible();
-    const sibling = related.locator('a[href="/en/projects/real-estate-site?from=backend"]');
+    const sibling = related.locator('a[href="/en/projects/real-estate-site"]');
     await sibling.click();
     await expect(page).toHaveURL(/\/en\/projects\/real-estate-site\?from=backend$/);
-    await expect(page.getByRole("region", {name: "Related"}).locator('a[href="/en/projects/email-automations?from=backend"]')).toHaveCount(1);
+    await expect(page.getByRole("region", {name: "Related"}).locator('a[href="/en/projects/email-automations"]')).toHaveCount(1);
     expect(consoleErrors).toEqual([]);
 });
 
@@ -177,8 +177,8 @@ test("lists the other projects that use a technology of the stack", async ({page
     await fastapi.click();
     await expect(fastapi).toHaveAttribute("aria-pressed", "true");
     await expect(stack.getByText(/^Projects with FastAPI \(\d+\)$/)).toBeVisible();
-    await expect(stack.locator('a[href="/en/projects/crm-snapshots?from=backend"]')).toBeVisible();
-    await expect(stack.locator('a[href="/en/projects/integration-platform?from=backend"]')).toHaveCount(0);
+    await expect(stack.locator('a[href="/en/projects/crm-snapshots"]')).toBeVisible();
+    await expect(stack.locator('a[href="/en/projects/integration-platform"]')).toHaveCount(0);
     await fastapi.click();
     await expect(stack.getByText(/^Projects with FastAPI/)).toHaveCount(0);
     expect(consoleErrors).toEqual([]);
