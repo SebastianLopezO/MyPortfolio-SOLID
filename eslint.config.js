@@ -29,6 +29,11 @@ export default tseslint.config(
         ...solid,
     },
     {
+        // A Solid ref is declared unassigned (let el!: HTMLElement) and assigned by ref={el} in JSX, which this rule cannot see.
+        files: ["src/**/*.tsx"],
+        rules: {"no-unassigned-vars": "off"},
+    },
+    {
         files: ["src/**/*.test.{ts,tsx}", "scripts/**/*.ts", "e2e/**/*.ts", "tests/**/*.ts", "*.config.ts"],
         languageOptions: {globals: {...globals.browser, ...globals.node}},
     },
