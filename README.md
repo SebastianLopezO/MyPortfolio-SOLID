@@ -35,6 +35,8 @@ see [Migration from React](#migration-from-react)).
   activity, availability), each answer linking to the page that tells more, with follow-up questions and a catalog of
   the 42 questions it was built for.
 - Dark design system with WCAG AA contrast checked in CI.
+- Motion the browser draws from CSS: parts that rise as they enter the screen, a reading progress bar on the header,
+  pages that fade into each other and figures that count up once, all of it off for a reader who asks for less motion.
 - Shipped as a ~30 MB unprivileged nginx image on GHCR and deployed with Docker Compose.
 
 Lighthouse CI holds every build to 100 in accessibility and SEO, 95 or more in best practices and warns under 90 in

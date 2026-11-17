@@ -15,8 +15,9 @@ figures with a source.
   space goes into the rhythm between sections.
 - **Variance 4, restrained asymmetry.** The hero is an offset split, the experience timeline splits each job in two,
   and list-like content becomes indexed rows. Nothing is rotated, overlapped or scattered.
-- **Motion 3, Static Restrained.** A timeline that fills as it scrolls, color transitions on hover and a 1px press on
-  buttons. Nothing loops, and `prefers-reduced-motion` turns all of it off.
+- **Motion 5, Fluid CSS.** Parts rise into place as they enter the screen, figures count up once, the header draws the
+  reading progress and pages fade into each other; a hover moves an arrow or a screen a few pixels and a button
+  presses 1px. The browser draws all of it from CSS, nothing loops, and `prefers-reduced-motion` turns it off.
 
 ## 2. Color Palette & Roles
 
@@ -102,11 +103,20 @@ appear only inside the journey charts.
 ## 6. Motion & Interaction
 
 - Durations of 120, 200 and 400ms on `ease-standard` and `ease-emphasized` curves; transitions list their properties.
-- Animations use `transform`, `translate`, `opacity` and colors; the one exception is the active page dot of the
-  recommendations, which widens. Nothing above the fold fades in, so the largest paint is never delayed.
+- Animations use `transform`, `translate`, `scale`, `opacity` and colors; the exceptions are the active page dot of
+  the recommendations, which widens, and the rows under "Show more", which open to their height. Nothing above the
+  fold fades in, so the largest paint is never delayed.
 - Scroll-driven animations (`animation-timeline: view()`) fill the experience timeline and slide its cards in, raise
-  each section heading and each section of the article pages into place, and grow the bars of commits per year;
-  browsers without them get the static layout.
+  each section heading, each card, row and figure of the home sections and each section of the article pages into
+  place, and grow the bars of commits per year. In a row each part settles a little after the one before it, a
+  cascade tied to the scroll. A scroll timeline draws the reading progress along the header's lower edge. Browsers
+  without them get the static layout.
+- Figures count up from zero the first time they come into view, once, and end on the number as written.
+- Following a link cross-fades between pages with the header held in place, and what a control opens (more rows, a
+  tab, the phone menu) eases in instead of popping.
+- Hover: the arrow of a link moves 3px the way it leads, the icon of an outward link lifts, and a project card
+  brightens its outline and brings its screen 3% closer. Only for pointers that hover.
+- The header marks the section being read with teal and an underline, never with color alone.
 - `prefers-reduced-motion: reduce` turns every animation and transition off.
 
 ## 7. Anti-Patterns (Banned)

@@ -124,8 +124,9 @@ text; each bar has a labeled legend or row next to it.
   to a 1440px viewport and then grows with the screen, so wide monitors get wider grids instead of wider margins.
   Prose keeps a reading measure inside it (`max-w-2xl` to `max-w-4xl`); case study pages, which read like
   articles, stop at 80rem.
-- `section`: vertical rhythm of `clamp(4rem, 3rem + 4vw, 7rem)`. Sections do not use `content-visibility`: its
-  estimated heights moved anchor targets and overlapped tap targets on long sections.
+- `section`: vertical rhythm of `clamp(4rem, 3rem + 4vw, 7rem)`. A home section off screen skips style and layout
+  (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`), and
+  `lib/anchors.ts` puts the target of an in-page jump back under the header while the page settles.
 - Radii: `sm` 0.375rem, `md` 0.5rem (buttons), `lg` 0.75rem (cards), `xl` 1rem (panels).
 - Shadows: `shadow-card` for elevation, `shadow-glow` for the brand glow on focus and hover.
 - Motion: `--duration-fast` 120ms, `--duration-base` 200ms, `--duration-slow` 400ms, `ease-standard`,
@@ -133,8 +134,25 @@ text; each bar has a labeled legend or row next to it.
   `prefers-reduced-motion: reduce` turns every animation and transition off.
 - Section entrance: the heading of every home section, the sections of the project and detail pages, the rows of the
   detail indexes and the previous/next cards rise 1.5rem into place as they enter (`section-enter`, a scroll-driven
-  animation over the first 40% of their entry). One already on screen when the page loads is past that range, so it
-  never starts faded. The bars of commits per year grow from the left the same way (`bar-grow`).
+  animation over the first 40% of their entry). The cards, rows and figures of the home sections do the same: their
+  list or grid carries `enter-each`, each part rests after 7rem of scroll, and in a row each one settles 3rem after
+  the one before it. One already on screen when the page loads is past that range, so it never starts faded. The bars
+  of commits per year grow from the left the same way (`bar-grow`). These rules sit behind
+  `@supports ((animation-timeline: view()) and (animation-range: entry))` and take the timeline's own duration
+  (`auto`); a slide inside a carousel that scrolls sideways keeps still, since its timeline is the carousel's.
+- Figures: the figures under the hero, of the GitHub metrics and of the recommendations (`data-count`) count up from
+  zero the first time the reader reaches them (`lib/count-up.ts`). One already on screen when the page settles keeps
+  still, and the text ends exactly as it was prerendered.
+- Header: its lower edge fills with the teal gradient as the page scrolls (`reading-progress`, a scroll timeline, no
+  script), and the link of the section that crosses the middle of the screen is teal and underlined and carries
+  `aria-current`; none is marked while the hero is there.
+- Between pages: following a link fades from one page to the next where the browser has cross-document view
+  transitions, and the header keeps its place (`view-transition-name: site-header`).
+- What a control brings in: the rows under "Show more", a tab panel, the list of milestones, an organization's
+  metrics card and the phone menu ease in from `@starting-style` (`appear`), and the rows also open to their height
+  where the browser eases to `auto` (`appear-grow`, `interpolate-size`).
+- Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
+  drops, and a project card brightens its outline and scales its screen to 1.03, only under `(hover: hover)`.
 - Experience timeline: on screens of 64rem and wider each job spans the width beside a line on the left, and the
   card splits in two: context, stack and case studies on the left, achievements on the right. The DOM keeps the
   order phones read (summary, achievements, stack, case studies) and grid placement does the rest. The line fills
