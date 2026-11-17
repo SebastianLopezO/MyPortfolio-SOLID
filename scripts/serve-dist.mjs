@@ -67,6 +67,14 @@ const server = createServer((request, response) => {
         return response.end();
     }
 
+    // One address per page: the file behind it moves to the page, and the not-found page is not found by its name.
+    const file = /^(\/.*?)\/?index\.html$/.exec(pathname);
+    if (file) {
+        response.writeHead(301, {Location: `${file[1]}${search}`});
+        return response.end();
+    }
+    if (pathname === "/404.html") return send(request, response, join(root, "404.html"), 404);
+
     const target = normalize(join(root, decodeURIComponent(pathname)));
     if (!target.startsWith(root)) {
         response.writeHead(400);
