@@ -106,7 +106,7 @@ function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCa
     const screen = projectImages(project)[0];
 
     return (
-        <article class="rounded-xl border border-primary/40 bg-surface p-6 shadow-glow md:p-10 xl:flow-root">
+        <article class="section-enter rounded-xl border border-primary/40 bg-surface p-6 shadow-glow md:p-10 xl:flow-root">
             <Show when={screen && item.screen}>
                 <figure class="mb-8 xl:float-right xl:mb-6 xl:ml-10 xl:w-[30rem]">
                     {/* A phone screen keeps its shape at a phone's width; a wide one is cropped from the top. */}
@@ -298,7 +298,7 @@ export function ProjectsSection() {
             <div class="mt-16">
                 <h3 class="text-heading text-fg">{copy.organizationsTitle}</h3>
                 <p class="mt-2 text-fg-muted">{copy.organizationsSubtitle}</p>
-                <ul class="mt-8 grid grid-flow-dense gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <ul class="enter-each mt-8 grid grid-flow-dense gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     <For each={prioritize(organizations, (organization) => organization.roles, role())}>
                         {(organization, index) => (
                             <OrganizationCard organization={organization}

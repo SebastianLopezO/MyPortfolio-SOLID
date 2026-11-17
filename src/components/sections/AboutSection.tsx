@@ -60,7 +60,7 @@ export function AboutSection() {
                     <For each={paragraphs()}>{(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}</For>
                 </div>
 
-                <div class="space-y-12">
+                <div class="enter-each space-y-12">
                     {/* The portrait and the journey log sit side by side once the terminal is 42rem wide. */}
                     <figure aria-label={about.terminal.label}
                             class="@container overflow-hidden rounded-lg border border-border bg-surface">
@@ -130,7 +130,7 @@ export function AboutSection() {
                     {about.educationTitle}
                 </h3>
                 {/* A timeline on phones; from 48rem an index two across, with the degree on a row of its own. */}
-                <ol class="mt-6 grid gap-x-12 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
+                <ol class="enter-each mt-6 grid gap-x-12 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
                     <For each={education}>{(item, index) => {
                         const copy = about.education[item.id];
                         return (

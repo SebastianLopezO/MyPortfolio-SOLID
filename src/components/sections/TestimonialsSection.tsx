@@ -81,7 +81,7 @@ export function TestimonialsSection() {
     return (
         <Section id="testimonials" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
             {/* An open strip of figures: one per line on phones ("16 Recommendations"), side by side from 40rem. */}
-            <dl class="mb-10 grid max-w-3xl gap-3 sm:grid-cols-3 sm:gap-0">
+            <dl class="enter-each mb-10 grid max-w-3xl gap-3 sm:grid-cols-3 sm:gap-0">
                 <For each={stats}>
                     {([label, value], index) => (
                         <div

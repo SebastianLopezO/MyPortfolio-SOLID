@@ -10,7 +10,8 @@ export function HighlightsStrip() {
 
     return (
         <section aria-label={highlights.label} class="border-y border-border bg-surface/60">
-            <dl class="container-page grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:grid-cols-4">
+            {/* Below the first screen the figures rise one after another (globals.css, .enter-each). */}
+            <dl class="enter-each container-page grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:grid-cols-4">
                 <For each={roleConfig(role()).highlights}>
                     {(id) => (
                         <div class="flex flex-col-reverse justify-end gap-1">

@@ -33,7 +33,7 @@ export function ResumeSection() {
     return (
         <Section id="resume" title={resume.title} subtitle={forProfile(resume.subtitle, role())} tone="raised">
             {/* Two columns of fixed measure, centered together, so the choices and the preview sit side by side. */}
-            <div class="grid gap-12 lg:grid-cols-[minmax(0,34rem)_minmax(0,28rem)] lg:justify-center lg:gap-16">
+            <div class="enter-each grid gap-12 lg:grid-cols-[minmax(0,34rem)_minmax(0,28rem)] lg:justify-center lg:gap-16">
                 <div class="lg:sticky lg:top-24 lg:self-start">
                     <div role="group" aria-label={resume.title} class="flex flex-wrap gap-2">
                         <For each={resumeVersions}>{(item) => (

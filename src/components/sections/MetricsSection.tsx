@@ -89,7 +89,7 @@ export function MetricsSection() {
             <p class="max-w-3xl text-lg text-fg-muted">{forProfile(metrics.intro, role())}</p>
             <p class="mt-3 mb-6 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
 
-            <dl class="grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
+            <dl class="enter-each grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
                 <For each={METRICS}>{(id) => (
                     <div class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
                         <dt class="text-sm text-fg-muted">{metrics.labels[id]}</dt>
@@ -98,7 +98,7 @@ export function MetricsSection() {
                 )}</For>
             </dl>
 
-            <div class="mt-10 grid gap-6 lg:grid-cols-2">
+            <div class="enter-each mt-10 grid gap-6 lg:grid-cols-2">
                 <section aria-labelledby="metrics-areas" class="rounded-lg border border-border bg-surface p-6">
                     <h3 id="metrics-areas" class="font-semibold text-fg">{metrics.areas.title}</h3>
                     <p class="mt-1 text-sm text-fg-subtle">
@@ -177,7 +177,7 @@ export function MetricsSection() {
                 </section>
             </div>
 
-            <section aria-labelledby="metrics-years" class="mt-6 rounded-lg border border-border bg-surface p-6">
+            <section aria-labelledby="metrics-years" class="section-enter mt-6 rounded-lg border border-border bg-surface p-6">
                 <h3 id="metrics-years" class="font-semibold text-fg">{metrics.years.title}</h3>
                 <p class="mt-1 text-sm text-fg-subtle">{metrics.years.note}</p>
                 {/* Rows with horizontal bars on phones and tablets; from 64rem, one column per year. */}
@@ -223,7 +223,7 @@ export function MetricsSection() {
                 </ol>
             </section>
 
-            <div class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div class="enter-each mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                 <section aria-labelledby="metrics-weekdays" class="rounded-lg border border-border bg-surface p-6">
                     <h3 id="metrics-weekdays" class="font-semibold text-fg">{metrics.habits.weekdaysTitle}</h3>
                     <ol class="mt-5 grid grid-cols-7 gap-2">

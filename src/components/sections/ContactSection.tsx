@@ -79,7 +79,7 @@ export function ContactSection() {
 
     return (
         <Section id="contact" title={contact.title} subtitle={forProfile(contact.subtitle, role())} tone="raised">
-            <div class="grid gap-10 lg:grid-cols-2">
+            <div class="enter-each grid gap-10 lg:grid-cols-2">
                 <div>
                     <h3 class="text-title text-fg">{contact.connect}</h3>
                     <p class="mt-3 text-fg-muted">{contact.description}</p>

@@ -31,7 +31,7 @@ export function CertificationsSection() {
     return (
         <Section id="certifications" title={copy.title} subtitle={forProfile(copy.subtitle, role())} tone="raised">
             {/* Rows of an index split by hairlines, two across from 48rem; the full list of 29 reads the same way. */}
-            <ul class="grid border-b border-border md:grid-cols-2 md:gap-x-12">
+            <ul class="enter-each grid border-b border-border md:grid-cols-2 md:gap-x-12">
                 <For each={items()}>{(item) => {
                     const text = copy.items[item.id];
                     const stop = STOPS.get(item.milestone)!;

@@ -208,31 +208,52 @@
         }
     }
 
-    @supports (animation-timeline: view()) {
+    /*
+     * What the scroll position draws (view timelines): no script runs, and a browser without scroll-driven animations
+     * gets the page at rest. The test asks for animation-range too, which leaves out browsers that only know half of it,
+     * and the duration is auto, the timeline's own. Each range is set after its animation, which would reset it.
+     */
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
         @media (width >= 64rem) and (prefers-reduced-motion: no-preference) {
             .timeline::after {
-                animation: timeline-fill linear both;
+                animation: timeline-fill auto linear both;
                 animation-timeline: view(block 50% 50%);
             }
 
             .timeline-card {
-                animation: timeline-enter linear both;
+                animation: timeline-enter auto linear both;
                 animation-timeline: view();
                 animation-range: entry 0% entry 90%;
             }
         }
 
-        /* The sections of a project or detail page rise into place as they enter; one already on screen when the page
-           loads is past its range, so nothing above the fold starts faded. */
         @media (prefers-reduced-motion: no-preference) {
-            .section-enter {
-                animation: section-enter linear both;
+            /* A section heading, a section of a project or detail page and each part of a list or grid marked
+               enter-each rise into place as they enter; one already past its entry is at rest, so nothing above the fold
+               starts faded. */
+            .section-enter,
+            .enter-each > * {
+                animation: section-enter auto linear both;
                 animation-timeline: view();
                 animation-range: entry 0% entry 40%;
             }
 
+            /* A part of a list is at rest after the same stretch of scroll whatever its height, and in a row each one
+               settles a little after the one before it. */
+            .enter-each > * {
+                animation-range: entry 0% entry 7rem;
+            }
+
+            .enter-each > :nth-child(3n + 2) {
+                animation-range-end: entry 10rem;
+            }
+
+            .enter-each > :nth-child(3n) {
+                animation-range-end: entry 13rem;
+            }
+
             .bar-grow {
-                animation: bar-grow linear both;
+                animation: bar-grow auto linear both;
                 animation-timeline: view();
                 animation-range: entry 0% entry 60%;
             }

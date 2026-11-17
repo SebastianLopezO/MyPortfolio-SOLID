@@ -21,7 +21,7 @@ export function SkillsSection() {
     return (
         <Section id="skills" title={skills.title} subtitle={forProfile(skills.subtitle, role())} tone="raised">
             {/* Groups two across from 48rem and three from 80rem, so the tools fill the width instead of a narrow column. */}
-            <ul class="grid gap-x-10 md:grid-cols-2 xl:grid-cols-3">
+            <ul class="enter-each grid gap-x-10 md:grid-cols-2 xl:grid-cols-3">
                 <For each={groups()}>{(group) => (
                     <li class="border-t border-border py-6">
                         <div class="flex items-baseline justify-between gap-3">
