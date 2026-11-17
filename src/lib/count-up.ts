@@ -29,7 +29,11 @@ export const parseFigure = (text: string): Figure | null => {
 export const formatFigure = (value: number, separator: string) =>
     separator ? String(value).replace(/\B(?=(\d{3})+$)/g, separator) : String(value);
 
-/** Rewrites the figure's text node in place, so the node Solid holds stays the same, and ends on the text as written. */
+/**
+ * Rewrites the figure's text node in place, so the node the page's own code holds stays the same, and ends on the text
+ * as written. If anything else rewrites the figure meanwhile (another view of the page, for one), the count stops and
+ * leaves that text alone.
+ */
 function run(element: Element) {
     const node = element.firstChild;
     if (!(node instanceof Text) || element.childNodes.length !== 1) return;
@@ -37,13 +41,16 @@ function run(element: Element) {
     const figure = parseFigure(text);
     if (!figure || figure.value === 0) return;
     const start = performance.now();
+    let shown = text;
     const frame = (now: number) => {
+        if (node.data !== shown) return;
         const progress = Math.min((now - start) / COUNT_MS, 1);
         // Fast at first and slow into the value.
         const eased = 1 - (1 - progress) ** 3;
-        node.data = progress < 1
+        shown = progress < 1
             ? `${figure.prefix}${formatFigure(Math.round(figure.value * eased), figure.separator)}${figure.suffix}`
             : text;
+        node.data = shown;
         if (progress < 1) requestAnimationFrame(frame);
     };
     requestAnimationFrame(frame);

@@ -97,4 +97,23 @@ describe("countUpFigures", () => {
         expect(figure("still").textContent).toBe("487");
         expect(figures.targets.size).toBe(0);
     });
+
+    it("stops counting when something else rewrites the figure", () => {
+        reducedMotion(false);
+        const frames: FrameRequestCallback[] = [];
+        vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => frames.push(callback));
+        vi.spyOn(performance, "now").mockReturnValue(0);
+        countUpFigures();
+        const figures = Observer.last!;
+        figures.report([figure("later"), false]);
+        figures.report([figure("later"), true]);
+        const text = figure("later").firstChild as Text;
+        frames.shift()!(550);
+        expect(text.data).toBe("24,973+");
+        // Another view of the page writes its own figure into the same node.
+        text.data = "139";
+        frames.shift()!(800);
+        expect(text.data).toBe("139");
+        expect(frames).toHaveLength(0);
+    });
 });
