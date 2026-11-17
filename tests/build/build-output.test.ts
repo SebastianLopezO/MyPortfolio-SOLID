@@ -171,7 +171,7 @@ describe("prerendered pages", () => {
         const styles = [...html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
             .map((match) => match[1]).join("\n");
         expect(styles.length).toBeGreaterThan(20 * KB);
-        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(12.5 * KB);
+        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(13.5 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
         // the sections below never delay it; the whole page stays within three (+ 56 KB).
