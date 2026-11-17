@@ -3,7 +3,7 @@
 # final image; Node, pnpm, the sources and node_modules stay behind. Base images are pinned by digest so a rebuild
 # uses the same bytes; Dependabot moves the digests.
 
-FROM node:24-alpine@sha256:44fce696f38ba8c987c4db89954051000bbd05ffd8d8659ba15ed4a8602e937f AS deps
+FROM node:24-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53 AS deps
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     CI=true \
@@ -34,7 +34,7 @@ RUN SITE_URL=$SITE_URL pnpm build
 # load. Only the static module is built; it serves files and needs no Brotli library. The nginx source must carry a
 # signature from one of the nginx developers' keys (nginx.org/en/pgp_keys.html), and git checks ngx_brotli against its
 # commit hash.
-FROM nginxinc/nginx-unprivileged:1.31.6-alpine-slim@sha256:ac4d9c7e457c6510b95ac72dd84b27f7cc68ecb9a83fbd44f05a6460cf08aba4 AS brotli
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine-slim@sha256:a8cb0f33d51fa107c96fd2bd3a71aaf564ec131e9d2bdf8700944f0ed8b170d7 AS brotli
 
 USER root
 ARG NGX_BROTLI_COMMIT=a71f9312c2deb28875acc7bacfdd5695a111aa53
@@ -56,7 +56,7 @@ RUN apk add --no-cache curl gcc git gnupg libc-dev linux-headers make openssl-de
     && make -j"$(nproc)" modules \
     && cp objs/ngx_http_brotli_static_module.so /build/
 
-FROM nginxinc/nginx-unprivileged:1.31.6-alpine-slim@sha256:ac4d9c7e457c6510b95ac72dd84b27f7cc68ecb9a83fbd44f05a6460cf08aba4 AS runtime
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine-slim@sha256:a8cb0f33d51fa107c96fd2bd3a71aaf564ec131e9d2bdf8700944f0ed8b170d7 AS runtime
 
 LABEL org.opencontainers.image.title="MyPortfolio" \
       org.opencontainers.image.description="Bilingual prerendered portfolio of Sebastián López Osorno served by unprivileged nginx" \

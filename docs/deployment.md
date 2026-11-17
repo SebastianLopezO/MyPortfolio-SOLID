@@ -15,7 +15,7 @@ push to main ─► CI (lint, tests, build, e2e, Lighthouse, Docker smoke test)
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Stages       | `deps` installs with pnpm, `build` prerenders and precompresses, `runtime` copies only `dist` and the nginx configuration                                    |
 | Build user   | `node` (uid 1000): package scripts cannot write outside `/app` and the pnpm store                                                                            |
-| Base         | `node:22-alpine` for the first two stages, `nginxinc/nginx-unprivileged:1.31.5-alpine-slim` for the runtime, both pinned by digest (Dependabot updates them) |
+| Base         | `node:24-alpine` for the first two stages, `nginxinc/nginx-unprivileged:1.31.7-alpine-slim` for the runtime, both pinned by digest (Dependabot updates them) |
 | Runtime user | uid 101; the served files belong to root, so nginx can read them and not change them                                                                         |
 | Size         | ~30 MB                                                                                                                                                       |
 | Port         | `8080`                                                                                                                                                       |
