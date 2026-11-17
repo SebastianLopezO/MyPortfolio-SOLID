@@ -36,7 +36,7 @@ export const experience: Content["experience"] = {
                     roles: ["backend", "crm"],
                 },
                 {
-                    text: "Las APIs de integración leen archivos, exponen la jerarquía académica de cada institución (unidades, niveles, modalidades y programas), reciben formularios con adjuntos y sincronizan Zoho WorkDrive, CRM y Forms.",
+                    text: "Expongo la jerarquía académica de cada institución (unidades, niveles, modalidades y programas) mediante las APIs de integración, que además leen archivos, reciben formularios con adjuntos y sincronizan Zoho WorkDrive, CRM y Forms.",
                     roles: ["backend", "crm"],
                 },
                 {

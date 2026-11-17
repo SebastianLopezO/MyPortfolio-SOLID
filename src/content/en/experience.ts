@@ -36,7 +36,7 @@ export const experience: Content["experience"] = {
                     roles: ["backend", "crm"],
                 },
                 {
-                    text: "The integration APIs read files, expose each institution's academic hierarchy (units, levels, modalities and programs), receive forms with attachments and sync Zoho WorkDrive, CRM and Forms.",
+                    text: "Expose each institution's academic hierarchy (units, levels, modalities and programs) through the integration APIs, which also read files, receive forms with attachments and sync Zoho WorkDrive, CRM and Forms.",
                     roles: ["backend", "crm"],
                 },
                 {
