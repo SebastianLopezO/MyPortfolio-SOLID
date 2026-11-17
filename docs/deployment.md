@@ -29,7 +29,7 @@ push to main ─► CI (lint, tests, build, e2e, Lighthouse, Docker smoke test)
 | Request                               | Response                                                                             |
 |---------------------------------------|--------------------------------------------------------------------------------------|
 | `/`                                   | `302` to `/es` when `Accept-Language` starts with `es`, otherwise `/en` (query kept) |
-| `/en`, `/es/backend`, …               | `200` from `<path>/index.html`, `Cache-Control: no-cache`                            |
+| `/en`, `/es/backend`, …               | `200` from `<path>/index.html`, `Cache-Control: no-cache`, `No-Vary-Search`          |
 | `/path/`                              | `301` to `/path` (query kept)                                                        |
 | unknown path                          | `404` with the bilingual `404.html`                                                  |
 | any method other than `GET` or `HEAD` | `405`; request bodies are capped at 1 KB and slow clients time out after 10 s        |

@@ -24,7 +24,9 @@ const LOCK_SCRIPT = `try {
 
 // Starts fetching a page of the site when the pointer rests on its link or presses it, so the page that fades in is
 // already there; a browser without speculation rules ignores them. Files (a resume, a certificate, an image), links
-// that open another tab and jumps within the page are left out. The CSP names this block by its hash too.
+// that open another tab and jumps within the page are left out. The link is prefetched as written, and a click may add
+// the role view (?from=, lib/role-links.ts) or the lock; the pages say with No-Vary-Search (nginx) that those change
+// nothing, so the prefetched page still serves the visit. The CSP names this block by its hash too.
 const SPECULATION_RULES = JSON.stringify({
     prefetch: [{
         where: {
@@ -35,6 +37,7 @@ const SPECULATION_RULES = JSON.stringify({
             ],
         },
         eagerness: "moderate",
+        expects_no_vary_search: "params=(\"from\" \"locked\")",
     }],
 });
 ---

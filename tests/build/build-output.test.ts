@@ -153,6 +153,8 @@ describe("prerendered pages", () => {
             const rules = JSON.parse(attr(html, /<script type="speculationrules">(.+?)<[/]script>/) ?? "{}");
             expect(rules.prefetch, path).toHaveLength(1);
             expect(rules.prefetch[0].eagerness, path).toBe("moderate");
+            // A click may add the role view or the lock; the prefetched page serves that visit too.
+            expect(rules.prefetch[0].expects_no_vary_search, path).toBe('params=("from" "locked")');
             expect(rules.prerender, path).toBeUndefined();
         }
     });

@@ -39,6 +39,8 @@ const send = (request, response, file, status = 200) => {
         "Content-Type": TYPES[extname(file)] ?? "application/octet-stream",
         "Cache-Control": cacheControl(new URL(request.url, "http://localhost").pathname, file),
         Vary: "Accept-Encoding",
+        // As nginx says: the role view and the lock in the query change nothing in a page.
+        ...(file.endsWith(".html") && {"No-Vary-Search": 'params=("from" "locked")'}),
         ...(compressed && {"Content-Encoding": "gzip"}),
     });
     if (request.method === "HEAD") return response.end();
