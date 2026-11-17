@@ -3,7 +3,7 @@
 # final image; Node, pnpm, the sources and node_modules stay behind. Base images are pinned by digest so a rebuild
 # uses the same bytes; Dependabot moves the digests.
 
-FROM node:24-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53 AS deps
+FROM node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 AS deps
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     CI=true \
