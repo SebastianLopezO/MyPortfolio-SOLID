@@ -40,3 +40,4 @@ scripts/og/.render-*.html
 
 # Astro generated types
 .astro/
+/.agents
