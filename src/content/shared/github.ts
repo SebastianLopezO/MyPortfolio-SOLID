@@ -47,5 +47,5 @@ export const commitAreas: { id: CommitAreaId; commits: number; repositories: num
 
 export const COMMIT_AREAS_DAY = "2026-10-15";
 
-/** Of the 548 pull requests he reviewed, 540 were dependency updates opened by Dependabot (GitHub search, 2026-10-15). */
-export const dependabotReviews = 540;
+/** Of the 569 pull requests he reviewed, 561 were dependency updates opened by Dependabot (GitHub search, 2026-11-17). */
+export const dependabotReviews = 561;

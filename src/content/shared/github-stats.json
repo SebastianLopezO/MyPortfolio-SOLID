@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-16T10:04:25.237Z",
+  "generatedAt": "2026-11-16T13:56:34.991Z",
   "since": "2022-02-26",
   "totals": {
-    "contributions": 28541,
-    "commits": 27727,
-    "pullRequests": 171,
-    "reviews": 548,
+    "contributions": 31299,
+    "commits": 30363,
+    "pullRequests": 270,
+    "reviews": 569,
     "issues": 51,
-    "repositoriesCreated": 33,
-    "activeDays": 787,
-    "days": 1694
+    "repositoriesCreated": 34,
+    "activeDays": 818,
+    "days": 1725
   },
   "years": [
     {
@@ -50,24 +50,24 @@
     },
     {
       "year": 2026,
-      "contributions": 21008,
-      "commits": 20646,
-      "pullRequests": 111,
-      "reviews": 238,
-      "activeDays": 288,
-      "days": 289
+      "contributions": 23766,
+      "commits": 23282,
+      "pullRequests": 210,
+      "reviews": 259,
+      "activeDays": 319,
+      "days": 320
     }
   ],
   "streaks": {
     "longest": {
-      "days": 487,
+      "days": 518,
       "from": "2025-06-16",
-      "to": "2026-10-15"
+      "to": "2026-11-15"
     },
     "current": {
-      "days": 487,
+      "days": 518,
       "from": "2025-06-16",
-      "to": "2026-10-15"
+      "to": "2026-11-15"
     }
   },
   "bestDay": {
@@ -75,135 +75,135 @@
     "contributions": 723
   },
   "weekdays": [
-    1522,
-    4396,
-    5374,
-    5229,
-    3645,
-    5925,
-    2450
+    2040,
+    5072,
+    5588,
+    5382,
+    3778,
+    6530,
+    2909
   ],
   "repositories": {
-    "owned": 28,
-    "contributedTo": 202,
-    "private": 135
+    "owned": 29,
+    "contributedTo": 207,
+    "private": 138
   },
   "organizations": {
-    "member": 10,
+    "member": 11,
     "contributedTo": 9
   },
   "languagesByCommits": [
     {
       "name": "TypeScript",
-      "commits": 14901,
-      "share": 59
+      "commits": 14919,
+      "share": 55.6
     },
     {
       "name": "Python",
-      "commits": 6568,
-      "share": 26
+      "commits": 7237,
+      "share": 27
     },
     {
       "name": "Java",
-      "commits": 1351,
-      "share": 5.3
+      "commits": 1386,
+      "share": 5.2
     },
     {
       "name": "JavaScript",
-      "commits": 745,
-      "share": 2.9
+      "commits": 760,
+      "share": 2.8
     },
     {
       "name": "Jupyter Notebook",
-      "commits": 656,
-      "share": 2.6
+      "commits": 658,
+      "share": 2.5
     },
     {
       "name": "HTML",
-      "commits": 516,
-      "share": 2
+      "commits": 609,
+      "share": 2.3
+    },
+    {
+      "name": "PowerShell",
+      "commits": 412,
+      "share": 1.5
+    },
+    {
+      "name": "Go",
+      "commits": 264,
+      "share": 1
     },
     {
       "name": "Shell",
       "commits": 224,
-      "share": 0.9
+      "share": 0.8
     },
     {
       "name": "PHP",
       "commits": 206,
       "share": 0.8
-    },
-    {
-      "name": "Mermaid",
-      "commits": 58,
-      "share": 0.2
-    },
-    {
-      "name": "Visual Basic .NET",
-      "commits": 11,
-      "share": 0
     }
   ],
   "wakatime": {
-    "totalSeconds": 1932131,
+    "totalSeconds": 2030518,
     "languages": [
       {
         "name": "Python",
-        "seconds": 729135
+        "seconds": 756277
       },
       {
         "name": "Java",
-        "seconds": 168733
+        "seconds": 168803
+      },
+      {
+        "name": "Markdown",
+        "seconds": 130448
       },
       {
         "name": "HTML",
-        "seconds": 127511
+        "seconds": 128204
       },
       {
         "name": "JavaScript",
-        "seconds": 112275
+        "seconds": 119662
       },
       {
         "name": "Jupyter",
         "seconds": 102656
       },
       {
-        "name": "Markdown",
-        "seconds": 102555
-      },
-      {
         "name": "YAML",
-        "seconds": 92498
+        "seconds": 99481
       },
       {
         "name": "TypeScript",
-        "seconds": 77386
+        "seconds": 79228
+      },
+      {
+        "name": "Other",
+        "seconds": 74844
       },
       {
         "name": "Bash",
-        "seconds": 64915
-      },
-      {
-        "name": "JSON",
-        "seconds": 43274
+        "seconds": 73141
       }
     ],
     "editors": [
       {
         "name": "PyCharm",
-        "seconds": 1012111
+        "seconds": 1142515
       },
       {
         "name": "WebStorm",
-        "seconds": 380427
+        "seconds": 382854
       },
       {
         "name": "IntelliJ IDEA",
-        "seconds": 301184
+        "seconds": 303840
       },
       {
         "name": "Claude Code",
-        "seconds": 238075
+        "seconds": 259605
       },
       {
         "name": "DataGrip",
