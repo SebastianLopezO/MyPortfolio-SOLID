@@ -252,11 +252,11 @@ describe("certificate images", () => {
 });
 
 describe("crawler files", () => {
-    it("lists every page with language alternates in the sitemap", () => {
+    it("lists every page in the sitemap without XHTML elements", () => {
         const sitemap = read("sitemap.xml");
         const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
         expect(locations.sort()).toEqual(ALL_PAGES.map((path) => `${SITE}${path}`).sort());
-        expect(sitemap.match(/<xhtml:link /g)).toHaveLength(ALL_PAGES.length * 3);
+        expect(sitemap).not.toContain("http://www.w3.org/1999/xhtml");
     });
 
     it("dates each page in the sitemap by the day its text last changed", () => {

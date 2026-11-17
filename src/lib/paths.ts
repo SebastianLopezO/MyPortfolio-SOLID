@@ -149,9 +149,3 @@ export const prerenderRoutes: Route[] = [
         ),
     ),
 ];
-
-export const routeAlternates = (route: Route) => {
-    if (route.kind === "profile") return alternates(route.role);
-    if (route.kind === "projects") return projectAlternates(route.slug);
-    return detailAlternates(route.collection, route.slug);
-};

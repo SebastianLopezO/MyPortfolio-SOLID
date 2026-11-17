@@ -35,3 +35,12 @@ test("answers unknown paths with a bilingual 404", async ({page}) => {
     await expect(page.getByText("Page not found")).toBeVisible();
     await expect(page.getByText("Página no encontrada")).toBeVisible();
 });
+
+test("serves sitemap.xml as an XML tree in the browser", async ({page, consoleErrors}) => {
+    const response = await page.goto("/sitemap.xml");
+    expect(response?.status()).toBe(200);
+    expect(response?.headers()["content-type"]).toMatch(/\bxml\b/);
+    expect(await page.evaluate(() => document.contentType)).toMatch(/\bxml$/);
+    await expect(page.locator("#webkit-xml-viewer-source-xml")).toBeAttached();
+    expect(consoleErrors).toEqual([]);
+});

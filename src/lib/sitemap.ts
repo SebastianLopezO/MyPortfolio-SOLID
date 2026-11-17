@@ -4,7 +4,7 @@ import {projectById, projectImages} from "@/content/shared/projects";
 import {absoluteUrl, BUILD_DATE, SITE_URL} from "@/content/shared/site";
 import {certificationBySlug} from "@/lib/details";
 import {widestVariant} from "@/lib/image-widths";
-import {prerenderRoutes, type Route, routeAlternates} from "@/lib/paths";
+import {prerenderRoutes, type Route} from "@/lib/paths";
 
 const priority = (route: Route) => {
     if (route.kind === "profile") return route.role ? "0.8" : "1.0";
@@ -23,12 +23,13 @@ const imagesOf = (route: Route) => {
     return [];
 };
 
-/** `lastmod` gives the day a page last changed what it says (scripts/page-dates.ts); the build date otherwise. */
+/**
+ * `lastmod` gives the day a page last changed what it says (scripts/page-dates.ts); the build date otherwise.
+ * `hreflang` alternates live in each page's `<head>`: emitting `<xhtml:link>` here makes Chromium treat the file as
+ * XHTML+XML and disable its XML tree viewer, rendering the sitemap as unstyled inline text.
+ */
 export const buildSitemap = (lastmod: (path: string) => string = () => BUILD_DATE) => {
     const urls = prerenderRoutes.map((route) => {
-        const links = routeAlternates(route)
-            .map(({hreflang, href}) => `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}"/>`)
-            .join("\n");
         const images = imagesOf(route).map((image) => `    <image:image><image:loc>${absoluteUrl(widestVariant(image))}</image:loc></image:image>`);
         return [
             "  <url>",
@@ -36,14 +37,13 @@ export const buildSitemap = (lastmod: (path: string) => string = () => BUILD_DAT
             `    <lastmod>${lastmod(route.path)}</lastmod>`,
             "    <changefreq>monthly</changefreq>",
             `    <priority>${priority(route)}</priority>`,
-            links,
             ...images,
             "  </url>",
         ].join("\n");
     });
     return [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
         ...urls,
         "</urlset>",
         "",

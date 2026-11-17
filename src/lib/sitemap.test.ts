@@ -1,17 +1,18 @@
 import {buildRobots, buildSitemap} from "@/lib/sitemap";
 
 describe("sitemap and robots", () => {
-    it("lists the profile, project and detail pages with language alternates", () => {
+    it("lists the profile, project and detail pages in both languages as plain XML", () => {
         const sitemap = buildSitemap();
         expect(sitemap.match(/<url>/g)).toHaveLength(182);
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/data</loc>");
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/projects/smartpot</loc>");
-        expect(sitemap).toContain('hreflang="es" href="https://sebastianlopezo.page/es/projects/gopoli"');
+        expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/projects/gopoli</loc>");
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/en/projects/landing-platform</loc>");
-        expect(sitemap.match(/hreflang="x-default"/g)).toHaveLength(182);
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/experience/muv-u</loc>");
-        expect(sitemap).toContain('hreflang="en" href="https://sebastianlopezo.page/en/certifications/it-specialist-python"');
+        expect(sitemap).toContain("<loc>https://sebastianlopezo.page/en/certifications/it-specialist-python</loc>");
         expect(sitemap).toContain("<lastmod>2026-10-03</lastmod>");
+        expect(sitemap).not.toContain("http://www.w3.org/1999/xhtml");
+        expect(sitemap).not.toContain("<xhtml:link");
     });
 
     it("dates each page by the day it last changed", () => {
