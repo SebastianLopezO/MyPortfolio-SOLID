@@ -143,6 +143,20 @@ describe("prerendered pages", () => {
         }
     });
 
+    it("waits for the first screen before the first paint and prefetches the page a link is about to open", () => {
+        for (const path of ALL_PAGES) {
+            const html = page(path);
+            // The hero closes the first screen of a home page; the breadcrumb opens every other page.
+            const firstScreen = PAGES.includes(path) ? "home" : "trail";
+            expect(html, path).toContain(`<link rel="expect" href="#${firstScreen}" blocking="render">`);
+            expect(html.split(` id="${firstScreen}"`).length - 1, path).toBe(1);
+            const rules = JSON.parse(attr(html, /<script type="speculationrules">(.+?)<[/]script>/) ?? "{}");
+            expect(rules.prefetch, path).toHaveLength(1);
+            expect(rules.prefetch[0].eagerness, path).toBe("moderate");
+            expect(rules.prerender, path).toBeUndefined();
+        }
+    });
+
     it("keeps the startup JavaScript, CSS and HTML within budget", () => {
         const html = page("/en");
         const assets = readdirSync(join(DIST, "assets")).map((file) => `assets/${file}`);

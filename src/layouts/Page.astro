@@ -9,9 +9,11 @@ interface Props {
     robots?: string;
     /** The islands that hydrate once the page has settled; <html data-hydrated> appears when all of them have. */
     islands?: string;
+    /** The id of what closes the first screen: the page is not painted, nor faded into, before it has been parsed. */
+    firstScreen?: string;
 }
 
-const {lang, head, robots = "index, follow, max-image-preview:large", islands = ""} = Astro.props;
+const {lang, head, robots = "index, follow, max-image-preview:large", islands = "", firstScreen} = Astro.props;
 
 // Marks a locked link before the first paint, so the role switcher never flashes. The CSP allows this script by its
 // SHA-256 hash (nginx/security-headers.conf), so its text must stay exactly as it is, whitespace included.
@@ -19,6 +21,22 @@ const LOCK_SCRIPT = `try {
         if (new URLSearchParams(location.search).get("locked") === "true") document.documentElement.dataset.locked = "true"
     } catch (e) {
     }`;
+
+// Starts fetching a page of the site when the pointer rests on its link or presses it, so the page that fades in is
+// already there; a browser without speculation rules ignores them. Files (a resume, a certificate, an image), links
+// that open another tab and jumps within the page are left out. The CSP names this block by its hash too.
+const SPECULATION_RULES = JSON.stringify({
+    prefetch: [{
+        where: {
+            and: [
+                {href_matches: "/*"},
+                {not: {href_matches: "/*.*"}},
+                {not: {selector_matches: "[download], [target=_blank], [href^='#']"}},
+            ],
+        },
+        eagerness: "moderate",
+    }],
+});
 ---
 <!doctype html>
 <html lang={lang}>
@@ -33,6 +51,8 @@ const LOCK_SCRIPT = `try {
     <link href={withBase("/icon.svg")} rel="icon" type="image/svg+xml">
     <link href={withBase("/apple-touch-icon.png")} rel="apple-touch-icon">
     <script is:inline set:html={LOCK_SCRIPT}></script>
+    {firstScreen && <link rel="expect" href={`#${firstScreen}`} blocking="render">}
+    <script is:inline type="speculationrules" set:html={SPECULATION_RULES}></script>
     <!-- Without JavaScript the decision tabs cannot switch: both sides of every decision show, each under its label. -->
     <noscript>
         <style is:inline>[data-decision-panel].hidden {

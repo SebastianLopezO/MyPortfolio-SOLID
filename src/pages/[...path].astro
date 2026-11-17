@@ -22,7 +22,7 @@ const body = route.kind === "projects" ? "projectBody" : "detailBody";
 const settled = ["boot", "header", home ? "hero" : body, "assistant"];
 const NEAR = {rootMargin: "600px"};
 ---
-<Page lang={route.lang} head={headFor(route)} islands={settled.join(" ")}>
+<Page lang={route.lang} head={headFor(route)} islands={settled.join(" ")} firstScreen={home ? "home" : "trail"}>
     <PageIsland part="skip" {...common}/>
     <PageIsland client:settled part="header" {...common}/>
     {home ? (

@@ -162,10 +162,13 @@ export interface Crumb {
     to?: string;
 }
 
-/** Where the page sits: the profile, the collection and the page itself, which is not a link. */
+/**
+ * Where the page sits: the profile, the collection and the page itself, which is not a link. It opens every project
+ * and detail page, so its id is what those pages wait for before their first paint (layouts/Page.astro).
+ */
 export function Breadcrumbs(props: { label: string; items: Crumb[] }) {
     return (
-        <nav aria-label={props.label}>
+        <nav aria-label={props.label} id="trail">
             <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm">
                 <For each={props.items}>
                     {(item, index) => (
