@@ -1,4 +1,4 @@
-import {createSignal, For, Show} from "solid-js";
+import {createSignal, For, onCleanup, onMount, Show} from "solid-js";
 import {Menu, X} from "@/components/ui/icons";
 import {Link} from "@/routes/Router";
 import {profile} from "@/content/shared/profile";
@@ -18,20 +18,48 @@ interface SiteHeaderProps {
     languageHref?: string;
 }
 
+/**
+ * Tells which section of the home page is being read, for the link that marks it: the one that crosses the middle of
+ * the screen, and none while the hero is there. Browsers that track the links of a list themselves
+ * (scroll-target-group) always keep one link current, which here would mark the first section from the top of the
+ * page, so every browser gets the same observer.
+ */
+function useCurrentSection(sections: () => SectionId[], enabled: () => boolean) {
+    const [current, setCurrent] = createSignal<string | null>(null);
+    onMount(() => {
+        if (!enabled() || typeof IntersectionObserver === "undefined") return;
+        const observer = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+                if (entry.isIntersecting) setCurrent(entry.target.id);
+                else setCurrent((id) => (id === entry.target.id ? null : id));
+            }
+        }, {rootMargin: "-50% 0px -50% 0px"});
+        for (const id of sections()) {
+            const section = document.getElementById(id);
+            if (section) observer.observe(section);
+        }
+        onCleanup(() => observer.disconnect());
+    });
+    return current;
+}
+
 export function SiteHeader(props: SiteHeaderProps) {
     const {ui} = useContent();
     const {role, pathFor} = useRole();
     const [open, setOpen] = createSignal(false);
     const items = () => props.sections.filter((section) => NAV_SECTIONS.includes(section));
+    const current = useCurrentSection(items, () => !props.homeLinks);
 
+    // The link of the section being read says so to assistive technology and shows it with more than its color.
     const links = (onNavigate?: () => void) => (
         <For each={items()}>
             {(section) => (
                 <li>
                     <a
                         href={props.homeLinks ? withBase(pathFor(role(), section)) : `#${section}`}
+                        aria-current={current() === section ? "true" : undefined}
                         onClick={() => onNavigate?.()}
-                        class="block rounded-md px-3 py-2 text-sm whitespace-nowrap text-fg-muted transition-colors hover:text-primary lg:px-2 xl:px-3"
+                        class="block rounded-md px-3 py-2 text-sm whitespace-nowrap text-fg-muted decoration-2 underline-offset-8 transition-colors hover:text-primary aria-[current=true]:text-primary aria-[current=true]:underline lg:px-2 xl:px-3"
                     >
                         {ui.nav[section]}
                     </a>

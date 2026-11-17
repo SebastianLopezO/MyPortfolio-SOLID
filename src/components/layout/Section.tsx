@@ -33,10 +33,13 @@ export function Section(props: SectionProps) {
     // eslint-disable-next-line solid/reactivity
     useSectionReady(props.id);
     return (
+        // A link of the header jumps here: the section takes the focus, so the next Tab continues inside it, and as it
+        // is no control it shows no ring.
         <section
             id={props.id}
             aria-labelledby={`${props.id}-title`}
-            class={cn("section", props.tone === "raised" && "bg-surface/60", props.class)}
+            tabindex={-1}
+            class={cn("section focus-visible:outline-none", props.tone === "raised" && "bg-surface/60", props.class)}
             style={{
                 "--section-height": `${HEIGHT[props.id][0]}px`,
                 "--section-height-lg": `${HEIGHT[props.id][1]}px`,
