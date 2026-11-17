@@ -15,9 +15,11 @@ figures with a source.
   space goes into the rhythm between sections.
 - **Variance 4, restrained asymmetry.** The hero is an offset split, the experience timeline splits each job in two,
   and list-like content becomes indexed rows. Nothing is rotated, overlapped or scattered.
-- **Motion 5, Fluid CSS.** Parts rise into place as they enter the screen, figures count up once, the header draws the
-  reading progress and pages fade into each other; a hover moves an arrow or a screen a few pixels and a button
-  presses 1px. The browser draws all of it from CSS, nothing loops, and `prefers-reduced-motion` turns it off.
+- **Motion 6, Fluid CSS.** The page loads progressively: the hero's secondary parts settle in one after another,
+  parts rise into place as they enter the screen, screens paint in from their top edge or settle into their frame,
+  charts draw themselves, figures count up once, the header draws the reading progress and pages fade into each other;
+  a hover moves an arrow or a screen a few pixels and a button presses 1px. The browser draws nearly all of it from
+  CSS, nothing moves for more than five seconds on its own, and `prefers-reduced-motion` turns it off.
 
 ## 2. Color Palette & Roles
 
@@ -80,7 +82,9 @@ appear only inside the journey charts.
   always comes from a source listed in `docs/content.md`.
 - **Inputs:** label above, Raised Graphite fill, Control Edge border, teal ring on focus. Placeholders show what to
   write.
-- **Loading and empty states:** the site is static and prerendered; images reserve their size, nothing spins.
+- **Loading and empty states:** the site is static and prerendered; images reserve their size, nothing spins. A
+  project screen the reader reaches before it has arrived holds its frame in Raised Graphite with a soft pulse (four
+  beats at most), then fades in; one that arrived first simply shows.
 
 ## 5. Layout Principles
 
@@ -104,18 +108,29 @@ appear only inside the journey charts.
 
 - Durations of 120, 200 and 400ms on `ease-standard` and `ease-emphasized` curves; transitions list their properties.
 - Animations use `transform`, `translate`, `scale`, `opacity` and colors; the exceptions are the active page dot of
-  the recommendations, which widens, and the rows under "Show more", which open to their height. Nothing above the
-  fold fades in, so the largest paint is never delayed.
+  the recommendations, which widens, the rows under "Show more", which open to their height, and the reveals drawn
+  with `clip-path` (screens, the journey map, the ASCII art). The hero's portrait is the largest paint and is drawn at
+  once; only the parts of the hero that can never be the largest paint wait for their turn.
+- **Progressive load.** When the page opens, the core stack and the role views settle in chip by chip (45ms apart,
+  560ms each, `hero-cascade`), and the availability dot sends out three pulses, under five seconds in all.
 - Scroll-driven animations (`animation-timeline: view()`) fill the experience timeline and slide its cards in, raise
   each section heading, each card, row and figure of the home sections and each section of the article pages into
   place, and grow the bars of commits per year. In a row each part settles a little after the one before it, a
   cascade tied to the scroll. A scroll timeline draws the reading progress along the header's lower edge. Browsers
   without them get the static layout.
+- Screens and charts arrive the way they would be drawn: the screen of a project card starts 12% close and settles
+  into its frame, a screen on a project page paints in from its top edge just behind the bottom of the screen, the
+  journey map is plotted from left to right with each station settling as the sweep reaches it, and the terminal
+  prints its ASCII art one line at a time. The focus radar powers on when its tab opens: rings grow from the center,
+  then each technology flies out to its place. As the hero leaves, the portrait drifts up and dims.
+- On a phone, a slider's cards at the edges turn away 16° and dim; the card in view faces the reader.
 - Figures count up from zero the first time they come into view, once, and end on the number as written.
 - Following a link cross-fades between pages with the header held in place, and what a control opens (more rows, a
   tab, the phone menu) eases in instead of popping.
 - Hover: the arrow of a link moves 3px the way it leads, the icon of an outward link lifts, and a project card
-  brightens its outline and brings its screen 3% closer. Only for pointers that hover.
+  answers as a whole: it brightens its outline, brings its screen 3% closer and leans the arrow of its page link
+  forward wherever the pointer rests on it. A "Show more" chevron turns to point where the rows go. Only for pointers
+  that hover.
 - The header marks the section being read with teal and an underline, never with color alone.
 - `prefers-reduced-motion: reduce` turns every animation and transition off.
 
@@ -128,6 +143,8 @@ appear only inside the journey charts.
 - No three equal cards in a row for list-like content; use index rows.
 - No boxed stat tiles in a row of three; figures sit in an open strip.
 - No filler such as "scroll to explore", bouncing arrows or custom cursors.
+- No endless loops: nothing moves on its own for more than five seconds (WCAG 2.2.2), and no spinners.
+- No reveal that hides the largest paint, and no `clip-path` on a focusable element (it would cut its focus ring).
 - No invented figures and no round placeholders like "99.9%": every number has a source and a date.
 - No stock phrases ("elevate", "seamless", "next-gen", "passionate").
 - No client names of TIVENOS or ADCOM anywhere (enforced by `src/content/content.test.ts`).
