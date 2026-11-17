@@ -130,8 +130,28 @@ text; each bar has a labeled legend or row next to it.
 - Radii: `sm` 0.375rem, `md` 0.5rem (buttons), `lg` 0.75rem (cards), `xl` 1rem (panels).
 - Shadows: `shadow-card` for elevation, `shadow-glow` for the brand glow on focus and hover.
 - Motion: `--duration-fast` 120ms, `--duration-base` 200ms, `--duration-slow` 400ms, `ease-standard`,
-  `ease-emphasized`. Nothing above the fold animates its opacity, so the LCP is never delayed, and
-  `prefers-reduced-motion: reduce` turns every animation and transition off.
+  `ease-emphasized`. Nothing that can be the largest paint animates its opacity (on the home that is the hero's
+  portrait), so the LCP is never delayed, nothing moves on its own for more than five seconds, and
+  `prefers-reduced-motion: reduce` turns every animation and transition off. The new rules below sit inside
+  `@media (prefers-reduced-motion: no-preference)`, so they are never declared for that reader at all.
+- Opening the page: the core stack and the role views of the hero settle in one after another (`hero-cascade`, each
+  part's place given as `--i`, 45ms apart), and the availability dot sends out three pulses (`status-dot`, 4.8s in
+  all). As the hero leaves the screen, its portrait drifts up 2.5rem and dims (`hero-portrait`, the exit range of its
+  view timeline).
+- Screens: a screen the reader reaches before it has arrived is marked `data-loading` by `CaseImage` and pulses in
+  Raised Graphite (four beats at most); on arrival it is marked `data-loaded` and fades in. One that arrives before it
+  is reached, or the one a page opens with (`eager`), shows as it is. Around the image, the `picture` carries the
+  reveal: the screen at the top of a card starts at 1.12 and settles into its frame (`screen-settle`), and a screen on
+  a project or detail page paints in from its top edge (`screen-unmask`, a `clip-path` on the picture, never on the
+  link, so the link's focus ring stays whole). A frame that clips them uses `overflow: clip`: `overflow: hidden` would
+  make it a scroll container, and the view timeline would follow it instead of the page.
+- Charts: the journey map is plotted from left to right (`journey-chart`, a named view timeline on its frame, which
+  scrolls sideways itself) and each station settles as the sweep reaches it (`--x`, its place from 0 to 1). The focus
+  radar powers on when its tab opens: rings grow from the center (`radar-ring`), then each technology flies out from
+  the center (`radar-blip`, `--dx` and `--dy`). The terminal prints its ASCII art one line at a time
+  (`ascii-print`, `steps(--ascii-rows)`).
+- Sliders on phones: below 48rem the cards at a slider's edges turn away 16° and dim to 0.4 as they enter and leave
+  (`carousel-depth`, a `view(inline)` timeline over the track); the card in view is at rest.
 - Section entrance: the heading of every home section, the sections of the project and detail pages, the rows of the
   detail indexes and the previous/next cards rise 1.5rem into place as they enter (`section-enter`, a scroll-driven
   animation over the first 40% of their entry). The cards, rows and figures of the home sections do the same: their
@@ -152,7 +172,9 @@ text; each bar has a labeled legend or row next to it.
   metrics card and the phone menu ease in from `@starting-style` (`appear`), and the rows also open to their height
   where the browser eases to `auto` (`appear-grow`, `interpolate-size`).
 - Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
-  drops, and a project card brightens its outline and scales its screen to 1.03, only under `(hover: hover)`.
+  drops, and a project card brightens its outline, scales its screen to 1.03 and leans the arrow of its page link
+  forward wherever the pointer rests on it (`hover-card`), only under `(hover: hover)`. The "Show more" chevron of
+  the skills turns to point where the rows go.
 - Experience timeline: on screens of 64rem and wider each job spans the width beside a line on the left, and the
   card splits in two: context, stack and case studies on the left, achievements on the right. The DOM keeps the
   order phones read (summary, achievements, stack, case studies) and grid placement does the rest. The line fills
