@@ -107,7 +107,7 @@ test("shows each decision's problem first and its solution on demand", async ({p
     const switchAll = section.getByRole("group", {name: "Switch every decision at once"});
     await switchAll.and(page.locator("[data-interactive]")).waitFor({state: "attached"});
     const first = section.locator("ol > li").first();
-    await expect(first.getByRole("tabpanel")).toHaveText("A React app built in the browser arrives empty until its JavaScript runs.");
+    await expect(first.getByRole("tabpanel")).toHaveText("An app built in the browser arrives empty until its JavaScript runs.");
     await first.getByRole("tab", {name: "Solution"}).click();
     await expect(first.getByRole("tab", {name: "Solution"})).toHaveAttribute("aria-selected", "true");
     await expect(first.getByRole("tabpanel")).toContainText("The cost: every content change needs a new build and deployment.");
@@ -163,8 +163,8 @@ test.describe("without JavaScript", () => {
     test("shows both sides of every decision under their labels", async ({page}) => {
         await page.goto("/en/projects/portfolio");
         const section = page.locator('section[aria-labelledby="project-decisions"]');
-        await expect(section.getByText("A React app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
-        await expect(section.getByText(/^Every page is prerendered at build time/)).toBeVisible();
+        await expect(section.getByText("An app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
+        await expect(section.getByText(/^Astro generates every page at build time/)).toBeVisible();
         await expect(section.locator("[data-decision-tabs]").first()).toBeHidden();
         expect(await section.locator("[data-decision-panel]").first().evaluate((panel) => getComputedStyle(panel, "::before").content)).toBe('"Problem"');
     });
