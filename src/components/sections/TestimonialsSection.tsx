@@ -91,7 +91,8 @@ export function TestimonialsSection() {
                             )}
                         >
                             <dt class="text-fg-muted sm:text-sm">{label}</dt>
-                            <dd class="order-first w-12 shrink-0 font-display text-4xl text-primary sm:order-none sm:w-auto">{value}</dd>
+                            <dd data-count="true"
+                                class="order-first w-12 shrink-0 font-display text-4xl text-primary tabular-nums sm:order-none sm:w-auto">{value}</dd>
                         </div>
                     )}
                 </For>

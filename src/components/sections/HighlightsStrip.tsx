@@ -10,13 +10,15 @@ export function HighlightsStrip() {
 
     return (
         <section aria-label={highlights.label} class="border-y border-border bg-surface/60">
-            {/* Below the first screen the figures rise one after another (globals.css, .enter-each). */}
+            {/* Below the first screen the figures rise one after another (globals.css, .enter-each) and count up to
+                their value (lib/count-up.ts). */}
             <dl class="enter-each container-page grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:grid-cols-4">
                 <For each={roleConfig(role()).highlights}>
                     {(id) => (
                         <div class="flex flex-col-reverse justify-end gap-1">
                             <dt class="text-sm text-fg-muted">{highlights.items[id]}</dt>
-                            <dd class="font-display text-4xl text-primary">{formatHighlight(highlightValues[id], locale)}</dd>
+                            <dd data-count="true"
+                                class="font-display text-4xl text-primary tabular-nums">{formatHighlight(highlightValues[id], locale)}</dd>
                         </div>
                     )}
                 </For>

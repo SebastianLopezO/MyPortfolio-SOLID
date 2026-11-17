@@ -93,7 +93,8 @@ export function MetricsSection() {
                 <For each={METRICS}>{(id) => (
                     <div class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
                         <dt class="text-sm text-fg-muted">{metrics.labels[id]}</dt>
-                        <dd class="font-display text-4xl text-primary">{number(metricValues[id])}</dd>
+                        <dd data-count="true"
+                            class="font-display text-4xl text-primary tabular-nums">{number(metricValues[id])}</dd>
                     </div>
                 )}</For>
             </dl>
