@@ -239,6 +239,30 @@
         }
     }
 
+    /* Small answers to a pointer that hovers: the arrow of a link leans the way it leads, the icon of a link that
+       leaves the site lifts and a download drops. The icons are Lucide's (components/ui/icons.tsx), named by class. */
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        :is(a, button) > :is(.lucide-arrow-right, .lucide-arrow-left, .lucide-external-link, .lucide-arrow-up-right, .lucide-download) {
+            transition: translate var(--duration-base) var(--ease-standard);
+        }
+
+        :is(a, button):hover > .lucide-arrow-right {
+            translate: 0.1875rem 0;
+        }
+
+        :is(a, button):hover > .lucide-arrow-left {
+            translate: -0.1875rem 0;
+        }
+
+        :is(a, button):hover > :is(.lucide-external-link, .lucide-arrow-up-right) {
+            translate: 0.125rem -0.125rem;
+        }
+
+        :is(a, button):hover > .lucide-download {
+            translate: 0 0.125rem;
+        }
+    }
+
     .journey-station {
         outline: none;
     }

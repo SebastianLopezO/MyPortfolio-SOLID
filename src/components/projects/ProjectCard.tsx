@@ -48,8 +48,10 @@ export function ProjectCard(rawProps: ProjectCardProps) {
     const screen = () => projectImages(props.project)[0];
 
     return (
-        <article class="flex w-full flex-col rounded-lg border border-border bg-surface p-6">
-            {/* The main screen fills the top of the card; a recreated one says so on its corner. */}
+        <article
+            class="group flex w-full flex-col rounded-lg border border-border bg-surface p-6 transition-colors duration-200 hover:border-border-strong">
+            {/* The main screen fills the top of the card; a recreated one says so on its corner. It comes a little closer
+                while the pointer is on the card. */}
             <Show when={props.copy.screen ? screen() : undefined}>
                 {(image) => (
                     <Link to={props.href} tabindex={-1}
@@ -60,7 +62,10 @@ export function ProjectCard(rawProps: ProjectCardProps) {
                             sizes="(min-width: 80rem) 24rem, (min-width: 48rem) 45vw, 85vw"
                             bare
                             eager={props.eager}
-                            class={cn("aspect-[16/9]", image().height > image().width ? "object-contain" : "object-cover object-top")}
+                            class={cn(
+                                "aspect-[16/9] motion-safe:transition-transform motion-safe:duration-400 motion-safe:ease-standard motion-safe:group-hover:scale-[1.03]",
+                                image().height > image().width ? "object-contain" : "object-cover object-top",
+                            )}
                         />
                         <Show when={image().recreation}>
                             <span
