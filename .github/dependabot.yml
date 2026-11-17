@@ -18,6 +18,11 @@ updates:
         patterns: [ "vitest", "@testing-library/*", "jsdom", "@playwright/test" ]
       minor-and-patch:
         update-types: [ "minor", "patch" ]
+    ignore:
+      # The Node types follow the Node the site runs on (22 in CI, 24 in the image), not the newest release; their
+      # major moves by hand with the runtime.
+      - dependency-name: "@types/node"
+        update-types: [ "version-update:semver-major" ]
 
   - package-ecosystem: "docker"
     directory: "/"
