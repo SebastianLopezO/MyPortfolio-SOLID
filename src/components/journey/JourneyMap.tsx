@@ -262,7 +262,7 @@ export function JourneyMap(props: JourneyMapProps) {
                     {showList() ? copy.map.listToggle.hide : copy.map.listToggle.show}
                 </button>
                 <Show when={showList()}>
-                    <ol id="journey-list" class="mt-3 grid gap-2 sm:grid-cols-2">
+                    <ol id="journey-list" class="appear mt-3 grid gap-2 sm:grid-cols-2">
                         <For each={STATIONS}>{({id}) => {
                             const milestone = BY_ID.get(id)!;
                             return (

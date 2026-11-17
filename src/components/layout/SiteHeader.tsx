@@ -107,7 +107,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             <nav
                 id="mobile-nav"
                 aria-label={ui.navLabel}
-                class={cn("border-b border-border bg-bg lg:hidden", open() ? "block" : "hidden")}
+                class={cn("appear border-b border-border bg-bg lg:hidden", open() ? "block" : "hidden")}
             >
                 <ul class="container-page grid gap-1 py-3">{links(() => setOpen(false))}</ul>
             </nav>

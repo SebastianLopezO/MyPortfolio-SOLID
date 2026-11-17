@@ -99,7 +99,7 @@ export function JourneySection() {
             <For each={TABS}>
                 {(id) => (
                     <div role="tabpanel" id={`journey-panel-${id}`} aria-labelledby={`journey-tab-${id}`}
-                         hidden={tab() !== id} tabindex={0}>
+                         hidden={tab() !== id} tabindex={0} class="appear">
                         {/* Only the open view is rendered, which keeps the prerendered HTML and the DOM small. */}
                         <Show when={tab() === id}>
                             <p class="mb-6 max-w-3xl text-fg-muted">{journey.tabs[id].description}</p>

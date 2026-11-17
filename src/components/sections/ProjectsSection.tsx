@@ -86,7 +86,7 @@ function OrganizationCard(props: { organization: OrganizationFacts; wide: boolea
                     <SvgImage
                         {...image()}
                         label={`${props.organization.name} · ${copy.organizationsTitle}`}
-                        class="mt-4 max-w-120 rounded-md border border-border bg-bg"
+                        class="appear mt-4 max-w-120 rounded-md border border-border bg-bg"
                     />
                 )}
             </Show>
@@ -264,7 +264,7 @@ export function ProjectsSection() {
                 </div>
                 <For each={PROJECT_CATEGORIES}>{(id) => (
                     <div role="tabpanel" id={`projects-panel-${id}`} aria-labelledby={`projects-tab-${id}`}
-                         hidden={category() !== id} tabindex={0} class="mt-6">
+                         hidden={category() !== id} tabindex={0} class="appear mt-6">
                         {/* Only the open category is rendered, which keeps the prerendered page small. */}
                         <Show when={category() === id}>
                             <p class="mb-6 max-w-3xl text-fg-muted">{copy.categories[id].description}</p>

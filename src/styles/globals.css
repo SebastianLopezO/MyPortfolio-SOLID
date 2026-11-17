@@ -5,6 +5,8 @@
 @layer base {
     :root {
         color-scheme: dark;
+        /* Lets a height ease between 0 and auto where the browser can, as the rows under "Show more" do (.appear-grow). */
+        interpolate-size: allow-keywords;
     }
 
     *,
@@ -260,6 +262,21 @@
         }
     }
 
+    /*
+     * What a control brings into the page (more rows, another tab, the phone menu) eases in instead of popping: its
+     * first style, also the first after display: none, starts from the values in @starting-style at the end of this
+     * file. Rows marked appear-grow open to their height as well, where the browser can ease to auto.
+     */
+    .appear {
+        transition: opacity var(--duration-slow) var(--ease-standard),
+        translate var(--duration-slow) var(--ease-standard),
+        block-size var(--duration-slow) var(--ease-emphasized);
+    }
+
+    .appear-grow {
+        overflow: clip;
+    }
+
     /* Small answers to a pointer that hovers: the arrow of a link leans the way it leads, the icon of a link that
        leaves the site lifts and a download drops. The icons are Lucide's (components/ui/icons.tsx), named by class. */
     @media (hover: hover) and (prefers-reduced-motion: no-preference) {
@@ -345,6 +362,18 @@
 
     ::view-transition-new(root) {
         animation-duration: 320ms;
+    }
+}
+
+/* Where the parts marked appear start from (globals.css, .appear). The rule stays outside any layer and any nesting. */
+@starting-style {
+    .appear {
+        opacity: 0;
+        translate: 0 -0.5rem;
+    }
+
+    .appear-grow {
+        block-size: 0;
     }
 }
 

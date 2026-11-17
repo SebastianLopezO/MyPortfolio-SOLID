@@ -100,7 +100,8 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                             </ul>
                         </Show>
                         <Show when={bullets().hidden.length > 0}>
-                            <ul id={listId()} hidden={!expanded()} class="mt-2 space-y-2 text-fg-muted">
+                            <ul id={listId()} hidden={!expanded()}
+                                class="appear appear-grow mt-2 space-y-2 text-fg-muted">
                                 <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
                                                                                       role={props.role}/>}</For>
                             </ul>
