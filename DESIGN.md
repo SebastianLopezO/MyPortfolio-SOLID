@@ -87,6 +87,9 @@ appear only inside the journey charts.
   text stays in the prerendered page for search engines and find in page. "Expand all" opens every one of a section
   at once. Never a "Read more" that hides the only proof of a claim: the first glance keeps the claim and its best
   evidence.
+- **Reel:** from 64rem the projects of a category turn on a reel: the current card in the middle faces the reader, its
+  neighbours turn in toward it and dim, and the row moves by drag, arrow keys, the buttons or a press on a side card,
+  with a "3 / 12" counter. On phones it is the usual slider.
 - **Stack chips with a count:** a card shows its first ten tools and a dashed "+N" chip for the rest, which its page
   lists in full.
 - **Loading and empty states:** the site is static and prerendered; images reserve their size, nothing spins. A

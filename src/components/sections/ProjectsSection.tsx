@@ -213,13 +213,14 @@ export function ProjectsSection() {
                         {/* Only the open category is rendered, which keeps the prerendered page small. */}
                         <Show when={category() === id}>
                             <p class="mb-6 max-w-3xl text-fg-muted">{copy.categories[id].description}</p>
-                            {/* One card per view on phones; from 48rem a grid, three across from 80rem. */}
+                            {/* One card per view on phones, two from 40rem, and from 64rem a reel: the current project
+                                in the middle, its neighbours turned toward it, moved by drag, arrows or the buttons. */}
                             <Carousel
+                                reel
                                 previousLabel={copy.slider.previous}
                                 nextLabel={copy.slider.next}
-                                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] md:basis-auto"
-                                trackClass="md:grid md:snap-none md:grid-cols-2 md:overflow-visible xl:grid-cols-3"
-                                controlsClass="md:hidden"
+                                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] lg:basis-(--reel-card) lg:snap-center"
+                                trackClass="[--reel-card:clamp(22rem,34vw,32rem)] lg:scroll-px-0 lg:px-[calc(50%_-_var(--reel-card)/2)] lg:py-4"
                                 items={listed()}
                             >
                                 {(project) => (

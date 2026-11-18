@@ -197,7 +197,7 @@ describe("prerendered pages", () => {
         const styles = [...html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
             .map((match) => match[1]).join("\n");
         expect(styles.length).toBeGreaterThan(20 * KB);
-        // 14 KB since the home's second layer (the native disclosures) joined the motion rules.
+        // 14 KB since the home's second layer (the native disclosures) and the project reel joined the motion rules.
         expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(14 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so

@@ -115,6 +115,29 @@ test("keeps the second layer of the home in the page and opens all of it at once
     await expect(more.first()).not.toHaveAttribute("open");
 });
 
+test("turns the projects on a reel on wide screens", async ({page, isMobile}) => {
+    test.skip(isMobile, "Phones swipe one card at a time");
+    await gotoHydrated(page, "/es");
+    await hydrateSection(page, "projects");
+    const panel = page.locator('#projects [role="tabpanel"]:not([hidden])');
+    const slides = panel.locator(".carousel-reel > li");
+    await slides.first().scrollIntoViewIfNeeded();
+    const counter = panel.locator("p[aria-hidden]").last();
+    await expect(counter).toHaveText(/^1 \/ \d+$/);
+    // The card in the middle faces the reader; the one beside it is turned and dimmed.
+    await expect.poll(() => slides.nth(0).locator("> *").evaluate(opacityOf)).toBeGreaterThan(0.99);
+    expect(await slides.nth(1).locator("> *").evaluate(opacityOf)).toBeLessThan(1);
+    await panel.getByRole("button", {name: "Proyecto siguiente"}).click();
+    await expect(counter).toHaveText(/^2 \/ /);
+    // Pressing a card beside the middle one brings it to the middle instead of leaving the page.
+    // A pointer presses the visible edge of the next card, without scrolling it into view first.
+    await slides.nth(1).evaluate((slide) => slide.scrollIntoView({block: "center", inline: "nearest"}));
+    const next = (await slides.nth(2).boundingBox())!;
+    await page.mouse.click(next.x + 40, next.y + next.height / 2);
+    await expect(counter).toHaveText(/^3 \/ /);
+    await expect(page).toHaveURL(/\/es$/);
+});
+
 test.describe("for a reader who asks for less motion", () => {
     test.use({contextOptions: {reducedMotion: "reduce"}});
 

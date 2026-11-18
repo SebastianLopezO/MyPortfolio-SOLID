@@ -315,7 +315,7 @@
             }
 
             /* On a phone a slider shows one card and the edge of the next: the cards half out of view turn away and
-               dim, and the one in view faces the reader. From 48rem a slider is a grid. */
+               dim, and the one in view faces the reader. From 48rem a slider is a grid, or a reel (below). */
             @media (width < 48rem) {
                 .carousel-depth > li > * {
                     animation: carousel-depth auto linear both;
@@ -323,6 +323,16 @@
                 }
             }
 
+            /* A reel from 64rem: the card in the middle faces the reader, and the ones beside it turn in toward it,
+               step back and dim the farther they are, so the row reads as a turntable of projects. The middle one
+               also comes to the front, so a turned neighbour never covers it. */
+            @media (width >= 64rem) {
+                .carousel-reel > li > * {
+                    position: relative;
+                    animation: reel-depth auto linear both;
+                    animation-timeline: view(inline);
+                }
+            }
         }
     }
 
@@ -432,6 +442,20 @@
 
         .more[open]::details-content {
             block-size: auto;
+        }
+    }
+
+    /* A reel (Carousel with reel) can be dragged with a mouse; while it is, the cards do not snap or select text. */
+    @media (width >= 64rem) {
+        .carousel-reel {
+            cursor: grab;
+        }
+
+        .carousel-reel[data-dragging] {
+            cursor: grabbing;
+            scroll-snap-type: none;
+            scroll-behavior: auto;
+            user-select: none;
         }
     }
 
@@ -642,6 +666,25 @@
     exit 100% {
         opacity: 0.4;
         transform: perspective(60rem) rotateY(16deg) scale(0.9);
+    }
+}
+
+/* Entering on the right (0%), in the middle (50%), leaving on the left (100%). */
+@keyframes reel-depth {
+    0%, 100% {
+        z-index: 0;
+        opacity: 0.4;
+    }
+    0% {
+        transform: perspective(80rem) translateZ(-10rem) rotateY(-34deg);
+    }
+    50% {
+        z-index: 10;
+        opacity: 1;
+        transform: perspective(80rem) translateZ(0) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(80rem) translateZ(-10rem) rotateY(34deg);
     }
 }
 

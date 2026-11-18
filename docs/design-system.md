@@ -180,6 +180,10 @@ text; each bar has a labeled legend or row next to it.
   metrics have a page each (`/services`, `/metrics`, an index with nothing under it and a `WebPage` schema); the home
   keeps the services as a list of names linking to each one's anchor and the metrics as the strip of figures. The
   organizations are named on the home and described on their index.
+- Project reel: from 64rem the category's projects turn on a reel (`Carousel` with `reel`): center snapping with side
+  padding of half the view less half a card, each card turned and dimmed by its place in the track (`reel-depth`, a
+  `view(inline)` timeline, with `z-index` animated so the middle card is in front), mouse drag, and a press on a side
+  card that brings it to the middle instead of following its link.
 - Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
   drops, and a project card brightens its outline, scales its screen to 1.03 and leans the arrow of its page link
   forward wherever the pointer rests on it (`hover-card`), only under `(hover: hover)`. The "Show more" chevron of
