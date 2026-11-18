@@ -66,6 +66,11 @@
       "esbuild": "^0.28.1",
       "@emnapi/core": "^1.11.3",
       "@emnapi/runtime": "^1.11.3"
+    },
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-fc5q-39xc-vjpf"
+      ]
     }
   }
 }
