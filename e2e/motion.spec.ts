@@ -100,6 +100,21 @@ test("turns the cards at a slider's edge away on a phone", async ({page, isMobil
     expect(await slides.nth(1).evaluate(opacityOf)).toBeLessThan(1);
 });
 
+test("keeps the second layer of the home in the page and opens all of it at once", async ({page}) => {
+    await gotoHydrated(page, "/es");
+    await hydrateSection(page, "experience");
+    const more = page.locator("#experience-jobs details.more");
+    const count = await more.count();
+    expect(count).toBeGreaterThan(0);
+    // Closed at first, yet its achievements are in the page for search engines and find in page.
+    await expect(more.first()).not.toHaveAttribute("open");
+    expect(await more.first().locator("li").count()).toBeGreaterThan(0);
+    await page.getByRole("button", {name: "Expandir todo"}).click();
+    for (let index = 0; index < count; index++) await expect(more.nth(index)).toHaveAttribute("open", "");
+    await page.getByRole("button", {name: "Contraer todo"}).click();
+    await expect(more.first()).not.toHaveAttribute("open");
+});
+
 test.describe("for a reader who asks for less motion", () => {
     test.use({contextOptions: {reducedMotion: "reduce"}});
 

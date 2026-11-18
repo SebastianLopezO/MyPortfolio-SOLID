@@ -309,6 +309,15 @@ export interface Content {
             readCaseStudy: string;
             liveDemo: string;
             allProjects: string;
+            /** The disclosures of a part of the page, all at once (lib/disclosures.ts). */
+            expandAll: string;
+            collapseAll: string;
+            /** A card's achievements behind a disclosure; {count} is how many. */
+            achievements: string;
+            hideAchievements: string;
+            /** The rest of a story behind a disclosure. */
+            readStory: string;
+            hideStory: string;
         };
         footer: {
             rights: string;
@@ -316,7 +325,7 @@ export interface Content {
             elsewhere: string;
             /** The pages beyond the profile: the projects and the job, program, certification and organization pages. */
             explore: string;
-            pages: Record<"projects" | "experience" | "education" | "certifications" | "organizations", string>;
+            pages: Record<"projects" | "experience" | "education" | "certifications" | "organizations" | "services" | "metrics", string>;
         };
         whatsapp: { label: string; message: string };
     };
@@ -378,6 +387,8 @@ export interface Content {
         items: Record<ServiceId, { title: string; description: string; points: string[] }>;
         benefitsTitle: string;
         benefitsSubtitle: string;
+        /** The home lists the services by name; this link leads to their page with every detail. */
+        pageLink: string;
         /** Each benefit quotes a recommendation; the excerpt must appear word for word in that quote. */
         benefits: Record<BenefitId, {
             title: string;
@@ -472,6 +483,8 @@ export interface Content {
         intro: Record<ProfileKey, string>;
         /** `{date}` is replaced with the day the figures were read. */
         asOf: string;
+        /** The home keeps the figures; this link leads to the page with every chart. */
+        pageLink: string;
         labels: Record<MetricId, string>;
         areas: {
             title: string;

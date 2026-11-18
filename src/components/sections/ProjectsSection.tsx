@@ -14,87 +14,22 @@ import {Section} from "@/components/layout/Section";
 import {ProjectCard, type ProjectCardLabels} from "@/components/projects/ProjectCard";
 import {CaseImage, UNMASK} from "@/components/case-study/CaseImages";
 import {Carousel} from "@/components/ui/Carousel";
-import {SvgImage} from "@/components/ui/SvgImage";
+import {More} from "@/components/ui/More";
 import {TechList} from "@/components/ui/TechList";
 import {formatRange} from "@/lib/format";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {listProjects, prioritize} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
-import type {OrganizationFacts} from "@/types/content";
+import type {Bullet} from "@/types/content";
 import {PROJECT_CATEGORIES, type ProjectCategory, type ProjectId} from "@/types/project";
 
-const FEATURED_ORGANIZATIONS = 2;
-
-function OrganizationCard(props: { organization: OrganizationFacts; wide: boolean }) {
-    const copy = useSectionCopy("projects");
-    const {lang} = useLanguage();
-    const {locked} = useRole();
-    const [showMetrics, setShowMetrics] = createSignal(false);
-
-    return (
-        <li class={cn("flex flex-col rounded-lg border border-border bg-surface p-5", props.wide && "sm:col-span-2")}>
-            <div class="flex items-start justify-between gap-3">
-                <h4 class="font-semibold text-fg">{props.organization.name}</h4>
-                <Show when={props.organization.visibility === "private"}>
-                    <span
-                        class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs text-fg-subtle">
-                        <Lock class="size-3"/>
-                        {copy.private}
-                    </span>
-                </Show>
-            </div>
-            <p class="mt-2 flex-1 text-sm text-fg-muted">{copy.organizations[props.organization.id]}</p>
-            <p class="mt-3 font-mono text-xs text-fg-subtle">
-                {props.organization.repositories} {copy.repositories}
-                {props.organization.members ? ` · ${props.organization.members} ${copy.members}` : ""}
-            </p>
-            <div class="mt-4 flex flex-wrap items-center gap-3 text-sm">
-                <Link
-                    to={buildDetailPath(lang, "organizations", {
-                        slug: ORGANIZATION_SLUG[props.organization.id],
-                        locked: locked()
-                    })}
-                    class="inline-flex min-h-9 items-center gap-1 font-semibold text-primary hover:text-primary-hover"
-                >
-                    {copy.organizationPage}
-                    <ArrowRight class="size-4"/>
-                </Link>
-                <a
-                    href={props.organization.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex min-h-9 items-center gap-1.5 font-semibold text-primary hover:text-primary-hover"
-                >
-                    <GithubIcon class="size-4"/>
-                    GitHub
-                </a>
-                <Show when={props.organization.metricsImage}>
-                    <button
-                        type="button"
-                        aria-expanded={showMetrics()}
-                        onClick={() => setShowMetrics((value) => !value)}
-                        class="inline-flex min-h-9 items-center text-fg-muted hover:text-primary"
-                    >
-                        {copy.showMetrics}
-                    </button>
-                </Show>
-            </div>
-            <Show when={showMetrics() && props.organization.metricsImage}>
-                {(image) => (
-                    <SvgImage
-                        {...image()}
-                        label={`${props.organization.name} · ${copy.organizationsTitle}`}
-                        class="appear mt-4 max-w-120 rounded-md border border-border bg-bg"
-                    />
-                )}
-            </Show>
-        </li>
-    );
-}
+/** The featured project shows this many achievements at first; the rest open on demand. */
+const FEATURED_HIGHLIGHTS = 3;
 
 function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCardLabels }) {
     const copy = useSectionCopy("projects");
+    const {content: {ui}} = useLanguage();
     const {role} = useRole();
     // The section mounts a new one when the role view features another project.
     // eslint-disable-next-line solid/reactivity
@@ -102,6 +37,21 @@ function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCa
     const project = projectById(id);
     const item = copy.items[id];
     const highlights = () => prioritize(item.highlights, (bullet) => bullet.roles, role());
+    const shown = () => highlights().slice(0, FEATURED_HIGHLIGHTS);
+    const more = () => highlights().slice(FEATURED_HIGHLIGHTS);
+    const bullet = (entry: Bullet) => {
+        const match = () => {
+            const current = role();
+            return current !== null && entry.roles.includes(current);
+        };
+        return (
+            <li class={cn("flex gap-3", match() && "text-fg")}>
+                <span aria-hidden="true"
+                      class={cn("mt-2.5 size-1.5 shrink-0 rounded-full", role() && !match() ? "border border-fg-subtle" : "bg-primary")}/>
+                {entry.text}
+            </li>
+        );
+    };
     const screen = projectImages(project)[0];
 
     return (
@@ -133,22 +83,15 @@ function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCa
             <p class="mt-1 text-sm text-fg-subtle">{formatRange(project.start, project.end ?? null, props.labels.months, props.labels.present)}</p>
             <p class="mt-4 max-w-3xl text-lg text-fg-muted">{item.summary}</p>
             <ul class="mt-6 grid gap-x-8 gap-y-2 text-fg-muted md:grid-cols-2 xl:clear-both">
-                <For each={highlights()}>
-                    {(bullet) => {
-                        const match = () => {
-                            const current = role();
-                            return current !== null && bullet.roles.includes(current);
-                        };
-                        return (
-                            <li class={cn("flex gap-3", match() && "text-fg")}>
-                                <span aria-hidden="true"
-                                      class={cn("mt-2.5 size-1.5 shrink-0 rounded-full", role() && !match() ? "border border-fg-subtle" : "bg-primary")}/>
-                                {bullet.text}
-                            </li>
-                        );
-                    }}
-                </For>
+                <For each={shown()}>{bullet}</For>
             </ul>
+            <Show when={more().length > 0}>
+                <More class="mt-3" label={`${ui.actions.showMore} (${more().length})`} openLabel={ui.actions.showLess}>
+                    <ul class="mt-2 grid gap-x-8 gap-y-2 text-fg-muted md:grid-cols-2">
+                        <For each={more()}>{bullet}</For>
+                    </ul>
+                </More>
+            </Show>
             <TechList tech={project.tech} role={role()} class="mt-6"/>
             <div class="mt-6 flex flex-wrap gap-3">
                 <Link
@@ -207,6 +150,8 @@ export function ProjectsSection() {
         recreation: copy.recreation,
         months: ui.months,
         present: ui.present,
+        achievements: ui.actions.achievements,
+        hideAchievements: ui.actions.hideAchievements,
     };
     // The featured project already opens the section, so its category lists the rest.
     const listed = createMemo(() => listProjects(projectsIn(category()), role()));
@@ -295,20 +240,34 @@ export function ProjectsSection() {
                 <ArrowRight class="size-4"/>
             </Link>
 
+            {/* The organizations get a line each on their index; here, their names lead there. */}
             <div class="mt-16">
                 <h3 class="text-heading text-fg">{copy.organizationsTitle}</h3>
-                <p class="mt-2 text-fg-muted">{copy.organizationsSubtitle}</p>
-                <ul class="enter-each mt-8 grid grid-flow-dense gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <p class="mt-2 max-w-3xl text-fg-muted">{copy.organizationsSubtitle}</p>
+                <ul translate="no" class="mt-6 flex flex-wrap gap-2">
                     <For each={prioritize(organizations, (organization) => organization.roles, role())}>
-                        {(organization, index) => (
-                            <OrganizationCard organization={organization}
-                                              wide={index() < FEATURED_ORGANIZATIONS}/>
+                        {(organization) => (
+                            <li>
+                                <Link
+                                    to={buildDetailPath(lang, "organizations", {
+                                        slug: ORGANIZATION_SLUG[organization.id],
+                                        locked: locked()
+                                    })}
+                                    class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm text-fg-muted transition-colors hover:border-primary hover:text-primary"
+                                >
+                                    {organization.name}
+                                    <Show when={organization.visibility === "private"}>
+                                        <Lock class="size-3.5"/>
+                                        <span class="sr-only"> ({copy.private})</span>
+                                    </Show>
+                                </Link>
+                            </li>
                         )}
                     </For>
                 </ul>
                 <Link
                     to={buildDetailPath(lang, "organizations", {locked: locked()})}
-                    class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {copy.organizationsIndex}
                     <ArrowRight class="size-4"/>

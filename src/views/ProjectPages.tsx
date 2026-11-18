@@ -603,6 +603,8 @@ function ProjectsIndex() {
         recreation: cards.recreation,
         months: content.ui.months,
         present: content.ui.present,
+        achievements: content.ui.actions.achievements,
+        hideAchievements: content.ui.actions.hideAchievements,
     };
     return (
         <div class="container-page py-12 md:py-16">

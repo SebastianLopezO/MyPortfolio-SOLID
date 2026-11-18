@@ -168,9 +168,18 @@ text; each bar has a labeled legend or row next to it.
   `aria-current`; none is marked while the hero is there.
 - Between pages: following a link fades from one page to the next where the browser has cross-document view
   transitions, and the header keeps its place (`view-transition-name: site-header`).
-- What a control brings in: the rows under "Show more", a tab panel, the list of milestones, an organization's
-  metrics card and the phone menu ease in from `@starting-style` (`appear`), and the rows also open to their height
-  where the browser eases to `auto` (`appear-grow`, `interpolate-size`).
+- What a control brings in: a tab panel, the list of milestones, an organization's metrics card and the phone menu
+  ease in from `@starting-style` (`appear`), and a "Show more" opens to its height where the browser eases to `auto`
+  (`.more::details-content`, `interpolate-size`).
+- Home layers: the home shows what a recruiter scans in a minute and opens the rest on demand. A job shows two
+  achievements (three that match the role view) and its first ten tools with a "+N" chip; a project card shows its
+  screen, context, name, dates, summary and stack, with its achievements behind "Achievements (n)"; the featured
+  project shows three; About shows the quote and the first paragraph, with "Read the full story". Each of these is a
+  native `details` (`components/ui/More.tsx`): find in page opens it, search engines read it, it works before
+  hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Services and GitHub
+  metrics have a page each (`/services`, `/metrics`, an index with nothing under it and a `WebPage` schema); the home
+  keeps the services as a list of names linking to each one's anchor and the metrics as the strip of figures. The
+  organizations are named on the home and described on their index.
 - Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
   drops, and a project card brightens its outline, scales its screen to 1.03 and leans the arrow of its page link
   forward wherever the pointer rests on it (`hover-card`), only under `(hover: hover)`. The "Show more" chevron of

@@ -7,13 +7,57 @@ import {useSectionCopy} from "@/content/sections";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
+import {ArrowRight} from "@/components/ui/icons";
 import {Carousel} from "@/components/ui/Carousel";
-import {buildProjectPath} from "@/lib/paths";
+import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {prioritize} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
+import type {ServiceId} from "@/types/content";
 
+/** Where a service sits on the services page, so the home's list can lead straight to it. */
+export const serviceAnchor = (id: ServiceId) => `service-${id}`;
+
+/**
+ * The home names each service, with the role views it serves, and leads to the services page; every detail, the
+ * projects that prove each service and the reasons to hire me live there (ServicesContent).
+ */
 export function ServicesSection() {
+    const {lang, content: {ui}} = useLanguage();
+    const services = useSectionCopy("services");
+    const {role, locked} = useRole();
+    const ordered = createMemo(() => prioritize(SERVICE_IDS, (id) => serviceRoles[id], role()));
+    const page = (hash = "") => buildDetailPath(lang, "services", {locked: locked(), hash});
+
+    return (
+        <Section id="services" title={services.title} subtitle={forProfile(services.subtitle, role())} tone="raised">
+            <ul class="enter-each grid gap-x-10 sm:grid-cols-2 xl:grid-cols-4">
+                <For each={ordered()}>
+                    {(id) => (
+                        <li class="border-t border-border py-5">
+                            <p class="font-mono text-xs tracking-wider text-accent uppercase">
+                                {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
+                            </p>
+                            <h3 class="mt-2 text-title text-fg">
+                                <Link to={page(serviceAnchor(id))} class="hover:text-primary">{services.items[id].title}</Link>
+                            </h3>
+                        </li>
+                    )}
+                </For>
+            </ul>
+            <Link
+                to={page()}
+                class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+            >
+                {services.pageLink}
+                <ArrowRight class="size-4"/>
+            </Link>
+        </Section>
+    );
+}
+
+/** Every service with its points and the projects that prove it, then the reasons to hire me: the services page. */
+export function ServicesContent() {
     const {lang, content: {ui}} = useLanguage();
     const services = useSectionCopy("services");
     const recommendations = useSectionCopy("testimonials");
@@ -23,7 +67,7 @@ export function ServicesSection() {
     const reasons = createMemo(() => prioritize(benefitOrder, (id) => benefitRoles[id], role()));
 
     return (
-        <Section id="services" title={services.title} subtitle={forProfile(services.subtitle, role())} tone="raised">
+        <>
             {/* A slider on phones, one service at a time; from 48rem the same list is a grid, four across from 80rem. */}
             <Carousel
                 previousLabel={services.slider.previousService}
@@ -36,8 +80,8 @@ export function ServicesSection() {
                 {(id) => {
                     const service = services.items[id];
                     return (
-                        <article
-                            class="flex w-full flex-col rounded-lg border border-border bg-surface p-6 shadow-card">
+                        <article id={serviceAnchor(id)}
+                                 class="flex w-full flex-col rounded-lg border border-border bg-surface p-6 shadow-card">
                             <p class="font-mono text-xs tracking-wider text-accent uppercase">
                                 {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
                             </p>
@@ -116,6 +160,6 @@ export function ServicesSection() {
                     </Carousel>
                 </div>
             </div>
-        </Section>
+        </>
     );
 }

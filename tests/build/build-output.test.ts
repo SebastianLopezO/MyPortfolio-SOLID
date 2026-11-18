@@ -32,7 +32,11 @@ const DETAILS: Record<string, string[]> = {
         "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s", "testlabdata",
         "technicalsebastians", "vocationalsebastian-s",
     ],
+    services: [],
+    metrics: [],
 };
+// The services and the metrics are a single page each, not a list of pages.
+const SINGLE_PAGES = ["services", "metrics"];
 const DETAIL_PAGES = ["en", "es"].flatMap((lang) =>
     Object.entries(DETAILS).flatMap(([collection, slugs]) => [`/${lang}/${collection}`, ...slugs.map((slug) => `/${lang}/${collection}/${slug}`)]),
 );
@@ -104,7 +108,7 @@ describe("prerendered pages", () => {
         const jsonLd = JSON.parse(attr(html, /<script[^>]+type="application\/ld\+json">(.+?)<\/script>/) ?? "{}");
         expect(jsonLd["@graph"].map((node: {
             "@type": string
-        }) => node["@type"])).toEqual([slug ? "WebPage" : "CollectionPage", "Person", "BreadcrumbList"]);
+        }) => node["@type"])).toEqual([slug || SINGLE_PAGES.includes(collection) ? "WebPage" : "CollectionPage", "Person", "BreadcrumbList"]);
         expect(html).toMatch(ROOT_RENDERED);
         expect(html).toMatch(/<h1[\s>]/);
         expect(html).toMatch(/<nav (?:data-hk="\w+" )?aria-label="(Breadcrumb|Ruta de navegación)"/);
@@ -193,7 +197,8 @@ describe("prerendered pages", () => {
         const styles = [...html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
             .map((match) => match[1]).join("\n");
         expect(styles.length).toBeGreaterThan(20 * KB);
-        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(13.5 * KB);
+        // 14 KB since the home's second layer (the native disclosures) joined the motion rules.
+        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(14 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
         // the sections below never delay it; the whole page stays within three (+ 56 KB).

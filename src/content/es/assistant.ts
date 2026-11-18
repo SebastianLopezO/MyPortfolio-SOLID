@@ -148,6 +148,8 @@ export const assistant: AssistantCopy = {
         education: "Toda la educación",
         certifications: "Todas las certificaciones",
         organizations: "Organizaciones en GitHub",
+        services: "Servicios",
+        metrics: "Métricas de GitHub",
         projects: "Todos los proyectos",
     },
     answers: {

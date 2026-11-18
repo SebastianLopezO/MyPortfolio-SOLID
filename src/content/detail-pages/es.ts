@@ -7,13 +7,17 @@ export const detailPages: DetailPagesCopy = {
             experience: "Experiencia",
             education: "Educación",
             certifications: "Certificación",
-            organizations: "Organización en GitHub"
+            organizations: "Organización en GitHub",
+            services: "Servicios",
+            metrics: "Métricas de GitHub"
         },
         all: {
             experience: "Toda la experiencia",
             education: "Toda la educación",
             certifications: "Todas las certificaciones",
-            organizations: "Todas las organizaciones"
+            organizations: "Todas las organizaciones",
+            services: "Todos los servicios",
+            metrics: "Todas las métricas"
         },
         onThisPage: "En esta página",
         atAGlance: "En resumen",
@@ -158,6 +162,22 @@ export const detailPages: DetailPagesCopy = {
             seo: {
                 title: "Organizaciones en GitHub · Sebastián López Osorno",
                 description: "Diez organizaciones de GitHub con mi código, entre TIVENOS, ADCOM, SmartPot, GoPoli, PepperCRM, la carrera y los programas técnicos, con mis commits en cada una.",
+            },
+        },
+        services: {
+            title: "Servicios",
+            subtitle: "Lo que puedo asumir para un equipo o una empresa: integraciones entre sistemas, Zoho CRM, web y landing pages, datos, automatización, infraestructura, observabilidad y consultoría técnica. Cada servicio enlaza los proyectos que lo prueban, y debajo están las razones para contratarme con palabras de quienes trabajaron conmigo.",
+            seo: {
+                title: "Servicios de integración, CRM y backend · Sebastián López Osorno",
+                description: "Integraciones y backend, desarrollo en Zoho CRM, web, datos, automatización, infraestructura, observabilidad y consultoría, cada uno con los proyectos que lo prueban.",
+            },
+        },
+        metrics: {
+            title: "Métricas de GitHub",
+            subtitle: "Mi actividad en GitHub en cifras: contribuciones, commits, días activos, rachas y revisiones, las áreas a las que fueron mis commits, cómo creció la actividad cada año, los días en que trabajo y los editores que uso, con lo que cuenta cada cifra y lo que no.",
+            seo: {
+                title: "Métricas de GitHub · Sebastián López Osorno",
+                description: "Contribuciones, commits, días activos, rachas y revisiones en GitHub desde 2022, por área, año, día de la semana y editor, con lo que significa cada cifra.",
             },
         },
     },

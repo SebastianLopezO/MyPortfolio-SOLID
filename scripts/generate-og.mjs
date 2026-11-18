@@ -106,12 +106,16 @@ for (const [lang, {details, journey, cards, months}] of Object.entries({
             education: `${education.length} programs since 2019`,
             certifications: `${certifications.length} certifications · ${issuers} issuers`,
             organizations: `${organizations.length} organizations`,
+            services: "Integrations, CRM, data and DevOps",
+            metrics: "GitHub activity in numbers",
         },
         es: {
             experience: `${experience.length} empresas desde 2022`,
             education: `${education.length} programas desde 2019`,
             certifications: `${certifications.length} certificaciones · ${issuers} emisores`,
             organizations: `${organizations.length} organizaciones`,
+            services: "Integraciones, CRM, datos y DevOps",
+            metrics: "La actividad en GitHub en cifras",
         },
     }[lang];
     for (const collection of DETAIL_COLLECTIONS) {

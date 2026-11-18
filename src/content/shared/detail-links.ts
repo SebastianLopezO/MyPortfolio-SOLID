@@ -2,17 +2,18 @@ import type {CertificationId, EducationId, ExperienceId, OrganizationId, Section
 
 /**
  * The collections that get a page per item besides the projects: each job, program, certification and GitHub
- * organization, with its index at /{lang}/{collection}. The router and the startup bundle need only these strings;
- * the pages' text and facts load with the pages.
+ * organization, with its index at /{lang}/{collection}. Services and metrics are an index alone: the home keeps a short
+ * version of each and links to its page. The router and the startup bundle need only these strings; the pages' text
+ * and facts load with the pages.
  */
-export const DETAIL_COLLECTIONS = ["experience", "education", "certifications", "organizations"] as const;
+export const DETAIL_COLLECTIONS = ["experience", "education", "certifications", "organizations", "services", "metrics"] as const;
 
 export type DetailCollection = (typeof DETAIL_COLLECTIONS)[number];
 
 export const isDetailCollection = (value: unknown): value is DetailCollection => DETAIL_COLLECTIONS.includes(value as DetailCollection);
 
 /** The home sections whose text the detail pages reuse: job titles, degrees, certificates, project names and quotes. */
-export const DETAIL_SECTION_COPIES = ["experience", "about", "certifications", "projects", "testimonials"] as const satisfies readonly SectionCopyKey[];
+export const DETAIL_SECTION_COPIES = ["experience", "about", "certifications", "projects", "testimonials", "services", "metrics"] as const satisfies readonly SectionCopyKey[];
 
 export const EXPERIENCE_SLUG = {
     tivenos: "tivenos",
@@ -61,6 +62,8 @@ const SLUGS: Record<DetailCollection, Record<string, string>> = {
     education: EDUCATION_SLUG,
     certifications: CERTIFICATION_SLUG,
     organizations: ORGANIZATION_SLUG,
+    services: {},
+    metrics: {},
 };
 
 export const detailSlugs = (collection: DetailCollection): string[] => Object.values(SLUGS[collection]);

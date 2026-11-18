@@ -201,11 +201,19 @@ const organizationInput = (texts: DetailHeadTexts, slug: string | null): DetailH
     };
 };
 
+/** The services and the metrics are a page each with nothing under it. */
+const pageInput = (collection: "services" | "metrics") => (texts: DetailHeadTexts): DetailHeadInput => {
+    const index = texts.copy.indexes[collection];
+    return {collection, slug: null, title: index.seo.title, description: index.seo.description, name: index.title};
+};
+
 const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | null, months: readonly string[]) => DetailHeadInput> = {
     experience: experienceInput,
     education: educationInput,
     certifications: certificationInput,
     organizations: organizationInput,
+    services: pageInput("services"),
+    metrics: pageInput("metrics"),
 };
 
 /** The head of any detail page or index, the same on the server and after hydration. */

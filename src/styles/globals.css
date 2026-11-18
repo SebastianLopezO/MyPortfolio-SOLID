@@ -5,7 +5,7 @@
 @layer base {
     :root {
         color-scheme: dark;
-        /* Lets a height ease between 0 and auto where the browser can, as the rows under "Show more" do (.appear-grow). */
+        /* Lets a height ease between 0 and auto where the browser can, as a "Show more" does when it opens (.more). */
         interpolate-size: allow-keywords;
     }
 
@@ -387,18 +387,52 @@
     }
 
     /*
-     * What a control brings into the page (more rows, another tab, the phone menu) eases in instead of popping: its
-     * first style, also the first after display: none, starts from the values in @starting-style at the end of this
-     * file. Rows marked appear-grow open to their height as well, where the browser can ease to auto.
+     * What a control brings into the page (another tab, the phone menu) eases in instead of popping: its first style,
+     * also the first after display: none, starts from the values in @starting-style at the end of this file.
      */
     .appear {
         transition: opacity var(--duration-slow) var(--ease-standard),
-        translate var(--duration-slow) var(--ease-standard),
-        block-size var(--duration-slow) var(--ease-emphasized);
+        translate var(--duration-slow) var(--ease-standard);
     }
 
-    .appear-grow {
-        overflow: clip;
+    /*
+     * The second layer of a part of the page (components/ui/More.tsx): a details element with no marker, whose summary
+     * says what opening it does and whose chevron points where the rows go. Where the browser can ease to auto, it
+     * opens to its height.
+     */
+    .more > summary {
+        list-style: none;
+        cursor: pointer;
+    }
+
+    .more > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .more:not([open]) .more-open,
+    .more[open] .more-closed {
+        display: none;
+    }
+
+    .more-chevron {
+        transition: rotate var(--duration-slow) var(--ease-emphasized);
+    }
+
+    .more[open] .more-chevron {
+        rotate: 180deg;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .more::details-content {
+            block-size: 0;
+            overflow-y: clip;
+            transition: block-size var(--duration-slow) var(--ease-emphasized), content-visibility var(--duration-slow);
+            transition-behavior: allow-discrete;
+        }
+
+        .more[open]::details-content {
+            block-size: auto;
+        }
     }
 
     /* Small answers to a pointer that hovers: the arrow of a link leans the way it leads, the icon of a link that
@@ -496,10 +530,6 @@
     .appear {
         opacity: 0;
         translate: 0 -0.5rem;
-    }
-
-    .appear-grow {
-        block-size: 0;
     }
 }
 

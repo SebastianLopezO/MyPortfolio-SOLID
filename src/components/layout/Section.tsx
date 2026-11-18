@@ -15,14 +15,14 @@ interface SectionProps {
 // Heights in px measured on the Spanish home at 390px and 1440px wide. A section off screen is not laid out
 // (globals.css, .section) and takes this height until it renders, so they only need to be close.
 const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
-    about: [5700, 2800],
+    about: [3800, 2150],
     journey: [1300, 1400],
-    services: [1600, 3200],
-    experience: [5200, 3100],
+    services: [1200, 750],
+    experience: [4300, 2750],
     skills: [2200, 1300],
-    projects: [6300, 7000],
+    projects: [3450, 2550],
     certifications: [2100, 1200],
-    metrics: [4200, 2200],
+    metrics: [870, 690],
     resume: [1400, 1000],
     testimonials: [950, 950],
     contact: [1300, 900],

@@ -107,6 +107,7 @@ export const services: Content["services"] = {
             ],
         },
     },
+    pageLink: "Ver cada servicio y por qué contratarme",
     benefitsTitle: "¿Por qué contratarme?",
     benefitsSubtitle: "Once razones, cada una con lo que un jefe o un compañero escribió sobre trabajar conmigo",
     benefits: {

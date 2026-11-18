@@ -220,10 +220,24 @@ test("links the detail pages from the home sections and the footer", async ({pag
     await expect(page.locator("#about").getByRole("link", {name: /Toda la educación/})).toHaveAttribute("href", "/es/education");
     await expect(page.locator("#certifications h3").getByRole("link", {name: "IT Specialist – Python"})).toHaveAttribute("href", "/es/certifications/it-specialist-python");
     await expect(page.locator("#certifications").getByRole("link", {name: /Todas las certificaciones/})).toHaveAttribute("href", "/es/certifications");
-    await expect(page.locator("#projects").getByRole("link", {name: "Ver actividad"})).toHaveCount(10);
+    // Each organization is named on the home and leads to its page.
+    await expect(page.locator('#projects a[href^="/es/organizations/"]')).toHaveCount(10);
+    await expect(page.locator("#services").getByRole("link", {name: /Ver cada servicio/})).toHaveAttribute("href", /^\/es\/services/);
+    await expect(page.locator("#metrics").getByRole("link", {name: /Ver todas las métricas/})).toHaveAttribute("href", /^\/es\/metrics/);
     const explore = page.getByRole("navigation", {name: "Explora el portafolio"});
-    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Organizaciones en GitHub"]);
+    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Organizaciones en GitHub", "Servicios", "Métricas de GitHub"]);
     await expect(explore.getByRole("link", {name: "Organizaciones en GitHub"})).toHaveAttribute("href", "/es/organizations");
+});
+
+test("gives the services and the metrics a page each, with what the home only names", async ({page, consoleErrors}) => {
+    await gotoHydrated(page, "/es/services");
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Servicios");
+    await expect(page.locator("article#service-integration")).toContainText("Ingeniería de integraciones y backend");
+    await expect(page.getByRole("heading", {name: "¿Por qué contratarme?"})).toBeVisible();
+    await gotoHydrated(page, "/es/metrics");
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Métricas de GitHub");
+    await expect(page.locator("#metrics-areas")).toBeVisible();
+    expect(consoleErrors).toEqual([]);
 });
 
 test("answers an unknown detail page with the 404 page", async ({page}) => {

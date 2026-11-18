@@ -6,6 +6,7 @@ import {isCaseStudy} from "@/content/shared/project-links";
 import {projectImages} from "@/content/shared/projects";
 import {CaseImage, SETTLE} from "@/components/case-study/CaseImages";
 import {GithubIcon} from "@/components/layout/BrandIcons";
+import {More} from "@/components/ui/More";
 import {TechList} from "@/components/ui/TechList";
 import {formatRange} from "@/lib/format";
 import {prioritize} from "@/lib/role-view";
@@ -23,6 +24,9 @@ export interface ProjectCardLabels {
     recreation: string;
     months: readonly string[];
     present: string;
+    /** The disclosure that holds the card's achievements; {count} is how many. */
+    achievements: string;
+    hideAchievements: string;
 }
 
 interface ProjectCardProps {
@@ -83,20 +87,29 @@ export function ProjectCard(rawProps: ProjectCardProps) {
             </Dynamic>
             <p class="mt-1 text-sm text-fg-subtle">{formatRange(props.project.start, props.project.end ?? null, props.labels.months, props.labels.present)}</p>
             <p class="mt-3 text-fg-muted">{props.copy.summary}</p>
-            <ul class="mt-4 flex-1 space-y-2 text-sm text-fg-muted">
-                <For each={highlights()}>
-                    {(item) => {
-                        const match = () => props.role !== null && item.roles.includes(props.role);
-                        return (
-                            <li class={cn("flex gap-2", match() && "text-fg")}>
-                                <span aria-hidden="true"
-                                      class={cn("mt-2 size-1.5 shrink-0 rounded-full", props.role && !match() ? "border border-fg-subtle" : "bg-accent")}/>
-                                {item.text}
-                            </li>
-                        );
-                    }}
-                </For>
-            </ul>
+            {/* The card shows what the project is at a glance; its achievements open on demand and stay in the page for
+                search engines and find in page. Its page tells the whole story. */}
+            <div class="flex-1">
+                <Show when={highlights().length > 0}>
+                    <More class="mt-3" label={props.labels.achievements.replace("{count}", String(highlights().length))}
+                          openLabel={props.labels.hideAchievements}>
+                        <ul class="mt-2 space-y-2 text-sm text-fg-muted">
+                            <For each={highlights()}>
+                                {(item) => {
+                                    const match = () => props.role !== null && item.roles.includes(props.role);
+                                    return (
+                                        <li class={cn("flex gap-2", match() && "text-fg")}>
+                                            <span aria-hidden="true"
+                                                  class={cn("mt-2 size-1.5 shrink-0 rounded-full", props.role && !match() ? "border border-fg-subtle" : "bg-accent")}/>
+                                            {item.text}
+                                        </li>
+                                    );
+                                }}
+                            </For>
+                        </ul>
+                    </More>
+                </Show>
+            </div>
             <TechList tech={props.project.tech} role={props.role} limit={10} class="mt-5"/>
             <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold">
                 <Link to={props.href}

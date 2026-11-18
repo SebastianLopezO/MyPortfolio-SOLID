@@ -8,6 +8,7 @@ import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Section} from "@/components/layout/Section";
+import {More} from "@/components/ui/More";
 import {buildDetailPath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
@@ -46,7 +47,7 @@ const LINK = "inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold tex
 
 export function AboutSection() {
     const about = useSectionCopy("about");
-    const {lang} = useLanguage();
+    const {lang, content: {ui}} = useLanguage();
     const {role, locked} = useRole();
     const paragraphs = () => {
         const [mindset, journey] = forProfile(about.story, role());
@@ -55,13 +56,36 @@ export function AboutSection() {
 
     return (
         <Section id="about" title={about.title} subtitle={forProfile(about.subtitle, role())}>
-            {/* From 64rem the story sits beside the terminal and the languages; below that everything stacks. */}
+            {/* From 64rem the story and the languages sit beside the terminal; below that everything stacks. */}
             <div class="grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
                 <div class="space-y-5 text-fg-muted">
                     <blockquote class="border-l-2 border-primary pl-4 font-display text-2xl text-fg">
                         “{about.quote}”
                     </blockquote>
-                    <For each={paragraphs()}>{(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}</For>
+                    <p class="max-w-[68ch]">{paragraphs()[0]}</p>
+                    {/* The rest of the story opens on demand and stays in the page for search engines and find in page. */}
+                    <More label={ui.actions.readStory} openLabel={ui.actions.hideStory}>
+                        <div class="mt-3 space-y-5">
+                            <For each={paragraphs().slice(1)}>{(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}</For>
+                        </div>
+                    </More>
+                    {/* The languages sit under the story, so the column beside the terminal never runs empty. */}
+                    <div class="pt-7">
+                        <h3 class="flex items-center gap-2 text-title text-fg">
+                            <Languages class="size-5 text-primary"/>
+                            {about.languagesTitle}
+                        </h3>
+                        <dl class="mt-4 grid gap-4 sm:grid-cols-3">
+                            <For each={about.languages}>
+                                {(language) => (
+                                    <div class="rounded-lg border border-border bg-surface p-4">
+                                        <dt class="font-semibold text-fg">{language.name}</dt>
+                                        <dd class="text-sm text-fg-muted">{language.level}</dd>
+                                    </div>
+                                )}
+                            </For>
+                        </dl>
+                    </div>
                 </div>
 
                 <div class="enter-each space-y-12">
@@ -109,22 +133,6 @@ export function AboutSection() {
                         </div>
                     </figure>
 
-                    <div>
-                        <h3 class="flex items-center gap-2 text-title text-fg">
-                            <Languages class="size-5 text-primary"/>
-                            {about.languagesTitle}
-                        </h3>
-                        <dl class="mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                            <For each={about.languages}>
-                                {(language) => (
-                                    <div class="rounded-lg border border-border bg-surface p-4">
-                                        <dt class="font-semibold text-fg">{language.name}</dt>
-                                        <dd class="text-sm text-fg-muted">{language.level}</dd>
-                                    </div>
-                                )}
-                            </For>
-                        </dl>
-                    </div>
                 </div>
             </div>
 

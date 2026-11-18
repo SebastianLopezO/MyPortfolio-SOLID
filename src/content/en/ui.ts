@@ -54,6 +54,12 @@ export const ui: Content["ui"] = {
         readCaseStudy: "Case study",
         liveDemo: "Live demo",
         allProjects: "All projects and the repository archive",
+        expandAll: "Expand all",
+        collapseAll: "Collapse all",
+        achievements: "Achievements ({count})",
+        hideAchievements: "Hide achievements",
+        readStory: "Read the full story",
+        hideStory: "Hide the story",
     },
     footer: {
         rights: "All rights reserved.",
@@ -66,6 +72,8 @@ export const ui: Content["ui"] = {
             education: "Education",
             certifications: "Certifications",
             organizations: "GitHub organizations",
+            services: "Services",
+            metrics: "GitHub metrics",
         },
     },
     whatsapp: {

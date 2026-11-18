@@ -13,12 +13,15 @@ import {
 } from "@/content/shared/github";
 import {formatNumber, metricImages, metricValues} from "@/content/shared/metrics";
 import {useSectionCopy} from "@/content/sections";
-import {useContent} from "@/context/language";
+import {useContent, useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
+import {ArrowRight} from "@/components/ui/icons";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {formatDay} from "@/lib/format";
+import {buildDetailPath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
+import {Link} from "@/routes/Router";
 import type {MetricId} from "@/types/content";
 
 const METRICS: MetricId[] = ["contributions", "commits", "activeDays", "streak", "pullRequests", "reviews", "repos", "organizations"];
@@ -73,7 +76,48 @@ const percent = (value: number, locale: string) =>
         maximumFractionDigits: value < 10 ? 1 : 0
     }).format(value / 100);
 
+/** The headline figures, each counting up the first time the reader reaches it (lib/count-up.ts). */
+function Figures() {
+    const {locale} = useContent();
+    const metrics = useSectionCopy("metrics");
+    return (
+        <dl class="enter-each grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
+            <For each={METRICS}>{(id) => (
+                <div class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
+                    <dt class="text-sm text-fg-muted">{metrics.labels[id]}</dt>
+                    <dd data-count="true"
+                        class="font-display text-4xl text-primary tabular-nums">{formatNumber(metricValues[id], locale)}</dd>
+                </div>
+            )}</For>
+        </dl>
+    );
+}
+
+/**
+ * The home keeps the figures and leads to the metrics page, where the areas, the years, the habits and the charts
+ * explain them (MetricsContent).
+ */
 export function MetricsSection() {
+    const {lang, content: {locale}} = useLanguage();
+    const metrics = useSectionCopy("metrics");
+    const {role, locked} = useRole();
+    return (
+        <Section id="metrics" title={metrics.title} subtitle={forProfile(metrics.subtitle, role())}>
+            <Figures/>
+            <p class="mt-4 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
+            <Link
+                to={buildDetailPath(lang, "metrics", {locked: locked()})}
+                class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+            >
+                {metrics.pageLink}
+                <ArrowRight class="size-4"/>
+            </Link>
+        </Section>
+    );
+}
+
+/** Every figure with what it tells: where the commits went, the years, the habits and the charts. The metrics page. */
+export function MetricsContent() {
     const {locale} = useContent();
     const metrics = useSectionCopy("metrics");
     const {role} = useRole();
@@ -85,19 +129,11 @@ export function MetricsSection() {
     };
 
     return (
-        <Section id="metrics" title={metrics.title} subtitle={forProfile(metrics.subtitle, role())}>
+        <>
             <p class="max-w-3xl text-lg text-fg-muted">{forProfile(metrics.intro, role())}</p>
             <p class="mt-3 mb-6 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
 
-            <dl class="enter-each grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
-                <For each={METRICS}>{(id) => (
-                    <div class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
-                        <dt class="text-sm text-fg-muted">{metrics.labels[id]}</dt>
-                        <dd data-count="true"
-                            class="font-display text-4xl text-primary tabular-nums">{number(metricValues[id])}</dd>
-                    </div>
-                )}</For>
-            </dl>
+            <Figures/>
 
             <div class="enter-each mt-10 grid gap-6 lg:grid-cols-2">
                 <section aria-labelledby="metrics-areas" class="rounded-lg border border-border bg-surface p-6">
@@ -300,6 +336,6 @@ export function MetricsSection() {
                     </ul>
                 </div>
             </Show>
-        </Section>
+        </>
     );
 }

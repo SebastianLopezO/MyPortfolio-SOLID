@@ -39,6 +39,8 @@ import {Timeline} from "@/components/page/Timeline";
 import {Carousel} from "@/components/ui/Carousel";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {TechExplorer} from "@/components/projects/TechExplorer";
+import {MetricsContent} from "@/components/sections/MetricsSection";
+import {ServicesContent} from "@/components/sections/ServicesSection";
 import {TechList} from "@/components/ui/TechList";
 import {ToggleButton} from "@/components/ui/ToggleButton";
 import {
@@ -81,6 +83,8 @@ const HOME_SECTION: Record<DetailCollection, string> = {
     education: "about",
     certifications: "certifications",
     organizations: "projects",
+    services: "services",
+    metrics: "metrics",
 };
 
 const fill = (template: string, values: Record<string, string | number>) =>
@@ -1500,6 +1504,30 @@ function OrganizationsIndex() {
     );
 }
 
+/** Every service, the projects that prove each one and the reasons to hire me; the home lists them by name. */
+function ServicesIndex() {
+    return (
+        <div class="container-page py-12 md:py-16">
+            <IndexHeader collection="services"/>
+            <div class="mt-12">
+                <ServicesContent/>
+            </div>
+        </div>
+    );
+}
+
+/** Every GitHub figure with what it tells; the home keeps the headline figures. */
+function MetricsIndex() {
+    return (
+        <div class="container-page py-12 md:py-16">
+            <IndexHeader collection="metrics"/>
+            <div class="mt-12">
+                <MetricsContent/>
+            </div>
+        </div>
+    );
+}
+
 // Keyed by slug, like the project pages: the next job or program starts with its own timeline filter and stack pick.
 export function DetailBody(props: { collection: DetailCollection; slug: string | null }): JSX.Element {
     return (
@@ -1521,6 +1549,12 @@ export function DetailBody(props: { collection: DetailCollection; slug: string |
                 <Show when={props.slug} keyed fallback={<OrganizationsIndex/>}>
                     {(slug) => <OrganizationPage slug={slug}/>}
                 </Show>
+            </Match>
+            <Match when={props.collection === "services"}>
+                <ServicesIndex/>
+            </Match>
+            <Match when={props.collection === "metrics"}>
+                <MetricsIndex/>
             </Match>
         </Switch>
     );

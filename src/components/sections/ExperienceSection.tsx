@@ -1,4 +1,4 @@
-import {createMemo, createSignal, For, Show} from "solid-js";
+import {createMemo, createSignal, For, onCleanup, onMount, Show} from "solid-js";
 import {ArrowRight, Briefcase, ChevronDown, MapPin} from "@/components/ui/icons";
 import {forProfile, type RoleId} from "@/content/roles";
 import {EXPERIENCE_SLUG} from "@/content/shared/detail-links";
@@ -10,14 +10,18 @@ import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
 import {formatDuration, formatRange, monthsBetween} from "@/lib/format";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
+import {More} from "@/components/ui/More";
 import {TechList} from "@/components/ui/TechList";
+import {useHydrated} from "@/hooks/useHydrated";
+import {setAll, watch} from "@/lib/disclosures";
 import {countMatches, orderExperience, prioritize, split} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
 import type {Bullet, ExperienceFacts} from "@/types/content";
 
-const VISIBLE_BULLETS = 3;
-const MAX_RELEVANT_BULLETS = 4;
+// A job shows its first two achievements, or up to three that match the role view; the rest open on demand.
+const VISIBLE_BULLETS = 2;
+const MAX_RELEVANT_BULLETS = 3;
 
 function BulletItem(props: { bullet: Bullet; role: RoleId | null }) {
     const match = () => props.role !== null && props.bullet.roles.includes(props.role);
@@ -35,7 +39,6 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
     const {lang, content: {ui}} = useLanguage();
     const copy = useSectionCopy("experience");
     const {locked} = useRole();
-    const [expanded, setExpanded] = createSignal(false);
     const projectCopy = useSectionCopy("projects");
     const related = () => EXPERIENCE_PROJECTS[props.facts.id] ?? [];
     const item = () => copy.items[props.facts.id];
@@ -44,7 +47,6 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
         const ordered = prioritize(item().bullets, (bullet) => bullet.roles, props.role);
         return split(ordered, props.role ? Math.min(matches(), MAX_RELEVANT_BULLETS) : VISIBLE_BULLETS);
     });
-    const listId = () => `experience-${props.facts.id}-more`;
     const meta = () => [ui.workMode[props.facts.workMode], props.facts.employment && ui.employment[props.facts.employment]].filter(Boolean).join(" · ");
 
     return (
@@ -100,27 +102,19 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                             </ul>
                         </Show>
                         <Show when={bullets().hidden.length > 0}>
-                            <ul id={listId()} hidden={!expanded()}
-                                class="appear appear-grow mt-2 space-y-2 text-fg-muted">
-                                <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
-                                                                                      role={props.role}/>}</For>
-                            </ul>
-                            <button
-                                type="button"
-                                aria-expanded={expanded()}
-                                aria-controls={listId()}
-                                onClick={() => setExpanded((value) => !value)}
-                                class="mt-3 inline-flex min-h-9 items-center gap-1 text-sm font-semibold text-primary hover:text-primary-hover"
-                            >
-                                {expanded() ? ui.actions.showLess : `${ui.actions.showMore} (${bullets().hidden.length})`}
-                                <ChevronDown
-                                    class={`size-4 transition-transform ${expanded() ? "rotate-180" : ""}`}/>
-                            </button>
+                            <More class="mt-2" label={`${ui.actions.showMore} (${bullets().hidden.length})`}
+                                  openLabel={ui.actions.showLess}>
+                                <ul class="mt-2 space-y-2 text-fg-muted">
+                                    <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
+                                                                                          role={props.role}/>}</For>
+                                </ul>
+                            </More>
                         </Show>
                     </div>
                 </Show>
 
-                <TechList tech={props.facts.tech} role={props.role}
+                {/* The first ten tools, the role view's first; the job's page lists them all. */}
+                <TechList tech={props.facts.tech} role={props.role} limit={10}
                           class="mt-5 lg:col-start-1 lg:row-start-2 lg:self-start"/>
 
                 <div class="mt-4 text-sm lg:col-start-1 lg:row-start-3 lg:self-start">
@@ -167,6 +161,10 @@ export function ExperienceSection() {
     const copy = useSectionCopy("experience");
     const {role} = useRole();
     const jobs = createMemo(() => orderExperience(experience, (job) => copy.items[job.id].bullets, role()));
+    const interactive = useHydrated();
+    const [everything, setEverything] = createSignal(false);
+    let list: HTMLOListElement | undefined;
+    onMount(() => onCleanup(watch(list!, setEverything)));
 
     return (
         <Section id="experience" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
@@ -177,7 +175,21 @@ export function ExperienceSection() {
                     </p>
                 )}
             </Show>
-            <ol class="timeline relative space-y-6 lg:space-y-8 lg:pl-12">
+            {/* For a reader who wants every achievement at once; it only appears once the page can open them. */}
+            <Show when={interactive()}>
+                <div class="-mt-4 mb-6 flex justify-end">
+                    <button
+                        type="button"
+                        aria-controls="experience-jobs"
+                        onClick={() => setAll(list!, !everything())}
+                        class="inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
+                    >
+                        {everything() ? ui.actions.collapseAll : ui.actions.expandAll}
+                        <ChevronDown class={cn("size-4 motion-safe:transition-transform motion-safe:duration-400", everything() && "rotate-180")}/>
+                    </button>
+                </div>
+            </Show>
+            <ol ref={list} id="experience-jobs" class="timeline relative space-y-6 lg:space-y-8 lg:pl-12">
                 <For each={jobs()}>{(facts) => <ExperienceItem facts={facts} role={role()}/>}</For>
             </ol>
         </Section>

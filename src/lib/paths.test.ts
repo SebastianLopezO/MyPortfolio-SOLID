@@ -84,7 +84,7 @@ describe("paths", () => {
         expect(parseProjectPath("/en/experience")).toBeNull();
     });
 
-    it("lists the twelve profile pages, the sixty-six project pages and the hundred and four detail pages", () => {
+    it("lists the twelve profile pages, the sixty-six project pages and the hundred and eight detail pages", () => {
         const slugs = [
             "integration-platform", "smartpot", "gopoli", "martech", "email-signatures", "observability", "crm-widgets", "admissions-forms",
             "crm-snapshots", "landing-platform", "email-automations", "zoho-toolkit", "real-estate-site", "collection-automation", "peppercrm", "portfolio", "taurus",
@@ -105,6 +105,9 @@ describe("paths", () => {
                 "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s",
                 "testlabdata", "technicalsebastians", "vocationalsebastian-s",
             ],
+            // The services and the metrics are an index each, with no page under it.
+            services: [],
+            metrics: [],
         };
         expect(prerenderRoutes.map((route) => route.path)).toEqual([
             "/en", "/en/backend", "/en/crm", "/en/data", "/en/devops", "/en/fullstack",
@@ -114,7 +117,7 @@ describe("paths", () => {
                 Object.entries(details).flatMap(([collection, items]) => [`/${lang}/${collection}`, ...items.map((slug) => `/${lang}/${collection}/${slug}`)]),
             ),
         ]);
-        expect(prerenderRoutes).toHaveLength(182);
+        expect(prerenderRoutes).toHaveLength(186);
     });
 
     it("links every page to both languages and an English default", () => {

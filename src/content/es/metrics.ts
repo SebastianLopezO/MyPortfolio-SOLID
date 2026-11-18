@@ -19,6 +19,7 @@ export const metrics: Content["metrics"] = {
         fullstack: "TypeScript encabeza los commits porque es el lenguaje principal de las landings, de las webs de SmartPot y GoPoli y de este portafolio; las horas muestran cuánto tiempo se lleva el backend en Python y Java.",
     },
     asOf: "Datos del {date}, actualizados en cada despliegue",
+    pageLink: "Ver todas las métricas y lo que cuentan",
     labels: {
         contributions: "contribuciones desde febrero de 2022",
         commits: "commits desde febrero de 2022",

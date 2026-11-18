@@ -82,6 +82,13 @@ appear only inside the journey charts.
   always comes from a source listed in `docs/content.md`.
 - **Inputs:** label above, Raised Graphite fill, Control Edge border, teal ring on focus. Placeholders show what to
   write.
+- **Disclosures:** the second layer of the home. A native `details` element whose summary says what opening it does
+  ("Show more (9)", "Achievements (4)", "Read the full story") in Signal Teal with a chevron that turns, and whose
+  text stays in the prerendered page for search engines and find in page. "Expand all" opens every one of a section
+  at once. Never a "Read more" that hides the only proof of a claim: the first glance keeps the claim and its best
+  evidence.
+- **Stack chips with a count:** a card shows its first ten tools and a dashed "+N" chip for the rest, which its page
+  lists in full.
 - **Loading and empty states:** the site is static and prerendered; images reserve their size, nothing spins. A
   project screen the reader reaches before it has arrived holds its frame in Raised Graphite with a soft pulse (four
   beats at most), then fades in; one that arrived first simply shows.
@@ -97,6 +104,11 @@ appear only inside the journey charts.
   views sit under the portrait, in the space the portrait column leaves empty, and on phones they follow the portrait.
   The headline speaks about the people the work serves and the summary carries the stack and the proof, rewritten for
   each role view.
+- **The home is the first glance, not the archive.** About 3,500 words are visible without a gesture (from 7,800):
+  each section keeps its claim and its best proof, the rest opens in place or lives on its own page. Every job,
+  project, certification and organization has a page, and so do the services (`/services`) and the GitHub metrics
+  (`/metrics`), which the home names in a list and a strip of figures. Content in a disclosure is still in the
+  page, so the home keeps its search weight while a recruiter scans it in a minute.
 - CSS Grid for every multi-column layout. Content collapses to one column below 48rem; only short figure strips keep
   two or three columns. Nothing scrolls sideways except the sliders, which move by swipe or buttons; the
   assistant's suggested questions wrap. The journey map and the capability heatmap switch to one stop or one year at a

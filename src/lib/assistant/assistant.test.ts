@@ -306,7 +306,7 @@ describe("assistant with the detail pages", () => {
 
     it("explains the site with its page count and links the project", () => {
         const answer = askSpanish("¿Cómo está hecho este sitio?", general);
-        expect(answer.text).toContain("182 páginas");
+        expect(answer.text).toContain("186 páginas");
         expect(answer.links.map((link) => link.href)).toContain("/es/projects/portfolio");
     });
 

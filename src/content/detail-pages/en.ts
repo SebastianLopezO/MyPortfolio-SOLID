@@ -7,13 +7,17 @@ export const detailPages: DetailPagesCopy = {
             experience: "Experience",
             education: "Education",
             certifications: "Certification",
-            organizations: "GitHub organization"
+            organizations: "GitHub organization",
+            services: "Services",
+            metrics: "GitHub metrics"
         },
         all: {
             experience: "All experience",
             education: "All education",
             certifications: "All certifications",
-            organizations: "All organizations"
+            organizations: "All organizations",
+            services: "All services",
+            metrics: "All metrics"
         },
         onThisPage: "On this page",
         atAGlance: "At a glance",
@@ -158,6 +162,22 @@ export const detailPages: DetailPagesCopy = {
             seo: {
                 title: "GitHub organizations · Sebastián López Osorno",
                 description: "Ten GitHub organizations with my code, across TIVENOS, ADCOM, SmartPot, GoPoli, PepperCRM, my degree and the technical programs, with my commits in each.",
+            },
+        },
+        services: {
+            title: "Services",
+            subtitle: "What I can take on for a team or a company: integrations between systems, Zoho CRM, web and landing pages, data, automation, infrastructure, observability and technical consulting. Each service links the projects that prove it, and below are the reasons to hire me in the words of the people I worked with.",
+            seo: {
+                title: "Integration, CRM and backend services · Sebastián López Osorno",
+                description: "Integrations and backend, Zoho CRM development, web, data, automation, infrastructure, observability and consulting, each with the projects that prove it.",
+            },
+        },
+        metrics: {
+            title: "GitHub metrics",
+            subtitle: "My GitHub activity in numbers: contributions, commits, active days, streaks and reviews, the areas my commits went to, how the activity grew each year, the days I work and the editors I use, with what each figure says and what it does not.",
+            seo: {
+                title: "GitHub metrics · Sebastián López Osorno",
+                description: "Contributions, commits, active days, streaks and reviews on GitHub since 2022, by area, year, weekday and editor, with what each figure means.",
             },
         },
     },
