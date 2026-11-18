@@ -24,7 +24,7 @@ import {useRole} from "@/context/role";
 import {useHydrated} from "@/hooks/useHydrated";
 import {useJourneyCopy} from "@/hooks/useJourneyCopy";
 import {GithubIcon} from "@/components/layout/BrandIcons";
-import {CaseImage} from "@/components/case-study/CaseImages";
+import {CaseImage, UNMASK} from "@/components/case-study/CaseImages";
 import {
     Breadcrumbs,
     Bullets,
@@ -357,6 +357,7 @@ function ProjectScreens(props: { items: ProjectFacts[] }) {
                             <CaseImage
                                 image={screen.image}
                                 alt={screen.alt}
+                                frameClass={UNMASK}
                                 sizes="(min-width: 80rem) 25rem, (min-width: 48rem) 45vw, 85vw"
                                 class={cn("aspect-[16/10] group-hover:border-primary", screen.image.height > screen.image.width ? "object-contain" : "object-cover object-top")}
                             />

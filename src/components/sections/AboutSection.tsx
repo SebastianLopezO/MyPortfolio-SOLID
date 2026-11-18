@@ -36,7 +36,11 @@ const RAW_ASCII_ART = String.raw`
 const asciiLines = RAW_ASCII_ART.replace(/^\n/, "").split("\n");
 const asciiIndent = Math.min(...asciiLines.filter((line) => line.trim()).map((line) => line.length - line.trimStart().length));
 const ASCII_ART = asciiLines.map((line) => line.slice(asciiIndent).trimEnd()).join("\n");
-const ASCII_STYLE = {"--ascii-cols": String(Math.max(...ASCII_ART.split("\n").map((line) => line.length)))};
+// Its widest line sizes the font to the frame; its number of lines lets it print one line at a time (globals.css).
+const ASCII_STYLE = {
+    "--ascii-cols": String(Math.max(...ASCII_ART.split("\n").map((line) => line.length))),
+    "--ascii-rows": String(ASCII_ART.split("\n").length),
+};
 
 const LINK = "inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover";
 
@@ -63,7 +67,7 @@ export function AboutSection() {
                 <div class="enter-each space-y-12">
                     {/* The portrait and the journey log sit side by side once the terminal is 42rem wide. */}
                     <figure aria-label={about.terminal.label}
-                            class="@container overflow-hidden rounded-lg border border-border bg-surface">
+                            class="@container overflow-clip rounded-lg border border-border bg-surface">
                         <div aria-hidden="true" class="flex items-center gap-1.5 border-b border-border px-4 py-2.5">
                             <span class="size-2.5 rounded-full bg-danger/70"/>
                             <span class="size-2.5 rounded-full bg-warning/70"/>

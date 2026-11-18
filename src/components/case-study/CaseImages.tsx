@@ -1,4 +1,4 @@
-import {For, type JSX, Match, Show, Switch} from "solid-js";
+import {For, type JSX, Match, onCleanup, onMount, Show, Switch} from "solid-js";
 import {withBase} from "@/lib/base";
 import {widestVariant} from "@/lib/image-widths";
 import {cn} from "@/lib/utils";
@@ -11,6 +11,13 @@ const srcSet = (image: CaseImageFacts, format: "avif" | "webp") =>
 /**
  * `bare` drops the frame (corners and outline) for a screen that fills the top of a card that already has one.
  * `eager` is for the screen a page opens with: it loads at once and ahead of the others.
+ * `frameClass` styles the picture around the image, such as the motion that brings it into view (globals.css,
+ * screen-settle and screen-unmask), kept off the image so it never competes with the image's own fade.
+ *
+ * A screen the reader reaches before it has arrived is marked data-loading, which holds its place with a soft pulse,
+ * and data-loaded when it arrives, which fades it in (globals.css). One that arrives before it is reached simply shows,
+ * one the page opens with is left alone, so the largest paint is never held back, and without this script a screen
+ * appears as it loads.
  */
 export function CaseImage(props: {
     image: CaseImageFacts;
@@ -19,12 +26,39 @@ export function CaseImage(props: {
     eager?: boolean;
     bare?: boolean;
     class?: string;
+    frameClass?: string;
 }) {
     const fallback = () => withBase(`${props.image.base}-${props.image.widths[Math.min(1, props.image.widths.length - 1)]}.webp`);
+    let img: HTMLImageElement | undefined;
+    onMount(() => {
+        const element = img;
+        if (!element || props.eager || element.complete || typeof IntersectionObserver === "undefined") return;
+        const listening = new AbortController();
+        const seen = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            seen.disconnect();
+            if (!element.complete) element.dataset.loading = "";
+        });
+        const settle = (event: Event) => {
+            listening.abort();
+            seen.disconnect();
+            if (!("loading" in element.dataset)) return;
+            delete element.dataset.loading;
+            if (event.type === "load") element.dataset.loaded = "";
+        };
+        seen.observe(element);
+        element.addEventListener("load", settle, {signal: listening.signal});
+        element.addEventListener("error", settle, {signal: listening.signal});
+        onCleanup(() => {
+            listening.abort();
+            seen.disconnect();
+        });
+    });
     return (
-        <picture>
+        <picture class={props.frameClass}>
             <source type="image/avif" srcset={srcSet(props.image, "avif")} sizes={props.sizes}/>
             <img
+                ref={img}
                 src={fallback()}
                 srcset={srcSet(props.image, "webp")}
                 sizes={props.sizes}
@@ -39,6 +73,12 @@ export function CaseImage(props: {
         </picture>
     );
 }
+
+/** A screen of a project page paints in from its top edge as it comes into view (globals.css). */
+export const UNMASK = "block screen-unmask";
+
+/** A screen at the top of a card settles into the card's frame as the card comes up (globals.css). */
+export const SETTLE = "block screen-settle";
 
 /** What a screen needs under it: the attribution of its data, or the note that it is a recreation. */
 function Caption(props: { image: CaseImageFacts; recreationLabel: string }) {
@@ -108,7 +148,7 @@ export function CaseImages(props: CaseImagesProps) {
                             <figure>
                                 <Enlargeable image={image} label={props.enlargeLabel}>
                                     <CaseImage image={image} alt={props.alts[image.id]}
-                                               sizes="(min-width: 640px) 15rem, 30vw"/>
+                                               sizes="(min-width: 640px) 15rem, 30vw" frameClass={UNMASK}/>
                                 </Enlargeable>
                                 <Caption image={image} recreationLabel={props.recreationLabel}/>
                             </figure>
@@ -122,7 +162,8 @@ export function CaseImages(props: CaseImagesProps) {
                         <figure>
                             <Enlargeable image={image()} label={props.enlargeLabel}>
                                 <CaseImage image={image()} alt={props.alts[image().id]}
-                                           sizes="(min-width: 1440px) 80vw, (min-width: 1152px) 72rem, 100vw"/>
+                                           sizes="(min-width: 1440px) 80vw, (min-width: 1152px) 72rem, 100vw"
+                                           frameClass={UNMASK}/>
                             </Enlargeable>
                             <Caption image={image()} recreationLabel={props.recreationLabel}/>
                         </figure>
@@ -137,6 +178,7 @@ export function CaseImages(props: CaseImagesProps) {
                                                     image={image}
                                                     alt={props.alts[image.id]}
                                                     sizes={rest().length > 1 ? "(min-width: 1440px) 40vw, (min-width: 768px) 36rem, 100vw" : "(min-width: 1440px) 80vw, (min-width: 1152px) 72rem, 100vw"}
+                                                    frameClass={UNMASK}
                                                 />
                                             </Enlargeable>
                                             <Caption image={image} recreationLabel={props.recreationLabel}/>

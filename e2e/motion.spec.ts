@@ -43,11 +43,70 @@ test("draws the reading progress on the header as the page scrolls", async ({pag
     await expect.poll(progress).toBeGreaterThan(0.2);
 });
 
+const animationNames = (element: Element) => element.getAnimations().map((animation) => (animation as CSSAnimation).animationName);
+
+// The part of the journey map still hidden by its sweep, as the right inset of its clip (100 hidden, 0 drawn).
+const hiddenShare = (element: Element) => parseFloat(getComputedStyle(element).clipPath.split(" ")[1] ?? "0") || 0;
+
+test("settles the hero's stack in one chip after another and draws the portrait at once", async ({page}) => {
+    await gotoHydrated(page, "/en");
+    const chips = page.locator("#home ul.hero-cascade").first().locator("> li");
+    expect(await chips.first().evaluate(animationNames)).toEqual(["hero-cascade"]);
+    const delays = await chips.evaluateAll((items) => items.map((item) => getComputedStyle(item).animationDelay));
+    expect(new Set(delays).size).toBe(delays.length);
+    // The portrait is the largest paint: nothing fades it in, and it only drifts once the hero leaves.
+    const portrait = page.locator("#home .hero-portrait");
+    expect(await portrait.evaluate(opacityOf)).toBe(1);
+    expect(await portrait.locator("img").evaluate(animationNames)).toEqual([]);
+});
+
+test("holds the place of a screen that has not arrived and fades it in once it has", async ({page}) => {
+    await gotoHydrated(page, "/en");
+    // The project screens are held back until the reader has seen the empty frame, as on a slow connection.
+    let arrive!: () => void;
+    const arrived = new Promise<void>((resolve) => (arrive = resolve));
+    await page.route(/\/projects\/.+\.(avif|webp)$/, async (route) => {
+        await arrived;
+        await route.continue();
+    });
+    await hydrateSection(page, "projects");
+    const screen = page.locator("#projects .screen-settle img").first();
+    await screen.evaluate((element) => element.scrollIntoView({block: "center"}));
+    await expect(screen).toHaveAttribute("data-loading", "");
+    arrive();
+    await expect(screen).toHaveAttribute("data-loaded", "");
+    await expect(screen).not.toHaveAttribute("data-loading");
+    await expect.poll(() => screen.evaluate(opacityOf)).toBe(1);
+});
+
+test("draws the journey map from left to right as it comes up the screen", async ({page, isMobile}) => {
+    test.skip(isMobile, "The map shows from 64rem; phones go through it one stop at a time");
+    await gotoHydrated(page, "/en");
+    await hydrateSection(page, "journey");
+    const map = page.locator(".journey-chart > svg");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    expect(await map.evaluate(hiddenShare)).toBe(100);
+    await map.evaluate((element) => element.scrollIntoView({block: "center"}));
+    await expect.poll(() => map.evaluate(hiddenShare)).toBe(0);
+});
+
+test("turns the cards at a slider's edge away on a phone", async ({page, isMobile}) => {
+    test.skip(!isMobile, "From 48rem every slider is a grid");
+    await gotoHydrated(page, "/en");
+    await hydrateSection(page, "projects");
+    const slides = page.locator("#projects .carousel-depth > li > *");
+    await slides.first().evaluate((element) => element.scrollIntoView({block: "center", inline: "nearest"}));
+    await expect.poll(() => slides.first().evaluate(opacityOf)).toBe(1);
+    expect(await slides.nth(1).evaluate(opacityOf)).toBeLessThan(1);
+});
+
 test.describe("for a reader who asks for less motion", () => {
     test.use({contextOptions: {reducedMotion: "reduce"}});
 
     test("keeps every part at rest and every figure still", async ({page}) => {
         await gotoHydrated(page, "/en");
+        expect(await page.locator("#home .hero-cascade > li").first().evaluate(animationNames)).toEqual([]);
+        expect(await page.locator("#home .status-dot").evaluate((dot) => getComputedStyle(dot, "::after").animationName)).toBe("none");
         expect(await page.locator("dl.enter-each").first().locator("> div").first().evaluate(opacityOf)).toBe(1);
         const figure = page.locator("[data-count]").first();
         const written = await figure.textContent();

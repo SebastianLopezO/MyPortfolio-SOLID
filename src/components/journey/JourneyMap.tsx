@@ -86,8 +86,9 @@ export function JourneyMap(props: JourneyMapProps) {
                 )}</For>
             </div>
 
+            {/* The map draws itself from left to right as it comes up the screen (globals.css, journey-chart). */}
             <div ref={scroller}
-                 class="hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:flex">
+                 class="journey-chart hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:flex">
                 {/* Lane names stay pinned to the left edge if large text makes the map scroll. */}
                 <div aria-hidden="true" class="pointer-events-none sticky left-0 z-10 w-0 shrink-0">
                     <For each={JOURNEY_LINES}>{(line) => (
@@ -167,6 +168,7 @@ export function JourneyMap(props: JourneyMapProps) {
                                 onClick={() => props.onSelect(station.id)}
                                 onKeyDown={(event) => onStationKey(event, station.id)}
                                 opacity={dimmed(milestone.lines) ? 0.3 : 1}
+                                style={{"--x": (station.x / MAP.width).toFixed(3)}}
                                 class="journey-station cursor-pointer"
                             >
                                 <rect

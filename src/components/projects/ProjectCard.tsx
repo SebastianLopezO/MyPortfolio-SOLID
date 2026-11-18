@@ -4,7 +4,7 @@ import {ArrowRight, ExternalLink, Lock} from "@/components/ui/icons";
 import type {RoleId} from "@/content/roles";
 import {isCaseStudy} from "@/content/shared/project-links";
 import {projectImages} from "@/content/shared/projects";
-import {CaseImage} from "@/components/case-study/CaseImages";
+import {CaseImage, SETTLE} from "@/components/case-study/CaseImages";
 import {GithubIcon} from "@/components/layout/BrandIcons";
 import {TechList} from "@/components/ui/TechList";
 import {formatRange} from "@/lib/format";
@@ -48,20 +48,23 @@ export function ProjectCard(rawProps: ProjectCardProps) {
     const screen = () => projectImages(props.project)[0];
 
     return (
+        // The whole card answers a pointer: its outline brightens, its screen comes closer and the arrow of its page
+        // link leans forward (globals.css, hover-card).
         <article
-            class="group flex w-full flex-col rounded-lg border border-border bg-surface p-6 transition-colors duration-200 hover:border-border-strong">
-            {/* The main screen fills the top of the card; a recreated one says so on its corner. It comes a little closer
-                while the pointer is on the card. */}
+            class="hover-card group flex w-full flex-col rounded-lg border border-border bg-surface p-6 transition-colors duration-200 hover:border-border-strong">
+            {/* The main screen fills the top of the card; a recreated one says so on its corner. It settles into the
+                frame as the card comes up and comes a little closer while the pointer is on the card. */}
             <Show when={props.copy.screen ? screen() : undefined}>
                 {(image) => (
                     <Link to={props.href} tabindex={-1}
-                          class="relative -mx-6 -mt-6 mb-5 block overflow-hidden rounded-t-lg border-b border-border">
+                          class="relative -mx-6 -mt-6 mb-5 block overflow-clip rounded-t-lg border-b border-border">
                         <CaseImage
                             image={image()}
                             alt={props.copy.screen!}
                             sizes="(min-width: 80rem) 24rem, (min-width: 48rem) 45vw, 85vw"
                             bare
                             eager={props.eager}
+                            frameClass={SETTLE}
                             class={cn(
                                 "aspect-[16/9] motion-safe:transition-transform motion-safe:duration-400 motion-safe:ease-standard motion-safe:group-hover:scale-[1.03]",
                                 image().height > image().width ? "object-contain" : "object-cover object-top",

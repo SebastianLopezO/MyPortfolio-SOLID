@@ -54,10 +54,13 @@ export function FocusRadar() {
             <div>
                 <svg viewBox={`0 0 ${SIZE} ${SIZE}`} class="mx-auto block h-auto w-full max-w-130 font-sans"
                      aria-hidden="true">
+                    {/* When the tab opens, the rings grow from the center one after another and every technology then
+                        flies out from the center to its place (globals.css, radar-ring and radar-blip). */}
                     <For each={[...RADAR_RINGS].reverse()}>
                         {(ring) => (
                             <circle cx={CENTER} cy={CENTER} r={RING_OUTER[ring]} fill="var(--color-surface)"
-                                    stroke="var(--color-border)" stroke-width={1}/>
+                                    stroke="var(--color-border)" stroke-width={1}
+                                    class="radar-ring" style={{"--i": String(RADAR_RINGS.indexOf(ring))}}/>
                         )}
                     </For>
                     <line x1={CENTER - RING_OUTER.paused} x2={CENTER + RING_OUTER.paused} y1={CENTER} y2={CENTER}
@@ -84,8 +87,13 @@ export function FocusRadar() {
                         const point = positions.get(item.id)!;
                         const selected = () => item.id === active();
                         return (
-                            <g class="cursor-pointer" onPointerEnter={() => setActive(item.id)}
-                               onClick={() => setActive(item.id)}>
+                            <g class="radar-blip cursor-pointer" onPointerEnter={() => setActive(item.id)}
+                               onClick={() => setActive(item.id)}
+                               style={{
+                                   "--i": String(index()),
+                                   "--dx": `${(CENTER - point.x).toFixed(1)}px`,
+                                   "--dy": `${(CENTER - point.y).toFixed(1)}px`,
+                               }}>
                                 <circle cx={point.x} cy={point.y} r={16} fill="transparent"/>
                                 <circle
                                     cx={point.x}

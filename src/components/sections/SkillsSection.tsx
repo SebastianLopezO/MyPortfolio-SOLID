@@ -5,6 +5,7 @@ import {useSectionCopy} from "@/content/sections";
 import {useContent} from "@/context/language";
 import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
+import {ChevronDown} from "@/components/ui/icons";
 import {isFocusTech, orderSkillGroups, orderTech, split} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 
@@ -51,9 +52,12 @@ export function SkillsSection() {
                     type="button"
                     aria-expanded={expanded()}
                     onClick={() => setExpanded((value) => !value)}
-                    class="mt-6 inline-flex min-h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {expanded() ? ui.actions.showFewer : `${skills.moreTitle} (${ordered().hidden.length})`}
+                    {/* Points where the rows go: down to open them, up once they are open. */}
+                    <ChevronDown
+                        class={cn("size-4 motion-safe:transition-transform motion-safe:duration-400 motion-safe:ease-emphasized", expanded() && "rotate-180")}/>
                 </button>
             </Show>
         </Section>

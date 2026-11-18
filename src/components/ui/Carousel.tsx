@@ -93,12 +93,13 @@ export function Carousel<T>(props: CarouselProps<T>) {
 
     return (
         <div>
-            {/* As a grid, each card rises as it enters the screen (globals.css, .enter-each). */}
+            {/* As a grid, each card rises as it enters the screen (globals.css, .enter-each); as a slider on a phone,
+                the cards at its edges turn away and dim (carousel-depth). */}
             <ul
                 id={trackId}
                 ref={track}
                 class={cn(
-                    "enter-each scrollbar-none -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto scroll-smooth px-4 sm:mx-0 sm:scroll-px-0 sm:px-0",
+                    "enter-each carousel-depth scrollbar-none -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto scroll-smooth px-4 sm:mx-0 sm:scroll-px-0 sm:px-0",
                     props.trackClass,
                 )}
             >

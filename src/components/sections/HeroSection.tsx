@@ -64,7 +64,7 @@ export function HeroSection() {
                 class="container-page grid items-start gap-x-12 gap-y-10 py-12 md:py-20 lg:grid-cols-[1.4fr_1fr] lg:grid-rows-[auto_1fr]">
                 <div class="lg:row-span-2">
                     <p class="inline-flex items-center gap-2 rounded-full border border-success/40 bg-success/10 px-3 py-1 text-sm text-success">
-                        <span aria-hidden="true" class="size-2 shrink-0 rounded-full bg-success"/>
+                        <span aria-hidden="true" class="status-dot size-2 shrink-0 rounded-full bg-success"/>
                         {forProfile(hero.availability, role())}
                     </p>
                     <h1 id="hero-title" class="mt-6">
@@ -94,10 +94,12 @@ export function HeroSection() {
 
                     <div class="mt-8">
                         <p class="sr-only">{hero.stackLabel}</p>
-                        <ul translate="no" class="flex flex-wrap gap-2">
+                        {/* The stack settles in chip by chip once the page opens (globals.css, hero-cascade). */}
+                        <ul translate="no" class="hero-cascade flex flex-wrap gap-2">
                             <For each={roleConfig(role()).topStack}>
-                                {(item) => (
+                                {(item, index) => (
                                     <li
+                                        style={{"--i": String(index())}}
                                         class="rounded-md border border-border bg-surface px-3 py-1 font-mono text-sm text-fg-muted">
                                         {item}
                                     </li>
@@ -108,7 +110,8 @@ export function HeroSection() {
 
                 </div>
 
-                <div class="relative mx-auto w-64 sm:w-80 lg:mt-6 lg:w-full lg:max-w-sm">
+                {/* The portrait is the largest paint, so it is drawn at once; it only drifts away as the hero leaves. */}
+                <div class="hero-portrait relative mx-auto w-64 sm:w-80 lg:mt-6 lg:w-full lg:max-w-sm">
                     <div class="hex-frame relative aspect-square bg-linear-to-br from-primary to-emerald-500 p-1.5">
                         <picture>
                             <source

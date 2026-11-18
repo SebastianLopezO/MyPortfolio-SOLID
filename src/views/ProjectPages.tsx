@@ -25,7 +25,7 @@ import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Bullets, LinkRows, NeighborNavigation, PageIndex, PageTrail, TextSection} from "@/components/page/PageParts";
 import {CaseFigures} from "@/components/case-study/CaseFigures";
 import {Decisions} from "@/components/case-study/Decisions";
-import {CaseImage, CaseImages} from "@/components/case-study/CaseImages";
+import {CaseImage, CaseImages, SETTLE} from "@/components/case-study/CaseImages";
 import {LayeredDiagram} from "@/components/case-study/LayeredDiagram";
 import {ProjectCard, type ProjectCardLabels} from "@/components/projects/ProjectCard";
 import {Carousel} from "@/components/ui/Carousel";
@@ -244,10 +244,10 @@ function Related(props: { id: ProjectId; sectionId: string }) {
                                                 slug: PROJECT_SLUG[sibling.id],
                                                 locked: locked()
                                             })}
-                                            class="group block w-full overflow-hidden rounded-lg border border-border bg-surface hover:border-primary"
+                                            class="group block w-full overflow-clip rounded-lg border border-border bg-surface hover:border-primary"
                                         >
                                             <Show when={screen}>
-                                                <CaseImage image={screen} alt="" bare
+                                                <CaseImage image={screen} alt="" bare frameClass={SETTLE}
                                                            sizes="(min-width: 80rem) 16rem, (min-width: 48rem) 45vw, 85vw"
                                                            class={cn("aspect-[16/9]", screen.height > screen.width ? "object-contain" : "object-cover object-top")}/>
                                             </Show>

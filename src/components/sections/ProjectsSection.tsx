@@ -12,7 +12,7 @@ import {useHydrated} from "@/hooks/useHydrated";
 import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Section} from "@/components/layout/Section";
 import {ProjectCard, type ProjectCardLabels} from "@/components/projects/ProjectCard";
-import {CaseImage} from "@/components/case-study/CaseImages";
+import {CaseImage, UNMASK} from "@/components/case-study/CaseImages";
 import {Carousel} from "@/components/ui/Carousel";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {TechList} from "@/components/ui/TechList";
@@ -114,6 +114,7 @@ function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCa
                         <CaseImage
                             image={screen}
                             alt={item.screen!}
+                            frameClass={UNMASK}
                             sizes={screen.height > screen.width ? "15rem" : "(min-width: 80rem) 30rem, 90vw"}
                             class={screen.height > screen.width ? undefined : "aspect-[16/10] object-cover object-top"}
                         />
