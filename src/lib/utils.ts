@@ -12,3 +12,6 @@ export function cn(...inputs: ClassValue[]) {
     }
     return classes;
 }
+
+/** A section's name as a path, the way its eyebrow and the header write it: "Hoja de vida" is /hoja-de-vida. */
+export const sectionPath = (label: string) => `/${label.toLowerCase().replace(/\s+/g, "-")}`;

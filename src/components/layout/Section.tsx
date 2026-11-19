@@ -1,7 +1,7 @@
 import {type JSX, Show} from "solid-js";
 import {useContent} from "@/context/language";
 import {useSectionReady} from "@/lib/ready";
-import {cn} from "@/lib/utils";
+import {cn, sectionPath} from "@/lib/utils";
 import type {SectionId} from "@/types/content";
 
 interface SectionProps {
@@ -35,9 +35,6 @@ const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
     contact: [1300, 900],
 };
 
-/** The section's name as a path, the way the eyebrow above its heading writes it: "Hoja de vida" is /hoja-de-vida. */
-const slug = (label: string) => `/${label.toLowerCase().replace(/\s+/g, "-")}`;
-
 export function Section(props: SectionProps) {
     const {ui} = useContent();
     // A section keeps its id for its whole life: the home page keys each slot by it.
@@ -62,7 +59,7 @@ export function Section(props: SectionProps) {
                 {/* The heading rises into place as the section enters (globals.css, section-enter). */}
                 <header
                     class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "max-w-3xl")}>
-                    <p aria-hidden="true" class="mb-4 font-mono text-xs text-fg-subtle">{slug(ui.nav[props.id])}</p>
+                    <p aria-hidden="true" class="mb-4 font-mono text-xs text-fg-subtle">{sectionPath(ui.nav[props.id])}</p>
                     <h2 id={`${props.id}-title`} class="text-heading text-fg">
                         {props.title}
                     </h2>
