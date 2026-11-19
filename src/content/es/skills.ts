@@ -29,11 +29,5 @@ export const skills: Content["skills"] = {
     },
     count: "{count} herramientas",
     moreTitle: "Todas las herramientas por grupo",
-    lab: {
-        label: "Banco de trabajo",
-        hint: "Cada módulo es un grupo de herramientas. Muévelos por el banco y abre uno para ver lo que contiene.",
-        keys: "Enter lo abre; las flechas lo mueven por el banco.",
-        toolsOf: "Herramientas de {group}",
-        tidy: "Ordenar el banco",
-    },
+    others: "y {count} más",
 };

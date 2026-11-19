@@ -134,32 +134,17 @@ test("keeps the second layer of the home in the page and opens all of it at once
     await expect(more.first()).not.toHaveAttribute("open");
 });
 
-test("lets the reader move the lab's objects around and open one", async ({page, isMobile}) => {
-    test.skip(isMobile, "On a phone the bench is a row swiped one object at a time");
+test("renders every group of tools as a tile and opens the full list on request", async ({page}) => {
     await gotoHydrated(page, "/en");
     const section = await hydrateSection(page, "skills");
-    const modules = section.locator(".lab-module");
-    expect(await modules.count()).toBeGreaterThanOrEqual(15);
-    const module = modules.nth(2);
-    await module.scrollIntoViewIfNeeded();
-    const name = (await module.locator(".lab-label > span").first().textContent())!;
-    const box = (await module.boundingBox())!;
-    // A drag moves the object without opening it.
-    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 3);
-    await page.mouse.down();
-    await page.mouse.move(box.x + box.width / 2 + 60, box.y + box.height / 3 + 40, {steps: 8});
-    await page.mouse.up();
-    await expect(module).toHaveAttribute("aria-pressed", "false");
-    const moved = (await module.boundingBox())!;
-    expect(moved.x - box.x).toBeGreaterThan(40);
-    // A press opens it: its tools show below the bench.
-    await module.click();
-    await expect(module).toHaveAttribute("aria-pressed", "true");
-    await expect(section.locator("[aria-live] h3")).toHaveText(`Tools for ${name}`);
-    // The arrow keys move the focused object too.
-    const before = (await module.boundingBox())!;
-    await module.press("ArrowLeft");
-    expect((await module.boundingBox())!.x).toBeLessThan(before.x);
+    const tiles = section.locator(".skill-tile");
+    await expect(tiles).toHaveCount(15);
+    await expect(tiles.first().locator(".skill-chip")).toHaveCount(6);
+    const disclosure = section.locator("details.more");
+    await expect(disclosure).not.toHaveAttribute("open");
+    await disclosure.locator("summary").click();
+    await expect(disclosure).toHaveAttribute("open", "");
+    await expect(disclosure.locator(":scope > ul > li")).toHaveCount(15);
 });
 
 test.describe("for a reader who asks for less motion", () => {

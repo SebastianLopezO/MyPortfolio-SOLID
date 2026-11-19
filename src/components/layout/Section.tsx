@@ -26,7 +26,7 @@ const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
     journey: [1300, 1400],
     services: [1300, 900],
     experience: [4300, 2750],
-    skills: [2000, 1500],
+    skills: [3300, 1500],
     projects: [2600, 2300],
     certifications: [2100, 1200],
     metrics: [870, 690],
