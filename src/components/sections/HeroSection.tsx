@@ -1,13 +1,11 @@
 import {createSignal, For, onCleanup, onMount} from "solid-js";
 import {ArrowRight, Download} from "@/components/ui/icons";
-import {forProfile, roleConfig} from "@/content/roles";
 import {HERO_ART, HERO_SPOTS} from "@/content/shared/project-art";
 import {PROJECT_SLUG} from "@/content/shared/project-links";
 import {profile} from "@/content/shared/profile";
 import {resumeVersions} from "@/content/shared/resume";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
-import {RoleSwitcher} from "@/components/layout/RoleSwitcher";
 import {withBase} from "@/lib/base";
 import {buildProjectPath} from "@/lib/paths";
 import {Link} from "@/routes/Router";
@@ -18,8 +16,8 @@ import profile320Webp from "@/assets/images/profile-320.webp?url";
 import profile480Webp from "@/assets/images/profile-480.webp?url";
 import profile640Webp from "@/assets/images/profile-640.webp?url";
 
-// The portrait fills about a third of the board, which is at most 34rem wide.
-const PHOTO_SIZES = "(min-width: 1024px) 12rem, 34vw";
+// The portrait fills a little under half the board's width, and the board is at most 34rem wide.
+const PHOTO_SIZES = "(min-width: 1024px) 16rem, 45vw";
 
 export function HeroSection() {
     const {lang, content} = useLanguage();
@@ -77,13 +75,9 @@ export function HeroSection() {
             <div
                 class="container-page grid items-center gap-x-16 gap-y-12 pt-8 pb-16 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
                 <div>
-                    <p class="inline-flex items-center gap-2.5 rounded-full border border-border bg-bg px-3.5 py-1.5 text-sm text-fg-muted shadow-card">
-                        <span aria-hidden="true" class="status-dot size-2 shrink-0 rounded-full bg-success"/>
-                        {forProfile(hero.availability, role())}
-                    </p>
                     {/* The name and the role read as one statement in two tones, the way a title card does. */}
                     <h1 id="hero-title"
-                        class="mt-7 text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">
+                        class="text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">
                         <span class="block text-fg">{profile.name}</span>
                         <span class="mt-3 block text-[0.56em] leading-[1.08] tracking-[-0.035em] text-fg-subtle">{copy().title}</span>
                     </h1>
@@ -107,103 +101,92 @@ export function HeroSection() {
                             <ArrowRight class="size-5"/>
                         </a>
                     </div>
-
-                    <div class="mt-10">
-                        <p class="sr-only">{hero.stackLabel}</p>
-                        {/* The stack settles in chip by chip once the page opens (globals.css, hero-cascade). */}
-                        <ul translate="no" class="hero-cascade flex flex-wrap gap-1.5">
-                            <For each={roleConfig(role()).topStack}>
-                                {(item, index) => (
-                                    <li
-                                        style={{"--i": String(index())}}
-                                        class="rounded-full bg-surface-raised px-3 py-1 font-mono text-xs text-fg-muted">
-                                        {item}
-                                    </li>
-                                )}
-                            </For>
-                        </ul>
-                    </div>
                 </div>
 
-                <div class="grid gap-10">
-                    {/* The board: the portrait sits in the socket at its middle and cables run from it to the devices of
-                        the work (scripts/illustrations/hero.mjs). The portrait is the largest paint, so it is drawn at
-                        once; the drawing around it is decoration, and the links over its devices carry its meaning. */}
-                    <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-[34rem]">
-                        <img
-                            src={withBase(HERO_ART.file)}
-                            alt=""
-                            width={HERO_ART.width}
-                            height={HERO_ART.height}
-                            decoding="async"
-                            class="absolute inset-0 size-full"
+                {/* The board: the portrait sits in the socket at its middle and cables run from it to the devices of
+                    the work (scripts/illustrations/hero.mjs). The portrait is the largest paint, so it is drawn at
+                    once; the drawing around it is decoration, and the links over its devices carry its meaning. The
+                    role views have no switcher: each one is reached by its address (/en/backend, /es/data...). */}
+                <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-[34rem]">
+                    <img
+                        src={withBase(HERO_ART.file)}
+                        alt=""
+                        width={HERO_ART.width}
+                        height={HERO_ART.height}
+                        decoding="async"
+                        class="absolute inset-0 size-full"
+                    />
+                    <picture>
+                        <source
+                            type="image/avif"
+                            srcset={`${profile320Avif} 320w, ${profile480Avif} 480w, ${profile640Avif} 640w`}
+                            sizes={PHOTO_SIZES}
                         />
-                        <picture>
-                            <source
-                                type="image/avif"
-                                srcset={`${profile320Avif} 320w, ${profile480Avif} 480w, ${profile640Avif} 640w`}
-                                sizes={PHOTO_SIZES}
-                            />
-                            <img
-                                src={profile640Webp}
-                                srcset={`${profile320Webp} 320w, ${profile480Webp} 480w, ${profile640Webp} 640w`}
-                                sizes={PHOTO_SIZES}
-                                alt={profile.name}
-                                width={640}
-                                height={640}
-                                fetchpriority="high"
-                                class="hero-socket absolute object-cover"
-                            />
-                        </picture>
-                        {/* Each device links to the project it stands for. A pointer resting on it, or the keyboard
-                            reaching it, brings up the project's name and a line about it (globals.css, board-spot);
-                            the box each link covers comes from the drawing itself (HERO_SPOTS). */}
-                        <ul
-                            aria-label={hero.board.label}
-                            class="board-spots"
-                            data-quiet={quiet() ? "" : undefined}
-                            onPointerLeave={() => setQuiet(false)}
-                            onFocusIn={() => setQuiet(false)}
-                        >
-                            <For each={HERO_SPOTS}>
-                                {(spot) => {
-                                    const device = hero.board.devices[spot.id];
-                                    const id = `hero-device-${spot.id}`;
-                                    return (
-                                        <li
-                                            style={{
-                                                left: `${spot.left}%`,
-                                                top: `${spot.top}%`,
-                                                width: `${spot.width}%`,
-                                                height: `${spot.height}%`,
-                                            }}
-                                            data-side={spot.left + spot.width / 2 < 50 ? "start" : "end"}
-                                            data-tip={spot.top + spot.height / 2 < 60 ? "below" : "above"}
-                                            onPointerEnter={() => setQuiet(false)}
+                        <img
+                            src={profile640Webp}
+                            srcset={`${profile320Webp} 320w, ${profile480Webp} 480w, ${profile640Webp} 640w`}
+                            sizes={PHOTO_SIZES}
+                            alt={profile.name}
+                            width={640}
+                            height={640}
+                            fetchpriority="high"
+                            style={{
+                                left: `${HERO_ART.portrait.left}%`,
+                                top: `${HERO_ART.portrait.top}%`,
+                                width: `${HERO_ART.portrait.width}%`,
+                                height: `${HERO_ART.portrait.height}%`,
+                                "border-radius": `${HERO_ART.portrait.radius}%`,
+                            }}
+                            class="hero-socket absolute object-cover"
+                        />
+                    </picture>
+                    {/* Each device links to the project it stands for. A pointer resting on it, or the keyboard
+                        reaching it, brings up the project's name and a line about it (globals.css, board-spot);
+                        the box each link covers comes from the drawing itself (HERO_SPOTS). */}
+                    <ul
+                        aria-label={hero.board.label}
+                        class="board-spots"
+                        data-quiet={quiet() ? "" : undefined}
+                        onPointerLeave={() => setQuiet(false)}
+                        onFocusIn={() => setQuiet(false)}
+                    >
+                        <For each={HERO_SPOTS}>
+                            {(spot) => {
+                                const device = hero.board.devices[spot.id];
+                                const id = `hero-device-${spot.id}`;
+                                return (
+                                    <li
+                                        style={{
+                                            left: `${spot.left}%`,
+                                            top: `${spot.top}%`,
+                                            width: `${spot.width}%`,
+                                            height: `${spot.height}%`,
+                                        }}
+                                        data-side={spot.left + spot.width / 2 < 50 ? "start" : "end"}
+                                        data-tip={spot.top + spot.height / 2 < 60 ? "below" : "above"}
+                                        onPointerEnter={() => setQuiet(false)}
+                                    >
+                                        <Link
+                                            to={buildProjectPath(lang, {slug: PROJECT_SLUG[spot.id], locked: locked()})}
+                                            class="board-spot"
+                                            aria-labelledby={`${id}-name`}
+                                            aria-describedby={`${id}-note`}
                                         >
-                                            <Link
-                                                to={buildProjectPath(lang, {slug: PROJECT_SLUG[spot.id], locked: locked()})}
-                                                class="board-spot"
-                                                aria-labelledby={`${id}-name`}
-                                                aria-describedby={`${id}-note`}
-                                            >
-                                                <span class="board-tip">
-                                                    <span id={`${id}-name`}
-                                                          class="flex items-center gap-1.5 font-semibold text-fg">
-                                                        {device.name}
-                                                        <ArrowRight class="size-4 shrink-0"/>
-                                                    </span>
-                                                    <span id={`${id}-note`}
-                                                          class="mt-1 block text-fg-muted">{device.note}</span>
+                                            <span class="board-tip">
+                                                <span id={`${id}-name`}
+                                                      class="flex items-center gap-1.5 font-semibold text-fg">
+                                                    {device.name}
+                                                    <ArrowRight class="size-4 shrink-0"/>
                                                 </span>
-                                            </Link>
-                                        </li>
-                                    );
-                                }}
-                            </For>
-                        </ul>
-                    </div>
-                    <RoleSwitcher class="lg:mx-auto lg:w-full lg:max-w-[34rem]"/>
+                                                <span id={`${id}-note`}
+                                                      class="mt-1 block text-fg-muted">{device.note}</span>
+                                            </span>
+                                        </Link>
+                                    </li>
+                                );
+                            }}
+                        </For>
+                    </ul>
                 </div>
             </div>
         </section>

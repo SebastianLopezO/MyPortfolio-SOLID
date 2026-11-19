@@ -15,15 +15,9 @@ interface Props {
 
 const {lang, head, robots = "index, follow, max-image-preview:large", islands = "", firstScreen} = Astro.props;
 
-// Marks a locked link before the first paint, so the role switcher never flashes. The CSP allows this script by its
-// SHA-256 hash (nginx/security-headers.conf), so its text must stay exactly as it is, whitespace included.
-const LOCK_SCRIPT = `try {
-        if (new URLSearchParams(location.search).get("locked") === "true") document.documentElement.dataset.locked = "true"
-    } catch (e) {
-    }`;
-
 // Pins the theme the reader chose with the header's button before the first paint, so a dark page never flashes white;
-// without a choice the page follows the system (tokens.css, light-dark()). The CSP allows it by its hash as well.
+// without a choice the page follows the system (tokens.css, light-dark()). The CSP allows it by its SHA-256 hash
+// (nginx/security-headers.conf), so its text must stay exactly as it is, whitespace included.
 const THEME_SCRIPT = `try {
         var theme = localStorage.getItem("theme");
         if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme
@@ -62,7 +56,6 @@ const SPECULATION_RULES = JSON.stringify({
     <link href={withBase("/favicon.ico")} rel="icon" sizes="any">
     <link href={withBase("/icon.svg")} rel="icon" type="image/svg+xml">
     <link href={withBase("/apple-touch-icon.png")} rel="apple-touch-icon">
-    <script is:inline set:html={LOCK_SCRIPT}></script>
     <script is:inline set:html={THEME_SCRIPT}></script>
     {firstScreen && <link rel="expect" href={`#${firstScreen}`} blocking="render">}
     <script is:inline type="speculationrules" set:html={SPECULATION_RULES}></script>

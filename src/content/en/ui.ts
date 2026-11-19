@@ -25,16 +25,12 @@ export const ui: Content["ui"] = {
         switchTo: "Ver en español",
         names: {en: "English", es: "Español"},
     },
-    roleSwitcher: {
-        label: "View profile as",
-        general: "Full profile",
-        roles: {
-            backend: "Backend",
-            crm: "CRM & Zoho",
-            data: "Data & BI",
-            devops: "DevOps",
-            fullstack: "Full-Stack",
-        },
+    roleNames: {
+        backend: "Backend",
+        crm: "CRM & Zoho",
+        data: "Data & BI",
+        devops: "DevOps",
+        fullstack: "Full-Stack",
     },
     present: "Present",
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],

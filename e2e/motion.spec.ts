@@ -71,12 +71,8 @@ const animationNames = (element: Element) => element.getAnimations().map((animat
 // The part of the journey map still hidden by its sweep, as the right inset of its clip (100 hidden, 0 drawn).
 const hiddenShare = (element: Element) => parseFloat(getComputedStyle(element).clipPath.split(" ")[1] ?? "0") || 0;
 
-test("settles the hero's stack in one chip after another and draws the portrait at once", async ({page}) => {
+test("draws the portrait at once", async ({page}) => {
     await gotoHydrated(page, "/en");
-    const chips = page.locator("#home ul.hero-cascade").first().locator("> li");
-    expect(await chips.first().evaluate(animationNames)).toEqual(["hero-cascade"]);
-    const delays = await chips.evaluateAll((items) => items.map((item) => getComputedStyle(item).animationDelay));
-    expect(new Set(delays).size).toBe(delays.length);
     // The portrait is the largest paint: nothing fades it in, and it only drifts once the hero leaves.
     const portrait = page.locator("#home .hero-portrait");
     expect(await portrait.evaluate(opacityOf)).toBe(1);
@@ -170,8 +166,6 @@ test.describe("for a reader who asks for less motion", () => {
 
     test("keeps every part at rest and every figure still", async ({page}) => {
         await gotoHydrated(page, "/en");
-        expect(await page.locator("#home .hero-cascade > li").first().evaluate(animationNames)).toEqual([]);
-        expect(await page.locator("#home .status-dot").evaluate((dot) => getComputedStyle(dot, "::after").animationName)).toBe("none");
         expect(await page.locator("dl.enter-each").first().locator("> div").first().evaluate(opacityOf)).toBe(1);
         const figure = page.locator("[data-count]").first();
         const written = await figure.textContent();

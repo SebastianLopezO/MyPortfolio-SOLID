@@ -40,7 +40,13 @@ export const PROJECT_ART: Record<ProjectId, { file: string; tile: Tile }> = {
 ${Object.keys(SCENES).map((id) => `    ${id}: {file: "/illustrations/${files[id]}", tile: "${TILES[id]}"},`).join("\n")}
 };
 
-export const HERO_ART = {file: "/illustrations/hero.svg", width: ${HERO.width}, height: ${HERO.height}} as const;
+/** The hero's board, and where the portrait sits in it: a box in percent of the board, its corners in percent of its width. */
+export const HERO_ART = {
+    file: "/illustrations/hero.svg",
+    width: ${HERO.width},
+    height: ${HERO.height},
+    portrait: {left: ${HERO.portrait.left}, top: ${HERO.portrait.top}, width: ${HERO.portrait.width}, height: ${HERO.portrait.height}, radius: ${HERO.portrait.radius}},
+} as const;
 
 /** The devices on the hero's board: the project each one stands for and the box it fills, in percent of the board. */
 export const HERO_SPOTS = [

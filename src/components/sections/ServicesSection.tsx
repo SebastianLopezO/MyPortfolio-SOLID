@@ -56,7 +56,7 @@ export function ServicesSection() {
                                 </span>
                                 <span class="min-w-0">
                                     <span class="block font-mono text-xs text-fg-subtle">
-                                        {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
+                                        {serviceRoles[id].map((serviceRole) => ui.roleNames[serviceRole]).join(" · ")}
                                     </span>
                                     <h3 class="mt-1 text-lg leading-snug text-fg group-hover:text-fg-muted">{services.items[id].title}</h3>
                                 </span>
@@ -103,7 +103,7 @@ export function ServicesContent() {
                         <article id={serviceAnchor(id)}
                                  class="flex w-full flex-col rounded-lg border border-border bg-surface p-6 shadow-card">
                             <p class="font-mono text-xs text-fg-subtle">
-                                {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
+                                {serviceRoles[id].map((serviceRole) => ui.roleNames[serviceRole]).join(" · ")}
                             </p>
                             <h3 class="mt-3 text-title text-fg">{service.title}</h3>
                             <p class="mt-2 text-sm text-fg">{service.description}</p>

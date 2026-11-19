@@ -292,7 +292,8 @@ export interface Content {
         /** The button that pins the theme, named by what it switches to. */
         theme: { toLight: string; toDark: string };
         language: { label: string; switchTo: string; names: Record<Lang, string> };
-        roleSwitcher: { label: string; general: string; roles: Record<RoleId, string> };
+        /** The name of each role view, shown where a job, a service or an answer says which views it serves. */
+        roleNames: Record<RoleId, string>;
         present: string;
         months: readonly string[];
         workMode: Record<WorkMode, string>;
@@ -333,10 +334,7 @@ export interface Content {
         whatsapp: { label: string; message: string };
     };
     hero: {
-        /** The roles each view says Sebastián is open to. */
-        availability: Record<ProfileKey, string>;
         location: string;
-        stackLabel: string;
         byProfile: Record<ProfileKey, ProfileCopy>;
         /** The devices on the board around the portrait: what the list of them is, and the project each one stands for,
          * by name and one line about it. Each device links to its project's page. */

@@ -1,19 +1,8 @@
 import type {Content} from "@/types/content";
 import {YEARS} from "@/content/shared/profile";
 
-const FROM = "Remote or hybrid from Medellín (UTC−5)";
-
 export const hero: Content["hero"] = {
-    availability: {
-        general: `Open to backend and integration roles · ${FROM}`,
-        backend: `Open to backend roles in Python or Java · ${FROM}`,
-        crm: `Open to CRM, Zoho and automation roles · ${FROM}`,
-        data: `Open to data and BI roles · ${FROM}`,
-        devops: `Open to DevOps and platform roles · ${FROM}`,
-        fullstack: `Open to full-stack roles with React and TypeScript · ${FROM}`,
-    },
     location: "Medellín, Colombia",
-    stackLabel: "Core stack",
     byProfile: {
         general: {
             title: "Backend & Integration Developer",

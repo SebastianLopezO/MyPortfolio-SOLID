@@ -187,7 +187,7 @@ export const createAssistant = (content: Content, copy: AssistantCopy, cases?: R
                 if (!example) continue;
                 texts.push(copy.answers.roleFit({
                     ...known,
-                    role: content.ui.roleSwitcher.roles[role],
+                    role: content.ui.roleNames[role],
                     stack: ROLES[role].topStack,
                     company: example.label,
                     example: example.text,

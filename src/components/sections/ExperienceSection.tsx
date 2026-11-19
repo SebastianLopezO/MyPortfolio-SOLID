@@ -158,7 +158,7 @@ export function ExperienceSection() {
             <Show when={role()}>
                 {(current) => (
                     <p class="-mt-4 mb-8 max-w-3xl text-sm text-fg-subtle">
-                        {copy.relevanceNote.replace("{role}", ui.roleSwitcher.roles[current()])}
+                        {copy.relevanceNote.replace("{role}", ui.roleNames[current()])}
                     </p>
                 )}
             </Show>

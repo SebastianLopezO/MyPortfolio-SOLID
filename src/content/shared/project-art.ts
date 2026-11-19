@@ -41,7 +41,13 @@ export const PROJECT_ART: Record<ProjectId, { file: string; tile: Tile }> = {
     companyDream: {file: "/illustrations/projects/company-dream.svg", tile: "mint"},
 };
 
-export const HERO_ART = {file: "/illustrations/hero.svg", width: 800, height: 800} as const;
+/** The hero's board, and where the portrait sits in it: a box in percent of the board, its corners in percent of its width. */
+export const HERO_ART = {
+    file: "/illustrations/hero.svg",
+    width: 800,
+    height: 800,
+    portrait: {left: 26.75, top: 25.5, width: 46.5, height: 46.5, radius: 13.44},
+} as const;
 
 /** The devices on the hero's board: the project each one stands for and the box it fills, in percent of the board. */
 export const HERO_SPOTS = [
