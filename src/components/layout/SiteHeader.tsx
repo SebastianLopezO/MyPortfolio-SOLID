@@ -105,7 +105,7 @@ export function SiteHeader(props: SiteHeaderProps) {
             <div class="container-page relative flex h-(--header-height) items-center justify-between gap-3 sm:gap-6">
                 {/* The whole name at every width: folded, it is the pill that keeps whose page this is in sight. */}
                 <Link to={pathFor(role())}
-                      class="header-brand min-w-0 shrink truncate rounded-full text-base leading-tight tracking-tight text-fg hover:text-fg-muted sm:text-lg">
+                      class="header-brand shrink-0 rounded-full text-base leading-tight tracking-tight whitespace-nowrap text-fg hover:text-fg-muted sm:text-lg">
                     {profile.name}
                     <span class="sr-only"> · {ui.home}</span>
                 </Link>
@@ -120,7 +120,7 @@ export function SiteHeader(props: SiteHeaderProps) {
                                     <a
                                         href={hrefOf(section)}
                                         aria-current={current() === section ? "true" : undefined}
-                                        class="block rounded-full px-3 py-2 text-sm whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.4rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
+                                        class="block rounded-full px-2.5 py-2 text-sm whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.4rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
                                     >
                                         {ui.nav[section]}
                                     </a>

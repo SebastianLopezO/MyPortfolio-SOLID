@@ -27,7 +27,7 @@ export interface RoleConfig {
 }
 
 export const GENERAL: RoleConfig = {
-    sectionOrder: ["about", "experience", "projects", "journey", "skills", "testimonials", "services", "certifications", "resume", "metrics", "contact"],
+    sectionOrder: ["about", "experience", "projects", "journey", "skills", "testimonials", "services", "reasons", "certifications", "resume", "metrics", "contact"],
     topStack: ["Python · FastAPI", "Java · Spring Boot", "Zoho CRM · Deluge", "SQL · Power BI", "PostgreSQL · MongoDB", "React · TypeScript", "Docker · GitHub Actions", "Prometheus · Grafana"],
     highlights: ["years", "integrations", "clients", "landingPages", "recommendations", "contributions", "certifications", "streak"],
     skillGroupOrder: ["backend", "crm", "data", "devops", "databases", "frontend", "cloud", "testing", "languages", "security", "ai", "iot", "networks", "tools", "foundations"],
@@ -39,7 +39,7 @@ export const GENERAL: RoleConfig = {
 
 export const ROLES: Record<RoleId, RoleConfig> = {
     backend: {
-        sectionOrder: ["experience", "projects", "journey", "skills", "about", "services", "certifications", "testimonials", "resume", "metrics", "contact"],
+        sectionOrder: ["experience", "projects", "journey", "skills", "about", "services", "reasons", "certifications", "testimonials", "resume", "metrics", "contact"],
         topStack: ["Python · FastAPI", "Java · Spring Boot", "REST · SOAP · Webhooks", "PostgreSQL · SQL Server", "MongoDB · Redis", "OAuth 2.0 · JWT", "Docker · GHCR", "OpenTelemetry · Prometheus"],
         highlights: ["years", "integrations", "clients", "apiTests", "commits", "repositories", "smartpotCommits", "probes"],
         skillGroupOrder: ["backend", "databases", "languages", "devops", "testing", "security", "cloud", "crm", "data", "frontend", "iot", "ai", "networks", "tools", "foundations"],
@@ -49,7 +49,7 @@ export const ROLES: Record<RoleId, RoleConfig> = {
         focusTech: ["Python", "FastAPI", "Java", "Spring Boot", "Spring Security", "Django", "Node.js", "Laravel", "REST", "SOAP", "Webhooks", "JWT", "OpenAPI", "Swagger", "PostgreSQL", "MySQL", "MariaDB", "SQL Server", "MongoDB", "Redis", "SQLite", "Thymeleaf", "PyTest", "JUnit", "Postman", "Flask", "Pydantic", "SQLAlchemy", "asyncpg", "Jinja2", "GraphQL", "OAuth 2.0", "Oracle", "H2", "AES-256-GCM", "WS-Security", "TDD"],
     },
     crm: {
-        sectionOrder: ["experience", "projects", "journey", "services", "skills", "testimonials", "about", "certifications", "resume", "metrics", "contact"],
+        sectionOrder: ["experience", "projects", "journey", "services", "reasons", "skills", "testimonials", "about", "certifications", "resume", "metrics", "contact"],
         topStack: ["Zoho CRM", "Deluge", "Zoho Creator", "Zoho Analytics", "Zoho Forms", "Zoho CRM widgets", "REST APIs · Webhooks", "WhatsApp · Meta Ads · Google Ads"],
         highlights: ["years", "clients", "integrations", "landingPages", "forms", "widgets", "recommendations", "certifications"],
         skillGroupOrder: ["crm", "backend", "data", "frontend", "databases", "cloud", "languages", "devops", "testing", "ai", "security", "iot", "networks", "tools", "foundations"],
@@ -59,7 +59,7 @@ export const ROLES: Record<RoleId, RoleConfig> = {
         focusTech: ["Zoho CRM", "Zoho Creator", "Zoho Analytics", "Zoho Forms", "Zoho One", "Deluge", "Dapta", "n8n", "Zapier", "CRM", "WhatsApp API", "Meta Ads", "Google Ads", "Webhooks", "REST", "Zoho WorkDrive", "Zoho CRM Bulk API", "Zoho Extension Toolkit", "Google Tag Manager", "Typeform", "Shopify", "Power Automate", "UiPath", "Google Apps Script", "Google Analytics 4"],
     },
     data: {
-        sectionOrder: ["experience", "projects", "journey", "skills", "certifications", "services", "about", "testimonials", "resume", "metrics", "contact"],
+        sectionOrder: ["experience", "projects", "journey", "skills", "certifications", "services", "reasons", "about", "testimonials", "resume", "metrics", "contact"],
         topStack: ["SQL", "Python · Pandas", "Power BI · DAX", "Zoho Analytics", "PostgreSQL", "ETL · Jupyter", "scikit-learn", "Excel · VBA"],
         highlights: ["years", "clients", "integrations", "certifications", "codingHours", "contributions", "repositories", "recommendations"],
         skillGroupOrder: ["data", "databases", "languages", "ai", "crm", "backend", "cloud", "devops", "testing", "frontend", "iot", "security", "networks", "tools", "foundations"],
@@ -69,7 +69,7 @@ export const ROLES: Record<RoleId, RoleConfig> = {
         focusTech: ["SQL", "Python", "Pandas", "NumPy", "Power BI", "DAX", "Zoho Analytics", "Excel", "ETL", "Matplotlib", "Plotly", "AG Grid", "Data Visualization", "scikit-learn", "Jupyter", "PostgreSQL", "MySQL", "MariaDB", "SQL Server", "Statistics", "NLP", "TinyML", "RAG pipelines", "SciPy", "Tableau", "VBA", "Anaconda", "D3.js", "Google Analytics 4", "Oracle", "R", "TensorFlow", "Hugging Face", "Streamlit", "scikit-fuzzy", "Numerical Analysis", "Operations Research"],
     },
     devops: {
-        sectionOrder: ["experience", "projects", "journey", "skills", "services", "about", "certifications", "testimonials", "resume", "metrics", "contact"],
+        sectionOrder: ["experience", "projects", "journey", "skills", "services", "reasons", "about", "certifications", "testimonials", "resume", "metrics", "contact"],
         topStack: ["Docker · Compose", "GitHub Actions", "GHCR", "Nginx · Linux", "Prometheus · Grafana", "Loki · Tempo", "OpenTelemetry", "Bash · Certbot"],
         highlights: ["years", "integrations", "landingPages", "probes", "alertRules", "streak", "organizations", "repositories"],
         skillGroupOrder: ["devops", "cloud", "security", "networks", "backend", "databases", "languages", "testing", "iot", "crm", "data", "frontend", "ai", "tools", "foundations"],
@@ -79,7 +79,7 @@ export const ROLES: Record<RoleId, RoleConfig> = {
         focusTech: ["Docker", "Docker Compose", "GitHub Actions", "GHCR", "Nginx", "Linux", "Azure", "Kubernetes", "OpenTelemetry", "Prometheus", "Grafana", "Loki", "Tempo", "SSL/Certbot", "Bash", "CodeQL", "Dependabot", "Git", "GitHub", "SSG", "MQTT", "GitLab CI/CD", "Docker Hub", "Promtail", "Blackbox Exporter", "cAdvisor", "Node Exporter", "Nagios", "rsync", "Amazon SES", "Amazon SNS", "Hostinger VPS", "Kali Linux", "Wireshark", "Cisco IOS", "VPN", "Let's Encrypt", "OWASP"],
     },
     fullstack: {
-        sectionOrder: ["experience", "projects", "journey", "skills", "about", "services", "testimonials", "certifications", "resume", "metrics", "contact"],
+        sectionOrder: ["experience", "projects", "journey", "skills", "about", "services", "reasons", "testimonials", "certifications", "resume", "metrics", "contact"],
         topStack: ["React · TypeScript", "Next.js", "Vite · Tailwind CSS", "Spring Boot", "FastAPI", "PostgreSQL · MongoDB", "Leaflet · OSRM", "Vitest · Playwright"],
         highlights: ["years", "landingPages", "smartpotCommits", "apiTests", "forms", "widgets", "contributions", "repositories"],
         skillGroupOrder: ["frontend", "backend", "databases", "languages", "testing", "devops", "cloud", "crm", "data", "iot", "ai", "security", "networks", "tools", "foundations"],

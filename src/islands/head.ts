@@ -36,7 +36,8 @@ export const headFor = (route: Route) => {
         return renderHeadTags(detailHead(content, {
             copy,
             about: content.about,
-            certifications: content.certifications
+            certifications: content.certifications,
+            services: content.services,
         }, route.collection, route.slug));
     }
     return renderHeadTags(buildHead(content, route.role));

@@ -230,7 +230,9 @@
             opacity: 0;
         }
 
+        /* Out of the flow too, so the name and the capsule keep their width once the menu button joins it. */
         & .header-nav {
+            position: absolute;
             opacity: 0;
             visibility: hidden;
         }
@@ -406,6 +408,36 @@
         visibility: hidden;
     }
 
+    /*
+     * The services (components/sections/ServicesSection.tsx, views/OfferPages.tsx): an object on its tile, a name and
+     * a few words, with no card around them. Under a pointer the object lifts and the arrow leans the way it leads.
+     */
+    .service-icon img,
+    .service-arrow,
+    .reason-arrow,
+    .art-row-icon,
+    .art-row-arrow {
+        transition: translate var(--duration-slow) var(--ease-spring), scale var(--duration-slow) var(--ease-spring);
+    }
+
+    /* The reasons laid out as a presentation (components/sections/ReasonsSection.tsx): the slides share one place and
+       the one being presented fades in over the others, which hide from assistive technology as well as the eye. */
+    .reason-slide {
+        grid-area: 1 / 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--duration-slow) var(--ease-standard), visibility var(--duration-slow);
+
+        &[data-active] {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .reason-card {
+        transition: border-color var(--duration-base) var(--ease-standard);
+    }
+
 
 
     /*
@@ -431,6 +463,16 @@
         .tile-surface:hover {
             scale: 1.015;
         }
+
+        :is(.service-entry, .art-row):hover :is(.service-icon img, .art-row-icon) {
+            translate: 0 -0.375rem;
+            scale: 1.04;
+        }
+
+        :is(.service-entry, .art-row, .reason-card):hover :is(.service-arrow, .reason-arrow, .art-row-arrow) {
+            translate: 0.1875rem -0.0625rem;
+        }
+
 
         .tile-surface:hover .tile-illustration {
             translate: 0 -0.5rem;
@@ -521,9 +563,16 @@
             }
 
             .skill-chip {
-                animation: chip-print auto linear both;
+                animation: journey-station auto linear both;
                 animation-timeline: view();
                 animation-range: entry calc(1rem + var(--i, 0) * 0.75rem) entry calc(3.5rem + var(--i, 0) * 0.75rem);
+            }
+
+            /* Each card of the reasons slides in from the side the slide stands on as it comes up. */
+            .reasons-list > li {
+                animation: decision-follow auto linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 7rem;
             }
 
             .bar-grow {
@@ -847,13 +896,6 @@
 @keyframes decision-cost {
     from {
         clip-path: inset(0 100% 0 0);
-    }
-}
-
-@keyframes chip-print {
-    from {
-        opacity: 0;
-        scale: 0.8;
     }
 }
 

@@ -25,14 +25,14 @@ import {
 } from "./kit.mjs";
 
 /** A leaf from (x, y), pointing at the angle, with its midrib. */
-const leaf = (x, y, angle, scale = 1, color = P.leaf) => group([
+export const leaf = (x, y, angle, scale = 1, color = P.leaf) => group([
     el("path", {d: "M0 0C18-24 56-30 84-6C56 10 22 12 0 0Z", fill: color}),
     el("path", {d: "M0 0C18-24 56-30 84-6C56 10 22 12 0 0Z", fill: "url(#sheen)"}),
     el("path", {d: "M4 -1C30-8 54-10 78-6", fill: "none", stroke: "#fff", "stroke-opacity": 0.45, "stroke-width": 2, "stroke-linecap": "round"}),
 ], {transform: `translate(${x} ${y}) rotate(${angle}) scale(${scale})`});
 
 /** Concentric arcs that leave a point: a signal. */
-const signal = (x, y, color, {angle = -45, radii = [14, 26, 38]} = {}) => group(radii.map((r, index) => el("path", {
+export const signal = (x, y, color, {angle = -45, radii = [14, 26, 38]} = {}) => group(radii.map((r, index) => el("path", {
     d: `M${-r * 0.7} ${-r * 0.7}A${r} ${r} 0 0 1 ${r * 0.7} ${-r * 0.7}`,
     fill: "none",
     stroke: color,
@@ -42,14 +42,14 @@ const signal = (x, y, color, {angle = -45, radii = [14, 26, 38]} = {}) => group(
 })), {transform: `translate(${x} ${y}) rotate(${angle + 45})`});
 
 /** A map pin. */
-const pin = (x, y, color) => group([
+export const pin = (x, y, color) => group([
     el("ellipse", {cx: x, cy: y + 2, rx: 9, ry: 4, fill: "#000", opacity: 0.18}),
     el("path", {d: `M${x} ${y}c-10-14-18-22-18-32a18 18 0 0 1 36 0c0 10-8 18-18 32z`, fill: color}),
     el("circle", {cx: x, cy: y - 32, r: 7, fill: "#fff"}),
 ]);
 
 /** A check mark. */
-const check = (x, y, size, color = "#fff") => el("path", {
+export const check = (x, y, size, color = "#fff") => el("path", {
     d: `M${x - size * 0.45} ${y}l${size * 0.3} ${size * 0.3} ${size * 0.6}-${size * 0.62}`,
     fill: "none",
     stroke: color,
@@ -59,7 +59,7 @@ const check = (x, y, size, color = "#fff") => el("path", {
 });
 
 /** An envelope seen from the front. */
-const envelope = (x, y, w, h, {color = P.paper, rotate, stamp} = {}) => group([
+export const envelope = (x, y, w, h, {color = P.paper, rotate, stamp} = {}) => group([
     slab(x, y, w, h, {r: 12, depth: 7, color}),
     el("path", {
         d: `M${x + 10} ${y + 10}L${x + w / 2} ${y + h * 0.55}L${x + w - 10} ${y + 10}`,
@@ -72,7 +72,7 @@ const envelope = (x, y, w, h, {color = P.paper, rotate, stamp} = {}) => group([
 ], rotate ? {transform: `rotate(${rotate} ${x + w / 2} ${y + h / 2})`} : {});
 
 /** A hexagonal plate with thickness. */
-const hexagon = (cx, cy, r, color, depth = 9) => {
+export const hexagon = (cx, cy, r, color, depth = 9) => {
     const points = (oy) => Array.from({length: 6}, (_, index) => {
         const angle = (Math.PI / 3) * index + Math.PI / 6;
         return `${(cx + r * Math.cos(angle)).toFixed(1)},${(cy + oy + r * Math.sin(angle)).toFixed(1)}`;
@@ -86,7 +86,7 @@ const hexagon = (cx, cy, r, color, depth = 9) => {
 };
 
 /** A stack of discs: coins, a database, a funnel. */
-const stack = (cx, cy, r, count, color, {step = 12, depth = 8} = {}) => group(
+export const stack = (cx, cy, r, count, color, {step = 12, depth = 8} = {}) => group(
     Array.from({length: count}, (_, index) => disc(cx, cy - index * step, r, {
         color: index % 2 ? lighten(color, 0.08) : color,
         depth,
@@ -95,7 +95,7 @@ const stack = (cx, cy, r, count, color, {step = 12, depth = 8} = {}) => group(
 );
 
 /** A database: a cylinder of three bands seen from the front. */
-const database = (cx, top, r, color, bands = 3) => {
+export const database = (cx, top, r, color, bands = 3) => {
     const ry = r * 0.36;
     const band = r * 0.62;
     const parts = [el("ellipse", {

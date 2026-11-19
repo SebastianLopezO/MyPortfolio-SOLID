@@ -53,11 +53,9 @@ test("tells a job with its titles, timeline, projects and recommendations", asyn
     const timeline = page.locator('section[aria-labelledby="detail-timeline"]');
     await expect(timeline).toContainText("Became CRM Developer · MarTech Developer · CRM & Cloud Solutions Engineer");
     await expect(timeline.getByRole("link", {name: "Hyper-Personalized Email at Scale begins"})).toHaveAttribute("href", "/en/projects/email-automations");
-    // Each project shows its main screen, recreated with fictional data because the agency's code is private, then its row.
+    // Each project appears as its illustrated tile, linking to its project page.
     const projects = page.locator('section[aria-labelledby="detail-projects"]');
     await expect(projects.locator("a:has(img)")).toHaveCount(5);
-    await expect(projects.getByText("Recreated with fictional data; the real system is private.")).toHaveCount(5);
-    await expect(projects.locator("a:not(:has(img))")).toHaveCount(5);
     await expect(page.locator('section[aria-labelledby="detail-recommendations"] figure')).toHaveCount(2);
     await expect(page.getByRole("link", {name: "ADCOM-Group"}).first()).toHaveAttribute("href", "/en/organizations/adcom-group");
 });
@@ -184,11 +182,10 @@ test("shows an organization's activity, projects and public repositories", async
     await expect(activity).toContainText("2,629 of 2,836 commits");
     await expect(activity).toContainText("93% of the commits made by people");
     await expect(activity.locator("dt")).toHaveText(["2024", "2025", "2026"]);
-    // A single project shows several of its screens, each linking to its page.
+    // A single project shows its tile and several of its screens, each linking to its page.
     const projects = page.locator('section[aria-labelledby="detail-projects"]');
-    await expect(projects.locator("a:has(img)")).toHaveCount(3);
+    await expect(projects.locator("a:has(img)")).toHaveCount(4);
     for (const link of await projects.locator("a:has(img)").all()) expect(await link.getAttribute("href")).toBe("/en/projects/smartpot");
-    await expect(projects.locator("a:not(:has(img))").filter({hasText: "SmartPot"})).toHaveAttribute("href", "/en/projects/smartpot");
     const repositories = page.locator('section[aria-labelledby="detail-repositories"] a');
     expect(await repositories.count()).toBeGreaterThan(5);
     for (const link of await repositories.all()) expect(await link.getAttribute("href")).toMatch(/^https:\/\/github\.com\/SmartPotTech\//);
@@ -223,17 +220,25 @@ test("links the detail pages from the home sections and the footer", async ({pag
     // Each organization is named on the home and leads to its page.
     await expect(page.locator('#projects a[href^="/es/organizations/"]')).toHaveCount(10);
     await expect(page.locator("#services").getByRole("link", {name: /Ver cada servicio/})).toHaveAttribute("href", /^\/es\/services/);
+    await expect(page.locator("#reasons").getByRole("link", {name: /Ver las once razones/})).toHaveAttribute("href", /^\/es\/reasons/);
     await expect(page.locator("#metrics").getByRole("link", {name: /Ver todas las métricas/})).toHaveAttribute("href", /^\/es\/metrics/);
     const explore = page.getByRole("navigation", {name: "Explora el portafolio"});
-    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Organizaciones en GitHub", "Servicios", "Métricas de GitHub"]);
+    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Organizaciones en GitHub", "Servicios", "Por qué contratarme", "Métricas de GitHub"]);
     await expect(explore.getByRole("link", {name: "Organizaciones en GitHub"})).toHaveAttribute("href", "/es/organizations");
 });
 
-test("gives the services and the metrics a page each, with what the home only names", async ({page, consoleErrors}) => {
+test("gives each service, reason and the metrics its own page", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/es/services");
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Servicios");
-    await expect(page.locator("article#service-integration")).toContainText("Ingeniería de integraciones y backend");
-    await expect(page.getByRole("heading", {name: "¿Por qué contratarme?"})).toBeVisible();
+    await page.getByRole("link", {name: /Ingeniería de integraciones y backend/}).click();
+    await expect(page).toHaveURL(/\/es\/services\/integrations-and-backend$/);
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Ingeniería de integraciones y backend");
+    await expect(page.locator("#detail-scope")).toBeVisible();
+    await gotoHydrated(page, "/es/reasons");
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("¿Por qué contratarme?");
+    await page.getByRole("link", {name: /De la necesidad del negocio a la arquitectura/}).click();
+    await expect(page).toHaveURL(/\/es\/reasons\/from-business-to-architecture$/);
+    await expect(page.locator('section[aria-labelledby="detail-quote"] mark')).toBeVisible();
     await gotoHydrated(page, "/es/metrics");
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Métricas de GitHub");
     await expect(page.locator("#metrics-areas")).toBeVisible();

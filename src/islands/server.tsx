@@ -11,6 +11,7 @@ import {HighlightsStrip} from "@/components/sections/HighlightsStrip";
 import {JourneySection} from "@/components/sections/JourneySection";
 import {MetricsSection} from "@/components/sections/MetricsSection";
 import {ProjectsSection} from "@/components/sections/ProjectsSection";
+import {ReasonsSection} from "@/components/sections/ReasonsSection";
 import {ResumeSection} from "@/components/sections/ResumeSection";
 import {ServicesSection} from "@/components/sections/ServicesSection";
 import {SkillsSection} from "@/components/sections/SkillsSection";
@@ -48,6 +49,7 @@ registerServerParts({
     "section:about": AboutSection,
     "section:journey": JourneySection,
     "section:services": ServicesSection,
+    "section:reasons": ReasonsSection,
     "section:experience": ExperienceSection,
     "section:skills": SkillsSection,
     "section:projects": ProjectsSection,

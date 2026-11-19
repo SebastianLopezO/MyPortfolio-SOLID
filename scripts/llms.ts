@@ -22,7 +22,8 @@ const SECTIONS = [
     {heading: "Experience", match: /^\/en\/experience(?:\/|$)/},
     {heading: "Education", match: /^\/en\/education(?:\/|$)/},
     {heading: "GitHub organizations", match: /^\/en\/organizations(?:\/|$)/},
-    {heading: "Services", match: /^\/en\/services$/},
+    {heading: "Services", match: /^\/en\/services(?:\/|$)/},
+    {heading: "Reasons to hire", match: /^\/en\/reasons(?:\/|$)/},
     {heading: "GitHub metrics", match: /^\/en\/metrics$/},
 ];
 // The certifications are many and secondary, so they go under "Optional", the section a reader may skip.

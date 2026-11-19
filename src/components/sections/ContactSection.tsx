@@ -78,101 +78,101 @@ export function ContactSection() {
     ];
 
     return (
-        <Section id="contact" title={contact.title} subtitle={forProfile(contact.subtitle, role())} tone="raised">
-            <div class="enter-each grid gap-10 lg:grid-cols-2">
-                <div>
-                    <h3 class="text-title text-fg">{contact.connect}</h3>
-                    <p class="mt-3 text-fg-muted">{contact.description}</p>
-                    <ul class="mt-8 space-y-5">
-                        <For each={details}>{(detail) => (
-                            <li class="flex items-center gap-4">
-                                <span
-                                    class="grid size-11 shrink-0 place-items-center rounded-md border border-border bg-surface text-primary">
-                                    <Dynamic component={detail.icon} class="size-5"/>
-                                </span>
-                                <div class="min-w-0">
-                                    <p class="text-sm text-fg-subtle">{detail.label}</p>
-                                    <p class="wrap-anywhere text-fg">
-                                        <Show when={detail.href} fallback={detail.value}>
-                                            {(href) => (
-                                                <a href={href()} class="hover:text-primary"
-                                                   target={href().startsWith("http") ? "_blank" : undefined}
-                                                   rel={href().startsWith("http") ? "noopener noreferrer" : undefined}>
-                                                    {detail.value}
-                                                </a>
-                                            )}
-                                        </Show>
-                                    </p>
-                                    <Show when={detail.copy}>
-                                        <p role="status" class="text-sm text-fg-subtle">{copiedLabel()}</p>
+        // The ways to reach me sit under the title, and the form beside them starts level with the title.
+        <Section id="contact" title={contact.title} subtitle={forProfile(contact.subtitle, role())} tone="raised"
+                 layout="pair" intro={
+            <div class="mt-10">
+                <h3 class="text-title text-fg">{contact.connect}</h3>
+                <p class="mt-3 text-fg-muted">{contact.description}</p>
+                <ul class="mt-8 space-y-5">
+                    <For each={details}>{(detail) => (
+                        <li class="flex items-center gap-4">
+                            <span
+                                class="grid size-11 shrink-0 place-items-center rounded-md border border-border bg-surface text-primary">
+                                <Dynamic component={detail.icon} class="size-5"/>
+                            </span>
+                            <div class="min-w-0">
+                                <p class="text-sm text-fg-subtle">{detail.label}</p>
+                                <p class="wrap-anywhere text-fg">
+                                    <Show when={detail.href} fallback={detail.value}>
+                                        {(href) => (
+                                            <a href={href()} class="hover:text-primary"
+                                               target={href().startsWith("http") ? "_blank" : undefined}
+                                               rel={href().startsWith("http") ? "noopener noreferrer" : undefined}>
+                                                {detail.value}
+                                            </a>
+                                        )}
                                     </Show>
-                                </div>
+                                </p>
                                 <Show when={detail.copy}>
-                                    <button
-                                        type="button"
-                                        onClick={copyEmail}
-                                        aria-label={contact.copyEmail.label}
-                                        title={contact.copyEmail.label}
-                                        class="grid size-11 shrink-0 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-primary hover:text-primary"
-                                    >
-                                        <Show when={copied() === "done"} fallback={<Copy class="size-5"/>}>
-                                            <Check class="size-5"/>
-                                        </Show>
-                                    </button>
+                                    <p role="status" class="text-sm text-fg-subtle">{copiedLabel()}</p>
                                 </Show>
-                            </li>
-                        )}</For>
-                    </ul>
-                </div>
-
-                <form onSubmit={submit}
-                      class="space-y-5 rounded-lg border border-border bg-surface p-6 shadow-card">
-                    <div>
-                        <label for="contact-name"
-                               class="mb-2 block text-sm font-semibold text-fg">{contact.form.name}</label>
-                        <Input id="contact-name" name="name" autocomplete="name" required value={form().name}
-                               placeholder={contact.placeholders.name}
-                               onInput={update("name")}/>
-                    </div>
-                    <div>
-                        <label for="contact-email"
-                               class="mb-2 block text-sm font-semibold text-fg">{contact.form.email}</label>
-                        <Input id="contact-email" name="email" type="email" autocomplete="email" spellcheck={false}
-                               required value={form().email}
-                               placeholder={contact.placeholders.email}
-                               onInput={update("email")}/>
-                    </div>
-                    <div>
-                        <label for="contact-message"
-                               class="mb-2 block text-sm font-semibold text-fg">{contact.form.message}</label>
-                        <Textarea id="contact-message" name="message" rows={5} required prop:value={form().message}
-                                  placeholder={contact.placeholders.message}
-                                  onInput={update("message")}/>
-                    </div>
-                    {/* Side by side only when both labels fit whole; otherwise each button takes its own row. */}
-                    <div class="flex flex-wrap gap-3">
-                        <button
-                            type="submit"
-                            name="channel"
-                            value="whatsapp"
-                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold whitespace-nowrap text-on-primary hover:bg-primary-hover active:translate-y-px"
-                        >
-                            <Send class="size-5"/>
-                            {contact.form.send}
-                        </button>
-                        <button
-                            type="submit"
-                            name="channel"
-                            value="email"
-                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full border border-border-strong px-5 font-semibold whitespace-nowrap text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
-                        >
-                            <Mail class="size-5"/>
-                            {contact.form.sendEmail}
-                        </button>
-                    </div>
-                    <p class="text-center text-xs text-fg-subtle">{contact.form.note}</p>
-                </form>
+                            </div>
+                            <Show when={detail.copy}>
+                                <button
+                                    type="button"
+                                    onClick={copyEmail}
+                                    aria-label={contact.copyEmail.label}
+                                    title={contact.copyEmail.label}
+                                    class="grid size-11 shrink-0 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-primary hover:text-primary"
+                                >
+                                    <Show when={copied() === "done"} fallback={<Copy class="size-5"/>}>
+                                        <Check class="size-5"/>
+                                    </Show>
+                                </button>
+                            </Show>
+                        </li>
+                    )}</For>
+                </ul>
             </div>
+        }>
+            <form onSubmit={submit}
+                  class="space-y-5 rounded-lg border border-border bg-surface p-6 shadow-card">
+                <div>
+                    <label for="contact-name"
+                           class="mb-2 block text-sm font-semibold text-fg">{contact.form.name}</label>
+                    <Input id="contact-name" name="name" autocomplete="name" required value={form().name}
+                           placeholder={contact.placeholders.name}
+                           onInput={update("name")}/>
+                </div>
+                <div>
+                    <label for="contact-email"
+                           class="mb-2 block text-sm font-semibold text-fg">{contact.form.email}</label>
+                    <Input id="contact-email" name="email" type="email" autocomplete="email" spellcheck={false}
+                           required value={form().email}
+                           placeholder={contact.placeholders.email}
+                           onInput={update("email")}/>
+                </div>
+                <div>
+                    <label for="contact-message"
+                           class="mb-2 block text-sm font-semibold text-fg">{contact.form.message}</label>
+                    <Textarea id="contact-message" name="message" rows={5} required prop:value={form().message}
+                              placeholder={contact.placeholders.message}
+                              onInput={update("message")}/>
+                </div>
+                {/* Side by side only when both labels fit whole; otherwise each button takes its own row. */}
+                <div class="flex flex-wrap gap-3">
+                    <button
+                        type="submit"
+                        name="channel"
+                        value="whatsapp"
+                        class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold whitespace-nowrap text-on-primary hover:bg-primary-hover active:translate-y-px"
+                    >
+                        <Send class="size-5"/>
+                        {contact.form.send}
+                    </button>
+                    <button
+                        type="submit"
+                        name="channel"
+                        value="email"
+                        class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full border border-border-strong px-5 font-semibold whitespace-nowrap text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
+                    >
+                        <Mail class="size-5"/>
+                        {contact.form.sendEmail}
+                    </button>
+                </div>
+                <p class="text-center text-xs text-fg-subtle">{contact.form.note}</p>
+            </form>
         </Section>
     );
 }

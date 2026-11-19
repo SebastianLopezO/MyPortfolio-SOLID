@@ -147,6 +147,15 @@ test("renders every group of tools as a tile and opens the full list on request"
     await expect(disclosure.locator(":scope > ul > li")).toHaveCount(15);
 });
 
+test("tracks the active reason in the slide as its card crosses the screen", async ({page, isMobile}) => {
+    test.skip(isMobile, "From 64rem the slide stays beside the list");
+    await gotoHydrated(page, "/en");
+    const section = await hydrateSection(page, "reasons");
+    const third = section.locator(".reasons-list > li").nth(2);
+    await third.evaluate((element) => element.scrollIntoView({block: "center"}));
+    await expect(section.locator(".reason-slide").nth(2)).toHaveAttribute("data-active", "true");
+});
+
 test.describe("for a reader who asks for less motion", () => {
     test.use({contextOptions: {reducedMotion: "reduce"}});
 

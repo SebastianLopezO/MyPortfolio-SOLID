@@ -61,7 +61,7 @@ const INTENT_SECTIONS: Partial<Record<IntentId, SectionId>> = {
     clients: "experience",
     industries: "experience",
     services: "services",
-    whyHire: "services",
+    whyHire: "reasons",
     workStyle: "about",
     journey: "journey",
     stack: "skills",

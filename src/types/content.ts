@@ -13,6 +13,7 @@ export type SectionId =
     | "about"
     | "journey"
     | "services"
+    | "reasons"
     | "experience"
     | "skills"
     | "projects"
@@ -329,7 +330,7 @@ export interface Content {
             elsewhere: string;
             /** The pages beyond the profile: the projects and the job, program, certification and organization pages. */
             explore: string;
-            pages: Record<"projects" | "experience" | "education" | "certifications" | "organizations" | "services" | "metrics", string>;
+            pages: Record<"projects" | "experience" | "education" | "certifications" | "organizations" | "services" | "reasons" | "metrics", string>;
         };
         whatsapp: { label: string; message: string };
     };
@@ -388,19 +389,31 @@ export interface Content {
         subtitle: Record<ProfileKey, string>;
         /** Label of the projects linked under each service as proof. */
         evidence: string;
-        items: Record<ServiceId, { title: string; description: string; points: string[] }>;
+        /** `tagline` is the few words under the service's object on the home and the index; `description` its sentence. */
+        items: Record<ServiceId, { title: string; tagline: string; description: string; points: string[] }>;
         benefitsTitle: string;
         benefitsSubtitle: string;
-        /** The home lists the services by name; this link leads to their page with every detail. */
+        /** The home names each service; this link leads to the index of their pages. */
         pageLink: string;
-        /** Each benefit quotes a recommendation; the excerpt must appear word for word in that quote. */
+        /**
+         * Each benefit quotes a recommendation; the excerpt must appear word for word in that quote. `practice` says
+         * where it shows in the work, naming only what the linked projects, jobs and programs tell.
+         */
         benefits: Record<BenefitId, {
             title: string;
             description: string;
+            practice: string;
             evidence: { testimonial: TestimonialId; excerpt: string }
         }>;
-        /** Labels of the slider buttons that phones get for the services and the reasons to hire. */
-        slider: { previousService: string; nextService: string; previousBenefit: string; nextBenefit: string };
+        /** The home's section of reasons, laid out as a slide beside the list of them. */
+        reasons: {
+            /** The link to the page that lists every reason. */
+            pageLink: string;
+            /** A reason's place on the slide: {current} and {total}. */
+            counter: string;
+            /** The name of the list of reasons beside the slide, for assistive technology. */
+            listLabel: string;
+        };
     };
     skills: {
         title: string;

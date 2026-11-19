@@ -1,22 +1,32 @@
 import {archive, type ArchiveOrg} from "@/content/shared/archive";
 import {certifications} from "@/content/shared/certifications";
-import {CERTIFICATION_SLUG, EDUCATION_SLUG, EXPERIENCE_SLUG, ORGANIZATION_SLUG} from "@/content/shared/detail-links";
+import {
+    CERTIFICATION_SLUG,
+    EDUCATION_SLUG,
+    EXPERIENCE_SLUG,
+    ORGANIZATION_SLUG,
+    REASON_SLUG,
+    SERVICE_SLUG
+} from "@/content/shared/detail-links";
 import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
 import {organizations} from "@/content/shared/organizations";
 import {EXPERIENCE_PROJECTS} from "@/content/shared/project-links";
 import {projects} from "@/content/shared/projects";
+import {benefitOrder, SERVICE_IDS, serviceProjects, serviceReasons} from "@/content/shared/services";
 import {testimonials} from "@/content/shared/testimonials";
 import type {
+    BenefitId,
     CertificationFacts,
     CertificationId,
     EducationId,
     ExperienceId,
     OrganizationFacts,
     OrganizationId,
+    ServiceId,
     YearMonth
 } from "@/types/content";
-import type {ProjectFacts} from "@/types/project";
+import type {ProjectFacts, ProjectId} from "@/types/project";
 
 // How the jobs, programs, certifications, organizations, projects and recommendations relate. Everything here is
 // read from the facts, so a page never states a link the facts do not hold.
@@ -25,6 +35,8 @@ export const experienceBySlug = (slug: string) => experience.find((item) => EXPE
 export const educationBySlug = (slug: string) => education.find((item) => EDUCATION_SLUG[item.id] === slug);
 export const certificationBySlug = (slug: string) => certifications.find((item) => CERTIFICATION_SLUG[item.id] === slug);
 export const organizationBySlug = (slug: string) => organizations.find((item) => ORGANIZATION_SLUG[item.id] === slug);
+export const serviceBySlug = (slug: string) => SERVICE_IDS.find((id) => SERVICE_SLUG[id] === slug);
+export const reasonBySlug = (slug: string) => benefitOrder.find((id) => REASON_SLUG[id] === slug);
 
 export const experienceById = (id: ExperienceId) => experience.find((item) => item.id === id)!;
 export const educationById = (id: EducationId) => education.find((item) => item.id === id)!;
@@ -85,3 +97,16 @@ export const certificationsByIssuer = () => {
         .map(([issuer, items]) => ({issuer, items: [...items].sort((a, b) => b.date.localeCompare(a.date))}))
         .sort((a, b) => b.items.length - a.items.length);
 };
+
+export const projectById = (id: ProjectId) => projects.find((project) => project.id === id)!;
+
+/** The jobs whose cards link one of these projects, in the order of the jobs. */
+export const jobsOfProjects = (ids: readonly ProjectId[]) =>
+    experience.filter((job) => (EXPERIENCE_PROJECTS[job.id] ?? []).some((id) => ids.includes(id)));
+
+/** A service's projects, and the jobs it was done in. */
+export const projectsOfService = (id: ServiceId) => serviceProjects[id].map(projectById);
+export const jobsOfService = (id: ServiceId) => jobsOfProjects(serviceProjects[id]);
+
+/** The services whose page names a reason among its own. */
+export const servicesWithReason = (id: BenefitId) => SERVICE_IDS.filter((service) => serviceReasons[service].includes(id));

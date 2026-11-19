@@ -17,7 +17,7 @@ import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
 import {ACTIVITY_DATE, organizationActivity} from "@/content/shared/organization-activity";
 import {organizations} from "@/content/shared/organizations";
-import {isCaseStudy, PROJECT_SLUG} from "@/content/shared/project-links";
+import {isCaseStudy} from "@/content/shared/project-links";
 import {projectImages} from "@/content/shared/projects";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
@@ -25,22 +25,12 @@ import {useHydrated} from "@/hooks/useHydrated";
 import {useJourneyCopy} from "@/hooks/useJourneyCopy";
 import {GithubIcon} from "@/components/layout/BrandIcons";
 import {CaseImage, UNMASK} from "@/components/case-study/CaseImages";
-import {
-    Breadcrumbs,
-    Bullets,
-    type Crumb,
-    LinkRows,
-    NeighborNavigation,
-    PageIndex,
-    PageTrail,
-    TextSection
-} from "@/components/page/PageParts";
+import {Bullets, LinkRows, NeighborNavigation, TextSection} from "@/components/page/PageParts";
 import {Timeline} from "@/components/page/Timeline";
 import {Carousel} from "@/components/ui/Carousel";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {TechExplorer} from "@/components/projects/TechExplorer";
 import {MetricsContent} from "@/components/sections/MetricsSection";
-import {ServicesContent} from "@/components/sections/ServicesSection";
 import {TechList} from "@/components/ui/TechList";
 import {ToggleButton} from "@/components/ui/ToggleButton";
 import {
@@ -67,7 +57,6 @@ import {
 import {formatDay, formatDuration, formatRange, formatYearMonth, monthsBetween} from "@/lib/format";
 import {withBase} from "@/lib/base";
 import {widestVariant} from "@/lib/image-widths";
-import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {prioritize} from "@/lib/role-view";
 import {BUILD_DATE} from "@/content/shared/site";
 import {cn} from "@/lib/utils";
@@ -75,25 +64,21 @@ import {Link} from "@/routes/Router";
 import type {CertificationFacts, EducationFacts, OrganizationId, TestimonialFacts, WorkRef,} from "@/types/content";
 import type {ProgramCopy, PublishedSource} from "@/types/detail";
 import type {ProjectFacts, ProjectId, ProjectPageId} from "@/types/project";
+import type {Art} from "@/content/shared/page-art";
 import type {TimelineItem} from "@/types/timeline";
-
-/** The home section each collection comes from, which the first breadcrumb returns to. */
-const HOME_SECTION: Record<DetailCollection, string> = {
-    experience: "experience",
-    education: "about",
-    certifications: "certifications",
-    organizations: "projects",
-    services: "services",
-    metrics: "metrics",
-};
-
-const fill = (template: string, values: Record<string, string | number>) =>
-    template.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? String(values[key]) : match));
-
-const countOf = (forms: {
-    one: string;
-    other: string
-}, count: number) => fill(count === 1 ? forms.one : forms.other, {count});
+import {EDUCATION_ART, EXPERIENCE_ART, ORGANIZATION_ART} from "@/content/shared/page-art";
+import {
+    countOf,
+    DetailArticle,
+    fill,
+    Glance,
+    IndexHeader,
+    Paragraphs,
+    ProjectTiles,
+    useLinks,
+    useNumbers
+} from "@/views/detail-kit";
+import {ReasonPage, ReasonsIndex, ServicePage, ServicesIndex} from "@/views/OfferPages";
 
 /** Fills a template and puts a node where `{slot}` was, such as the large figure in "{mine} of {people} commits". */
 function Filled(props: {
@@ -116,44 +101,6 @@ function Filled(props: {
 const inProgress = (program: EducationFacts) =>
     program.graduation ? BUILD_DATE.slice(0, 7) < program.graduation : program.end >= Number(BUILD_DATE.slice(0, 4));
 
-/**
- * The links of a page, which carry the role view the visitor came from. The view is only known once the page is
- * hydrated (islands/shell.tsx), so the links read it when called: called inside JSX, they follow it.
- */
-function useLinks() {
-    const {lang} = useLanguage();
-    const {locked} = useRole();
-    return {
-        detail: (collection: DetailCollection, slug: string | null = null) => buildDetailPath(lang, collection, {
-            slug,
-            locked: locked()
-        }),
-        project: (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()}),
-    };
-}
-
-function useNumbers() {
-    const {content} = useLanguage();
-    const locale = content.locale.replace("_", "-");
-    return {
-        integer: new Intl.NumberFormat(locale).format,
-        percent: new Intl.NumberFormat(locale, {style: "percent", maximumFractionDigits: 0}).format,
-    };
-}
-
-/** The breadcrumb of a page: the profile section it belongs to, the collection's index and, on an item, the item. */
-function useCrumbs(collection: DetailCollection, current: string | null): () => Crumb[] {
-    const {content} = useLanguage();
-    const {role, pathFor} = useRole();
-    const {indexes} = useDetailCopy();
-    const links = useLinks();
-    return () => {
-        const home = {label: content.ui.home, to: pathFor(role(), HOME_SECTION[collection])};
-        if (current === null) return [home, {label: indexes[collection].title}];
-        return [home, {label: indexes[collection].title, to: links.detail(collection)}, {label: current}];
-    };
-}
-
 /** A project's one-line tagline, from its case study or its page, under its entry in a timeline. */
 function useTaglines() {
     const {cases: {items: cases}, pages} = useProjectsCopy();
@@ -163,76 +110,6 @@ function useTaglines() {
 /** The steps told by hand, which the facts cannot date by themselves. */
 const milestones = (entries: { date: string; text: string }[]): TimelineItem[] =>
     entries.map((entry) => ({...entry, kind: "milestone"}));
-
-/** The overview beside the text: label and value pairs, and the links under them. */
-function Glance(props: { items: { label: string; value: JSX.Element }[]; children?: JSX.Element }) {
-    return (
-        <div class="grid content-start gap-4 rounded-lg border border-border bg-surface p-5 text-sm">
-            <dl class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
-                <For each={props.items}>
-                    {(item) => (
-                        <div>
-                            <dt class="text-fg-subtle">{item.label}</dt>
-                            <dd class="mt-0.5 text-fg">{item.value}</dd>
-                        </div>
-                    )}
-                </For>
-            </dl>
-            {props.children}
-        </div>
-    );
-}
-
-interface ArticleProps {
-    collection: DetailCollection;
-    title: string;
-    subtitle?: JSX.Element;
-    lead?: JSX.Element;
-    /** Names that stay as they are, such as a GitHub organization, are not translated by the browser. */
-    keepTitle?: boolean;
-    glance: JSX.Element;
-    sections: { id: string; title: string }[];
-    navigation: JSX.Element;
-    children: JSX.Element;
-}
-
-function DetailArticle(props: ArticleProps) {
-    const {ui} = useDetailCopy();
-    // A page keeps its collection and title for its whole life.
-    // eslint-disable-next-line solid/reactivity
-    const crumbs = useCrumbs(props.collection, props.title);
-    return (
-        <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
-            <PageTrail label={ui.breadcrumb} items={crumbs()}/>
-            <header class="mt-6 max-w-4xl">
-                <p class="font-mono text-xs text-fg-subtle">{ui.eyebrow[props.collection]}</p>
-                {/* A title stays within two lines at every width: up to 40 characters it grows to the display size from
-                    48rem, and longer ones (most certificates) keep the heading size. */}
-                <h1 translate={props.keepTitle ? "no" : undefined}
-                    class={cn("mt-3 text-fg [overflow-wrap:anywhere]", props.title.length > 40 ? "text-heading" : "text-heading md:text-display")}>
-                    {props.title.replaceAll(" – ", "\u00a0– ")}
-                </h1>
-                <Show when={props.subtitle}>
-                    <p class="mt-4 max-w-[68ch] text-xl text-fg">{props.subtitle}</p>
-                </Show>
-                <Show when={props.lead}>
-                    <p class="mt-4 max-w-[68ch] text-fg-muted">{props.lead}</p>
-                </Show>
-            </header>
-
-            {/* As on the project pages: on wide screens the overview and the page index sit beside the text. */}
-            <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
-                <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
-                    {props.glance}
-                    <PageIndex label={ui.onThisPage} sections={props.sections}/>
-                </aside>
-                <div class="mt-12 max-w-4xl space-y-12 xl:col-start-1 xl:row-start-1 xl:mt-0">{props.children}</div>
-            </div>
-
-            {props.navigation}
-        </article>
-    );
-}
 
 /** The page an institution or a company publishes about itself, which a section draws on. */
 function SourceLink(props: { source: PublishedSource }) {
@@ -320,17 +197,6 @@ const programSections = (program: ProgramCopy | undefined, ui: {
         ]
         : [];
 
-function Paragraphs(props: { items: string[]; lead?: string }) {
-    return (
-        <div class="max-w-[68ch] space-y-4 text-lg text-fg-muted">
-            <Show when={props.lead}>
-                <p class="text-fg">{props.lead}</p>
-            </Show>
-            <For each={props.items}>{(paragraph) => <p>{paragraph}</p>}</For>
-        </div>
-    );
-}
-
 /** The main screen of each project that has one, linked to its page; recreated screens say so under the name. */
 function ProjectScreens(props: { items: ProjectFacts[] }) {
     const {cases: {ui, items: cases}, pages} = useProjectsCopy();
@@ -347,7 +213,7 @@ function ProjectScreens(props: { items: ProjectFacts[] }) {
     return (
         <Show when={screens().length > 0}>
             {/* One screen per view on phones, two across from 48rem, like the other rows of cards. */}
-            <div class="mb-6">
+            <div>
                 <Carousel
                     previousLabel={cards.slider.previous}
                     nextLabel={cards.slider.next}
@@ -378,28 +244,17 @@ function ProjectScreens(props: { items: ProjectFacts[] }) {
     );
 }
 
+/** The projects as tiles; a single project also shows several of its screens. */
 function ProjectsBlock(props: { items: ProjectFacts[] }) {
     return (
         <>
-            <ProjectScreens items={props.items}/>
-            <ProjectRows items={props.items}/>
+            <ProjectTiles items={props.items}/>
+            <Show when={props.items.length === 1}>
+                <div class="mt-6">
+                    <ProjectScreens items={props.items}/>
+                </div>
+            </Show>
         </>
-    );
-}
-
-function ProjectRows(props: { items: ProjectFacts[] }) {
-    const cards = useSectionCopy("projects");
-    const links = useLinks();
-    return (
-        <LinkRows
-            items={props.items.map((project) => ({
-                key: project.id,
-                to: links.project(project.id),
-                label: cards.items[project.id].context,
-                name: cards.items[project.id].name,
-                text: cards.items[project.id].summary,
-            }))}
-        />
     );
 }
 
@@ -583,6 +438,7 @@ function ExperiencePage(props: { slug: string }) {
         <DetailArticle
             collection="experience"
             title={facts.company}
+            art={EXPERIENCE_ART[facts.id]}
             subtitle={item.title}
             lead={page.tagline}
             sections={sections}
@@ -759,6 +615,7 @@ function EducationPage(props: { slug: string }) {
         <DetailArticle
             collection="education"
             title={program.degree}
+            art={EDUCATION_ART[facts.id]}
             subtitle={facts.school}
             lead={page.tagline}
             sections={sections}
@@ -1151,6 +1008,7 @@ function OrganizationPage(props: { slug: string }) {
             collection="organizations"
             title={facts.name}
             keepTitle
+            art={ORGANIZATION_ART[facts.id]}
             subtitle={page.tagline}
             lead={cards.organizations[facts.id]}
             sections={sections}
@@ -1253,22 +1111,6 @@ function OrganizationPage(props: { slug: string }) {
     );
 }
 
-function IndexHeader(props: { collection: DetailCollection; subtitle?: string }) {
-    const {ui, indexes} = useDetailCopy();
-    // An index keeps its collection for its whole life.
-    // eslint-disable-next-line solid/reactivity
-    const crumbs = useCrumbs(props.collection, null);
-    return (
-        <>
-            <Breadcrumbs label={ui.breadcrumb} items={crumbs()}/>
-            <header class="mt-6 max-w-3xl">
-                <h1 class="text-display text-fg">{indexes[props.collection].title}</h1>
-                <p class="mt-4 text-lg text-fg-muted">{props.subtitle ?? indexes[props.collection].subtitle}</p>
-            </header>
-        </>
-    );
-}
-
 function ExperienceIndex() {
     const {content: {ui: siteUi}} = useLanguage();
     const {role} = useRole();
@@ -1284,9 +1126,10 @@ function ExperienceIndex() {
                     const item = jobs.items[job.id];
                     return (
                         <li
-                            class="section-enter grid gap-2 border-t border-border py-8 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10">
-                            <p class="font-mono text-xs text-fg-subtle md:pt-2">{formatRange(job.start, job.end, siteUi.months, siteUi.present)}</p>
+                            class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
+                            <IndexArt art={EXPERIENCE_ART[job.id]} to={links.detail("experience", EXPERIENCE_SLUG[job.id])}/>
                             <div class="max-w-3xl">
+                                <p class="font-mono text-xs text-fg-subtle">{formatRange(job.start, job.end, siteUi.months, siteUi.present)}</p>
                                 <h2 class="text-title text-fg">
                                     <Link to={links.detail("experience", EXPERIENCE_SLUG[job.id])}
                                           class="hover:text-primary">{job.company}</Link>
@@ -1323,9 +1166,10 @@ function EducationIndex() {
                     const copy = about.education[program.id];
                     return (
                         <li
-                            class="section-enter grid gap-2 border-t border-border py-8 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10">
-                            <p class="font-mono text-xs text-fg-subtle md:pt-2">{program.start === program.end ? program.start : `${program.start} – ${program.end}`}</p>
+                            class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
+                            <IndexArt art={EDUCATION_ART[program.id]} to={links.detail("education", EDUCATION_SLUG[program.id])}/>
                             <div class="max-w-3xl">
+                                <p class="font-mono text-xs text-fg-subtle">{program.start === program.end ? program.start : `${program.start} – ${program.end}`}</p>
                                 <h2 class="text-title text-fg">
                                     <Link to={links.detail("education", EDUCATION_SLUG[program.id])}
                                           class="hover:text-primary">{copy.degree}</Link>
@@ -1476,7 +1320,9 @@ function OrganizationsIndex() {
                 <For each={organizations}>{(organization) => {
                     const activity = organizationActivity[organization.id];
                     return (
-                        <li class="section-enter border-t border-border py-6">
+                        <li class="section-enter grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-5 border-t border-border py-6">
+                            <IndexArt art={ORGANIZATION_ART[organization.id]} to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}/>
+                            <div>
                             <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                                 <h2 class="text-title text-fg" translate="no">
                                     <Link to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}
@@ -1496,6 +1342,7 @@ function OrganizationsIndex() {
                                     people: numbers.integer(activity.people)
                                 })}
                             </p>
+                            </div>
                         </li>
                     );
                 }}</For>
@@ -1504,15 +1351,17 @@ function OrganizationsIndex() {
     );
 }
 
-/** Every service, the projects that prove each one and the reasons to hire me; the home lists them by name. */
-function ServicesIndex() {
+/** A row's object on its tile, a second way into the page its title already links, so it is left unannounced. */
+function IndexArt(props: { art: Art; to: string }) {
     return (
-        <div class="container-page py-12 md:py-16">
-            <IndexHeader collection="services"/>
-            <div class="mt-12">
-                <ServicesContent/>
-            </div>
-        </div>
+        <Link to={props.to} tabindex={-1} aria-hidden="true"
+              class="tile-surface grid aspect-square place-items-center self-start overflow-clip rounded-xl md:row-span-2 md:rounded-2xl">
+            <span class="grid size-full place-items-center"
+                  style={{background: `var(--color-tile-${props.art.tile})`}}>
+                <img src={withBase(props.art.file)} alt="" width={176} height={176} loading="lazy" decoding="async"
+                     class="tile-illustration h-auto w-[86%]"/>
+            </span>
+        </Link>
     );
 }
 
@@ -1551,7 +1400,10 @@ export function DetailBody(props: { collection: DetailCollection; slug: string |
                 </Show>
             </Match>
             <Match when={props.collection === "services"}>
-                <ServicesIndex/>
+                <Show when={props.slug} keyed fallback={<ServicesIndex/>}>{(slug) => <ServicePage slug={slug}/>}</Show>
+            </Match>
+            <Match when={props.collection === "reasons"}>
+                <Show when={props.slug} keyed fallback={<ReasonsIndex/>}>{(slug) => <ReasonPage slug={slug}/>}</Show>
             </Match>
             <Match when={props.collection === "metrics"}>
                 <MetricsIndex/>

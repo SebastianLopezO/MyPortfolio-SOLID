@@ -5,13 +5,24 @@ import {
     type DetailCollection,
     EDUCATION_SLUG,
     EXPERIENCE_SLUG,
-    ORGANIZATION_SLUG
+    ORGANIZATION_SLUG,
+    REASON_SLUG,
+    SERVICE_SLUG
 } from "@/content/shared/detail-links";
 import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
 import {organizations} from "@/content/shared/organizations";
+import {benefitOrder, SERVICE_IDS} from "@/content/shared/services";
+import {testimonials} from "@/content/shared/testimonials";
 import {absoluteUrl, SITE_URL} from "@/content/shared/site";
-import {certificationBySlug, educationBySlug, experienceBySlug, organizationBySlug} from "@/lib/details";
+import {
+    certificationBySlug,
+    educationBySlug,
+    experienceBySlug,
+    organizationBySlug,
+    reasonBySlug,
+    serviceBySlug
+} from "@/lib/details";
 import {formatYearMonth} from "@/lib/format";
 import {widestVariant} from "@/lib/image-widths";
 import {buildDetailPath, buildPath, detailAlternates, otherLang} from "@/lib/paths";
@@ -94,11 +105,15 @@ export const buildDetailHead = (content: StartupContent, copy: DetailPagesCopy, 
     };
 };
 
-/** The text a detail page's head needs besides its own: the job titles, the degrees and the certifications. */
+/**
+ * The text a detail page's head needs besides its own: the job titles, the degrees, the certifications, and the
+ * services and the reasons to hire me.
+ */
 export interface DetailHeadTexts {
     copy: DetailPagesCopy;
     about: Content["about"];
     certifications: Content["certifications"];
+    services: Content["services"];
 }
 
 const indexInput = (texts: DetailHeadTexts, collection: DetailCollection, items: {
@@ -201,10 +216,45 @@ const organizationInput = (texts: DetailHeadTexts, slug: string | null): DetailH
     };
 };
 
-/** The services and the metrics are a page each with nothing under it. */
-const pageInput = (collection: "services" | "metrics") => (texts: DetailHeadTexts): DetailHeadInput => {
-    const index = texts.copy.indexes[collection];
-    return {collection, slug: null, title: index.seo.title, description: index.seo.description, name: index.title};
+const serviceInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInput => {
+    if (!slug) return indexInput(texts, "services", SERVICE_IDS.map((id) => ({slug: SERVICE_SLUG[id], name: texts.services.items[id].title})));
+    const id = serviceBySlug(slug)!;
+    const service = texts.services.items[id];
+    return {
+        collection: "services",
+        slug,
+        ...texts.copy.services[id].seo,
+        name: service.title,
+        about: {
+            "@type": "Service",
+            name: service.title,
+            description: service.description,
+            serviceType: service.title,
+            provider: {"@id": `${SITE_URL}/#person`},
+        },
+    };
+};
+
+/** A reason's search result: its title with the collection's name, its sentence and, when there is room, who backs it. */
+const reasonInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInput => {
+    if (!slug) return indexInput(texts, "reasons", benefitOrder.map((id) => ({slug: REASON_SLUG[id], name: texts.services.benefits[id].title})));
+    const id = reasonBySlug(slug)!;
+    const benefit = texts.services.benefits[id];
+    const author = testimonials.find((item) => item.id === benefit.evidence.testimonial)!.author;
+    const tailed = `${benefit.description} ${texts.copy.ui.reasonSeoTail.replace("{author}", author)}`;
+    return {
+        collection: "reasons",
+        slug,
+        title: `${benefit.title} · ${texts.copy.indexes.reasons.title.replace(/[¿?]/g, "")}`,
+        description: benefit.description.length < 120 && tailed.length <= 165 ? tailed : benefit.description,
+        name: benefit.title,
+    };
+};
+
+/** The metrics are a page with nothing under it. */
+const metricsInput = (texts: DetailHeadTexts): DetailHeadInput => {
+    const index = texts.copy.indexes.metrics;
+    return {collection: "metrics", slug: null, title: index.seo.title, description: index.seo.description, name: index.title};
 };
 
 const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | null, months: readonly string[]) => DetailHeadInput> = {
@@ -212,8 +262,9 @@ const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | n
     education: educationInput,
     certifications: certificationInput,
     organizations: organizationInput,
-    services: pageInput("services"),
-    metrics: pageInput("metrics"),
+    services: serviceInput,
+    reasons: reasonInput,
+    metrics: metricsInput,
 };
 
 /** The head of any detail page or index, the same on the server and after hydration. */

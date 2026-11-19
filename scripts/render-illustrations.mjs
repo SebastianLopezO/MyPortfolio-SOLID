@@ -1,6 +1,7 @@
 /*
  * Draws the site's illustrations into public/illustrations as static SVG files, one per project plus the hero's
- * board, and writes the map the components read (src/content/shared/project-art.ts). The files are committed: run
+ * board, and one per service, reason to hire, job, program and organization, and writes the maps the components read
+ * (src/content/shared/project-art.ts and page-art.ts). The files are committed: run
  * `pnpm illustrations` after changing a scene (scripts/illustrations) and commit what it writes. With --sheet it
  * also writes a contact sheet of every illustration on its tile, in both themes, to review them side by side.
  */
@@ -11,6 +12,7 @@ import {group, svg} from "./illustrations/kit.mjs";
 import {SCENES, TILES} from "./illustrations/scenes.mjs";
 import {HERO} from "./illustrations/hero.mjs";
 import {LAB, LAB_SCENES} from "./illustrations/lab.mjs";
+import {PAGE_ART} from "./illustrations/pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "illustrations");
@@ -27,6 +29,41 @@ for (const [id, scene] of Object.entries(SCENES)) {
 }
 writeFileSync(join(OUT, "hero.svg"), svg("", HERO.body(), {width: HERO.width, height: HERO.height}));
 for (const [id, scene] of Object.entries(LAB_SCENES)) writeFileSync(join(OUT, "lab", `${id}.svg`), svg("", group(scene())));
+
+// The objects of the services, the reasons, the jobs, the programs and the organizations, a folder per collection.
+const pageFiles = {};
+for (const [collection, {scenes}] of Object.entries(PAGE_ART)) {
+    mkdirSync(join(OUT, collection), {recursive: true});
+    pageFiles[collection] = {};
+    for (const [id, scene] of Object.entries(scenes)) {
+        const file = `${collection}/${kebab(id)}.svg`;
+        writeFileSync(join(OUT, file), svg("", group(scene())));
+        pageFiles[collection][id] = file;
+    }
+}
+const PAGE_TYPES = {
+    services: ["SERVICE_ART", "ServiceId", "Each service's object"],
+    reasons: ["REASON_ART", "BenefitId", "Each reason to hire me and its object"],
+    experience: ["EXPERIENCE_ART", "ExperienceId", "Each job's badge"],
+    education: ["EDUCATION_ART", "EducationId", "Each program's book and what it led to"],
+    organizations: ["ORGANIZATION_ART", "OrganizationId", "Each GitHub organization's cabinet"],
+};
+const pageArt = `// Written by scripts/render-illustrations.mjs from scripts/illustrations/pages.mjs; run \`pnpm illustrations\` to change it.
+import type {Tile} from "@/content/shared/project-art";
+import type {BenefitId, EducationId, ExperienceId, OrganizationId, ServiceId} from "@/types/content";
+
+/** An illustration in public/ and the tile it sits on. */
+export interface Art {
+    file: string;
+    tile: Tile;
+}
+${Object.entries(PAGE_TYPES).map(([collection, [name, type, doc]]) => `
+/** ${doc}, in public/, and the tile it sits on. */
+export const ${name}: Record<${type}, Art> = {
+${Object.entries(pageFiles[collection]).map(([id, file]) => `    ${id}: {file: "/illustrations/${file}", tile: "${PAGE_ART[collection].tiles[id]}"},`).join("\n")}
+};
+`).join("")}`;
+writeFileSync(join(ROOT, "src", "content", "shared", "page-art.ts"), pageArt);
 
 const art = `// Written by scripts/render-illustrations.mjs from scripts/illustrations; run \`pnpm illustrations\` to change it.
 import type {SkillGroupId} from "@/types/content";
@@ -85,8 +122,13 @@ if (process.argv.includes("--sheet")) {
             stone: "oklch(0.25 0.004 250)"
         },
     };
-    const cells = (theme) => Object.keys(SCENES).map((id) =>
-        `<figure><div style="background:${tiles[theme][TILES[id]]}"><img src="file:///${join(OUT, files[id]).replaceAll("\\", "/")}"></div><figcaption>${id}</figcaption></figure>`).join("");
+    const entries = [
+        ...Object.keys(SCENES).map((id) => ({id, file: files[id], tile: TILES[id]})),
+        ...Object.entries(PAGE_ART).flatMap(([collection, {tiles: pageTiles}]) =>
+            Object.keys(pageTiles).map((id) => ({id: `${collection}/${id}`, file: pageFiles[collection][id], tile: pageTiles[id]}))),
+    ].filter(({id}) => !process.env.SHEET_ONLY || id.startsWith(process.env.SHEET_ONLY));
+    const cells = (theme) => entries.map(({id, file, tile}) =>
+        `<figure><div style="background:${tiles[theme][tile]}"><img src="file:///${join(OUT, file).replaceAll("\\", "/")}"></div><figcaption>${id}</figcaption></figure>`).join("");
     const page = `<!doctype html><meta charset="utf-8"><style>body{margin:0;font:13px system-ui;padding:24px}section{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;padding:20px;border-radius:24px}figure{margin:0}div{aspect-ratio:1;border-radius:22px;display:grid;place-items:center}img{width:86%}figcaption{margin-top:6px;opacity:.7}</style>
 <section style="background:#fbfcfd;color:#141619">${cells("light")}</section><section style="background:#0d0d0d;color:#f5f5f5;margin-top:24px">${cells("dark")}</section>
 <div style="aspect-ratio:auto;margin-top:24px;background:#fbfcfd;padding:20px"><img style="width:100%;max-width:720px" src="file:///${join(OUT, "hero.svg").replaceAll("\\", "/")}"></div>`;

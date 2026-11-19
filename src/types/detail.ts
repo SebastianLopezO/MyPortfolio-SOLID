@@ -1,6 +1,6 @@
 import type {DetailCollection} from "@/content/shared/detail-links";
 import type {TimelineLabels} from "@/types/timeline";
-import type {EducationId, ExperienceId, OrganizationId, YearMonth} from "@/types/content";
+import type {EducationId, ExperienceId, OrganizationId, ServiceId, YearMonth} from "@/types/content";
 
 export type IssuerId =
     | "certiport"
@@ -124,6 +124,16 @@ export interface DetailPagesUi {
         related: string;
         repositories: string;
         metrics: string;
+        /** A service's page: what it covers, the projects that prove it, the jobs it was done in and the reasons. */
+        scope: string;
+        provenIn: string;
+        jobs: string;
+        whyMe: string;
+        /** A reason's page: the recommendation it quotes, where it shows, the programs and the services it serves. */
+        quote: string;
+        practice: string;
+        studies: string;
+        services: string;
     };
     facts: {
         title: string;
@@ -142,6 +152,10 @@ export interface DetailPagesUi {
         members: string;
         organization: string;
         duration: string;
+        /** The role views a service serves, and who wrote the recommendation a reason quotes. */
+        roles: string;
+        quotedBy: string;
+        relationship: string;
     };
     /** `{hours}`: the length of a course as its certificate states it. */
     hours: string;
@@ -178,7 +192,7 @@ export interface DetailPagesUi {
      * sentence read out when the filter changes ({count}: the entries left). */
     timeline: TimelineLabels;
     /** `{count}`: projects, recommendations, certifications or repositories listed; `one` is used for a single one. */
-    counts: Record<"projects" | "recommendations" | "certifications" | "repositories", { one: string; other: string }>;
+    counts: Record<"projects" | "recommendations" | "certifications" | "repositories" | "jobs" | "programs", { one: string; other: string }>;
     actions: {
         credential: string;
         openRepository: string;
@@ -186,6 +200,9 @@ export interface DetailPagesUi {
         readPage: string;
         previous: string;
         next: string;
+        /** A service's call to talk about it, and the link from the services to the reasons. */
+        talk: string;
+        seeReasons: string;
     };
     /** Names of the pages linked from a certification: a project or a job. */
     workKinds: { project: string; experience: string };
@@ -195,6 +212,8 @@ export interface DetailPagesUi {
     certificationGroups: { label: string; issuer: string; year: string };
     /** The certificate's own image on its page; {issuer} and {title} are filled in. */
     certificate: { title: string; caption: string; redacted: string; alt: string; enlarge: string; seoTail: string };
+    /** Added to a reason's search description when it is short; {author} wrote the recommendation it quotes. */
+    reasonSeoTail: string;
 }
 
 export interface DetailIndexCopy {
@@ -209,6 +228,8 @@ export interface DetailPagesCopy {
     experience: Record<ExperienceId, ExperiencePageCopy>;
     education: Record<EducationId, EducationPageCopy>;
     organizations: Record<OrganizationId, OrganizationPageCopy>;
+    /** What a search result says about each service's page. */
+    services: Record<ServiceId, { seo: DetailSeo }>;
     /** Who issues each certification, in a sentence or two. */
     issuers: Record<IssuerId, { name: string; text: string }>;
 }

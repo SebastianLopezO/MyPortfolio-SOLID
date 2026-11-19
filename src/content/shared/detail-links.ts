@@ -1,12 +1,20 @@
-import type {CertificationId, EducationId, ExperienceId, OrganizationId, SectionCopyKey} from "@/types/content";
+import type {
+    BenefitId,
+    CertificationId,
+    EducationId,
+    ExperienceId,
+    OrganizationId,
+    SectionCopyKey,
+    ServiceId
+} from "@/types/content";
 
 /**
- * The collections that get a page per item besides the projects: each job, program, certification and GitHub
- * organization, with its index at /{lang}/{collection}. Services and metrics are an index alone: the home keeps a short
- * version of each and links to its page. The router and the startup bundle need only these strings; the pages' text
- * and facts load with the pages.
+ * The collections that get a page per item besides the projects: each job, program, certification, GitHub
+ * organization, service and reason to hire me, with its index at /{lang}/{collection}. The metrics are an index alone:
+ * the home keeps the headline figures and links to its page. The router and the startup bundle need only these
+ * strings; the pages' text and facts load with the pages.
  */
-export const DETAIL_COLLECTIONS = ["experience", "education", "certifications", "organizations", "services", "metrics"] as const;
+export const DETAIL_COLLECTIONS = ["experience", "education", "certifications", "organizations", "services", "reasons", "metrics"] as const;
 
 export type DetailCollection = (typeof DETAIL_COLLECTIONS)[number];
 
@@ -43,6 +51,33 @@ export const ORGANIZATION_SLUG = {
     vocational: "vocationalsebastian-s",
 } as const satisfies Record<OrganizationId, string>;
 
+/** Each service's page, named with the words people search for it. */
+export const SERVICE_SLUG = {
+    integration: "integrations-and-backend",
+    crm: "zoho-crm",
+    web: "web-and-landing-pages",
+    data: "business-intelligence-and-data",
+    automation: "process-automation",
+    infra: "infrastructure-and-deployment",
+    observability: "observability-and-reliability",
+    consulting: "technical-consulting",
+} as const satisfies Record<ServiceId, string>;
+
+/** Each reason to hire me, named after what it claims. */
+export const REASON_SLUG = {
+    vision: "from-business-to-architecture",
+    costs: "less-manual-work",
+    integration: "connected-data",
+    autonomy: "from-question-to-production",
+    versatility: "marketing-finance-and-it",
+    calm: "calm-when-something-breaks",
+    business: "technology-that-serves-the-business",
+    learning: "learns-fast-and-teaches",
+    detail: "careful-with-data",
+    team: "shares-what-he-knows",
+    initiative: "delivers-more-than-asked",
+} as const satisfies Record<BenefitId, string>;
+
 /** Every certification, in the order the facts list them; a unit test keeps this list in step with the facts. */
 export const CERTIFICATION_IDS = [
     "itSpecialistPython", "daxPowerBi", "powerBiAnalysis", "dataScienceAi", "cybersecurity", "problemSolving", "excelMastery",
@@ -62,7 +97,8 @@ const SLUGS: Record<DetailCollection, Record<string, string>> = {
     education: EDUCATION_SLUG,
     certifications: CERTIFICATION_SLUG,
     organizations: ORGANIZATION_SLUG,
-    services: {},
+    services: SERVICE_SLUG,
+    reasons: REASON_SLUG,
     metrics: {},
 };
 

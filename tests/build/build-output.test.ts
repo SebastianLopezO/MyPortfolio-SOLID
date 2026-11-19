@@ -32,11 +32,19 @@ const DETAILS: Record<string, string[]> = {
         "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s", "testlabdata",
         "technicalsebastians", "vocationalsebastian-s",
     ],
-    services: [],
+    services: [
+        "integrations-and-backend", "zoho-crm", "web-and-landing-pages", "business-intelligence-and-data",
+        "process-automation", "infrastructure-and-deployment", "observability-and-reliability", "technical-consulting",
+    ],
+    reasons: [
+        "from-business-to-architecture", "less-manual-work", "connected-data", "from-question-to-production",
+        "marketing-finance-and-it", "calm-when-something-breaks", "technology-that-serves-the-business", "learns-fast-and-teaches",
+        "careful-with-data", "shares-what-he-knows", "delivers-more-than-asked",
+    ],
     metrics: [],
 };
-// The services and the metrics are a single page each, not a list of pages.
-const SINGLE_PAGES = ["services", "metrics"];
+// The metrics are a single page, not a list of pages.
+const SINGLE_PAGES = ["metrics"];
 const DETAIL_PAGES = ["en", "es"].flatMap((lang) =>
     Object.entries(DETAILS).flatMap(([collection, slugs]) => [`/${lang}/${collection}`, ...slugs.map((slug) => `/${lang}/${collection}/${slug}`)]),
 );
@@ -198,7 +206,7 @@ describe("prerendered pages", () => {
             .map((match) => match[1]).join("\n");
         expect(styles.length).toBeGreaterThan(20 * KB);
         // 17 KB since the redesign: every color answers in two themes (light-dark(), which Tailwind also writes as lab()
-        // and hex for browsers without OKLCH), and the folding header, the project tiles and the lab bench joined.
+        // and hex for browsers without OKLCH), and the folding header, the tiles, the skill grid and the reasons joined.
         expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(17 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so

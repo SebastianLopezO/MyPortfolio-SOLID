@@ -14,9 +14,12 @@ interface SectionProps {
     /**
      * How the heading sits. "wide" puts it above content that needs the whole row (grids, charts, timelines); "split"
      * keeps it in a narrow column at the left that stays in view while the list beside it scrolls, so a section of
-     * rows reads like an index. Below 64rem both stack.
+     * rows reads like an index; "pair" gives the heading and what it carries (intro) the left half and the content the
+     * right half, its top level with the title. Below 64rem they all stack.
      */
-    layout?: "wide" | "split";
+    layout?: "wide" | "split" | "pair";
+    /** What the heading carries under its subtitle in a "pair" layout, such as the ways to reach me. */
+    intro?: JSX.Element;
 }
 
 // Heights in px measured on the Spanish home at 390px and 1440px wide. A section off screen is not laid out
@@ -24,7 +27,8 @@ interface SectionProps {
 const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
     about: [3600, 2000],
     journey: [1300, 1400],
-    services: [1300, 900],
+    services: [1500, 1000],
+    reasons: [2700, 1900],
     experience: [4300, 2750],
     skills: [3300, 1500],
     projects: [2600, 2300],
@@ -41,6 +45,7 @@ export function Section(props: SectionProps) {
     // eslint-disable-next-line solid/reactivity
     useSectionReady(props.id);
     const split = () => props.layout === "split";
+    const pair = () => props.layout === "pair";
     return (
         // A link of the header jumps here: the section takes the focus, so the next Tab continues inside it, and as it
         // is no control it shows no ring.
@@ -55,10 +60,11 @@ export function Section(props: SectionProps) {
             }}
         >
             <div
-                class={cn("container-page", split() && "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2.15fr)] lg:gap-16")}>
+                class={cn("container-page", split() && "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2.15fr)] lg:gap-16",
+                    pair() && "lg:grid lg:grid-cols-2 lg:gap-16")}>
                 {/* The heading rises into place as the section enters (globals.css, section-enter). */}
                 <header
-                    class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "max-w-3xl")}>
+                    class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : pair() ? "lg:mb-0" : "max-w-3xl")}>
                     <p aria-hidden="true" class="mb-4 font-mono text-xs text-fg-subtle">{sectionPath(ui.nav[props.id])}</p>
                     <h2 id={`${props.id}-title`} class="text-heading text-fg">
                         {props.title}
@@ -66,8 +72,11 @@ export function Section(props: SectionProps) {
                     <Show when={props.subtitle}>
                         <p class={cn("mt-4 text-fg-muted", split() ? "text-base lg:text-lg" : "text-lg")}>{props.subtitle}</p>
                     </Show>
+                    {props.intro}
                 </header>
-                <div class="min-w-0">{props.children}</div>
+                {/* Beside a "pair" heading the content starts level with the title, under the eyebrow's line (1rem) and
+                    its margin (1rem). */}
+                <div class={cn("min-w-0", pair() && "lg:pt-8")}>{props.children}</div>
             </div>
         </section>
     );

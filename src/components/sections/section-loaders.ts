@@ -7,6 +7,7 @@ const LOADERS: Record<SectionId, () => Promise<Component>> = {
     about: () => import("./AboutSection").then((module) => module.AboutSection),
     journey: () => import("./JourneySection").then((module) => module.JourneySection),
     services: () => import("./ServicesSection").then((module) => module.ServicesSection),
+    reasons: () => import("./ReasonsSection").then((module) => module.ReasonsSection),
     experience: () => import("./ExperienceSection").then((module) => module.ExperienceSection),
     skills: () => import("./SkillsSection").then((module) => module.SkillsSection),
     projects: () => import("./ProjectsSection").then((module) => module.ProjectsSection),
@@ -18,13 +19,14 @@ const LOADERS: Record<SectionId, () => Promise<Component>> = {
 };
 
 /**
- * The copy each section reads, its own and the ones it borrows (the services name projects and recommendations, the
- * jobs their projects). The journey ships its text with its code (content/journey-copy.ts).
+ * The copy each section reads, its own and the ones it borrows (the reasons quote recommendations, the jobs name their
+ * projects). The journey ships its text with its code (content/journey-copy.ts).
  */
 const COPIES: Record<SectionId, readonly SectionCopyKey[]> = {
     about: ["about"],
     journey: [],
-    services: ["services", "testimonials", "projects"],
+    services: ["services"],
+    reasons: ["services", "testimonials"],
     experience: ["experience", "projects"],
     skills: ["skills"],
     projects: ["projects"],

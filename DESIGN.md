@@ -35,11 +35,12 @@ charts. Pages read like a product designer's case files: a large name, a sentenc
 
 - **Density 3, Gallery Airy.** The first glance carries a name and a few words per item; everything else opens in
   place or lives on its own page.
-- **Variance 5, controlled asymmetry.** The hero splits text and board; the lab bench scatters its objects; lists are
-  strict index rows.
+- **Variance 5, controlled asymmetry.** The hero splits text and board; the reasons to hire me are a slide beside a
+  list; lists are strict index rows.
 - **Motion 6, Fluid CSS.** Illustrations rise onto their tiles as they come up, the page settles at the start of each
-  screen, the bench's objects straighten when picked up and settle when dropped. The browser draws nearly all of it from CSS, nothing moves for more
-  than five seconds on its own, and `prefers-reduced-motion` turns it off.
+  screen, a skill tile prints its tools one after another and the reasons slide in beside their slide. The browser
+  draws nearly all of it from CSS, nothing moves for more than five seconds on its own, and `prefers-reduced-motion`
+  turns it off.
 
 ## 2. Color Palette & Roles
 
@@ -47,7 +48,7 @@ Every token is `light-dark(light, dark)` in OKLCH; the page follows the system a
 (`<html data-theme>`, remembered in `localStorage`). Hex values below are the sRGB conversions, light / dark.
 
 - **Paper / Night** (#FBFCFD / #0D0D0D, `bg`): page background and `theme-color`. Never pure white or pure black.
-- **Mist / Graphite** (#F2F4F5 / #161616, `surface`): panels, the lab bench, raised sections.
+- **Mist / Graphite** (#F2F4F5 / #161616, `surface`): panels, the skill tiles, raised sections.
 - **Fog / Smoke** (#E7EAEC / #202020, `surface-raised`): chips, quiet buttons, the menu's hover.
 - **Hairline** (#DCDEE0 / #2E2E2E, `border`): dividers between index rows. Decoration only.
 - **Control Edge** (#7D8185 / #747474, `border-strong`): borders that must be seen: inputs, outline buttons (3:1+).
@@ -91,7 +92,12 @@ every pair in both themes.
   Each one hints at a project without picturing its screens: a hub with three cables for the integrations, a camera
   beside a database for the CRM snapshots, a planter with a probe for SmartPot. They are static SVG files drawn by
   `scripts/render-illustrations.mjs` from `scripts/illustrations`, with transparent backgrounds so the tile gives them
-  their color; a light may pulse three times, a dial sweeps once, and nothing loops.
+  their color; a light may pulse three times, a dial sweeps once, and nothing loops. The pages beyond the projects
+  have objects of the same family (`scripts/illustrations/pages.mjs`): a job is a badge on its lanyard with a button of
+  what it was about, a program is a book with what it led to on top (a mortarboard, a shield, a laptop), a GitHub
+  organization is a cabinet of drawers with its sticker and a padlock when its code is private, and each service and
+  each reason to hire me is one object that says it (a hub of cables, a stopwatch, a spirit level, one ball thrown in
+  and three coming back). A flat glyph pressed into a face, the way a logo is, tells the objects of one kind apart.
 - **The hero:** the name, the role, a sentence, a summary and two buttons beside the board; nothing that reads as a
   plea (no availability pill), no stack chips (the skills section has the tools) and no role switcher (a role view is
   reached by its address).
@@ -100,15 +106,26 @@ every pair in both themes.
   once. Each device is a link to the project it stands for: with a pointer on the board a dashed outline marks every
   device, and the one under the pointer, or reached with the keyboard, shows a label with the project's name and a
   line about it, opening toward the middle of the board. Escape puts the label away.
-- **The lab bench** (`LabBoard`): every group of tools is an object on a technical grid. From 48rem the objects lie a
-  little turned and can be dragged anywhere, or moved with the arrow keys; picked up, an object straightens and comes
-  closer; a press opens its tools below. On a phone it is a row swiped one object at a time. A "tidy" button puts every
-  object back.
-- **Header:** a frosted bar that stays at the top of the screen the whole way down: the name in ink, so whose page
-  this is never leaves the screen, the sections with the one being read underlined, the language and the theme. Below
-  80rem the sections move to a round ink menu button's floating panel, which marks the section being read with a
-  cobalt dot, and the bar writes that section after the name in mono (`/experiencia`), under it on a phone. A 2px line
-  along the top edge draws the reading progress.
+- **Skill tiles** (`SkillsSection`): every group of tools is a Mist tile with its object on a small layer of color,
+  its name, how many tools it holds and its first six, the role view's own first; a line says how many more, and a
+  disclosure under the grid lists them all. Nothing is dragged or pressed: as a tile comes up it rises, its object
+  lifts onto its layer and its tools print one after another, all drawn by the scroll position.
+- **Services** (`ServicesSection`): no cards and no lists of points on the home. Each service is its object on a
+  rounded layer, its name with an arrow and a few words, and the whole of it leads to the service's page, which tells
+  what it covers, the projects that prove it, the jobs it was done in and the reasons that go with it.
+- **The reasons to hire me** (`ReasonsSection`): a presentation. A slide holds the reason's object on a large tile,
+  its number (`03 de 11`) and the words of the recommendation behind it; beside it, the list of every reason, one
+  bordered card each (object, number, title, sentence), sliding in from the side as it comes up. From 64rem the slide
+  stays in view and turns to the reason whose card crosses the middle of the screen, which takes an ink border; on a
+  phone the slide shows the first reason above the list. Every reason has a page with the whole recommendation, the
+  quoted words marked on the reason's color, where it shows in the work, and the projects, jobs, programs and services
+  it links.
+- **Header:** at the top of a page a quiet frosted bar: the whole name in ink, the sections with the one being read
+  underlined, the language and the theme. Once the reader scrolls it folds into two floating pieces so the page has
+  the screen: the name as a frosted pill at the left, so whose page this is never leaves it, and a capsule at the
+  right with the theme and a round ink menu button. The button's floating panel lists the sections and marks the one
+  being read with a cobalt dot; below 80rem the sections always live there. A 2px line along the top edge draws the
+  reading progress.
 - **Screens:** from 64rem wide and 40rem tall, the hero and each section take at least the whole screen under the
   header, their content in its middle, and the page comes to rest at the start of each one. A long section has a second
   screen where its content turns (the projects' categories after the featured project, the path through school and
@@ -137,22 +154,25 @@ every pair in both themes.
 
 - **The home is the first glance, not the archive.** Each section keeps its claim and its best proof; the rest opens in
   place or lives on its own page. Every job, project, certification and organization has a page, and so do the
-  services and the GitHub metrics.
-- **Two section layouts:** `wide`, the heading above content that needs the whole row (the projects, the bench, the
-  journey); `split`, the heading in a left column that stays in view beside a list. Both stack below 64rem.
+  services, the reasons to hire me and the GitHub metrics.
+- **Three section layouts:** `wide`, the heading above content that needs the whole row (the projects, the skills, the
+  journey); `split`, the heading in a left column that stays in view beside a list; `pair`, the heading and what it
+  carries in the left half and the content in the right half, its top level with the title (the contact: the ways to
+  reach me under the title, the form beside it). All stack below 64rem.
 - CSS Grid for every multi-column layout; nothing scrolls sideways except the sliders and the bench on a phone.
 - `container-page` is 72rem up to a 1440px viewport, then 82% of it up to 96rem. Full-height blocks use `100dvh`.
 
 ## 6. Motion & Interaction
 
 - Durations of 120, 200 and 400ms on `ease-standard`, `ease-emphasized` and `ease-spring` (a settle with a touch of
-  spring for what lands: a tile, a dropped object, the header). Transitions list their properties.
+  spring for what lands: a tile, a lifted object, the header). Transitions list their properties.
 - **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
-  its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map is plotted from left to right; bars grow; figures
-  count up once. Browsers without scroll-driven animations get the page at rest.
+  its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map
+  is plotted from left to right; a skill tile prints its tools one by one; a reason's card slides in from the side of
+  its slide; bars grow; figures count up once. Browsers without scroll-driven animations get the page at rest.
 - **On load:** the illustrations' own lights pulse three times. Under five seconds in all.
-- **Hover:** a tile grows and lifts its illustration; an arrow leans the way it leads; an object on the bench
-  straightens. Only for pointers that hover.
+- **Hover:** a tile grows and lifts its illustration; a service's object lifts; an arrow leans the way it leads. Only
+  for pointers that hover.
 - Following a link cross-fades between pages with the header held in place; a link to a part of the page scrolls
   there smoothly, so the sections on the way play their entrances.
 - `prefers-reduced-motion: reduce` turns every animation and transition off.

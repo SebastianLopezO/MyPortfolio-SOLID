@@ -8,7 +8,8 @@ export const detailPages: DetailPagesCopy = {
             education: "Educación",
             certifications: "Certificación",
             organizations: "Organización en GitHub",
-            services: "Servicios",
+            services: "Servicio",
+            reasons: "Razón para contratarme",
             metrics: "Métricas de GitHub"
         },
         all: {
@@ -17,6 +18,7 @@ export const detailPages: DetailPagesCopy = {
             certifications: "Todas las certificaciones",
             organizations: "Todas las organizaciones",
             services: "Todos los servicios",
+            reasons: "Todas las razones",
             metrics: "Todas las métricas"
         },
         onThisPage: "En esta página",
@@ -50,6 +52,14 @@ export const detailPages: DetailPagesCopy = {
             related: "Empleo o programa",
             repositories: "Repositorios públicos",
             metrics: "Métricas de la organización",
+            scope: "Lo que incluye",
+            provenIn: "Dónde ya lo hice",
+            jobs: "En qué empleos",
+            whyMe: "Por qué conmigo",
+            quote: "En palabras de quien trabajó conmigo",
+            practice: "Cómo se ve en mi trabajo",
+            studies: "En qué estudios",
+            services: "Servicios donde se nota",
         },
         facts: {
             title: "Cargo",
@@ -68,6 +78,9 @@ export const detailPages: DetailPagesCopy = {
             members: "Miembros",
             organization: "Organización en GitHub",
             duration: "Duración",
+            roles: "Para los perfiles",
+            quotedBy: "Lo escribió",
+            relationship: "Relación",
         },
         hours: "{hours} horas",
         curriculumSlider: {previous: "Bloque anterior", next: "Bloque siguiente"},
@@ -110,6 +123,8 @@ export const detailPages: DetailPagesCopy = {
             recommendations: {one: "1 recomendación", other: "{count} recomendaciones"},
             certifications: {one: "1 certificación", other: "{count} certificaciones"},
             repositories: {one: "1 repositorio", other: "{count} repositorios"},
+            jobs: {one: "1 empleo", other: "{count} empleos"},
+            programs: {one: "1 programa", other: "{count} programas"},
         },
         actions: {
             credential: "Ver credencial",
@@ -117,7 +132,9 @@ export const detailPages: DetailPagesCopy = {
             openOrganization: "Abrir en GitHub",
             readPage: "Ver la página",
             previous: "Anterior",
-            next: "Siguiente"
+            next: "Siguiente",
+            talk: "Hablemos de este servicio",
+            seeReasons: "Por qué contratarme",
         },
         workKinds: {project: "Proyecto", experience: "Experiencia"},
         contextIntro: "Cuando la obtuve, trabajaba o estudiaba aquí:",
@@ -130,6 +147,7 @@ export const detailPages: DetailPagesCopy = {
             enlarge: "abrir en tamaño completo",
             seoTail: "Certificado a nombre de Sebastián López Osorno.",
         },
+        reasonSeoTail: "Lo respalda la recomendación de {author}.",
     },
     indexes: {
         experience: {
@@ -166,10 +184,18 @@ export const detailPages: DetailPagesCopy = {
         },
         services: {
             title: "Servicios",
-            subtitle: "Lo que puedo asumir para un equipo o una empresa: integraciones entre sistemas, Zoho CRM, web y landing pages, datos, automatización, infraestructura, observabilidad y consultoría técnica. Cada servicio enlaza los proyectos que lo prueban, y debajo están las razones para contratarme con palabras de quienes trabajaron conmigo.",
+            subtitle: "Lo que puedo asumir para un equipo o una empresa: integraciones entre sistemas, Zoho CRM, web y landing pages, datos, automatización, infraestructura, observabilidad y consultoría técnica. Cada servicio tiene su página, con lo que incluye, los proyectos donde ya lo hice y los empleos donde lo hice.",
             seo: {
                 title: "Servicios de integración, CRM y backend · Sebastián López Osorno",
                 description: "Integraciones y backend, desarrollo en Zoho CRM, web, datos, automatización, infraestructura, observabilidad y consultoría, cada uno con los proyectos que lo prueban.",
+            },
+        },
+        reasons: {
+            title: "¿Por qué contratarme?",
+            subtitle: "Once razones, cada una con lo que un jefe, un compañero o un colega escribió sobre trabajar conmigo, y con los proyectos, los empleos y los estudios donde se ve.",
+            seo: {
+                title: "Por qué contratarme · Sebastián López Osorno",
+                description: "Once razones para contratarme, cada una con la recomendación de un jefe o un compañero y los proyectos, empleos y estudios donde se ve en mi trabajo.",
             },
         },
         metrics: {
@@ -995,6 +1021,16 @@ export const detailPages: DetailPagesCopy = {
                 description: "Los proyectos del bachillerato técnico, de 2021 y 2022: sitios en PHP, macros de Excel, una calculadora para Android y programas en Python.",
             },
         },
+    },
+    services: {
+        integration: {seo: {title: "Integraciones y backend con FastAPI y Spring Boot · Servicios", description: "APIs a medida y conectores que unen Zoho CRM con sistemas académicos y legados por REST, SOAP, SQL Server o FTP, con la plataforma de TIVENOS como prueba."}},
+        crm: {seo: {title: "Desarrollo y automatización en Zoho CRM · Servicios", description: "Módulos, flujos y funciones en Deluge, widgets dentro del registro, Zoho Creator y Analytics, cargas masivas con la Bulk API y formularios conectados al CRM."}},
+        web: {seo: {title: "Desarrollo web y landing pages conectadas al CRM · Servicios", description: "Sitios y aplicaciones en React, Next.js y Vite, landing pages de campaña con UTM y eventos de conversión, SEO completo y rendimiento medido con Lighthouse."}},
+        data: {seo: {title: "Inteligencia de negocios y datos con SQL y Power BI · Servicios", description: "Auditoría y limpieza de bases de datos, snapshots del CRM en PostgreSQL, tableros en Power BI y Zoho Analytics y reportes que se actualizan solos."}},
+        automation: {seo: {title: "Automatización de procesos con n8n, Python y Deluge · Servicios", description: "Flujos en n8n, Zapier y Power Automate, scripts programados, correos masivos con Jinja2 y Amazon SES y documentos generados, con avisos cuando algo falla."}},
+        infra: {seo: {title: "Infraestructura, Docker y despliegue continuo · Servicios", description: "VPS Linux con Nginx y SSL, imágenes Docker, CI/CD con GitHub Actions y despliegues sin reinicio para flotas de sitios, con usuarios de despliegue restringidos."}},
+        observability: {seo: {title: "Observabilidad con Prometheus, Grafana y OpenTelemetry · Servicios", description: "Métricas, logs centralizados, trazas, sondas de disponibilidad y alertas a Telegram para saber qué falla en un servicio antes de que alguien lo reporte."}},
+        consulting: {seo: {title: "Consultoría técnica y soporte de CRM · Servicios", description: "Diagnóstico de procesos, propuesta de arquitectura, documentación y estándares de logs, seguridad y despliegue, y soporte a los usuarios del CRM."}},
     },
     issuers: {
         certiport: {

@@ -14,6 +14,8 @@ import {detailPages as enDetails} from "../src/content/detail-pages/en.ts";
 import {detailPages as esDetails} from "../src/content/detail-pages/es.ts";
 import {journey as enJourney} from "../src/content/en/journey.ts";
 import {journey as esJourney} from "../src/content/es/journey.ts";
+import {services as enServices} from "../src/content/en/services.ts";
+import {services as esServices} from "../src/content/es/services.ts";
 import {ui as enUi} from "../src/content/en/ui.ts";
 import {ui as esUi} from "../src/content/es/ui.ts";
 import {
@@ -21,12 +23,16 @@ import {
     DETAIL_COLLECTIONS,
     EDUCATION_SLUG,
     EXPERIENCE_SLUG,
-    ORGANIZATION_SLUG
+    ORGANIZATION_SLUG,
+    REASON_SLUG,
+    SERVICE_SLUG
 } from "../src/content/shared/detail-links.ts";
 import {certifications} from "../src/content/shared/certifications.ts";
 import {education} from "../src/content/shared/education.ts";
 import {experience} from "../src/content/shared/experience.ts";
 import {organizations} from "../src/content/shared/organizations.ts";
+import {benefitOrder, SERVICE_IDS, serviceRoles} from "../src/content/shared/services.ts";
+import {testimonials} from "../src/content/shared/testimonials.ts";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const template = await readFile(`${root}scripts/og/template.html`, "utf8");
@@ -93,10 +99,10 @@ for (const [lang, {cards, pages}] of Object.entries({
     }
 }
 
-// Every job, program, certification and organization page has an image of its own; the indexes share one per collection.
-for (const [lang, {details, journey, cards, months}] of Object.entries({
-    en: {details: enDetails, journey: enJourney, cards: enCards, months: enUi.months},
-    es: {details: esDetails, journey: esJourney, cards: esCards, months: esUi.months},
+// Every job, program, certification, organization, service and reason page has an image of its own; the indexes share one per collection.
+for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Object.entries({
+    en: {details: enDetails, journey: enJourney, cards: enCards, months: enUi.months, servicesCopy: enServices, siteUi: enUi},
+    es: {details: esDetails, journey: esJourney, cards: esCards, months: esUi.months, servicesCopy: esServices, siteUi: esUi},
 })) {
     const {ui, indexes} = details;
     const issuers = new Set(certifications.map((item) => item.issuerId)).size;
@@ -107,6 +113,7 @@ for (const [lang, {details, journey, cards, months}] of Object.entries({
             certifications: `${certifications.length} certifications · ${issuers} issuers`,
             organizations: `${organizations.length} organizations`,
             services: "Integrations, CRM, data and DevOps",
+            reasons: `${benefitOrder.length} reasons`,
             metrics: "GitHub activity in numbers",
         },
         es: {
@@ -115,6 +122,7 @@ for (const [lang, {details, journey, cards, months}] of Object.entries({
             certifications: `${certifications.length} certificaciones · ${issuers} emisores`,
             organizations: `${organizations.length} organizaciones`,
             services: "Integraciones, CRM, datos y DevOps",
+            reasons: `${benefitOrder.length} razones`,
             metrics: "La actividad en GitHub en cifras",
         },
     }[lang];
@@ -169,6 +177,29 @@ for (const [lang, {details, journey, cards, months}] of Object.entries({
             subheading: NAME,
             tagline: details.organizations[organization.id].tagline,
             location: `${organization.repositories} ${cards.repositories} · ${organization.visibility === "private" ? ui.visibility.private : ui.visibility.public}`,
+        };
+    }
+    for (const id of SERVICE_IDS) {
+        const service = servicesCopy.items[id];
+        variants[`services-${SERVICE_SLUG[id]}-${lang}`] = {
+            bodyClass: "case",
+            eyebrow: ui.eyebrow.services,
+            heading: service.title,
+            subheading: NAME,
+            tagline: service.tagline,
+            location: serviceRoles[id].map((role) => siteUi.roleNames[role]).join(" · "),
+        };
+    }
+    for (const id of benefitOrder) {
+        const benefit = servicesCopy.benefits[id];
+        const author = testimonials.find((item) => item.id === benefit.evidence.testimonial);
+        variants[`reasons-${REASON_SLUG[id]}-${lang}`] = {
+            bodyClass: "case",
+            eyebrow: ui.eyebrow.reasons,
+            heading: benefit.title,
+            subheading: NAME,
+            tagline: benefit.description,
+            location: author.author,
         };
     }
 }
