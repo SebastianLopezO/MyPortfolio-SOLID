@@ -37,8 +37,8 @@ charts. Pages read like a product designer's case files: a large name, a sentenc
   place or lives on its own page.
 - **Variance 5, controlled asymmetry.** The hero splits text and board; the lab bench scatters its objects; lists are
   strict index rows.
-- **Motion 6, Fluid CSS.** Illustrations rise onto their tiles as they come up, the header folds, the bench's objects
-  straighten when picked up and settle when dropped. The browser draws nearly all of it from CSS, nothing moves for more
+- **Motion 6, Fluid CSS.** Illustrations rise onto their tiles as they come up, the page settles at the start of each
+  screen, the bench's objects straighten when picked up and settle when dropped. The browser draws nearly all of it from CSS, nothing moves for more
   than five seconds on its own, and `prefers-reduced-motion` turns it off.
 
 ## 2. Color Palette & Roles
@@ -59,7 +59,7 @@ Every token is `light-dark(light, dark)` in OKLCH; the page follows the system a
   a link darkens to ink.
 - **Cobalt** (#1745C2 / #9DBDFF, `accent`): one small highlight: the dot of the current menu entry, focus rings
   (`ring`), the first chart series.
-- **Status Green** (`success`): availability and the present, as a dot.
+- **Status Green** (`success`): the present, as a dot.
 - **Tiles** (`tile-sky`, `tile-mint`, `tile-peach`, `tile-lilac`, `tile-butter`, `tile-rose`, `tile-sage`,
   `tile-stone`): the layers behind illustrations. Pastel paper in light (L 0.93), the same hue sunk to L 0.27 in dark.
   Ink and muted text keep AAA on every tile in both themes.
@@ -92,8 +92,11 @@ every pair in both themes.
   beside a database for the CRM snapshots, a planter with a probe for SmartPot. They are static SVG files drawn by
   `scripts/render-illustrations.mjs` from `scripts/illustrations`, with transparent backgrounds so the tile gives them
   their color; a light may pulse three times, a dial sweeps once, and nothing loops.
-- **The hero board:** the portrait sits in a socket at the middle of a board, and cables run from it to six devices
-  of the work. It says "I connect systems" before a word is read. The portrait is the largest paint and is drawn at
+- **The hero:** the name, the role, a sentence, a summary and two buttons beside the board; nothing that reads as a
+  plea (no availability pill), no stack chips (the skills section has the tools) and no role switcher (a role view is
+  reached by its address).
+- **The hero board:** the portrait sits whole in a square socket at the middle of a board, as large as the room
+  between the devices allows, and cables run from the socket's sides to six devices of the work. It says "I connect systems" before a word is read. The portrait is the largest paint and is drawn at
   once. Each device is a link to the project it stands for: with a pointer on the board a dashed outline marks every
   device, and the one under the pointer, or reached with the keyboard, shows a label with the project's name and a
   line about it, opening toward the middle of the board. Escape puts the label away.
@@ -101,10 +104,16 @@ every pair in both themes.
   little turned and can be dragged anywhere, or moved with the arrow keys; picked up, an object straightens and comes
   closer; a press opens its tools below. On a phone it is a row swiped one object at a time. A "tidy" button puts every
   object back.
-- **Header:** at the top of a page, a quiet bar: the name in muted ink, the sections, the language and the theme.
-  Once the reader scrolls it folds into a floating capsule at the right with the theme and a round ink menu button; the
-  menu is a floating panel that marks the section being read with a cobalt dot. A 2px line along the top edge draws the
-  reading progress.
+- **Header:** a frosted bar that stays at the top of the screen the whole way down: the name in ink, so whose page
+  this is never leaves the screen, the sections with the one being read underlined, the language and the theme. Below
+  80rem the sections move to a round ink menu button's floating panel, which marks the section being read with a
+  cobalt dot, and the bar writes that section after the name in mono (`/experiencia`), under it on a phone. A 2px line
+  along the top edge draws the reading progress.
+- **Screens:** from 64rem wide and 40rem tall, the hero and each section take at least the whole screen under the
+  header, their content in its middle, and the page comes to rest at the start of each one. A long section has a second
+  screen where its content turns (the projects' categories after the featured project, the path through school and
+  work after the story, each job after the first). A link of the header travels there smoothly and stops exactly at
+  the start.
 - **Buttons:** pills. Primary: ink fill, paper text, 48px in the hero, 44px elsewhere. Secondary: a Control Edge
   outline or a Fog fill. Pressing moves them down 1px. At most one primary button per view.
 - **Chips:** pills in Geist Mono, never below 13px, on Fog; outside the role view's focus they turn into a hairline
@@ -141,11 +150,11 @@ every pair in both themes.
 - **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
   its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map is plotted from left to right; bars grow; figures
   count up once. Browsers without scroll-driven animations get the page at rest.
-- **On load:** the hero's stack and role views settle chip by chip; the availability dot sends out three pulses; the
-  illustrations' own lights pulse three times. Under five seconds in all.
+- **On load:** the illustrations' own lights pulse three times. Under five seconds in all.
 - **Hover:** a tile grows and lifts its illustration; an arrow leans the way it leads; an object on the bench
   straightens. Only for pointers that hover.
-- Following a link cross-fades between pages with the header held in place.
+- Following a link cross-fades between pages with the header held in place; a link to a part of the page scrolls
+  there smoothly, so the sections on the way play their entrances.
 - `prefers-reduced-motion: reduce` turns every animation and transition off.
 
 ## 7. Anti-Patterns (Banned)

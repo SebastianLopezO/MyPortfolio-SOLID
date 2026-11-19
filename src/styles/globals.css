@@ -27,7 +27,7 @@
 
     html {
         background-color: var(--color-bg);
-        scroll-padding-top: calc(var(--header-height) + 1rem);
+        scroll-padding-top: var(--header-height);
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: color-mix(in oklch, var(--color-primary) 20%, transparent);
         touch-action: manipulation;
@@ -113,6 +113,50 @@
 
         @media (width >= 64rem) {
             contain-intrinsic-block-size: auto var(--section-height-lg, 2000px);
+        }
+
+        /* While an in-page link travels, every section is laid out, so the trip measures the real distance
+           (lib/anchors.ts). */
+        :root[data-traveling] & {
+            content-visibility: visible;
+        }
+    }
+
+    /*
+     * Screens. Where the screen is wide and tall enough to hold one (64rem by 40rem), the hero and every section take
+     * at least the whole screen under the header, with their content in its middle, and the page comes to rest at the
+     * start of each one (scroll-snap: proximity settles the page when the reader stops near a start, and lets a long
+     * section scroll freely). A long section marks where its next screen begins with screen-break, which is a resting
+     * point too, a screen's padding under the header. Smaller screens scroll freely, as a page does.
+     */
+    @media (width >= 64rem) and (height >= 40rem) {
+        :root {
+            scroll-snap-type: y proximity;
+        }
+
+        #home {
+            display: grid;
+            align-content: center;
+            min-height: 100svh;
+            scroll-snap-align: start;
+        }
+
+        .section {
+            display: grid;
+            align-content: center;
+            min-height: calc(100svh - var(--header-height));
+            padding-block: var(--screen-py);
+            scroll-snap-align: start;
+        }
+
+        .screen-break {
+            scroll-snap-align: start;
+            scroll-margin-top: var(--screen-py);
+        }
+
+        /* Each job after the first is a resting point of its own, its rule right under the header. */
+        #experience-jobs > li + li {
+            scroll-snap-align: start;
         }
     }
 

@@ -113,6 +113,8 @@
     --duration-slow: 400ms;
     --section-py: clamp(4.5rem, 3rem + 5vw, 8.5rem);
     --header-height: 4.5rem;
+    /* A section's padding when it is laid out as a screen (globals.css, Screens): it follows the screen's height. */
+    --screen-py: clamp(2.5rem, 7svh, 5rem);
 }
 
 /* Chart colors are read from inline styles, so they are always emitted instead of only when a utility uses them. */

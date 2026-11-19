@@ -150,20 +150,30 @@ text; each bar has a labeled legend or row next to it.
   Prose keeps a reading measure inside it (`max-w-2xl` to `max-w-4xl`); case study pages, which read like
   articles, stop at 80rem.
 - `section`: vertical rhythm of `clamp(4.5rem, 3rem + 5vw, 8.5rem)`. A home section off screen skips style and layout
-  (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`), and
-  `lib/anchors.ts` puts the target of an in-page jump back under the header while the page settles.
+  (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`).
+- Screens: from 64rem wide and 40rem tall, the hero takes the whole screen and each section at least the screen under
+  the header (`min-height`, its content centered with `align-content`), with a padding that follows the screen's
+  height (`--screen-py`, `clamp(2.5rem, 7svh, 5rem)`). The page rests at the start of each one
+  (`scroll-snap-type: y proximity` on the root, `scroll-snap-align: start`): it settles when the reader stops near a
+  start and lets a section taller than the screen scroll freely. A long section marks its next screen with
+  `screen-break` (the projects' categories, the about section's path through school and work), and each job after the
+  first is a resting point too. Smaller screens scroll as a page does.
+- In-page links (`lib/anchors.ts`): a click on a link to a part of the page travels there itself instead of letting the
+  browser jump. It lays every section out for a moment (`data-traveling` turns `content-visibility` off), so it measures
+  the real distance rather than the estimated heights, scrolls there smoothly (at once under reduced motion), so the
+  sections on the way play their entrances, and on `scrollend` puts the target exactly under the header and holds it
+  there for a few frames. The address names the target and the target takes the focus. Loading a page with a fragment
+  holds its target the same way once the page has settled; any input from the reader ends the corrections.
 - Radii: `sm` 0.5rem, `md` 0.75rem (inputs), `lg` 1.25rem (tiles on phones, cards), `xl` 1.75rem (tiles, panels), `2xl`
   2.5rem (the bench, large panels). Buttons and chips are pills.
-- Shadows: `shadow-card` for elevation (the availability pill, the folded header, the bench's labels), `shadow-glow` for
+- Shadows: `shadow-card` for elevation (the tiles' labels, the board's device labels, the bench's labels), `shadow-glow` for
   what floats highest (the menu panel). Both are soft and neutral, stronger in the dark theme.
 - Motion: `--duration-fast` 120ms, `--duration-base` 200ms, `--duration-slow` 400ms, `ease-standard`,
   `ease-emphasized` and `ease-spring` (a settle with a touch of spring for what lands). Nothing that can be the largest paint animates its opacity (on the home that is the hero's
   portrait), so the LCP is never delayed, nothing moves on its own for more than five seconds, and
   `prefers-reduced-motion: reduce` turns every animation and transition off. The new rules below sit inside
   `@media (prefers-reduced-motion: no-preference)`, so they are never declared for that reader at all.
-- Opening the page: the core stack and the role views of the hero settle in one after another (`hero-cascade`, each
-  part's place given as `--i`, 45ms apart), and the availability dot sends out three pulses (`status-dot`, 4.8s in
-  all). As the hero leaves the screen, its portrait drifts up 2.5rem and dims (`hero-portrait`, the exit range of its
+- The hero: as it leaves the screen, its portrait drifts up 2.5rem and dims (`hero-portrait`, the exit range of its
   view timeline).
 - Screens: a screen the reader reaches before it has arrived is marked `data-loading` by `CaseImage` and pulses in
   `surface-raised` (four beats at most); on arrival it is marked `data-loaded` and fades in. One that arrives before it
@@ -189,13 +199,13 @@ text; each bar has a labeled legend or row next to it.
 - Figures: the figures under the hero, of the GitHub metrics and of the recommendations (`data-count`) count up from
   zero the first time the reader reaches them (`lib/count-up.ts`). One already on screen when the page settles keeps
   still, and the text ends exactly as it was prerendered.
-- Header: a quiet bar at the top of the page that folds, once the reader scrolls 48px, into a floating capsule at the
-  right (`data-folded`): the backdrop, the name and the sections fade out and the header lets the page under its empty
-  part take the pointer. From 80rem the sections sit in the bar and the round menu button only joins the capsule once
-  it folds; below, the sections always live in the menu's floating panel, which closes with Escape or a press outside.
-  A 2px line along the top edge draws the reading progress (`reading-progress`, a scroll timeline, no script). The link
-  of the section that crosses the middle of the screen is underlined in the bar and dotted in cobalt in the panel, and
-  carries `aria-current`; none is marked while the hero is there.
+- Header: a frosted bar fixed at the top of the screen the whole way down, so the name never leaves it. From 80rem the
+  sections sit in the bar; below, they live in the round menu button's floating panel, which closes with Escape or a
+  press outside. A 2px line along the top edge draws the reading progress (`reading-progress`, a scroll timeline, no
+  script). The section that crosses the middle of the screen is followed, every one of them: its link is underlined in
+  the bar and dotted in cobalt in the panel, and carries `aria-current`; below 80rem, and from 80rem for a section the
+  bar has no link for, its path is written after the name in mono (`/experiencia`, `aria-hidden`, the links say it),
+  under the name on a phone. Nothing is marked while the hero is there.
 - Between pages: following a link fades from one page to the next where the browser has cross-document view
   transitions, and the header keeps its place (`view-transition-name: site-header`).
 - What a control brings in: a tab panel, the list of milestones, an organization's metrics card and the phone menu

@@ -136,7 +136,8 @@ export function AboutSection() {
                 </div>
             </div>
 
-            <div class="mt-16">
+            {/* The path through school and work is the section's second screen (globals.css, screen-break). */}
+            <div class="screen-break mt-16">
                 <h3 class="flex items-center gap-2 text-title text-fg">
                     <GraduationCap class="size-5 text-primary"/>
                     {about.educationTitle}

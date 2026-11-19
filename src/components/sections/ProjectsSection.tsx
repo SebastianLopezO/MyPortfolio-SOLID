@@ -103,8 +103,10 @@ export function ProjectsSection() {
                 )}
             </Show>
 
-            <div class="mt-14 md:mt-20">
-                {/* The categories filter the tiles below; each is a tab, moved with the arrow keys. */}
+            {/* The featured project fills the first screen; the categories and their tiles start the next one
+                (globals.css, screen-break). The categories filter the tiles below; each is a tab, moved with the arrow
+                keys. */}
+            <div class="screen-break mt-14 md:mt-20">
                 <div
                     role="tablist"
                     aria-label={copy.categoriesLabel}
