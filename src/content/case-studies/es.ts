@@ -42,13 +42,10 @@ export const ui: CaseStudiesUi = {
     more: "Abrir",
     recreation: "Recreación con datos ficticios, porque el sistema real es privado.",
     enlarge: "abrir la imagen en tamaño completo",
-    decisionTabs: {
+    decisionLabels: {
         problem: "Problema",
         solution: "Solución",
         tradeoff: "El costo",
-        switchAll: "Cambiar todas las decisiones a la vez",
-        allProblems: "Ver los problemas",
-        allSolutions: "Ver las soluciones",
     },
 };
 

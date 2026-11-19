@@ -14,8 +14,8 @@ see [Migration from React](#migration-from-react)).
 - One general profile plus five role views that reorder and emphasize the same content.
 - Thirty-two project pages: five full case studies (integration platform, SmartPot, GoPoli, MarTech, email
   signatures) and twenty-seven lighter pages for the other work, product and education projects, each with its
-  achievements, architecture, figures and repositories, its decisions told as a problem and a solution in small tabs,
-  and links to the job, program, organization and certifications behind it; a projects index by category and a
+  achievements, architecture, figures and repositories, its decisions shown whole as a flow from the problem to the
+  solution and its cost, and links to the job, program, organization and certifications behind it; a projects index by category and a
   filterable archive of public repositories.
 - A page for every job, program, certification and GitHub organization (4, 5, 29 and 10, each collection with its
   index): titles and role changes, a timeline built from the facts that filters by kind and groups by year, projects,

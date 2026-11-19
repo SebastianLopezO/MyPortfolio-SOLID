@@ -112,6 +112,12 @@ every pair in both themes.
 - **Project pages:** the crumbs, the title at display size, then the tagline and summary beside a table of facts (role,
   place, period, team, status) with mono labels, then the illustration on its tile across the page (21:9 on a desktop),
   then screens, figures and sections.
+- **Decisions** (`Decisions`): every decision of a project shown whole, never behind a tab. A row is a number in mono
+  and a title, then a short flow: the problem on a Mist panel, a round joint with an arrow laid over the edges of both,
+  and the solution on the project's own tile color, wider (2:3) since it says more, with its cost below a dashed line
+  like the stub of a receipt. Side by side from 48rem, stacked on a phone with the arrow pointing down. As a row comes
+  up the problem rises, the joint grows, the solution follows from the problem's side and the cost prints from left to
+  right; under a pointer the joint fills with ink.
 - **Disclosures:** a native `details` whose summary says what it opens ("Show more (9)"), with a chevron that turns;
   its text stays in the prerendered page.
 - **Inputs:** label above, paper fill, Control Edge border, 0.75rem corners, cobalt ring on focus.
@@ -131,7 +137,7 @@ every pair in both themes.
 - Durations of 120, 200 and 400ms on `ease-standard`, `ease-emphasized` and `ease-spring` (a settle with a touch of
   spring for what lands: a tile, a dropped object, the header). Transitions list their properties.
 - **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
-  its layer; screens paint in from their top edge; the journey map is plotted from left to right; bars grow; figures
+  its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map is plotted from left to right; bars grow; figures
   count up once. Browsers without scroll-driven animations get the page at rest.
 - **On load:** the hero's stack and role views settle chip by chip; the availability dot sends out three pulses; the
   illustrations' own lights pulse three times. Under five seconds in all.

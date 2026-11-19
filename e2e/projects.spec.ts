@@ -105,41 +105,30 @@ test("links a project to its job, its organization, the certifications it uses a
     expect(consoleErrors).toEqual([]);
 });
 
-test("shows each decision's problem first and its solution on demand", async ({page, consoleErrors}) => {
+test("shows every decision whole: its problem, its solution and its cost", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/en/projects/portfolio");
     const section = page.locator('section[aria-labelledby="project-decisions"]');
-    const switchAll = section.getByRole("group", {name: "Switch every decision at once"});
-    await switchAll.and(page.locator("[data-interactive]")).waitFor({state: "attached"});
-    const first = section.locator("ol > li").first();
-    await expect(first.getByRole("tabpanel")).toHaveText("An app built in the browser arrives empty until its JavaScript runs.");
-    await first.getByRole("tab", {name: "Solution"}).click();
-    await expect(first.getByRole("tab", {name: "Solution"})).toHaveAttribute("aria-selected", "true");
-    await expect(first.getByRole("tabpanel")).toContainText("The cost: every content change needs a new build and deployment.");
-    // Either arrow key moves to the other tab.
-    await first.getByRole("tab", {name: "Solution"}).press("ArrowLeft");
-    await expect(first.getByRole("tab", {name: "Problem"})).toBeFocused();
-    await expect(first.getByRole("tab", {name: "Problem"})).toHaveAttribute("aria-selected", "true");
-    await switchAll.getByRole("button", {name: "Show the solutions"}).click();
-    await expect(section.getByRole("tab", {name: "Solution", selected: true})).toHaveCount(3);
-    await expect(switchAll.getByRole("button", {name: "Show the solutions"})).toHaveAttribute("aria-pressed", "true");
+    const decisions = section.locator("ol > li");
+    await expect(decisions).toHaveCount(3);
+    const first = decisions.first();
+    await expect(first.getByRole("heading", {level: 3, name: "Prerendering instead of a server"})).toBeVisible();
+    await expect(first.getByText("An app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
+    await expect(first.getByText(/^Astro generates every page at build time/)).toBeVisible();
+    await expect(first.getByText("The cost: every content change needs a new build and deployment.")).toBeVisible();
+    // Nothing to switch: every side of every decision is on the page at once.
+    await expect(section.getByRole("tab")).toHaveCount(0);
+    await expect(section.getByText(/^It answers by searching the site's own content/)).toBeVisible();
     expect(consoleErrors).toEqual([]);
 });
 
-test("starts the next project's decision tabs fresh after moving to it on the client", async ({
-                                                                                                  page,
-                                                                                                  consoleErrors
-                                                                                              }) => {
+test("lays each decision out side by side on wide screens and stacked on phones", async ({page, isMobile}) => {
     await gotoHydrated(page, "/en/projects/peppercrm");
-    await page.getByRole("tab", {name: "Solution"}).first().click();
-    await page.getByRole("link", {name: /Next project/}).click();
-    await expect(page).toHaveURL(/\/en\/projects\/portfolio$/);
-    const cards = page.locator('section[aria-labelledby="project-decisions"] ol > li');
-    await expect(cards).toHaveCount(3);
-    for (const card of await cards.all()) {
-        await expect(card.getByRole("tab", {name: "Problem"})).toHaveAttribute("aria-selected", "true");
-        await expect(card.getByRole("tabpanel")).toHaveCount(1);
-    }
-    expect(consoleErrors).toEqual([]);
+    const first = page.locator('section[aria-labelledby="project-decisions"] ol > li').first();
+    const problem = await first.getByText(/^A CRM brings together leads/).boundingBox();
+    const solution = await first.getByText(/^Each part of the business is a module/).boundingBox();
+    expect(problem && solution).toBeTruthy();
+    if (isMobile) expect(solution!.y).toBeGreaterThan(problem!.y + problem!.height);
+    else expect(solution!.x).toBeGreaterThan(problem!.x + problem!.width);
 });
 
 test("marks the section being read and folds the page index into a menu on phones", async ({page, isMobile}) => {
@@ -166,11 +155,12 @@ test.describe("without JavaScript", () => {
 
     test("shows both sides of every decision under their labels", async ({page}) => {
         await page.goto("/en/projects/portfolio");
-        const section = page.locator('section[aria-labelledby="project-decisions"]');
-        await expect(section.getByText("An app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
-        await expect(section.getByText(/^Astro generates every page at build time/)).toBeVisible();
-        await expect(section.locator("[data-decision-tabs]").first()).toBeHidden();
-        expect(await section.locator("[data-decision-panel]").first().evaluate((panel) => getComputedStyle(panel, "::before").content)).toBe('"Problem"');
+        const first = page.locator('section[aria-labelledby="project-decisions"] ol > li').first();
+        await expect(first.getByText("Problem", {exact: true})).toBeVisible();
+        await expect(first.getByText("An app built in the browser arrives empty until its JavaScript runs.")).toBeVisible();
+        await expect(first.getByText("Solution", {exact: true})).toBeVisible();
+        await expect(first.getByText(/^Astro generates every page at build time/)).toBeVisible();
+        await expect(first.getByText(/^The cost:/)).toBeVisible();
     });
 });
 

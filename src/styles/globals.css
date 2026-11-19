@@ -484,6 +484,39 @@
                 animation-range: entry 4rem entry 100%;
             }
 
+            /* A decision reads as a flow while it comes up (case-study/Decisions.tsx): the problem rises, the joint grows,
+               the solution follows out of it (from the side of the problem from 48rem) and its cost prints from left to
+               right. Side by side the parts enter together, so each one comes to rest a little later than the one
+               before it. */
+            .decision-problem,
+            .decision-solution {
+                animation: section-enter auto linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 7rem;
+            }
+
+            .decision-solution {
+                animation-range: entry 2rem entry 11rem;
+            }
+
+            @media (width >= 48rem) {
+                .decision-solution {
+                    animation-name: decision-follow;
+                }
+            }
+
+            .decision-joint {
+                animation: decision-joint auto var(--ease-emphasized) both;
+                animation-timeline: view();
+                animation-range: entry 1rem entry 9rem;
+            }
+
+            .decision-cost {
+                animation: decision-cost auto linear both;
+                animation-timeline: view();
+                animation-range: entry 2rem entry 8rem;
+            }
+
             /* The terminal prints the ASCII art one line at a time as it comes into view (--ascii-rows lines), and has
                printed it all once the art has fully entered. */
             .ascii-art {
@@ -755,6 +788,26 @@
     from {
         opacity: 0;
         translate: 0 1.5rem;
+    }
+}
+
+@keyframes decision-follow {
+    from {
+        opacity: 0;
+        translate: -2rem 0;
+    }
+}
+
+@keyframes decision-joint {
+    from {
+        opacity: 0;
+        scale: 0.4;
+    }
+}
+
+@keyframes decision-cost {
+    from {
+        clip-path: inset(0 100% 0 0);
     }
 }
 

@@ -66,24 +66,6 @@ const SPECULATION_RULES = JSON.stringify({
     <script is:inline set:html={THEME_SCRIPT}></script>
     {firstScreen && <link rel="expect" href={`#${firstScreen}`} blocking="render">}
     <script is:inline type="speculationrules" set:html={SPECULATION_RULES}></script>
-    <!-- Without JavaScript the decision tabs cannot switch: both sides of every decision show, each under its label. -->
-    <noscript>
-        <style is:inline>[data-decision-panel].hidden {
-            display: block !important
-        }
-
-        [data-decision-tabs] {
-            display: none !important
-        }
-
-        [data-decision-panel]::before {
-            content: attr(data-label);
-            display: block;
-            margin-bottom: 0.25rem;
-            font-weight: 600;
-            color: var(--color-fg)
-        }</style>
-    </noscript>
     <Fragment set:html={head}/>
 </head>
 <body>

@@ -53,14 +53,11 @@ export interface DecisionCopy {
     tradeoff?: string;
 }
 
-/** The two tabs of a decision, the label of its cost and the buttons that turn every decision at once. */
+/** The labels of the two sides of a decision and of its cost. */
 export interface DecisionLabels {
     problem: string;
     solution: string;
     tradeoff: string;
-    switchAll: string;
-    allProblems: string;
-    allSolutions: string;
 }
 
 export interface CaseStudyCopy {
@@ -118,5 +115,5 @@ export interface CaseStudiesUi {
     recreation: string;
     /** Hidden text of the link that opens a screen at full size. */
     enlarge: string;
-    decisionTabs: DecisionLabels;
+    decisionLabels: DecisionLabels;
 }

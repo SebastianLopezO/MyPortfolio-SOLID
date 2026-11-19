@@ -414,7 +414,7 @@ function CaseStudy(props: { slug: ProjectSlug }) {
 
                     <div class="mt-12 max-w-4xl space-y-12">
                         <TextSection id="case-decisions" title={ui.sections.decisions}>
-                            <Decisions items={copy.decisions} labels={ui.decisionTabs}/>
+                            <Decisions items={copy.decisions} labels={ui.decisionLabels} tile={PROJECT_ART[id].tile}/>
                         </TextSection>
                         <TextSection id="case-results" title={ui.sections.results}>
                             <Bullets items={copy.results}/>
@@ -536,7 +536,8 @@ function ProjectPage(props: { slug: ProjectSlug }) {
                     <div class="mt-12 max-w-4xl space-y-12">
                         <Show when={page.decisions.length > 0}>
                             <TextSection id="project-decisions" title={pages.ui.decisions}>
-                                <Decisions items={page.decisions} labels={ui.decisionTabs}/>
+                                <Decisions items={page.decisions} labels={ui.decisionLabels}
+                                           tile={PROJECT_ART[id].tile}/>
                             </TextSection>
                         </Show>
                         <Show when={repositories.length > 0 && facts.repositories}>
@@ -651,7 +652,7 @@ function ProjectsIndex() {
     );
 }
 
-// Keyed by slug: moving to the next project on the client starts its tabs, filters and picks fresh instead of keeping
+// Keyed by slug: moving to the next project on the client starts its filters and picks fresh instead of keeping
 // the ones of the page before, whose lists may have a different length.
 export function ProjectBody(props: { slug: ProjectSlug | null }): JSX.Element {
     return (
