@@ -46,6 +46,35 @@ export const hero: Content["hero"] = {
             summary: "React, TypeScript and Next.js on top of Spring Boot and FastAPI APIs, in the SmartPot IoT platform, the GoPoli ride-sharing PWA for students at my university, Zoho CRM widgets and the admissions forms applicants fill in across several countries.",
         },
     },
+    board: {
+        label: "Projects on the board",
+        devices: {
+            crmWidgets: {
+                name: "Zoho CRM Widgets",
+                note: "Five widgets to build quotes, enroll and book appointments without leaving the CRM.",
+            },
+            observability: {
+                name: "Observability Platform",
+                note: "Metrics, logs, traces and alerts for the integration services, in one place.",
+            },
+            martech: {
+                name: "University Admissions Funnel",
+                note: "90+ landing pages that send every lead to Zoho CRM with the campaign that brought it.",
+            },
+            zohoToolkit: {
+                name: "Zoho Bulk Operations Toolkit",
+                note: "Python scripts that load, link, tag and sync CRM records in bulk.",
+            },
+            crmSnapshots: {
+                name: "CRM Snapshots",
+                note: "Copies Zoho CRM modules into PostgreSQL to analyze them with SQL.",
+            },
+            smartpot: {
+                name: "SmartPot",
+                note: "IoT platform that monitors and automates hydroponic crops, from sensor to app.",
+            },
+        },
+    },
 };
 
 export const highlights: Content["highlights"] = {

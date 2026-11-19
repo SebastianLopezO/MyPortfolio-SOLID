@@ -1,5 +1,6 @@
 import type {ProfileKey, RoleId} from "@/content/roles";
 import type {CommitAreaId} from "@/content/shared/github";
+import type {HeroDeviceId} from "@/content/shared/project-art";
 import type {IssuerId} from "@/types/detail";
 import type {MilestoneId} from "@/types/journey";
 import type {ProjectCardCopy, ProjectCategory, ProjectId} from "@/types/project";
@@ -337,6 +338,9 @@ export interface Content {
         location: string;
         stackLabel: string;
         byProfile: Record<ProfileKey, ProfileCopy>;
+        /** The devices on the board around the portrait: what the list of them is, and the project each one stands for,
+         * by name and one line about it. Each device links to its project's page. */
+        board: { label: string; devices: Record<HeroDeviceId, { name: string; note: string }> };
     };
     highlights: { label: string; items: Record<HighlightId, string> };
     about: {

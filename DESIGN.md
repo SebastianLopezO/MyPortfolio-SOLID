@@ -94,7 +94,9 @@ every pair in both themes.
   their color; a light may pulse three times, a dial sweeps once, and nothing loops.
 - **The hero board:** the portrait sits in a socket at the middle of a board, and cables run from it to six devices
   of the work. It says "I connect systems" before a word is read. The portrait is the largest paint and is drawn at
-  once.
+  once. Each device is a link to the project it stands for: with a pointer on the board a dashed outline marks every
+  device, and the one under the pointer, or reached with the keyboard, shows a label with the project's name and a
+  line about it, opening toward the middle of the board. Escape puts the label away.
 - **The lab bench** (`LabBoard`): every group of tools is an object on a technical grid. From 48rem the objects lie a
   little turned and can be dragged anywhere, or moved with the arrow keys; picked up, an object straightens and comes
   closer; a press opens its tools below. On a phone it is a row swiped one object at a time. A "tidy" button puts every

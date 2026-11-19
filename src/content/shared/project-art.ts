@@ -43,6 +43,18 @@ export const PROJECT_ART: Record<ProjectId, { file: string; tile: Tile }> = {
 
 export const HERO_ART = {file: "/illustrations/hero.svg", width: 800, height: 800} as const;
 
+/** The devices on the hero's board: the project each one stands for and the box it fills, in percent of the board. */
+export const HERO_SPOTS = [
+    {id: "crmWidgets", left: 5.13, top: 4.25, width: 17.5, height: 19.75},
+    {id: "observability", left: 76.88, top: 7.25, width: 18.75, height: 16},
+    {id: "martech", left: 1.88, top: 40.75, width: 15.88, height: 16.63},
+    {id: "zohoToolkit", left: 81.63, top: 40.88, width: 16.75, height: 15},
+    {id: "crmSnapshots", left: 5, top: 75.13, width: 20.63, height: 14.37},
+    {id: "smartpot", left: 76.38, top: 72.88, width: 20.88, height: 20},
+] as const satisfies readonly { id: ProjectId; left: number; top: number; width: number; height: number }[];
+
+export type HeroDeviceId = (typeof HERO_SPOTS)[number]["id"];
+
 /** The object that stands for each group of tools on the lab board. */
 export const LAB_ART: Record<SkillGroupId, string> = {
     languages: "/illustrations/projects/vocational.svg",

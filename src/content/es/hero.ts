@@ -46,6 +46,35 @@ export const hero: Content["hero"] = {
             summary: "React, TypeScript y Next.js sobre APIs en Spring Boot y FastAPI, en la plataforma IoT SmartPot, la PWA de viajes compartidos GoPoli para estudiantes de mi universidad, widgets de Zoho CRM y los formularios de admisión que llenan aspirantes de varios países.",
         },
     },
+    board: {
+        label: "Proyectos del tablero",
+        devices: {
+            crmWidgets: {
+                name: "Widgets de Zoho CRM",
+                note: "Cinco widgets para cotizar, matricular y agendar citas sin salir del CRM.",
+            },
+            observability: {
+                name: "Plataforma de observabilidad",
+                note: "Métricas, logs, trazas y alertas de los servicios de integración, en un mismo lugar.",
+            },
+            martech: {
+                name: "Embudo de admisiones universitarias",
+                note: "Más de 90 landing pages que envían cada lead a Zoho CRM con la campaña que lo trajo.",
+            },
+            zohoToolkit: {
+                name: "Herramientas de operación masiva en Zoho",
+                note: "Scripts en Python que cargan, vinculan, etiquetan y sincronizan registros del CRM en bloque.",
+            },
+            crmSnapshots: {
+                name: "Snapshots del CRM",
+                note: "Copia los módulos de Zoho CRM a PostgreSQL para analizarlos con SQL.",
+            },
+            smartpot: {
+                name: "SmartPot",
+                note: "Plataforma IoT que monitorea y automatiza cultivos hidropónicos, del sensor a la app.",
+            },
+        },
+    },
 };
 
 export const highlights: Content["highlights"] = {

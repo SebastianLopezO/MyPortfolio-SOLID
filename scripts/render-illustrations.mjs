@@ -42,6 +42,13 @@ ${Object.keys(SCENES).map((id) => `    ${id}: {file: "/illustrations/${files[id]
 
 export const HERO_ART = {file: "/illustrations/hero.svg", width: ${HERO.width}, height: ${HERO.height}} as const;
 
+/** The devices on the hero's board: the project each one stands for and the box it fills, in percent of the board. */
+export const HERO_SPOTS = [
+${HERO.spots.map(({id, left, top, width, height}) => `    {id: "${id}", left: ${left}, top: ${top}, width: ${width}, height: ${height}},`).join("\n")}
+] as const satisfies readonly { id: ProjectId; left: number; top: number; width: number; height: number }[];
+
+export type HeroDeviceId = (typeof HERO_SPOTS)[number]["id"];
+
 /** The object that stands for each group of tools on the lab board. */
 export const LAB_ART: Record<SkillGroupId, string> = {
 ${Object.entries(LAB).map(([id, file]) => `    ${id}: "/illustrations/${file}.svg",`).join("\n")}

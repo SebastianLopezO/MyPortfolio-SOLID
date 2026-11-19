@@ -23,6 +23,7 @@ import {CERTIFICATION_IDS} from "@/content/shared/detail-links";
 import {education} from "@/content/shared/education";
 import {organizationActivity} from "@/content/shared/organization-activity";
 import {organizations} from "@/content/shared/organizations";
+import {HERO_SPOTS} from "@/content/shared/project-art";
 
 const projectPages = {en: enPages, es: esPages};
 const detailPages = {en: enDetails, es: esDetails};
@@ -119,6 +120,15 @@ describe("bilingual content", () => {
         expect(Object.keys(en.experience.items).sort()).toEqual(experience.map((item) => item.id).sort());
         expect(Object.keys(en.projects.items).sort()).toEqual(projects.map((item) => item.id).sort());
         expect(Object.keys(en.certifications.items).sort()).toEqual(certifications.map((item) => item.id).sort());
+    });
+
+    it("names each device on the hero's board after the project it links to", () => {
+        for (const content of [en, es]) {
+            expect(Object.keys(content.hero.board.devices).sort()).toEqual(HERO_SPOTS.map((spot) => spot.id).sort());
+            for (const spot of HERO_SPOTS) {
+                expect(content.hero.board.devices[spot.id].name, `${content.lang} ${spot.id}`).toBe(content.projects.items[spot.id].name);
+            }
+        }
     });
 
     it("links every certification to a page where it can be verified", () => {

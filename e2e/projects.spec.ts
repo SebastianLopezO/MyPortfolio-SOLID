@@ -36,6 +36,31 @@ test("opens a case study from the home page and keeps the locked role view on th
     expect(consoleErrors).toEqual([]);
 });
 
+test("names the project behind each device of the hero's board and opens its page", async ({
+                                                                                               page,
+                                                                                               isMobile,
+                                                                                               consoleErrors
+                                                                                           }) => {
+    await gotoHydrated(page, "/en");
+    const board = page.getByRole("list", {name: "Projects on the board"});
+    await expect(board.getByRole("link")).toHaveCount(6);
+    const device = board.getByRole("link", {name: "Observability Platform"});
+    await expect(device).toHaveAccessibleDescription("Metrics, logs, traces and alerts for the integration services, in one place.");
+    const label = device.locator(".board-tip");
+    await expect(label).toBeHidden();
+    // A pointer that hovers brings the label up, the keyboard does it on any device, and Escape puts it away.
+    if (isMobile) await device.focus();
+    else await device.hover();
+    await expect(label).toBeVisible();
+    await expect(label).toContainText("Observability Platform");
+    await page.keyboard.press("Escape");
+    await expect(label).toBeHidden();
+    await device.click();
+    await expect(page).toHaveURL(/\/en\/projects\/observability/);
+    await expect(page.getByRole("heading", {level: 1})).toBeVisible();
+    expect(consoleErrors).toEqual([]);
+});
+
 test("links the featured project to its case study, its live demo and its code", async ({page}) => {
     await gotoHydrated(page, "/en");
     const featured = page.locator("#projects [data-featured]");

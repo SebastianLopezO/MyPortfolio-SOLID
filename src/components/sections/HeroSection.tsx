@@ -1,13 +1,16 @@
-import {For, onCleanup, onMount} from "solid-js";
+import {createSignal, For, onCleanup, onMount} from "solid-js";
 import {ArrowRight, Download} from "@/components/ui/icons";
 import {forProfile, roleConfig} from "@/content/roles";
-import {HERO_ART} from "@/content/shared/project-art";
+import {HERO_ART, HERO_SPOTS} from "@/content/shared/project-art";
+import {PROJECT_SLUG} from "@/content/shared/project-links";
 import {profile} from "@/content/shared/profile";
 import {resumeVersions} from "@/content/shared/resume";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {RoleSwitcher} from "@/components/layout/RoleSwitcher";
 import {withBase} from "@/lib/base";
+import {buildProjectPath} from "@/lib/paths";
+import {Link} from "@/routes/Router";
 import profile320Avif from "@/assets/images/profile-320.avif?url";
 import profile480Avif from "@/assets/images/profile-480.avif?url";
 import profile640Avif from "@/assets/images/profile-640.avif?url";
@@ -20,11 +23,22 @@ const PHOTO_SIZES = "(min-width: 1024px) 12rem, 34vw";
 
 export function HeroSection() {
     const {lang, content} = useLanguage();
-    const {role} = useRole();
+    const {role, locked} = useRole();
     const {hero, ui} = content;
     const copy = () => hero.byProfile[role() ?? "general"];
     const cv = withBase(resumeVersions[0].files[lang]);
     let actions: HTMLDivElement | undefined;
+    // Escape puts away a device's label without moving the pointer or the focus (WCAG 1.4.13); the next device the
+    // pointer or the focus reaches shows its own again.
+    const [quiet, setQuiet] = createSignal(false);
+
+    onMount(() => {
+        const dismiss = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setQuiet(true);
+        };
+        document.addEventListener("keydown", dismiss);
+        onCleanup(() => document.removeEventListener("keydown", dismiss));
+    });
 
     // The floating buttons take the bottom 9.5rem of a phone screen; while the hero's buttons sit there, the page flags
     // it and the floating buttons step aside (globals.css), so they never cover "Download CV" or "Contact me".
@@ -114,7 +128,7 @@ export function HeroSection() {
                 <div class="grid gap-10">
                     {/* The board: the portrait sits in the socket at its middle and cables run from it to the devices of
                         the work (scripts/illustrations/hero.mjs). The portrait is the largest paint, so it is drawn at
-                        once; the board around it is decoration. */}
+                        once; the drawing around it is decoration, and the links over its devices carry its meaning. */}
                     <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-[34rem]">
                         <img
                             src={withBase(HERO_ART.file)}
@@ -141,6 +155,53 @@ export function HeroSection() {
                                 class="hero-socket absolute object-cover"
                             />
                         </picture>
+                        {/* Each device links to the project it stands for. A pointer resting on it, or the keyboard
+                            reaching it, brings up the project's name and a line about it (globals.css, board-spot);
+                            the box each link covers comes from the drawing itself (HERO_SPOTS). */}
+                        <ul
+                            aria-label={hero.board.label}
+                            class="board-spots"
+                            data-quiet={quiet() ? "" : undefined}
+                            onPointerLeave={() => setQuiet(false)}
+                            onFocusIn={() => setQuiet(false)}
+                        >
+                            <For each={HERO_SPOTS}>
+                                {(spot) => {
+                                    const device = hero.board.devices[spot.id];
+                                    const id = `hero-device-${spot.id}`;
+                                    return (
+                                        <li
+                                            style={{
+                                                left: `${spot.left}%`,
+                                                top: `${spot.top}%`,
+                                                width: `${spot.width}%`,
+                                                height: `${spot.height}%`,
+                                            }}
+                                            data-side={spot.left + spot.width / 2 < 50 ? "start" : "end"}
+                                            data-tip={spot.top + spot.height / 2 < 60 ? "below" : "above"}
+                                            onPointerEnter={() => setQuiet(false)}
+                                        >
+                                            <Link
+                                                to={buildProjectPath(lang, {slug: PROJECT_SLUG[spot.id], locked: locked()})}
+                                                class="board-spot"
+                                                aria-labelledby={`${id}-name`}
+                                                aria-describedby={`${id}-note`}
+                                            >
+                                                <span class="board-tip">
+                                                    <span id={`${id}-name`}
+                                                          class="flex items-center gap-1.5 font-semibold text-fg">
+                                                        {device.name}
+                                                        <ArrowRight class="size-4 shrink-0"/>
+                                                    </span>
+                                                    <span id={`${id}-note`}
+                                                          class="mt-1 block text-fg-muted">{device.note}</span>
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    );
+                                }}
+                            </For>
+                        </ul>
                     </div>
                     <RoleSwitcher class="lg:mx-auto lg:w-full lg:max-w-[34rem]"/>
                 </div>

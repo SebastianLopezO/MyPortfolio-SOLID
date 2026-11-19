@@ -39,6 +39,8 @@ interface LinkProps {
     translate?: "yes" | "no";
     "aria-current"?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>["aria-current"];
     "aria-hidden"?: "true";
+    "aria-labelledby"?: string;
+    "aria-describedby"?: string;
     children?: JSX.Element;
 }
 
@@ -67,6 +69,8 @@ export function Link(props: LinkProps) {
             translate={props.translate}
             aria-current={props["aria-current"]}
             aria-hidden={props["aria-hidden"]}
+            aria-labelledby={props["aria-labelledby"]}
+            aria-describedby={props["aria-describedby"]}
         >
             {props.children}
         </a>

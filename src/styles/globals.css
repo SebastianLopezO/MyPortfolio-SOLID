@@ -260,6 +260,110 @@
     }
 
     /*
+     * The links over the board's devices (HeroSection, HERO_SPOTS). While a pointer is on the board, a dashed outline
+     * marks every device that answers; the one under the pointer, or reached with the keyboard, draws its outline whole
+     * and shows a label with the project's name and a line about it. The label opens toward the middle of the board,
+     * below the devices of the upper rows and above those of the lower one, so it never leaves the board. It is part
+     * of the link, so the pointer can rest on it, and Escape puts it away (data-quiet).
+     */
+    .hero-board {
+        container-type: inline-size;
+    }
+
+    .board-spots {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+
+        > li {
+            position: absolute;
+            pointer-events: auto;
+
+            &:is(:hover, :focus-within) {
+                z-index: 1;
+            }
+        }
+    }
+
+    .board-spot {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-lg);
+        outline: 1.5px dashed transparent;
+        transition: outline-color var(--duration-base) var(--ease-standard);
+    }
+
+    /* Hidden, the label takes no pointer; while it fades out it still does, so a pointer on its way to it keeps it. */
+    .board-tip {
+        position: absolute;
+        width: max-content;
+        max-width: min(16rem, 70cqi);
+        padding: 0.625rem 0.875rem;
+        border-radius: var(--radius-md);
+        background: var(--color-bg);
+        box-shadow: var(--shadow-card), 0 0 0 1px var(--color-border);
+        font-size: var(--text-xs);
+        line-height: 1.4;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base);
+
+        /* A bridge over the gap between the device and its label, so the pointer crosses it without losing either. */
+        &::before {
+            content: "";
+            position: absolute;
+            inset: -0.75rem 0;
+        }
+    }
+
+    [data-side="start"] .board-tip {
+        left: 0;
+    }
+
+    [data-side="end"] .board-tip {
+        right: 0;
+    }
+
+    [data-tip="below"] .board-tip {
+        top: calc(100% + 0.5rem);
+    }
+
+    [data-tip="above"] .board-tip {
+        bottom: calc(100% + 0.5rem);
+    }
+
+    @media (hover: hover) {
+        .hero-board:hover .board-spot {
+            outline-color: color-mix(in oklch, var(--color-fg) 22%, transparent);
+        }
+
+        .hero-board .board-spot:hover {
+            outline: 1.5px solid var(--color-fg-subtle);
+        }
+
+        .board-spot:hover .board-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    /* After the pointer's rules, so the focus ring keeps its color under a pointer too. */
+    .hero-board .board-spot:focus-visible {
+        outline: 2px solid var(--color-ring);
+        outline-offset: 3px;
+    }
+
+    .board-spot:focus-visible .board-tip {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .board-spots[data-quiet] .board-tip {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    /*
      * The lab bench (components/sections/LabBoard.tsx). On a phone it is a row of objects swiped one at a time; from
      * 48rem it is a technical board where each object lies at its spot, a little turned, and can be picked up: held, it
      * straightens and comes closer, and dropped, it settles. The module's offset from its spot is --dx and --dy.

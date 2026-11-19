@@ -74,7 +74,9 @@ built from rounded plates with a darker side for thickness, a sheen, a bevel and
 lights, keys, screens and cables. `scripts/render-illustrations.mjs` draws them from `scripts/illustrations` (`kit.mjs`
 is the drawing kit, `scenes.mjs` one object per project, `hero.mjs` the hero's board, `lab.mjs` the objects of the
 bench) into `public/illustrations` as static SVG, and writes `src/content/shared/project-art.ts`, the map the
-components read. Run `pnpm illustrations` after changing a scene and commit what it writes; `--sheet` also writes a
+components read. That map includes `HERO_SPOTS`, the box each device of the hero's board fills (in `hero.mjs`,
+`DEVICES`), which `HeroSection` covers with a link to the device's project; the labels' copy is `hero.board` in each
+language, and a test keeps each label's name equal to its project's. Run `pnpm illustrations` after changing a scene and commit what it writes; `--sheet` also writes a
 contact sheet of every drawing on its tile in both themes.
 
 The drawings have transparent backgrounds: the page lays each one on its `tile-*`, so the same file works in both
