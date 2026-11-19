@@ -119,7 +119,7 @@ pnpm preview    # serves dist/ with the same rules as production on http://127.0
 | `pnpm test`                    | Unit tests (content parity, paths, role views, SEO, assistant)                                                                                       |
 | `pnpm test:dist`               | Checks the built pages, crawler files and size budgets                                                                                               |
 | `pnpm test:e2e`                | Playwright tests on desktop and mobile against `dist/`                                                                                               |
-| `pnpm check:contrast`          | Verifies WCAG contrast of the design tokens                                                                                                          |
+| `pnpm check:contrast`          | Verifies WCAG contrast of the design tokens, in the light and the dark theme                                                                         |
 | `pnpm check:links`             | Requests every external link in the content and reports broken ones (run before a release)                                                           |
 | `pnpm illustrations`           | Redraws the project, hero and lab illustrations into `public/illustrations` from `scripts/illustrations` (`--sheet` writes a contact sheet)           |
 | `pnpm images`                  | Regenerates AVIF/WebP variants from `assets-src/`                                                                                                    |

@@ -88,7 +88,7 @@ export function CertificationsSection() {
                         type="button"
                         aria-expanded={expanded()}
                         onClick={() => setExpanded((value) => !value)}
-                        class="inline-flex min-h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                        class="inline-flex min-h-10 items-center rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                     >
                         {expanded() ? ui.actions.showFewer : `${ui.actions.showAll} (${ordered().length})`}
                     </button>

@@ -1,132 +1,31 @@
 import {createComputed, createMemo, createSignal, For, on, Show} from "solid-js";
-import {ArrowRight, BookOpen, ExternalLink, Lock, Star} from "@/components/ui/icons";
+import {ArrowRight, ExternalLink, Lock} from "@/components/ui/icons";
+import {GithubIcon} from "@/components/layout/BrandIcons";
 import {forProfile, roleConfig} from "@/content/roles";
 import {useSectionCopy} from "@/content/sections";
 import {ORGANIZATION_SLUG} from "@/content/shared/detail-links";
 import {organizations} from "@/content/shared/organizations";
 import {isCaseStudy, PROJECT_SLUG} from "@/content/shared/project-links";
-import {projectById, projectImages, projectsIn} from "@/content/shared/projects";
+import {projectById, projectsIn} from "@/content/shared/projects";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {useHydrated} from "@/hooks/useHydrated";
-import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Section} from "@/components/layout/Section";
-import {ProjectCard, type ProjectCardLabels} from "@/components/projects/ProjectCard";
-import {CaseImage, UNMASK} from "@/components/case-study/CaseImages";
-import {Carousel} from "@/components/ui/Carousel";
-import {More} from "@/components/ui/More";
-import {TechList} from "@/components/ui/TechList";
-import {formatRange} from "@/lib/format";
+import {ProjectTile} from "@/components/projects/ProjectTile";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {listProjects, prioritize} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
-import type {Bullet} from "@/types/content";
 import {PROJECT_CATEGORIES, type ProjectCategory, type ProjectId} from "@/types/project";
 
-/** The featured project shows this many achievements at first; the rest open on demand. */
-const FEATURED_HIGHLIGHTS = 3;
-
-function FeaturedProject(props: { id: ProjectId; href: string; labels: ProjectCardLabels }) {
-    const copy = useSectionCopy("projects");
-    const {content: {ui}} = useLanguage();
-    const {role} = useRole();
-    // The section mounts a new one when the role view features another project.
-    // eslint-disable-next-line solid/reactivity
-    const {id} = props;
+/** The years a project ran, as a tile's corner shows them: 2024, 2022 – 2023 or 2024 –. */
+export const projectYears = (id: ProjectId) => {
     const project = projectById(id);
-    const item = copy.items[id];
-    const highlights = () => prioritize(item.highlights, (bullet) => bullet.roles, role());
-    const shown = () => highlights().slice(0, FEATURED_HIGHLIGHTS);
-    const more = () => highlights().slice(FEATURED_HIGHLIGHTS);
-    const bullet = (entry: Bullet) => {
-        const match = () => {
-            const current = role();
-            return current !== null && entry.roles.includes(current);
-        };
-        return (
-            <li class={cn("flex gap-3", match() && "text-fg")}>
-                <span aria-hidden="true"
-                      class={cn("mt-2.5 size-1.5 shrink-0 rounded-full", role() && !match() ? "border border-fg-subtle" : "bg-primary")}/>
-                {entry.text}
-            </li>
-        );
-    };
-    const screen = projectImages(project)[0];
-
-    return (
-        <article class="section-enter rounded-xl border border-primary/40 bg-surface p-6 shadow-glow md:p-10 xl:flow-root">
-            <Show when={screen && item.screen}>
-                <figure class="mb-8 xl:float-right xl:mb-6 xl:ml-10 xl:w-[30rem]">
-                    {/* A phone screen keeps its shape at a phone's width; a wide one is cropped from the top. */}
-                    <Link to={props.href} tabindex={-1}
-                          class={cn("block", screen.height > screen.width && "mx-auto max-w-[15rem]")}>
-                        <CaseImage
-                            image={screen}
-                            alt={item.screen!}
-                            frameClass={UNMASK}
-                            sizes={screen.height > screen.width ? "15rem" : "(min-width: 80rem) 30rem, 90vw"}
-                            class={screen.height > screen.width ? undefined : "aspect-[16/10] object-cover object-top"}
-                        />
-                    </Link>
-                    <Show when={screen.recreation}>
-                        <figcaption class="mt-1.5 text-xs text-fg-subtle">{copy.recreation}</figcaption>
-                    </Show>
-                </figure>
-            </Show>
-            {/* A block, not inline: beside the floated screen it narrows and wraps instead of dropping below it. */}
-            <p class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
-                <Star class="size-4"/>
-                {copy.featured} · {item.context}
-            </p>
-            <h3 class="mt-3 text-heading text-fg">{item.name}</h3>
-            <p class="mt-1 text-sm text-fg-subtle">{formatRange(project.start, project.end ?? null, props.labels.months, props.labels.present)}</p>
-            <p class="mt-4 max-w-3xl text-lg text-fg-muted">{item.summary}</p>
-            <ul class="mt-6 grid gap-x-8 gap-y-2 text-fg-muted md:grid-cols-2 xl:clear-both">
-                <For each={shown()}>{bullet}</For>
-            </ul>
-            <Show when={more().length > 0}>
-                <More class="mt-3" label={`${ui.actions.showMore} (${more().length})`} openLabel={ui.actions.showLess}>
-                    <ul class="mt-2 grid gap-x-8 gap-y-2 text-fg-muted md:grid-cols-2">
-                        <For each={more()}>{bullet}</For>
-                    </ul>
-                </More>
-            </Show>
-            <TechList tech={project.tech} role={role()} class="mt-6"/>
-            <div class="mt-6 flex flex-wrap gap-3">
-                <Link
-                    to={props.href}
-                    class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
-                >
-                    <BookOpen class="size-5"/>
-                    {isCaseStudy(id) ? props.labels.readCaseStudy : props.labels.readProject}
-                </Link>
-                <Show when={project.links.demo}>
-                    <a
-                        href={project.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary active:translate-y-px"
-                    >
-                        <ExternalLink class="size-5"/>
-                        {props.labels.liveDemo}
-                    </a>
-                </Show>
-                <Show when={project.links.code}>
-                    <a
-                        href={project.links.code}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary active:translate-y-px"
-                    >
-                        <GithubIcon class="size-5"/>
-                        {props.labels.viewCode}
-                    </a>
-                </Show>
-            </div>
-        </article>
-    );
-}
+    const start = project.start.slice(0, 4);
+    if (project.end === null) return `${start} –`;
+    const end = (project.end ?? project.start).slice(0, 4);
+    return end === start ? start : `${start} – ${end}`;
+};
 
 export function ProjectsSection() {
     const {lang, content: {ui}} = useLanguage();
@@ -141,18 +40,6 @@ export function ProjectsSection() {
     createComputed(on(config, (current) => setCategory(current.projectCategory), {defer: true}));
 
     const hrefOf = (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()});
-    const labels: ProjectCardLabels = {
-        readProject: copy.readProject,
-        readCaseStudy: ui.actions.readCaseStudy,
-        liveDemo: ui.actions.liveDemo,
-        viewCode: ui.actions.viewCode,
-        privateCode: copy.privateCode,
-        recreation: copy.recreation,
-        months: ui.months,
-        present: ui.present,
-        achievements: ui.actions.achievements,
-        hideAchievements: ui.actions.hideAchievements,
-    };
     // The featured project already opens the section, so its category lists the rest.
     const listed = createMemo(() => listProjects(projectsIn(category()), role()));
 
@@ -172,12 +59,52 @@ export function ProjectsSection() {
     };
 
     return (
-        <Section id="projects" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
+        <Section id="projects" title={copy.title} subtitle={forProfile(copy.subtitle, role())} layout="wide">
+            {/* The role view's featured project spans the row: its illustration beside its name, a few words and one
+                sentence. Like every tile, the whole of it leads to its page. */}
             <Show when={config().featuredProject} keyed>
-                {(id) => <FeaturedProject id={id} href={hrefOf(id)} labels={labels}/>}
+                {(id) => (
+                    <div data-featured="true" class="section-enter">
+                        <ProjectTile
+                            id={id}
+                            name={copy.items[id].name}
+                            brief={copy.items[id].brief}
+                            summary={copy.items[id].summary}
+                            tag={`${copy.featured} · ${projectYears(id)}`}
+                            href={hrefOf(id)}
+                            wide
+                        />
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <Link to={hrefOf(id)}
+                                  class="inline-flex min-h-10 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover">
+                                {isCaseStudy(id) ? ui.actions.readCaseStudy : copy.readProject}
+                                <ArrowRight class="size-4"/>
+                            </Link>
+                            <Show when={projectById(id).links.demo}>
+                                {(demo) => (
+                                    <a href={demo()} target="_blank" rel="noopener noreferrer"
+                                       class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised">
+                                        {ui.actions.liveDemo}
+                                        <ExternalLink class="size-4"/>
+                                    </a>
+                                )}
+                            </Show>
+                            <Show when={projectById(id).links.code}>
+                                {(code) => (
+                                    <a href={code()} target="_blank" rel="noopener noreferrer"
+                                       class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised">
+                                        <GithubIcon class="size-4"/>
+                                        {ui.actions.viewCode}
+                                    </a>
+                                )}
+                            </Show>
+                        </div>
+                    </div>
+                )}
             </Show>
 
-            <div class="mt-16">
+            <div class="mt-14 md:mt-20">
+                {/* The categories filter the tiles below; each is a tab, moved with the arrow keys. */}
                 <div
                     role="tablist"
                     aria-label={copy.categoriesLabel}
@@ -198,36 +125,36 @@ export function ProjectsSection() {
                             tabindex={category() === id ? 0 : -1}
                             onClick={() => setCategory(id)}
                             class={cn(
-                                "min-h-10 rounded-md border px-4 py-2 text-sm font-semibold transition-colors",
-                                category() === id ? "border-primary bg-primary text-on-primary" : "border-border text-fg-muted hover:border-primary hover:text-primary",
+                                "inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-sm transition-colors duration-200",
+                                category() === id ? "bg-primary text-on-primary" : "bg-surface-raised text-fg-muted hover:text-fg",
                             )}
                         >
-                            {copy.categories[id].label} <span
-                            class={cn("font-mono text-xs", category() === id ? "text-on-primary/80" : "text-fg-subtle")}>{projectsIn(id).length}</span>
+                            {copy.categories[id].label}
+                            <span
+                                class={cn("font-mono text-xs", category() === id ? "text-on-primary/70" : "text-fg-subtle")}>{projectsIn(id).length}</span>
                         </button>
                     )}</For>
                 </div>
                 <For each={PROJECT_CATEGORIES}>{(id) => (
                     <div role="tabpanel" id={`projects-panel-${id}`} aria-labelledby={`projects-tab-${id}`}
-                         hidden={category() !== id} tabindex={0} class="appear mt-6">
+                         hidden={category() !== id} tabindex={0} class="appear mt-6 focus-visible:outline-offset-8">
                         {/* Only the open category is rendered, which keeps the prerendered page small. */}
                         <Show when={category() === id}>
-                            <p class="mb-6 max-w-3xl text-fg-muted">{copy.categories[id].description}</p>
-                            {/* One card per view on phones, two from 40rem, and from 64rem a reel: the current project
-                                in the middle, its neighbours turned toward it, moved by drag, arrows or the buttons. */}
-                            <Carousel
-                                reel
-                                previousLabel={copy.slider.previous}
-                                nextLabel={copy.slider.next}
-                                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] lg:basis-(--reel-card) lg:snap-center"
-                                trackClass="[--reel-card:clamp(22rem,34vw,32rem)] lg:scroll-px-0 lg:px-[calc(50%_-_var(--reel-card)/2)] lg:py-4"
-                                items={listed()}
-                            >
-                                {(project) => (
-                                    <ProjectCard project={project} copy={copy.items[project.id]}
-                                                 href={hrefOf(project.id)} role={role()} labels={labels}/>
-                                )}
-                            </Carousel>
+                            <p class="mb-8 max-w-2xl text-fg-muted">{copy.categories[id].description}</p>
+                            {/* Two tiles a row on a phone, three on a desktop and four on a wide screen: a tile is an
+                                illustration, a name and a few words, so it stays small without losing anything. */}
+                            <ul class="enter-each grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-5 2xl:grid-cols-4">
+                                <For each={listed()}>{(project) => (
+                                    <li>
+                                        <ProjectTile
+                                            id={project.id}
+                                            name={copy.items[project.id].name}
+                                            brief={copy.items[project.id].brief}
+                                            href={hrefOf(project.id)}
+                                        />
+                                    </li>
+                                )}</For>
+                            </ul>
                         </Show>
                     </div>
                 )}</For>
@@ -235,44 +162,48 @@ export function ProjectsSection() {
 
             <Link
                 to={buildProjectPath(lang, {locked: locked()})}
-                class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                class="mt-10 inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-raised px-5 text-sm font-semibold text-fg transition-colors hover:bg-border"
             >
                 {ui.actions.allProjects}
                 <ArrowRight class="size-4"/>
             </Link>
 
             {/* The organizations get a line each on their index; here, their names lead there. */}
-            <div class="mt-16">
-                <h3 class="text-heading text-fg">{copy.organizationsTitle}</h3>
-                <p class="mt-2 max-w-3xl text-fg-muted">{copy.organizationsSubtitle}</p>
-                <ul translate="no" class="mt-6 flex flex-wrap gap-2">
-                    <For each={prioritize(organizations, (organization) => organization.roles, role())}>
-                        {(organization) => (
-                            <li>
-                                <Link
-                                    to={buildDetailPath(lang, "organizations", {
-                                        slug: ORGANIZATION_SLUG[organization.id],
-                                        locked: locked()
-                                    })}
-                                    class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm text-fg-muted transition-colors hover:border-primary hover:text-primary"
-                                >
-                                    {organization.name}
-                                    <Show when={organization.visibility === "private"}>
-                                        <Lock class="size-3.5"/>
-                                        <span class="sr-only"> ({copy.private})</span>
-                                    </Show>
-                                </Link>
-                            </li>
-                        )}
-                    </For>
-                </ul>
-                <Link
-                    to={buildDetailPath(lang, "organizations", {locked: locked()})}
-                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
-                >
-                    {copy.organizationsIndex}
-                    <ArrowRight class="size-4"/>
-                </Link>
+            <div class="mt-20 grid gap-6 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+                <div>
+                    <h3 class="text-title text-fg">{copy.organizationsTitle}</h3>
+                    <p class="mt-2 text-fg-muted">{copy.organizationsSubtitle}</p>
+                </div>
+                <div>
+                    <ul translate="no" class="flex flex-wrap gap-2">
+                        <For each={prioritize(organizations, (organization) => organization.roles, role())}>
+                            {(organization) => (
+                                <li>
+                                    <Link
+                                        to={buildDetailPath(lang, "organizations", {
+                                            slug: ORGANIZATION_SLUG[organization.id],
+                                            locked: locked()
+                                        })}
+                                        class="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border px-4 text-sm text-fg-muted transition-colors hover:border-fg-subtle hover:text-fg"
+                                    >
+                                        {organization.name}
+                                        <Show when={organization.visibility === "private"}>
+                                            <Lock class="size-3.5"/>
+                                            <span class="sr-only"> ({copy.private})</span>
+                                        </Show>
+                                    </Link>
+                                </li>
+                            )}
+                        </For>
+                    </ul>
+                    <Link
+                        to={buildDetailPath(lang, "organizations", {locked: locked()})}
+                        class="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-fg hover:text-fg-muted"
+                    >
+                        {copy.organizationsIndex}
+                        <ArrowRight class="size-4"/>
+                    </Link>
+                </div>
             </div>
         </Section>
     );

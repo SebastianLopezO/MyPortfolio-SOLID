@@ -34,7 +34,7 @@ export function JourneySteps(props: JourneyStepsProps) {
         return firstPlanned > 0 ? ((firstPlanned - 0.5) / (props.stations.length - 1)) * 100 : null;
     };
     const button =
-        "grid size-11 place-items-center rounded-md border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40";
+        "grid size-11 place-items-center rounded-full border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40";
 
     return (
         <div class={cn("rounded-lg border border-border bg-surface/60 p-4", props.class)}>

@@ -86,7 +86,7 @@ export function JourneySection() {
                             tabindex={tab() === id ? 0 : -1}
                             onClick={() => setTab(id)}
                             class={cn(
-                                "min-h-10 rounded-md border px-3 py-2 text-sm leading-tight font-semibold transition-colors sm:px-4",
+                                "min-h-10 rounded-full border px-3 py-2 text-sm leading-tight font-semibold transition-colors sm:px-4",
                                 tab() === id ? "border-primary bg-primary text-on-primary" : "border-border text-fg-muted hover:border-primary hover:text-primary",
                             )}
                         >

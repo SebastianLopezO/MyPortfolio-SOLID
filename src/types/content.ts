@@ -288,6 +288,8 @@ export interface Content {
         navLabel: string;
         skipLink: string;
         menu: { open: string; close: string };
+        /** The button that pins the theme, named by what it switches to. */
+        theme: { toLight: string; toDark: string };
         language: { label: string; switchTo: string; names: Record<Lang, string> };
         roleSwitcher: { label: string; general: string; roles: Record<RoleId, string> };
         present: string;

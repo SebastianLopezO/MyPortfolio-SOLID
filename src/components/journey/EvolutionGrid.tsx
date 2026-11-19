@@ -46,7 +46,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
         return year ? `${copy.evolution.activeDays}: ${year.activeDays}${year.partial ? "*" : ""}` : undefined;
     };
     const yearButton =
-        "grid size-11 place-items-center rounded-md border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40";
+        "grid size-11 place-items-center rounded-full border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40";
     const label = (area: CapabilityId, year: number, value: Level) =>
         `${copy.areas[area]} · ${year} · ${year > BUILD_YEAR ? `${copy.evolution.target}: ` : ""}${copy.levels[value]}`;
 
@@ -87,7 +87,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                                     aria-label={label(area, focus().year, value())}
                                     onClick={() => setFocus({area, year: focus().year})}
                                     class={cn(
-                                        "flex min-h-11 w-full items-center justify-between gap-3 rounded-md border px-3 py-2 text-left text-sm",
+                                        "flex min-h-11 w-full items-center justify-between gap-3 rounded-full border px-3 py-2 text-left text-sm",
                                         focus().area === area ? "border-fg" : "border-border hover:border-border-strong",
                                     )}
                                 >

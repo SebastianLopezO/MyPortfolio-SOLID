@@ -14,7 +14,7 @@ export function RoleSwitcher(props: { class?: string }) {
     return (
         <Show when={!locked()}>
             <nav aria-label={ui.roleSwitcher.label} data-role-switcher="true" class={props.class}>
-                <p class="mb-3 font-mono text-xs tracking-widest text-fg-subtle uppercase">{ui.roleSwitcher.label}</p>
+                <p class="mb-3 font-mono text-xs text-fg-subtle">{ui.roleSwitcher.label}</p>
                 {/* In the hero the role views settle in one after another, just behind the core stack (hero-cascade). */}
                 <ul class="hero-cascade flex flex-wrap gap-2">
                     <For each={OPTIONS}>
@@ -26,10 +26,10 @@ export function RoleSwitcher(props: { class?: string }) {
                                         to={pathFor(option)}
                                         aria-current={active() ? "page" : undefined}
                                         class={cn(
-                                            "inline-flex min-h-9 items-center rounded-full border px-4 text-sm transition-colors",
+                                            "inline-flex min-h-9 items-center rounded-full px-4 text-sm transition-colors",
                                             active()
-                                                ? "border-primary bg-primary text-on-primary"
-                                                : "border-border bg-surface text-fg-muted hover:border-primary hover:text-primary",
+                                                ? "bg-primary text-on-primary"
+                                                : "bg-surface-raised text-fg-muted hover:text-fg",
                                         )}
                                     >
                                         {option ? ui.roleSwitcher.roles[option] : ui.roleSwitcher.general}

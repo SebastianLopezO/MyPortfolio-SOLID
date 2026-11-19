@@ -47,6 +47,7 @@ export const projects: Content["projects"] = {
     items: {
         smartpot: {
             name: "SmartPot",
+            brief: "Cultivos que se vigilan solos",
             context: "SmartPotTech · proyecto universitario en equipo",
             summary: "Plataforma IoT que monitorea y automatiza cultivos hidropónicos, organizada en 11 repositorios y construida por un equipo de cinco en el que soy el desarrollador líder.",
             screen: "Panel general de SmartPot con la salud promedio de los cultivos, los cultivos en línea, las alertas y las acciones que el asistente sugiere para todos",
@@ -79,6 +80,7 @@ export const projects: Content["projects"] = {
         },
         gopoli: {
             name: "GoPoli",
+            brief: "Viajes compartidos en la U",
             context: "GoPoli · proyecto universitario en equipo",
             summary: "Plataforma de viajes compartidos para estudiantes del Politécnico Colombiano Jaime Isaza Cadavid, donde soy el principal contribuidor.",
             screen: "GoPoli en el navegador durante un viaje, con la ruta trazada sobre el mapa de Medellín y el panel del viaje en curso junto al menú lateral",
@@ -111,6 +113,7 @@ export const projects: Content["projects"] = {
         },
         peppercrm: {
             name: "PepperCRM",
+            brief: "Un CRM hecho por módulos",
             context: "PepperTechDev · producto en equipo",
             summary: "Un CRM construido por un equipo de cuatro para gestionar leads, tareas y comunicaciones, donde escribí casi todo el backend.",
             screen: "El frontend real de PepperCRM con los datos de ejemplo de su repositorio, que muestra el tablero de tareas en columnas Por hacer, En progreso y Hecho, y el menú de leads, contactos, negocios, productos, proveedores y cotizaciones.",
@@ -140,6 +143,7 @@ export const projects: Content["projects"] = {
         },
         portfolio: {
             name: "MyPortfolio",
+            brief: "Una vista para cada rol",
             context: "Proyecto personal",
             summary: "Este sitio es un portafolio bilingüe en Astro, SolidJS y TypeScript con páginas prerenderizadas, una vista por rol, una página para cada proyecto y un asistente que responde en el navegador.",
             screen: "La portada real de este portafolio en la vista full-stack, con la disponibilidad, el nombre, el rol, el resumen y el selector de perfiles.",
@@ -172,6 +176,7 @@ export const projects: Content["projects"] = {
         },
         taurus: {
             name: "Prueba técnica Taurus",
+            brief: "De CSV a tablero",
             context: "TaurusSebastian-s · prueba técnica",
             summary: "Una prueba técnica de datos que llevé de archivos CSV a una API de métricas y un tablero interactivo.",
             screen: "El frontend real de Taurus con datos de ejemplo, que muestra las tablas agregadas de AG Grid con cotizaciones, negocios nuevos, conversión y primas por tenant y por agente.",
@@ -193,6 +198,7 @@ export const projects: Content["projects"] = {
         },
         integrationPlatform: {
             name: "Plataforma de integraciones",
+            brief: "Zoho CRM, conectado a todo",
             context: "TIVENOS · tecnología educativa",
             summary: "Más de 20 servicios en FastAPI que mantienen Zoho CRM sincronizado con los sistemas académicos de más de 15 instituciones de Latinoamérica y España.",
             screen: "Recreación de la documentación OpenAPI de un servicio de integración, con las rutas de formularios y CRM, la oferta académica, los catálogos y los trabajos en segundo plano, y un ejemplo de respuesta 202 con su clave de idempotencia.",
@@ -221,6 +227,7 @@ export const projects: Content["projects"] = {
         },
         observability: {
             name: "Plataforma de observabilidad",
+            brief: "Veinte servicios a la vista",
             context: "TIVENOS · infraestructura",
             summary: "El stack que vigila los servicios de integración y los servidores donde corren, con métricas, logs, trazas, sondas y alertas en un mismo lugar.",
             screen: "Recreación del tablero de Grafana de los servicios de integración, con 26 jobs de Prometheus, 18 sondas de disponibilidad, 12 reglas de alerta, peticiones y latencia por servicio, el estado de cada sonda y los logs recientes de Loki.",
@@ -249,6 +256,7 @@ export const projects: Content["projects"] = {
         },
         crmWidgets: {
             name: "Widgets de Zoho CRM",
+            brief: "Procesos dentro del CRM",
             context: "TIVENOS · herramientas para equipos comerciales",
             summary: "Cinco widgets que viven dentro de Zoho CRM para cotizar, matricular, capturar prospectos, agendar citas y cambiar de programa sin salir del registro.",
             screen: "Recreación del cotizador de precios dentro de una oportunidad del CRM, con plan de pagos, beca, convenio y una promoción recortada por el tope del 80 %, el desglose de cada pago y los botones para el PDF y para aplicar la cotización.",
@@ -277,6 +285,7 @@ export const projects: Content["projects"] = {
         },
         admissionsForms: {
             name: "Formularios web de admisión y becas",
+            brief: "Del sitio al CRM sin digitar",
             context: "TIVENOS · formularios para sitios institucionales",
             summary: "Formularios que las instituciones publican en sus sitios para que un aspirante se registre, complete su solicitud y suba sus documentos, conectados al CRM por los servicios de integración.",
             screen: "Recreación del paso Programa de un formulario de admisión, con seis listas en cascada (unidad, nivel, modalidad, periodicidad, ciclo y programa) y el resumen de la solicitud con el celular verificado.",
@@ -305,6 +314,7 @@ export const projects: Content["projects"] = {
         },
         crmSnapshots: {
             name: "Snapshots del CRM",
+            brief: "El CRM, listo para analizar",
             context: "TIVENOS · datos",
             summary: "Un servicio que copia en bloque los módulos de Zoho CRM a PostgreSQL para analizarlos con SQL fuera del CRM, y deja registro de cada corrida.",
             screen: "Recreación de un cliente SQL sobre la base de snapshots, con una tabla por módulo del CRM, una consulta al registro de corridas y otra de oportunidades por etapa, con el último snapshot de cada módulo completado.",
@@ -329,6 +339,7 @@ export const projects: Content["projects"] = {
         },
         emailSignatures: {
             name: "Firmas de correo",
+            brief: "Firmas que no se rompen",
             context: "TIVENOS · herramienta interna",
             summary: "Un generador de firmas para las cinco marcas del grupo que se ve igual en Outlook, Gmail y Apple Mail.",
             screen: "Recreación del generador de firmas con una marca y una persona ficticias, con el formulario a la izquierda y la firma dentro de un correo, el logotipo de texto, los datos de contacto y la insignia.",
@@ -353,6 +364,7 @@ export const projects: Content["projects"] = {
         },
         martech: {
             name: "Embudo de admisiones universitarias",
+            brief: "Admisiones de punta a punta",
             context: "ADCOM · agencia de marketing",
             summary: "Más de 90 landing pages de admisiones para cinco instituciones de educación superior que envían cada lead a Zoho CRM con la campaña que lo trajo.",
             screen: "Recreación de una landing de admisiones de una universidad ficticia con su formulario, junto a los campos UTM que viajan con el lead, el envío a Zoho Forms, el evento de conversión y la redirección a la página de gracias.",
@@ -378,6 +390,7 @@ export const projects: Content["projects"] = {
         },
         landingPlatform: {
             name: "Plataforma de despliegue de landing pages",
+            brief: "Un push, la página en vivo",
             context: "ADCOM · infraestructura",
             summary: "La infraestructura que publica, vigila y mantiene más de 100 landing pages de varios clientes en un solo VPS, sin reiniciar nada en cada despliegue.",
             screen: "Recreación de una ejecución del workflow de despliegue de una landing, con instalación, build, verificación, compresión, SSH con la llave del host fijada, rsync en dos fases y la comprobación de que el sitio público sirve el commit.",
@@ -410,6 +423,7 @@ export const projects: Content["projects"] = {
         },
         emailAutomations: {
             name: "Correo hiperpersonalizado a escala",
+            brief: "Correos uno a uno, a escala",
             context: "ADCOM · marcas de lotería",
             summary: "Los resultados de cada noche para dos marcas de lotería y correos de bienvenida y cumpleaños, cada uno con el nombre y el segmento de quien lo recibe.",
             screen: "Recreación del correo diario de resultados de una lotería ficticia en un buzón, con un correo por día, la fecha en el asunto y los resultados de ocho sorteos.",
@@ -454,6 +468,7 @@ export const projects: Content["projects"] = {
         },
         zohoToolkit: {
             name: "Herramientas de operación masiva en Zoho",
+            brief: "Operaciones masivas en el CRM",
             context: "ADCOM · automatización de CRM",
             summary: "Scripts y notebooks en Python que mueven grandes volúmenes de registros en el Zoho CRM de cada cliente, entre cargas, vínculos, etiquetas, borrados y sincronizaciones.",
             screen: "Recreación de un notebook de Jupyter que carga leads en bloque. Limpia un CSV, crea el trabajo en la Bulk Write API, espera con un punto de reanudación, resume creados, actualizados y fallidos, y vincula y etiqueta los registros.",
@@ -482,6 +497,7 @@ export const projects: Content["projects"] = {
         },
         realEstateSite: {
             name: "Landing inmobiliaria con inventario sincronizado",
+            brief: "Inventario publicado cada madrugada",
             context: "ADCOM · inmobiliaria",
             summary: "El sitio de captación de una inmobiliaria, que muestra los inmuebles que la empresa ya tiene en Wasi, sincronizados cada madrugada, y recibe solicitudes de asesoría, contacto y visita.",
             screen: "Recreación del listado de una inmobiliaria ficticia, con filtros por operación, tipo, ciudad y precio, tarjetas con insignias y el resumen de la última sincronización con Wasi.",
@@ -514,6 +530,7 @@ export const projects: Content["projects"] = {
         },
         collectionAutomation: {
             name: "Automatización de campañas de recaudo",
+            brief: "Campañas de recaudo al día",
             context: "Quipux · práctica de datos",
             summary: "Los scripts y notebooks que escribí en la práctica para hacer seguimiento a las campañas del área de recaudo y depurar sus bases de datos.",
             screen: "Recreación de un notebook de seguimiento de campañas de recaudo que cruza una base comprada con las listas de exclusión de correo y SMS, cuenta los contactables y resume por campaña cuántos pagaron.",
@@ -536,6 +553,7 @@ export const projects: Content["projects"] = {
         },
         engineering: {
             name: "Ingeniería Informática",
+            brief: "Un repositorio por materia",
             context: "Politécnico Colombiano Jaime Isaza Cadavid · 2022 – 2027",
             summary: "La carrera completa en una organización de GitHub, con un repositorio por materia, del primer pseudocódigo a sistemas distribuidos, redes con equipos Cisco, inteligencia artificial y visión por computador.",
             screen: "La matriz de confusión real del detector de enfermedades de lechuga, de la materia de visión por computador, junto a sus métricas por clase.",
@@ -564,6 +582,7 @@ export const projects: Content["projects"] = {
         },
         cybersecurityLabs: {
             name: "Laboratorios de ciberseguridad",
+            brief: "Del reconocimiento al control",
             context: "Diplomado en Ciberseguridad · Politécnico JIC · 2026",
             summary: "Tres informes de laboratorio del diplomado, del reconocimiento con Nmap a la escalada de privilegios, y el análisis de un ciberataque con su plan de respuesta.",
             screen: "La terminal real del primer laboratorio, con el escaneo de Nmap de los 65.535 puertos que encuentra el puerto 21 abierto con vsftpd 2.3.4.",
@@ -592,6 +611,7 @@ export const projects: Content["projects"] = {
         },
         technical: {
             name: "Técnico en Programación de Software",
+            brief: "Software en equipo de dos",
             context: "SENA – IUSH · 2022 – 2023",
             summary: "Los proyectos del técnico, hechos en un equipo de dos, entre un sistema web de reservas de espacios para la universidad y herramientas en C#.",
             screen: "La portada real de SitePersist servida localmente con PHP, con los botones para iniciar sesión como usuario o administrador.",
@@ -616,6 +636,7 @@ export const projects: Content["projects"] = {
         },
         vocational: {
             name: "Bachillerato técnico",
+            brief: "Los primeros proyectos",
             context: "Pascual Bravo e INEM · 2019 – 2021",
             summary: "Los primeros proyectos, hechos en equipo en el bachillerato técnico, con sitios web en PHP, macros de Excel y pequeños programas en Java y Python.",
             screen: "La portada real de The Company Dream servida localmente con PHP, que muestra el menú y la promesa de una nómina digital gratuita para emprender.",
@@ -637,6 +658,7 @@ export const projects: Content["projects"] = {
         },
         lettuceDiseases: {
             name: "Detector de enfermedades de lechuga",
+            brief: "Visión para la huerta",
             context: "Ingeniería Informática · Visión por computador · 2026",
             summary: "Un clasificador de imágenes con MobileNetV2 que distingue lechugas sanas, maleza y seis enfermedades, pensado para SmartPot, con una evaluación que muestra dónde falla.",
             screen: "La matriz de confusión real del modelo junto a sus métricas, con 97,9 % de exactitud, 65,7 % de recall promedio por clase y el recall de cada una de las ocho clases.",
@@ -676,6 +698,7 @@ export const projects: Content["projects"] = {
         },
         radarImaging: {
             name: "Imágenes de radar Sentinel-1",
+            brief: "Del ruido del radar al dataset",
             context: "Ingeniería Informática · Visión por computador · 2026",
             summary: "Diez imágenes de radar de una zona costera, filtradas, agrupadas con K-Means y convertidas en un dataset, y dos modelos de restauración que no lograron mejorar la entrada.",
             screen: "Tres salidas reales de la guía, que son la imagen de radar reescalada, la misma con el filtro de Lee y el agrupamiento K-Means con tres clases que separa el agua, la vegetación y las construcciones.",
@@ -714,6 +737,7 @@ export const projects: Content["projects"] = {
         },
         schoolServices: {
             name: "Colegio Cambridge: REST, GraphQL y React",
+            brief: "Un modelo, REST y GraphQL",
             context: "Ingeniería Informática · Programación distribuida · 2025",
             summary: "La gestión de áreas, oficinas, salones y empleados de un colegio en una API de Spring Boot, con una capa GraphQL en FastAPI encima y un frontend en React.",
             screen: "El frontend real del proyecto con datos de ejemplo, que muestra la lista de empleados del colegio con su documento, área, oficina, tipo de empleado y tipo de profesor.",
@@ -753,6 +777,7 @@ export const projects: Content["projects"] = {
         },
         fashionLine: {
             name: "FashionLine: inventario con MongoDB",
+            brief: "Una tienda en contenedores",
             context: "Ingeniería Informática · Bases de datos NoSQL · 2024",
             summary: "El inventario de una tienda de moda, con una API en Spring Boot con JWT sobre MongoDB, un frontend en React y las tres piezas empaquetadas en imágenes de Docker.",
             screen: "El frontend real de FashionLine con datos de ejemplo, que muestra la tabla de productos con precio, categoría, talla, existencias y los botones para editar y borrar.",
@@ -792,6 +817,7 @@ export const projects: Content["projects"] = {
         },
         tddPolyglot: {
             name: "TDD en seis lenguajes",
+            brief: "La prueba primero, seis veces",
             context: "Ingeniería Informática · Pruebas y gestión de la configuración · 2026",
             summary: "El mismo CRUD escrito prueba por prueba en C#, Python, React, PHP, Rust y Go, más los ejercicios de JUnit 5: ocho suites y 137 casos que corren en Docker.",
             screen: "La página real de la práctica, con la tabla de casos de prueba por proyecto, de las calculadoras en JUnit 5 a los CRUD en C#, Python, React, PHP, Rust y Go.",
@@ -832,6 +858,7 @@ export const projects: Content["projects"] = {
         },
         aiTechniques: {
             name: "Inteligencia artificial: de las reglas al agente",
+            brief: "De las reglas al agente",
             context: "Ingeniería Informática · Inteligencia artificial · 2025 – 2026",
             summary: "Los cuatro módulos de la materia, con un sistema experto y uno difuso para velas japonesas, algoritmos genéticos, modelos para SmartPot y un agente reactivo con su tablero.",
             screen: "El tablero real del agente en Streamlit con la lechuga elegida, que muestra tres anomalías detectadas y las acciones que dispara, como encender ventiladores y el enfriador de agua y diluir la solución.",
@@ -872,6 +899,7 @@ export const projects: Content["projects"] = {
         },
         dataCompressor: {
             name: "Compresor de Huffman",
+            brief: "Comprimir con un árbol",
             context: "Ingeniería Informática · Arquitectura de hardware · 2024",
             summary: "Una aplicación de escritorio que comprime texto con codificación de Huffman, dibuja el árbol con Graphviz y devuelve el archivo idéntico al descomprimir.",
             screen: "El árbol de Huffman real que el programa dibujó con Graphviz, junto a los tamaños del mismo texto original, comprimido con Huffman, con RAR y con 7-Zip, y descomprimido.",
@@ -910,6 +938,7 @@ export const projects: Content["projects"] = {
         },
         carSpace: {
             name: "CarSpace: reservas de parqueadero",
+            brief: "Parqueadero desde el navegador",
             context: "Ingeniería Informática · Primeros semestres · 2022",
             summary: "El prototipo web de una app de parqueaderos, con portada, inicio de sesión, un mapa de 32 puestos para reservar y estadísticas de cada zona.",
             screen: "La portada real de CarSpace, servida localmente, que muestra el menú, el botón de inicio de sesión y la foto aérea de un parqueadero junto al mar.",
@@ -942,6 +971,7 @@ export const projects: Content["projects"] = {
         },
         sitePersist: {
             name: "SitePersist: reservas de espacios",
+            brief: "Salones y equipos en reserva",
             context: "Técnico en Programación · SENA – IUSH · 2022",
             summary: "Un sistema web en PHP y MySQL para reservar los espacios y equipos de la Institución Universitaria Salazar y Herrera, con un sitio de administración aparte.",
             screen: "La portada real de SitePersist servida localmente con PHP, que explica qué es el sistema, con los botones para iniciar sesión como usuario o administrador y una foto de la sede de la universidad.",
@@ -981,6 +1011,7 @@ export const projects: Content["projects"] = {
         },
         videoToAscii: {
             name: "VideoToAscii",
+            brief: "Video convertido en texto",
             context: "Técnico en Programación · SENA – IUSH · 2022",
             summary: "Convierte un video en una animación de caracteres. Python separa los cuadros y los pasa a ASCII, y una consola en C# los reproduce.",
             screen: "Dos cuadros reales de las animaciones del repositorio, Saturno con ascii_wizard y la figura que corre con ascii_magic, junto a los tres pasos del video a la consola.",
@@ -1013,6 +1044,7 @@ export const projects: Content["projects"] = {
         },
         companyDream: {
             name: "The Company Dream: nómina digital",
+            brief: "Nómina gratis para emprender",
             context: "Bachillerato técnico · Pascual Bravo · 2021",
             summary: "El sitio de una empresa ficticia que ofrece una nómina digital gratuita a emprendedores, en español e inglés, con registro y una calculadora de nómina en PHP y MySQL.",
             screen: "La portada real de The Company Dream servida localmente con PHP, que muestra el menú y la promesa de una nómina digital gratuita para emprender.",

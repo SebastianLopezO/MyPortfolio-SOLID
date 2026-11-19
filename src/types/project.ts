@@ -69,6 +69,8 @@ export interface ProjectFacts {
 /** What a project card shows on the home page and on the projects index. */
 export interface ProjectCardCopy {
     name: string;
+    /** Two to five words under the name on a tile: what the project is at a glance. Its page tells the rest. */
+    brief: string;
     /** Where it was built, without naming clients, such as "TIVENOS · internal tool". */
     context: string;
     summary: string;

@@ -200,7 +200,7 @@ export function AboutSection() {
                 </ol>
                 <Link
                     to={buildDetailPath(lang, "education", {locked: locked()})}
-                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {about.educationIndex}
                     <ArrowRight class="size-4"/>

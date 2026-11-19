@@ -47,6 +47,7 @@ export const projects: Content["projects"] = {
     items: {
         smartpot: {
             name: "SmartPot",
+            brief: "Crops that watch themselves",
             context: "SmartPotTech · university team project",
             summary: "IoT platform that monitors and automates hydroponic crops, split into 11 repositories and built by a team of five in which I'm the lead developer.",
             screen: "SmartPot overview with average crop health, crops online, alerts and the assistant's suggested actions for all crops",
@@ -79,6 +80,7 @@ export const projects: Content["projects"] = {
         },
         gopoli: {
             name: "GoPoli",
+            brief: "Campus ride sharing",
             context: "GoPoli · university team project",
             summary: "Ride-sharing platform for students at Politécnico Colombiano Jaime Isaza Cadavid, where I'm the main contributor.",
             screen: "GoPoli in the browser during a trip, with the route drawn over the map of Medellín and the trip in progress panel beside the side menu",
@@ -111,6 +113,7 @@ export const projects: Content["projects"] = {
         },
         peppercrm: {
             name: "PepperCRM",
+            brief: "A CRM built in modules",
             context: "PepperTechDev · team product",
             summary: "A CRM built by a team of four to manage leads, tasks and communications, where I wrote almost all of the backend.",
             screen: "PepperCRM's real frontend with its repository's sample data, showing the task board with To Do, In Progress and Done columns, and the menu of leads, contacts, deals, products, vendors and quotes.",
@@ -140,6 +143,7 @@ export const projects: Content["projects"] = {
         },
         portfolio: {
             name: "MyPortfolio",
+            brief: "A view for every role",
             context: "Personal project",
             summary: "This site is a bilingual portfolio in Astro, SolidJS and TypeScript with prerendered pages, a view per role, a page for every project and an assistant that answers in the browser.",
             screen: "This portfolio's real home page in the full-stack view, with availability, name, role, summary and the profile switcher.",
@@ -172,6 +176,7 @@ export const projects: Content["projects"] = {
         },
         taurus: {
             name: "Taurus Technical Test",
+            brief: "From CSV to dashboard",
             context: "TaurusSebastian-s · technical test",
             summary: "A data technical test I took from raw CSV files to a metrics API and an interactive dashboard.",
             screen: "Taurus's real frontend with sample data, showing the AG Grid aggregate tables of quotes, new business, conversion and premiums by tenant and by agent.",
@@ -193,6 +198,7 @@ export const projects: Content["projects"] = {
         },
         integrationPlatform: {
             name: "Integration Platform",
+            brief: "Zoho CRM, connected",
             context: "TIVENOS · education technology",
             summary: "20+ FastAPI services that keep Zoho CRM in sync with the academic systems of 15+ institutions in Latin America and Spain.",
             screen: "Recreation of an integration service's OpenAPI documentation, with the form and CRM routes, the academic offer, the catalogs and the background jobs, and an example 202 response with its idempotency key.",
@@ -221,6 +227,7 @@ export const projects: Content["projects"] = {
         },
         observability: {
             name: "Observability Platform",
+            brief: "Twenty services in sight",
             context: "TIVENOS · infrastructure",
             summary: "The stack that watches the integration services and the servers they run on, with metrics, logs, traces, probes and alerts in one place.",
             screen: "Recreation of the Grafana dashboard of the integration services, with 26 Prometheus jobs, 18 uptime probes, 12 alert rules, requests and latency per service, the state of each probe and recent Loki logs.",
@@ -249,6 +256,7 @@ export const projects: Content["projects"] = {
         },
         crmWidgets: {
             name: "Zoho CRM Widgets",
+            brief: "Processes inside the CRM",
             context: "TIVENOS · tools for sales teams",
             summary: "Five widgets that live inside Zoho CRM to build quotes, enroll, capture leads, book appointments and change programs without leaving the record.",
             screen: "Recreation of the price quoter inside a CRM deal, with payment plan, scholarship, partner discount and a promotion cut by the 80% cap, the breakdown of each payment and the buttons for the PDF and for applying the quote.",
@@ -277,6 +285,7 @@ export const projects: Content["projects"] = {
         },
         admissionsForms: {
             name: "Admissions and Scholarship Web Forms",
+            brief: "Site to CRM, no retyping",
             context: "TIVENOS · forms for institutional websites",
             summary: "Forms that institutions publish on their websites so an applicant can register, complete the application and upload documents, connected to the CRM through the integration services.",
             screen: "Recreation of the Program step of an admission form, with six cascading lists (unit, level, mode, schedule, term and program) and the summary of the application with the verified phone number.",
@@ -305,6 +314,7 @@ export const projects: Content["projects"] = {
         },
         crmSnapshots: {
             name: "CRM Snapshots",
+            brief: "The CRM, ready to analyze",
             context: "TIVENOS · data",
             summary: "A service that bulk-copies Zoho CRM modules into PostgreSQL so they can be analyzed with SQL outside the CRM, and logs every run.",
             screen: "Recreation of a SQL client on the snapshot database, with one table per CRM module, a query on the run log and another of deals by stage, with the latest snapshot of each module completed.",
@@ -329,6 +339,7 @@ export const projects: Content["projects"] = {
         },
         emailSignatures: {
             name: "Email Signatures",
+            brief: "Signatures that hold up",
             context: "TIVENOS · internal tool",
             summary: "A signature generator for the group's five brands that looks the same in Outlook, Gmail and Apple Mail.",
             screen: "Recreation of the signature generator with a fictional brand and person, with the form on the left and the signature inside an email, the text logo, the contact details and the badge.",
@@ -353,6 +364,7 @@ export const projects: Content["projects"] = {
         },
         martech: {
             name: "University Admissions Funnel",
+            brief: "Admissions, end to end",
             context: "ADCOM · marketing agency",
             summary: "More than 90 admissions landing pages for five higher-education institutions that send every lead to Zoho CRM with the campaign that brought it.",
             screen: "Recreation of an admissions landing page for a fictional university with its form, next to the UTM fields that travel with the lead, the Zoho Forms post, the conversion event and the redirect to the thank-you page.",
@@ -378,6 +390,7 @@ export const projects: Content["projects"] = {
         },
         landingPlatform: {
             name: "Landing Page Deployment Platform",
+            brief: "One push, page live",
             context: "ADCOM · infrastructure",
             summary: "The infrastructure that publishes, watches and maintains 100+ landing pages for several clients on one VPS, without restarting anything on each deployment.",
             screen: "Recreation of a run of a landing page's deploy workflow, with install, build, check, compression, SSH with a pinned host key, two-phase rsync and the check that the public site serves the commit.",
@@ -410,6 +423,7 @@ export const projects: Content["projects"] = {
         },
         emailAutomations: {
             name: "Hyper-Personalized Email at Scale",
+            brief: "One-to-one email at scale",
             context: "ADCOM · lottery brands",
             summary: "Nightly results for two lottery brands plus welcome and birthday emails, each one carrying the name and segment of the person who receives it.",
             screen: "Recreation of a fictional lottery's daily results email in an inbox, with one email per day, the date in the subject and the results of eight draws.",
@@ -454,6 +468,7 @@ export const projects: Content["projects"] = {
         },
         zohoToolkit: {
             name: "Zoho Bulk Operations Toolkit",
+            brief: "Bulk work in the CRM",
             context: "ADCOM · CRM automation",
             summary: "Python scripts and notebooks that move large volumes of records in each client's Zoho CRM, across loads, links, tags, deletions and syncs.",
             screen: "Recreation of a Jupyter notebook that bulk-loads leads. It cleans a CSV, creates the Bulk Write API job, waits with a resume point, sums up created, updated and failed records, and links and tags them.",
@@ -479,6 +494,7 @@ export const projects: Content["projects"] = {
         },
         realEstateSite: {
             name: "Real Estate Landing with a Synced Inventory",
+            brief: "Listings published every night",
             context: "ADCOM · real estate agency",
             summary: "A real estate agency's lead capture site, which shows the properties the company already keeps in Wasi, synced every day before dawn, and takes requests for advice, contact and visits.",
             screen: "Recreation of a fictional agency's listing, with filters by operation, type, city and price, cards with badges and the summary of the last sync with Wasi.",
@@ -508,6 +524,7 @@ export const projects: Content["projects"] = {
         },
         collectionAutomation: {
             name: "Collection Campaign Automation",
+            brief: "Collection campaigns on track",
             context: "Quipux · data internship",
             summary: "The scripts and notebooks I wrote during the internship to track the campaigns of the revenue-collection area and clean up its databases.",
             screen: "Recreation of a notebook that tracks collection campaigns by matching a purchased database against the email and SMS exclusion lists, counting who can be contacted and summing up, per campaign, how many paid.",
@@ -524,6 +541,7 @@ export const projects: Content["projects"] = {
         },
         engineering: {
             name: "Computer Engineering",
+            brief: "One repository per course",
             context: "Politécnico Colombiano Jaime Isaza Cadavid · 2022 – 2027",
             summary: "The whole degree in one GitHub organization, with a repository per course, from the first pseudocode to distributed systems, networks on Cisco hardware, artificial intelligence and computer vision.",
             screen: "The real confusion matrix of the lettuce disease detector, from the computer vision course, next to its per-class metrics.",
@@ -552,6 +570,7 @@ export const projects: Content["projects"] = {
         },
         cybersecurityLabs: {
             name: "Cybersecurity Labs",
+            brief: "From recon to controls",
             context: "Cybersecurity Diploma · Politécnico JIC · 2026",
             summary: "Three lab reports from the diploma, from reconnaissance with Nmap to privilege escalation, and the analysis of a cyberattack with its response plan.",
             screen: "The first lab's real terminal, with the Nmap scan of all 65,535 ports that finds port 21 open with vsftpd 2.3.4.",
@@ -580,6 +599,7 @@ export const projects: Content["projects"] = {
         },
         technical: {
             name: "Software Programming Technician",
+            brief: "Software as a team of two",
             context: "SENA – IUSH · 2022 – 2023",
             summary: "The technical program's projects, built in a team of two, from a web system to book university spaces to tools in C#.",
             screen: "SitePersist's real home page served locally with PHP, with the buttons to sign in as a user or an administrator.",
@@ -604,6 +624,7 @@ export const projects: Content["projects"] = {
         },
         vocational: {
             name: "Technical High School",
+            brief: "The first projects",
             context: "Pascual Bravo and INEM · 2019 – 2021",
             summary: "The first projects, built in teams during technical high school, with PHP websites, Excel macros and small programs in Java and Python.",
             screen: "The Company Dream's real home page served locally with PHP, showing the menu and the promise of a free digital payroll to start a business.",
@@ -625,6 +646,7 @@ export const projects: Content["projects"] = {
         },
         lettuceDiseases: {
             name: "Lettuce Disease Detector",
+            brief: "Vision for the garden",
             context: "Computer Engineering · Computer vision · 2026",
             summary: "An image classifier built on MobileNetV2 that tells healthy lettuce, weeds and six diseases apart, meant for SmartPot, with an evaluation that shows where it fails.",
             screen: "The model's real confusion matrix next to its metrics, with 97.9% accuracy, 65.7% average recall per class and the recall of each of the eight classes.",
@@ -664,6 +686,7 @@ export const projects: Content["projects"] = {
         },
         radarImaging: {
             name: "Sentinel-1 Radar Imaging",
+            brief: "From radar noise to dataset",
             context: "Computer Engineering · Computer vision · 2026",
             summary: "Ten radar images of a coastal area, filtered, clustered with K-Means and turned into a dataset, plus two restoration models that could not improve on the input.",
             screen: "Three real outputs of the guide, which are the rescaled radar image, the same image with the Lee filter and the three-class K-Means clustering that separates water, vegetation and buildings.",
@@ -702,6 +725,7 @@ export const projects: Content["projects"] = {
         },
         schoolServices: {
             name: "Cambridge School: REST, GraphQL and React",
+            brief: "One model, REST and GraphQL",
             context: "Computer Engineering · Distributed programming · 2025",
             summary: "A school's areas, offices, classrooms and staff in a Spring Boot API, with a GraphQL layer in FastAPI on top and a React frontend.",
             screen: "The project's real frontend with sample data, showing the school's staff list with each person's document, area, office, employee type and teacher type.",
@@ -741,6 +765,7 @@ export const projects: Content["projects"] = {
         },
         fashionLine: {
             name: "FashionLine: Inventory on MongoDB",
+            brief: "A store in containers",
             context: "Computer Engineering · NoSQL databases · 2024",
             summary: "A fashion store's inventory, with a Spring Boot API with JWT on MongoDB, a React frontend and all three parts packaged as Docker images.",
             screen: "FashionLine's real frontend with sample data, with the product table showing price, category, size, stock and the edit and delete buttons.",
@@ -780,6 +805,7 @@ export const projects: Content["projects"] = {
         },
         tddPolyglot: {
             name: "TDD in Six Languages",
+            brief: "Test first, six times",
             context: "Computer Engineering · Testing and configuration management · 2026",
             summary: "The same CRUD written test by test in C#, Python, React, PHP, Rust and Go, plus the JUnit 5 exercises, in eight suites and 137 test cases that run in Docker.",
             screen: "The assignment's real page, with the table of test cases per project, from the JUnit 5 calculators to the CRUDs in C#, Python, React, PHP, Rust and Go.",
@@ -820,6 +846,7 @@ export const projects: Content["projects"] = {
         },
         aiTechniques: {
             name: "Artificial Intelligence: From Rules to an Agent",
+            brief: "From rules to agent",
             context: "Computer Engineering · Artificial intelligence · 2025 – 2026",
             summary: "The course's four modules, with an expert system and a fuzzy one for candlestick charts, genetic algorithms, models for SmartPot and a reactive agent with its dashboard.",
             screen: "The agent's real Streamlit dashboard with lettuce selected, showing three anomalies detected and the actions it fires, such as turning on the fans and the water cooler and diluting the solution.",
@@ -860,6 +887,7 @@ export const projects: Content["projects"] = {
         },
         dataCompressor: {
             name: "Huffman Compressor",
+            brief: "Compressing with a tree",
             context: "Computer Engineering · Hardware architecture · 2024",
             summary: "A desktop app that compresses text with Huffman coding, draws the tree with Graphviz and gives back the identical file on decompression.",
             screen: "The real Huffman tree the program drew with Graphviz, next to the sizes of the same text original, compressed with Huffman, with RAR and with 7-Zip, and decompressed.",
@@ -898,6 +926,7 @@ export const projects: Content["projects"] = {
         },
         carSpace: {
             name: "CarSpace: Parking Reservations",
+            brief: "Parking from the browser",
             context: "Computer Engineering · Early semesters · 2022",
             summary: "The web prototype of a parking app, with a home page, sign-in, a map of 32 spots to book and statistics for each area.",
             screen: "CarSpace's real home page, served locally, showing the menu, the sign-in button and the aerial photo of a parking lot by the sea.",
@@ -930,6 +959,7 @@ export const projects: Content["projects"] = {
         },
         sitePersist: {
             name: "SitePersist: Space Reservations",
+            brief: "Rooms and gear on booking",
             context: "Software Programming Technician · SENA – IUSH · 2022",
             summary: "A PHP and MySQL web system to book the spaces and equipment of Institución Universitaria Salazar y Herrera, with a separate admin site.",
             screen: "SitePersist's real home page served locally with PHP, explaining what the system is, with the buttons to sign in as a user or an administrator and a photo of the university campus.",
@@ -969,6 +999,7 @@ export const projects: Content["projects"] = {
         },
         videoToAscii: {
             name: "VideoToAscii",
+            brief: "Video turned into text",
             context: "Software Programming Technician · SENA – IUSH · 2022",
             summary: "It turns a video into a character animation. Python splits the frames and converts them to ASCII, and a C# console plays them back.",
             screen: "Two real frames of the repository's animations, Saturn with ascii_wizard and the running figure with ascii_magic, next to the three steps from the video to the console.",
@@ -1001,6 +1032,7 @@ export const projects: Content["projects"] = {
         },
         companyDream: {
             name: "The Company Dream: Digital Payroll",
+            brief: "Free payroll for a startup",
             context: "Technical high school · Pascual Bravo · 2021",
             summary: "The site of a fictional company that offers entrepreneurs a free digital payroll, in Spanish and English, with sign-up and a payroll form in PHP and MySQL.",
             screen: "The Company Dream's real home page served locally with PHP, showing the menu and the promise of a free digital payroll to start a business.",

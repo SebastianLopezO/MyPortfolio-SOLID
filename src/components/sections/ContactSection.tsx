@@ -155,7 +155,7 @@ export function ContactSection() {
                             type="submit"
                             name="channel"
                             value="whatsapp"
-                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-md bg-primary px-5 font-semibold whitespace-nowrap text-on-primary hover:bg-primary-hover active:translate-y-px"
+                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold whitespace-nowrap text-on-primary hover:bg-primary-hover active:translate-y-px"
                         >
                             <Send class="size-5"/>
                             {contact.form.send}
@@ -164,7 +164,7 @@ export function ContactSection() {
                             type="submit"
                             name="channel"
                             value="email"
-                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-md border border-border-strong px-5 font-semibold whitespace-nowrap text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
+                            class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full border border-border-strong px-5 font-semibold whitespace-nowrap text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
                         >
                             <Mail class="size-5"/>
                             {contact.form.sendEmail}

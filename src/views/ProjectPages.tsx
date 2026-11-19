@@ -17,7 +17,7 @@ import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
 import {organizations} from "@/content/shared/organizations";
 import {isCaseStudy, PROJECT_SLUG, projectIdBySlug, type ProjectSlug} from "@/content/shared/project-links";
-import {projectById, projectImages, projects, projectsIn} from "@/content/shared/projects";
+import {projectById, projects, projectsIn} from "@/content/shared/projects";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
 import {useHydrated} from "@/hooks/useHydrated";
@@ -25,16 +25,18 @@ import {GithubIcon} from "@/components/layout/BrandIcons";
 import {Bullets, LinkRows, NeighborNavigation, PageIndex, PageTrail, TextSection} from "@/components/page/PageParts";
 import {CaseFigures} from "@/components/case-study/CaseFigures";
 import {Decisions} from "@/components/case-study/Decisions";
-import {CaseImage, CaseImages, SETTLE} from "@/components/case-study/CaseImages";
+import {CaseImages} from "@/components/case-study/CaseImages";
 import {LayeredDiagram} from "@/components/case-study/LayeredDiagram";
-import {ProjectCard, type ProjectCardLabels} from "@/components/projects/ProjectCard";
+import {ProjectTile} from "@/components/projects/ProjectTile";
+import {projectYears} from "@/components/sections/ProjectsSection";
+import {PROJECT_ART} from "@/content/shared/project-art";
+import {withBase} from "@/lib/base";
 import {Carousel} from "@/components/ui/Carousel";
 import {TechExplorer} from "@/components/projects/TechExplorer";
 import {ToggleButton} from "@/components/ui/ToggleButton";
 import {formatRange, formatYearMonth} from "@/lib/format";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
-import {Link} from "@/routes/Router";
 import type {CaseStudyFacts} from "@/types/case-study";
 import {PROJECT_CATEGORIES, type ProjectFacts, type ProjectId, type ProjectPageId} from "@/types/project";
 
@@ -70,7 +72,7 @@ function ProjectLinks(props: { links: { demo?: string; code?: string }; privateL
                         href={props.links.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
+                        class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
                     >
                         <ExternalLink class="size-4"/>
                         {ui.liveDemo}
@@ -81,7 +83,7 @@ function ProjectLinks(props: { links: { demo?: string; code?: string }; privateL
                         href={props.links.code}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary"
+                        class="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary"
                     >
                         <GithubIcon class="size-4"/>
                         {ui.viewCode}
@@ -92,8 +94,8 @@ function ProjectLinks(props: { links: { demo?: string; code?: string }; privateL
     );
 }
 
-/** The overview column: role, place, period, team and status, the links and the figures. */
-function AtAGlance(props: {
+/** The facts of a project as the header's table: role, place, period, team and status, then its links. */
+function ProjectMeta(props: {
     facts: {
         start: CaseStudyFacts["start"];
         end?: CaseStudyFacts["end"];
@@ -103,51 +105,81 @@ function AtAGlance(props: {
     role: string;
     place: string;
     status: string;
-    figures: CaseStudyFacts["figures"];
-    figureLabels: Record<string, string>;
 }) {
     const {content} = useLanguage();
     const {cases: {ui}} = useProjectsCopy();
+    const row = "grid grid-cols-[7.5rem_minmax(0,1fr)] gap-4 border-t border-border py-3 first:border-t-0 first:pt-0";
     return (
-        <div class="grid gap-8 lg:grid-cols-[1fr_1.4fr] xl:grid-cols-1">
-            <div class="grid content-start gap-4 rounded-lg border border-border bg-surface p-5 text-sm">
-                <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                    <div>
-                        <dt class="text-fg-subtle">{ui.overview.role}</dt>
-                        <dd class="mt-0.5 font-semibold text-fg">{props.role}</dd>
+        <div class="grid content-start gap-6">
+            <dl class="text-sm">
+                <div class={row}>
+                    <dt class="font-mono text-xs leading-5 text-fg-subtle">{ui.overview.role}</dt>
+                    <dd class="text-fg">{props.role}</dd>
+                </div>
+                <div class={row}>
+                    <dt class="font-mono text-xs leading-5 text-fg-subtle">{ui.overview.organization}</dt>
+                    <dd class="text-fg">{props.place}</dd>
+                </div>
+                <div class={row}>
+                    <dt class="font-mono text-xs leading-5 text-fg-subtle">{ui.overview.period}</dt>
+                    <dd class="text-fg">{formatRange(props.facts.start, props.facts.end ?? null, content.ui.months, content.ui.present)}</dd>
+                </div>
+                <Show when={props.facts.team && props.facts.team > 1}>
+                    <div class={row}>
+                        <dt class="font-mono text-xs leading-5 text-fg-subtle">{ui.overview.team}</dt>
+                        <dd class="text-fg">{props.facts.team} {ui.overview.people}</dd>
                     </div>
-                    <div>
-                        <dt class="text-fg-subtle">{ui.overview.organization}</dt>
-                        <dd class="mt-0.5 text-fg">{props.place}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-fg-subtle">{ui.overview.period}</dt>
-                        <dd class="mt-0.5 text-fg">{formatRange(props.facts.start, props.facts.end ?? null, content.ui.months, content.ui.present)}</dd>
-                    </div>
-                    <Show when={props.facts.team && props.facts.team > 1}>
-                        <div>
-                            <dt class="text-fg-subtle">{ui.overview.team}</dt>
-                            <dd class="mt-0.5 text-fg">{props.facts.team} {ui.overview.people}</dd>
-                        </div>
-                    </Show>
-                    <div>
-                        <dt class="text-fg-subtle">{ui.overview.status}</dt>
-                        <dd class="mt-0.5 text-fg">{props.status}</dd>
-                    </div>
-                </dl>
-                <ProjectLinks links={props.facts.links} privateLabel={ui.privateCode}/>
-            </div>
-            <Show when={props.figures.length > 0}>
-                <CaseFigures figures={props.figures} labels={props.figureLabels} locale={content.locale} compact
-                             class="content-start sm:grid-cols-2"/>
-            </Show>
+                </Show>
+                <div class={row}>
+                    <dt class="font-mono text-xs leading-5 text-fg-subtle">{ui.overview.status}</dt>
+                    <dd class="text-fg">{props.status}</dd>
+                </div>
+            </dl>
+            <ProjectLinks links={props.facts.links} privateLabel={ui.privateCode}/>
         </div>
+    );
+}
+
+/**
+ * The opening of a project page, the way a case study opens: the name set large, what it is beside the table of its
+ * facts, and below them the project's illustration on its own layer of color across the page.
+ */
+function ProjectHeader(props: {
+    id: ProjectId;
+    eyebrow: string;
+    name: string;
+    tagline: string;
+    summary: string;
+    meta: JSX.Element;
+}) {
+    const art = () => PROJECT_ART[props.id];
+    return (
+        <>
+            <header class="mt-10 md:mt-14">
+                <p class="font-mono text-xs text-fg-subtle">{props.eyebrow}</p>
+                <h1 class={cn("mt-4 text-fg", titleSize(props.name))}>{props.name}</h1>
+                <div class="mt-10 grid gap-10 md:mt-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-20">
+                    <div class="max-w-2xl">
+                        <p class="text-xl leading-snug text-fg md:text-2xl">{props.tagline}</p>
+                        <p class="mt-5 text-fg-muted">{props.summary}</p>
+                    </div>
+                    {props.meta}
+                </div>
+            </header>
+            <div
+                class="section-enter mt-12 grid aspect-[4/3] place-items-center overflow-clip rounded-xl sm:aspect-[16/9] md:mt-16 md:rounded-2xl lg:aspect-[21/9]"
+                style={{background: `var(--color-tile-${art().tile})`}}
+            >
+                <img src={withBase(art().file)} alt="" width={400} height={400} decoding="async"
+                     class="tile-illustration h-auto w-[64%] max-w-[30rem] sm:w-[46%] lg:w-[34%]"/>
+            </div>
+        </>
     );
 }
 
 /** A project title stays within two lines: phones get the heading size, and names past 48 characters keep it on wide
  * screens too, as the detail pages do with long certificate titles. */
-const titleSize = (name: string) => (name.length > 48 ? "text-heading" : "text-heading md:text-display");
+const titleSize = (name: string) => (name.length > 48 ? "text-heading md:text-[3.5rem] md:leading-[1.02]" : "text-[2.75rem] leading-none tracking-[-0.045em] md:text-display");
 
 /** The other projects of the same job or program, most relevant to the role view first. */
 const siblingsOf = (facts: ProjectFacts) =>
@@ -198,8 +230,6 @@ function Related(props: { id: ProjectId; sectionId: string }) {
     ];
     const certified = certificationsIn(id);
     const siblings = siblingsOf(facts);
-    // A program's own page reuses screens of its projects, so a card shows the first screen this page does not.
-    const shown = new Set(projectImages(facts).map((image) => image.base));
     const place = job?.company ?? (program ? about.education[program.id].degree : "");
 
     return (
@@ -235,29 +265,15 @@ function Related(props: { id: ProjectId; sectionId: string }) {
                                 controlsClass="md:hidden"
                                 items={siblings}
                             >
-                                {(sibling) => {
-                                    const screens = projectImages(sibling);
-                                    const screen = screens.find((image) => !shown.has(image.base)) ?? screens[0];
-                                    return (
-                                        <Link
-                                            to={buildProjectPath(lang, {
-                                                slug: PROJECT_SLUG[sibling.id],
-                                                locked: locked()
-                                            })}
-                                            class="group block w-full overflow-clip rounded-lg border border-border bg-surface hover:border-primary"
-                                        >
-                                            <Show when={screen}>
-                                                <CaseImage image={screen} alt="" bare frameClass={SETTLE}
-                                                           sizes="(min-width: 80rem) 16rem, (min-width: 48rem) 45vw, 85vw"
-                                                           class={cn("aspect-[16/9]", screen.height > screen.width ? "object-contain" : "object-cover object-top")}/>
-                                            </Show>
-                                            <div class="p-4">
-                                                <p class="font-semibold text-fg group-hover:text-primary">{cards.items[sibling.id].name}</p>
-                                                <p class="mt-1 text-sm text-fg-muted">{cards.items[sibling.id].context}</p>
-                                            </div>
-                                        </Link>
-                                    );
-                                }}
+                                {(sibling) => (
+                                    <ProjectTile
+                                        id={sibling.id}
+                                        name={cards.items[sibling.id].name}
+                                        brief={cards.items[sibling.id].brief}
+                                        href={buildProjectPath(lang, {slug: PROJECT_SLUG[sibling.id], locked: locked()})}
+                                        headingLevel="h4"
+                                    />
+                                )}
                             </Carousel>
                         </div>
                     </Show>
@@ -327,6 +343,7 @@ function RepositoryList(props: { entries: ArchiveEntry[]; note?: string }) {
 
 function CaseStudy(props: { slug: ProjectSlug }) {
     const {role} = useRole();
+    const {content} = useLanguage();
     const {cases: {ui, items}, pages} = useProjectsCopy();
     // The route mounts a new page for every slug.
     // eslint-disable-next-line solid/reactivity
@@ -351,18 +368,16 @@ function CaseStudy(props: { slug: ProjectSlug }) {
         // A case study reads like an article: past 80rem the text and its side column keep their width instead of drifting apart.
         <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <ProjectCrumbs current={copy.name}/>
-            <header class="mt-6 max-w-4xl">
-                <p class="font-mono text-xs tracking-widest text-accent uppercase">{ui.eyebrow}</p>
-                <h1 class={cn("mt-3 text-fg", titleSize(copy.name))}>{copy.name}</h1>
-                <p class="mt-4 text-xl text-fg">{copy.tagline}</p>
-                <p class="mt-4 text-fg-muted">{copy.summary}</p>
-            </header>
+            <ProjectHeader id={id} eyebrow={ui.eyebrow} name={copy.name} tagline={copy.tagline} summary={copy.summary}
+                           meta={<ProjectMeta facts={facts} role={copy.role} place={copy.organization} status={copy.status}/>}/>
 
-            {/* On wide screens the overview, the figures and the page index sit beside the text instead of above it. */}
+            {/* On wide screens the figures and the page index sit beside the text instead of above it. */}
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
                 <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
-                    <AtAGlance facts={facts} role={copy.role} place={copy.organization} status={copy.status}
-                               figures={facts.figures} figureLabels={copy.figures}/>
+                    <Show when={facts.figures.length > 0}>
+                        <CaseFigures figures={facts.figures} labels={copy.figures} locale={content.locale} compact
+                                     class="content-start sm:grid-cols-2 xl:grid-cols-1"/>
+                    </Show>
                     <PageIndex label={ui.onThisPage} sections={sections}/>
                 </aside>
 
@@ -431,6 +446,7 @@ const repositoriesOf = (facts: ProjectFacts) => {
 /** A project without a full case study: what it is, what it does, how it works, its decisions and its repositories. */
 function ProjectPage(props: { slug: ProjectSlug }) {
     const {role} = useRole();
+    const {content} = useLanguage();
     const {cases: {ui}, pages} = useProjectsCopy();
     const cards = useSectionCopy("projects");
     // The route mounts a new page for every slug.
@@ -455,17 +471,18 @@ function ProjectPage(props: { slug: ProjectSlug }) {
     return (
         <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <ProjectCrumbs current={card.name}/>
-            <header class="mt-6 max-w-4xl">
-                <p class="font-mono text-xs tracking-widest text-accent uppercase">{pages.ui.eyebrow[facts.category]}</p>
-                <h1 class={cn("mt-3 text-fg", titleSize(card.name))}>{card.name}</h1>
-                <p class="mt-4 text-xl text-fg">{page.tagline}</p>
-                <p class="mt-4 text-fg-muted">{card.summary}</p>
-            </header>
+            <ProjectHeader id={id} eyebrow={pages.ui.eyebrow[facts.category]} name={card.name} tagline={page.tagline}
+                           summary={card.summary}
+                           meta={<ProjectMeta facts={facts} role={page.role} place={card.context} status={page.status}/>}/>
 
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
                 <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
-                    <AtAGlance facts={facts} role={page.role} place={card.context} status={page.status}
-                               figures={facts.figures ?? []} figureLabels={page.figures}/>
+                    <Show when={facts.figures && facts.figures.length > 0 && facts.figures}>
+                        {(figures) => (
+                            <CaseFigures figures={figures()} labels={page.figures} locale={content.locale} compact
+                                         class="content-start sm:grid-cols-2 xl:grid-cols-1"/>
+                        )}
+                    </Show>
                     <PageIndex label={ui.onThisPage} sections={sections}/>
                 </aside>
 
@@ -495,7 +512,7 @@ function ProjectPage(props: { slug: ProjectSlug }) {
                                     return (
                                         <li class={cn("flex gap-3", match() && "text-fg")}>
                                             <span aria-hidden="true"
-                                                  class={cn("mt-2.5 size-1.5 shrink-0 rounded-full", role() && !match() ? "border border-fg-subtle" : "bg-primary")}/>
+                                                  class={cn("mt-2.5 size-1.5 shrink-0 rounded-full", role() && !match() ? "border border-fg-subtle" : "bg-fg")}/>
                                             {bullet.text}
                                         </li>
                                     );
@@ -590,63 +607,42 @@ function Archive() {
 }
 
 function ProjectsIndex() {
-    const {lang, content} = useLanguage();
-    const {role, locked} = useRole();
+    const {lang} = useLanguage();
+    const {locked} = useRole();
     const {cases: {ui}} = useProjectsCopy();
     const cards = useSectionCopy("projects");
-    const labels: ProjectCardLabels = {
-        readProject: cards.readProject,
-        readCaseStudy: content.ui.actions.readCaseStudy,
-        liveDemo: content.ui.actions.liveDemo,
-        viewCode: content.ui.actions.viewCode,
-        privateCode: cards.privateCode,
-        recreation: cards.recreation,
-        months: content.ui.months,
-        present: content.ui.present,
-        achievements: content.ui.actions.achievements,
-        hideAchievements: content.ui.actions.hideAchievements,
-    };
     return (
         <div class="container-page py-12 md:py-16">
             <ProjectCrumbs/>
-            <header class="mt-6 max-w-3xl">
+            <header class="mt-10 max-w-4xl md:mt-14">
                 <h1 class="text-display text-fg">{ui.indexTitle}</h1>
-                <p class="mt-4 text-lg text-fg-muted">{ui.indexSubtitle}</p>
+                <p class="mt-6 text-lg text-fg-muted md:text-xl">{ui.indexSubtitle}</p>
             </header>
 
             <For each={PROJECT_CATEGORIES}>{(category, categoryIndex) => (
-                <section aria-labelledby={`projects-${category}`} class="mt-16">
+                <section aria-labelledby={`projects-${category}`} class="mt-20">
                     <div class="flex items-baseline gap-3">
                         <h2 id={`projects-${category}`}
                             class="text-heading text-fg">{cards.categories[category].label}</h2>
                         <span class="font-mono text-base text-fg-subtle">{projectsIn(category).length}</span>
                     </div>
                     <p class="mt-2 max-w-3xl text-fg-muted">{cards.categories[category].description}</p>
-                    {/* Like the home page: one card per view on phones, a grid from 48rem. */}
-                    <div class="mt-8">
-                        <Carousel
-                            previousLabel={cards.slider.previous}
-                            nextLabel={cards.slider.next}
-                            slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] md:basis-auto"
-                            trackClass="md:grid md:snap-none md:grid-cols-2 md:overflow-visible xl:grid-cols-3"
-                            controlsClass="md:hidden"
-                            items={projectsIn(category)}
-                        >
-                            {(project, index) => (
-                                <ProjectCard
-                                    project={project}
-                                    copy={cards.items[project.id]}
-                                    href={buildProjectPath(lang, {
-                                        slug: PROJECT_SLUG[project.id],
-                                        locked: locked()
-                                    })}
-                                    role={role()}
-                                    labels={labels}
-                                    eager={categoryIndex() === 0 && index() === 0}
+                    {/* Like the home page: two tiles a row on a phone, three on a desktop, four on a wide screen. */}
+                    <ul class="enter-each mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-5 2xl:grid-cols-4">
+                        <For each={projectsIn(category)}>{(project, index) => (
+                            <li>
+                                <ProjectTile
+                                    id={project.id}
+                                    name={cards.items[project.id].name}
+                                    brief={cards.items[project.id].brief}
+                                    href={buildProjectPath(lang, {slug: PROJECT_SLUG[project.id], locked: locked()})}
+                                    tag={projectYears(project.id)}
+                                    headingLevel="h3"
+                                    eager={categoryIndex() === 0 && index() < 4}
                                 />
-                            )}
-                        </Carousel>
-                    </div>
+                            </li>
+                        )}</For>
+                    </ul>
                 </section>
             )}</For>
 

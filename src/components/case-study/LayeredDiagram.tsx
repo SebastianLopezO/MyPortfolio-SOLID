@@ -30,7 +30,7 @@ export function LayeredDiagram(props: LayeredDiagramProps) {
                                 <ArrowLeftRight class="hidden size-5 lg:block"/>
                             </span>
                         </Show>
-                        <p class="font-mono text-xs tracking-wider text-accent uppercase">{props.labels[layer.id]}</p>
+                        <p class="font-mono text-xs text-fg-subtle">{props.labels[layer.id]}</p>
                         <ul class="mt-3 space-y-2">
                             <For each={layer.nodes}>{(node) => (
                                 <li
@@ -44,11 +44,11 @@ export function LayeredDiagram(props: LayeredDiagramProps) {
             </ol>
             <Show when={props.diagram.base}>{(base) => (
                 <div class="mt-6 rounded-lg border border-dashed border-border-strong p-4">
-                    <p class="font-mono text-xs tracking-wider text-fg-subtle uppercase">{props.labels[base().id]}</p>
+                    <p class="font-mono text-xs text-fg-subtle">{props.labels[base().id]}</p>
                     <ul class="mt-3 flex flex-wrap gap-2">
                         <For each={base().nodes}>{(node) => (
                             <li
-                                class="rounded-md border border-border px-3 py-1.5 text-sm text-fg-muted">
+                                class="rounded-full border border-border px-3 py-1.5 text-sm text-fg-muted">
                                 {props.labels[node]}
                             </li>
                         )}</For>

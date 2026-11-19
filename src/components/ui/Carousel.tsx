@@ -27,16 +27,7 @@ interface CarouselProps<T> {
     trackClass?: string;
     /** Extra classes for the buttons row, e.g. "md:hidden" when the track is a grid from that breakpoint. */
     controlsClass?: string;
-    /**
-     * From 64rem the track stays a row with the current card in the middle and its neighbours turned toward it
-     * (globals.css, carousel-reel): it counts one card at a time, a mouse can drag it, and pressing a card beside the
-     * middle one brings it to the middle instead of following its link. The slides center themselves with slideClass
-     * and trackClass (lg:snap-center and side padding of half the view less half a card).
-     */
-    reel?: boolean;
 }
-
-const REEL_QUERY = "(width >= 64rem)";
 
 interface Position {
     index: number;
@@ -61,8 +52,6 @@ export function Carousel<T>(props: CarouselProps<T>) {
         return (slides[1] as HTMLElement).offsetLeft - (slides[0] as HTMLElement).offsetLeft || 1;
     };
 
-    const reeling = () => props.reel === true && typeof matchMedia === "function" && matchMedia(REEL_QUERY).matches;
-
     onMount(() => {
         const element = track!;
         let frame = 0;
@@ -72,12 +61,6 @@ export function Carousel<T>(props: CarouselProps<T>) {
                 const width = step();
                 // A track that scrolls takes keyboard focus, so arrow keys can move it; as a plain grid it stays out of the tab order.
                 element.tabIndex = element.scrollWidth > element.clientWidth + 1 ? 0 : -1;
-                const last = props.items.length - 1;
-                if (reeling()) {
-                    // The side padding puts card i in the middle at i steps of scroll.
-                    setPosition({index: Math.min(Math.max(Math.round(element.scrollLeft / width), 0), last), perView: 1});
-                    return;
-                }
                 const perView = Math.max(1, Math.round(element.clientWidth / width));
                 const atEnd = element.scrollLeft + element.clientWidth >= element.scrollWidth - 2;
                 const index = atEnd ? Math.max(0, props.items.length - perView) : Math.round(element.scrollLeft / width);
@@ -95,63 +78,7 @@ export function Carousel<T>(props: CarouselProps<T>) {
             element.removeEventListener("scroll", measure);
             observer?.disconnect();
         });
-        if (props.reel) dragAndCenter(element);
     });
-
-    // A mouse drags the reel sideways; a press on a card beside the middle one brings that card to the middle.
-    const dragAndCenter = (element: HTMLUListElement) => {
-        let start: { x: number; left: number } | null = null;
-        let dragged = false;
-        const onDown = (event: PointerEvent) => {
-            if (event.pointerType !== "mouse" || event.button !== 0 || !reeling()) return;
-            start = {x: event.clientX, left: element.scrollLeft};
-            dragged = false;
-        };
-        const onMove = (event: PointerEvent) => {
-            if (!start) return;
-            const distance = event.clientX - start.x;
-            if (!dragged && Math.abs(distance) < 6) return;
-            if (!dragged) {
-                dragged = true;
-                element.dataset.dragging = "";
-            }
-            element.scrollLeft = start.left - distance;
-        };
-        const onUp = () => {
-            if (!start) return;
-            start = null;
-            if (!dragged) return;
-            delete element.dataset.dragging;
-            // Back to snapping: settle on the card nearest the middle.
-            element.scrollTo({left: Math.round(element.scrollLeft / step()) * step()});
-        };
-        const onClick = (event: MouseEvent) => {
-            if (dragged) {
-                event.preventDefault();
-                event.stopPropagation();
-                dragged = false;
-                return;
-            }
-            if (!reeling()) return;
-            const slide = (event.target as Element).closest("li");
-            const index = slide ? [...element.children].indexOf(slide) : -1;
-            if (index < 0 || index === position().index) return;
-            event.preventDefault();
-            event.stopPropagation();
-            element.scrollTo({left: index * step()});
-        };
-        element.addEventListener("pointerdown", onDown);
-        window.addEventListener("pointermove", onMove);
-        window.addEventListener("pointerup", onUp);
-        window.addEventListener("pointercancel", onUp);
-        element.addEventListener("click", onClick, true);
-        element.addEventListener("dragstart", (event) => reeling() && event.preventDefault());
-        onCleanup(() => {
-            window.removeEventListener("pointermove", onMove);
-            window.removeEventListener("pointerup", onUp);
-            window.removeEventListener("pointercancel", onUp);
-        });
-    };
 
     // The track's CSS scroll-behavior animates the move, and the reduced-motion rule in globals.css turns it off.
     const go = (direction: 1 | -1) => {
@@ -172,7 +99,6 @@ export function Carousel<T>(props: CarouselProps<T>) {
                 id={trackId}
                 ref={track}
                 class={cn(
-                    props.reel && "carousel-reel",
                     "enter-each carousel-depth scrollbar-none -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto scroll-smooth px-4 sm:mx-0 sm:scroll-px-0 sm:px-0",
                     props.trackClass,
                 )}
@@ -194,7 +120,7 @@ export function Carousel<T>(props: CarouselProps<T>) {
                         aria-controls={trackId}
                         disabled={position().index === 0}
                         onClick={() => go(-1)}
-                        class="grid size-11 place-items-center rounded-md border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40"
+                        class="grid size-11 place-items-center rounded-full border border-border-strong text-fg transition-colors hover:bg-surface-raised active:translate-y-px disabled:opacity-40"
                     >
                         <ChevronLeft class="size-5"/>
                     </button>
@@ -207,7 +133,7 @@ export function Carousel<T>(props: CarouselProps<T>) {
                         aria-controls={trackId}
                         disabled={last() >= props.items.length}
                         onClick={() => go(1)}
-                        class="grid size-11 place-items-center rounded-md border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40"
+                        class="grid size-11 place-items-center rounded-full border border-border-strong text-fg transition-colors hover:bg-surface-raised active:translate-y-px disabled:opacity-40"
                     >
                         <ChevronRight class="size-5"/>
                     </button>

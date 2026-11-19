@@ -7,7 +7,7 @@ export function NotFoundPage() {
     return (
         <main id="main" class="hero-backdrop grid min-h-dvh place-items-center px-4 py-24">
             <div class="max-w-xl text-center">
-                <p class="font-display text-display text-gradient">404</p>
+                <p class="font-display text-display text-fg">404</p>
                 <For each={LANGS}>
                     {(lang) => (
                         <section lang={lang} class="mt-8">
@@ -16,7 +16,7 @@ export function NotFoundPage() {
                             <a
                                 href={withBase(buildPath(lang, null))}
                                 hreflang={lang}
-                                class="mt-4 inline-flex h-11 items-center rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
+                                class="mt-4 inline-flex h-11 items-center rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
                             >
                                 {notFoundCopy[lang].home}
                             </a>

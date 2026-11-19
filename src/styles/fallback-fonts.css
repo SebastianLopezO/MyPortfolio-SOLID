@@ -1,39 +1,33 @@
+/*
+ * Local faces sized to Geist's metrics (head, hhea and OS/2 of the latin files: 1000 units, ascender 920,
+ * descender 220, line gap 100; Geist Mono 1005, 295 and 0), so the text keeps its place when the web fonts swap in.
+ */
 @font-face {
-    font-family: "IBM Plex Sans Fallback";
+    font-family: "Geist Fallback";
     font-weight: 400;
     src: local("Arial"), local("Liberation Sans"), local("Helvetica Neue"), local("Helvetica");
-    size-adjust: 97.77%;
-    ascent-override: 104.84%;
-    descent-override: 28.13%;
-    line-gap-override: 0.00%;
+    size-adjust: 96.6%;
+    ascent-override: 95.24%;
+    descent-override: 22.77%;
+    line-gap-override: 10.35%;
 }
 
 @font-face {
-    font-family: "IBM Plex Sans Fallback";
+    font-family: "Geist Fallback";
     font-weight: 600;
     src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Helvetica Neue Bold"), local("Helvetica Bold");
-    size-adjust: 94.95%;
-    ascent-override: 107.95%;
-    descent-override: 28.96%;
-    line-gap-override: 0.00%;
+    size-adjust: 94.2%;
+    ascent-override: 97.66%;
+    descent-override: 23.35%;
+    line-gap-override: 10.62%;
 }
 
 @font-face {
-    font-family: "DM Serif Text Fallback";
-    font-weight: 400;
-    src: local("Times New Roman"), local("Liberation Serif"), local("Times");
-    size-adjust: 105.33%;
-    ascent-override: 98.36%;
-    descent-override: 31.81%;
-    line-gap-override: 0.00%;
-}
-
-@font-face {
-    font-family: "Source Code Pro Fallback";
+    font-family: "Geist Mono Fallback";
     font-weight: 400;
     src: local("Courier New"), local("Liberation Mono"), local("Courier");
-    size-adjust: 99.98%;
-    ascent-override: 98.42%;
-    descent-override: 27.30%;
+    size-adjust: 100%;
+    ascent-override: 100.5%;
+    descent-override: 29.5%;
     line-gap-override: 0.00%;
 }

@@ -274,7 +274,7 @@ export function JourneyMap(props: JourneyMapProps) {
                                         aria-pressed={id === props.selected}
                                         onClick={() => props.onSelect(id)}
                                         class={cn(
-                                            "flex w-full items-start gap-3 rounded-md border px-3 py-2 text-left text-sm",
+                                            "flex w-full items-start gap-3 rounded-full border px-3 py-2 text-left text-sm",
                                             id === props.selected ? "border-primary bg-surface-raised" : "border-border hover:border-border-strong",
                                         )}
                                     >

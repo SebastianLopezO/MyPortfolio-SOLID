@@ -27,7 +27,7 @@ export function LanguageSwitcher(props: { class?: string; href?: string }) {
             lang={alternateLang}
             onClick={keepHash}
             class={cn(
-                "inline-flex h-10 items-center gap-2 rounded-md border border-border px-3 font-mono text-sm text-fg-muted transition-colors hover:border-primary hover:text-primary",
+                "inline-flex h-10 items-center gap-2 rounded-full px-3 font-mono text-sm text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg",
                 props.class,
             )}
         >

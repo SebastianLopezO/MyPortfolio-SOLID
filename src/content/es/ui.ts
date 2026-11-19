@@ -19,6 +19,7 @@ export const ui: Content["ui"] = {
     navLabel: "Navegación principal",
     skipLink: "Saltar al contenido",
     menu: {open: "Abrir menú", close: "Cerrar menú"},
+    theme: {toLight: "Cambiar al tema claro", toDark: "Cambiar al tema oscuro"},
     language: {
         label: "Idioma",
         switchTo: "View in English",

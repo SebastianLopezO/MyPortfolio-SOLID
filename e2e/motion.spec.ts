@@ -2,18 +2,41 @@ import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 
 const opacityOf = (element: Element) => Number(getComputedStyle(element).opacity);
 
-test("marks the section being read in the header", async ({page, isMobile, consoleErrors}) => {
-    test.skip(isMobile, "The header lists the sections from 64rem");
+test("folds the header as the page scrolls and marks the section being read in its menu", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/en");
-    const nav = page.getByRole("navigation", {name: "Main navigation"});
-    await expect(nav.locator('a[aria-current="true"]')).toHaveCount(0);
+    const header = page.locator(".site-header");
+    await expect(header).not.toHaveAttribute("data-folded");
+    await expect(page.locator('.site-header a[aria-current="true"]')).toHaveCount(0);
     await hydrateSection(page, "experience");
     await page.locator("#experience h2").scrollIntoViewIfNeeded();
-    await expect(nav.getByRole("link", {name: "Experience"})).toHaveAttribute("aria-current", "true");
-    await expect(nav.locator('a[aria-current="true"]')).toHaveCount(1);
-    // The mark is not color alone.
-    expect(await nav.getByRole("link", {name: "Experience"}).evaluate((link) => getComputedStyle(link).textDecorationLine)).toBe("underline");
+    // Once the reader scrolls, the bar folds into its floating controls and the menu lists the sections.
+    await expect(header).toHaveAttribute("data-folded", "true");
+    await header.getByRole("button", {name: "Open menu"}).click();
+    const menu = page.locator("#site-menu").getByRole("navigation", {name: "Main navigation"});
+    await expect(menu.getByRole("link", {name: "Experience"})).toHaveAttribute("aria-current", "true");
+    await expect(menu.locator('a[aria-current="true"]')).toHaveCount(1);
+    // The mark is not color alone: the current entry carries a dot.
+    const dot = menu.getByRole("link", {name: "Experience"}).locator("span[aria-hidden]");
+    expect(await dot.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
+    // Escape closes it and gives the focus back to its button.
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#site-menu")).toHaveCount(0);
+    await expect(header.getByRole("button", {name: "Open menu"})).toBeFocused();
     expect(consoleErrors).toEqual([]);
+});
+
+test("switches the theme and remembers it", async ({page}) => {
+    await gotoHydrated(page, "/en");
+    const html = page.locator("html");
+    const toggle = page.locator(".header-controls").getByRole("button", {name: /Switch to the (light|dark) theme/});
+    const before = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    const next = (await toggle.getAttribute("aria-label"))!.includes("dark") ? "dark" : "light";
+    await toggle.click();
+    await expect(html).toHaveAttribute("data-theme", next);
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).not.toBe(before);
+    // The choice holds on the next page, applied before its first paint.
+    await page.goto("/en/projects");
+    await expect(html).toHaveAttribute("data-theme", next);
 });
 
 test("raises the parts of a section as they enter the screen", async ({page}) => {
@@ -57,11 +80,10 @@ test("settles the hero's stack in one chip after another and draws the portrait 
     // The portrait is the largest paint: nothing fades it in, and it only drifts once the hero leaves.
     const portrait = page.locator("#home .hero-portrait");
     expect(await portrait.evaluate(opacityOf)).toBe(1);
-    expect(await portrait.locator("img").evaluate(animationNames)).toEqual([]);
+    expect(await portrait.locator("picture img").evaluate(animationNames)).toEqual([]);
 });
 
 test("holds the place of a screen that has not arrived and fades it in once it has", async ({page}) => {
-    await gotoHydrated(page, "/en");
     // The project screens are held back until the reader has seen the empty frame, as on a slow connection.
     let arrive!: () => void;
     const arrived = new Promise<void>((resolve) => (arrive = resolve));
@@ -69,8 +91,8 @@ test("holds the place of a screen that has not arrived and fades it in once it h
         await arrived;
         await route.continue();
     });
-    await hydrateSection(page, "projects");
-    const screen = page.locator("#projects .screen-settle img").first();
+    await gotoHydrated(page, "/en/projects/integration-platform");
+    const screen = page.locator("main .screen-unmask img").last();
     await screen.evaluate((element) => element.scrollIntoView({block: "center"}));
     await expect(screen).toHaveAttribute("data-loading", "");
     arrive();
@@ -93,8 +115,8 @@ test("draws the journey map from left to right as it comes up the screen", async
 test("turns the cards at a slider's edge away on a phone", async ({page, isMobile}) => {
     test.skip(!isMobile, "From 48rem every slider is a grid");
     await gotoHydrated(page, "/en");
-    await hydrateSection(page, "projects");
-    const slides = page.locator("#projects .carousel-depth > li > *");
+    await hydrateSection(page, "testimonials");
+    const slides = page.locator("#testimonials .carousel-depth > li > *");
     await slides.first().evaluate((element) => element.scrollIntoView({block: "center", inline: "nearest"}));
     await expect.poll(() => slides.first().evaluate(opacityOf)).toBe(1);
     expect(await slides.nth(1).evaluate(opacityOf)).toBeLessThan(1);
@@ -113,29 +135,6 @@ test("keeps the second layer of the home in the page and opens all of it at once
     for (let index = 0; index < count; index++) await expect(more.nth(index)).toHaveAttribute("open", "");
     await page.getByRole("button", {name: "Contraer todo"}).click();
     await expect(more.first()).not.toHaveAttribute("open");
-});
-
-test("turns the projects on a reel on wide screens", async ({page, isMobile}) => {
-    test.skip(isMobile, "Phones swipe one card at a time");
-    await gotoHydrated(page, "/es");
-    await hydrateSection(page, "projects");
-    const panel = page.locator('#projects [role="tabpanel"]:not([hidden])');
-    const slides = panel.locator(".carousel-reel > li");
-    await slides.first().scrollIntoViewIfNeeded();
-    const counter = panel.locator("p[aria-hidden]").last();
-    await expect(counter).toHaveText(/^1 \/ \d+$/);
-    // The card in the middle faces the reader; the one beside it is turned and dimmed.
-    await expect.poll(() => slides.nth(0).locator("> *").evaluate(opacityOf)).toBeGreaterThan(0.99);
-    expect(await slides.nth(1).locator("> *").evaluate(opacityOf)).toBeLessThan(1);
-    await panel.getByRole("button", {name: "Proyecto siguiente"}).click();
-    await expect(counter).toHaveText(/^2 \/ /);
-    // Pressing a card beside the middle one brings it to the middle instead of leaving the page.
-    // A pointer presses the visible edge of the next card, without scrolling it into view first.
-    await slides.nth(1).evaluate((slide) => slide.scrollIntoView({block: "center", inline: "nearest"}));
-    const next = (await slides.nth(2).boundingBox())!;
-    await page.mouse.click(next.x + 40, next.y + next.height / 2);
-    await expect(counter).toHaveText(/^3 \/ /);
-    await expect(page).toHaveURL(/\/es$/);
 });
 
 test.describe("for a reader who asks for less motion", () => {

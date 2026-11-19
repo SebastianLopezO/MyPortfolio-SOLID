@@ -205,7 +205,7 @@ function DetailArticle(props: ArticleProps) {
         <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <PageTrail label={ui.breadcrumb} items={crumbs()}/>
             <header class="mt-6 max-w-4xl">
-                <p class="font-mono text-xs tracking-widest text-accent uppercase">{ui.eyebrow[props.collection]}</p>
+                <p class="font-mono text-xs text-fg-subtle">{ui.eyebrow[props.collection]}</p>
                 {/* A title stays within two lines at every width: up to 40 characters it grows to the display size from
                     48rem, and longer ones (most certificates) keep the heading size. */}
                 <h1 translate={props.keepTitle ? "no" : undefined}
@@ -944,7 +944,7 @@ function CertificationPage(props: { slug: string }) {
                             href={facts.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex h-11 w-fit items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
+                            class="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
                         >
                             {ui.actions.credential}
                             <ExternalLink class="size-4"/>

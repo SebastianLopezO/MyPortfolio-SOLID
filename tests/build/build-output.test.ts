@@ -182,7 +182,7 @@ describe("prerendered pages", () => {
         // first screen.
         for (const [, url] of html.matchAll(/(?:component|renderer)-url="\/(assets\/[^"]+\.js)"/g)) visit(url);
         const part = (marker: string) => assets.find((file) => file.endsWith(".js") && read(file).includes(marker));
-        for (const marker of ["hero-backdrop", "mobile-nav", "aria-haspopup", "en_US"]) {
+        for (const marker of ["hero-backdrop", "site-menu", "aria-haspopup", "en_US"]) {
             const file = part(marker);
             expect(file, marker).toBeDefined();
             visit(file!);
@@ -197,16 +197,17 @@ describe("prerendered pages", () => {
         const styles = [...html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "").matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
             .map((match) => match[1]).join("\n");
         expect(styles.length).toBeGreaterThan(20 * KB);
-        // 14 KB since the home's second layer (the native disclosures) and the project reel joined the motion rules.
-        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(14 * KB);
+        // 17 KB since the redesign: every color answers in two themes (light-dark(), which Tailwind also writes as lab()
+        // and hex for browsers without OKLCH), and the folding header, the project tiles and the lab bench joined.
+        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(17 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
-        // the sections below never delay it; the whole page stays within three (+ 56 KB).
+        // the sections below never delay it; the whole page stays within three (+ 56 KB). 26 KB since the two themes.
         for (const path of PAGES) {
             const html = read(`${path}/index.html`);
             const firstSection = html.search(FIRST_SECTION);
             expect(firstSection, path).toBeGreaterThan(0);
-            expect(gzipSync(html.slice(0, firstSection), {level: 9}).length, path).toBeLessThanOrEqual(24 * KB);
+            expect(gzipSync(html.slice(0, firstSection), {level: 9}).length, path).toBeLessThanOrEqual(26 * KB);
         }
         for (const path of ALL_PAGES) expect(gzipSize(`${path}/index.html`), path).toBeLessThanOrEqual(96 * KB);
     });

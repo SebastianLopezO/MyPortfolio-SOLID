@@ -3,10 +3,20 @@
 @import "./fallback-fonts.css";
 
 @layer base {
+    /* The page follows the reader's system; the theme button pins one (SiteHeader, the script in Page.astro), and
+       every token answers through light-dark() (tokens.css). */
     :root {
-        color-scheme: dark;
+        color-scheme: light dark;
         /* Lets a height ease between 0 and auto where the browser can, as a "Show more" does when it opens (.more). */
         interpolate-size: allow-keywords;
+    }
+
+    :root[data-theme="light"] {
+        color-scheme: light;
+    }
+
+    :root[data-theme="dark"] {
+        color-scheme: dark;
     }
 
     *,
@@ -40,6 +50,7 @@
     h3 {
         font-family: var(--font-display);
         font-weight: 400;
+        letter-spacing: -0.02em;
         text-wrap: balance;
     }
 
@@ -48,7 +59,7 @@
     }
 
     ::selection {
-        background-color: oklch(0.73 0.116 185 / 0.35);
+        background-color: color-mix(in oklch, var(--color-accent) 22%, transparent);
         color: var(--color-fg);
     }
 
@@ -80,12 +91,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: var(--color-neutral-700);
+        background: var(--color-border);
         border-radius: 999px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-neutral-600);
+        background: var(--color-border-strong);
     }
 }
 
@@ -109,19 +120,99 @@
         }
     }
 
-    .text-gradient {
-        background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
-        background-clip: text;
-        color: transparent;
+    /*
+     * The technical field behind the hero and the lab board: a fine grid of hairlines, every fourth line a little
+     * stronger, fading out toward the edges so it never frames the content.
+     */
+    .grid-field,
+    .hero-backdrop::before {
+        --grid-line: color-mix(in oklch, var(--color-fg) 6%, transparent);
+        --grid-major: color-mix(in oklch, var(--color-fg) 10%, transparent);
+        background-image: linear-gradient(var(--grid-major) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+        background-size: 6rem 6rem, 6rem 6rem, 1.5rem 1.5rem, 1.5rem 1.5rem;
+        background-position: -1px -1px;
     }
 
+    /* Behind the hero the field is fainter and fades out from the middle. */
     .hero-backdrop {
-        background: radial-gradient(60rem 32rem at 85% 0%, oklch(0.73 0.116 185 / 0.16), transparent 60%),
-        radial-gradient(40rem 26rem at 0% 100%, oklch(0.8 0.12 170 / 0.08), transparent 60%);
+        position: relative;
+        isolation: isolate;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.8;
+            mask-image: radial-gradient(70% 60% at 50% 35%, black 0%, transparent 85%);
+        }
     }
 
     .site-header {
         view-transition-name: site-header;
+    }
+
+    /*
+     * The header (components/layout/SiteHeader.tsx) is a quiet bar at the top of the page and folds, once the reader
+     * scrolls, into a floating capsule of controls at the right: the bar's backdrop, the name and the sections fade
+     * away, and the header lets the page under its empty part take the pointer.
+     */
+    .header-backdrop {
+        position: absolute;
+        inset: 0;
+        background: color-mix(in oklch, var(--color-bg) 84%, transparent);
+        backdrop-filter: blur(16px) saturate(1.4);
+        border-bottom: 1px solid color-mix(in oklch, var(--color-border) 70%, transparent);
+        transition: opacity var(--duration-slow) var(--ease-standard);
+    }
+
+    .header-brand,
+    .header-nav {
+        transition: opacity var(--duration-slow) var(--ease-standard), translate var(--duration-slow) var(--ease-spring),
+        visibility var(--duration-slow);
+    }
+
+    .header-controls {
+        transition: background-color var(--duration-slow) var(--ease-standard), box-shadow var(--duration-slow) var(--ease-standard);
+    }
+
+    .site-header[data-folded] {
+        pointer-events: none;
+
+        & .header-backdrop {
+            opacity: 0;
+        }
+
+        & :is(.header-brand, .header-nav) {
+            opacity: 0;
+            translate: 0 -0.5rem;
+            visibility: hidden;
+        }
+
+        & :is(.header-controls, .site-menu) {
+            pointer-events: auto;
+        }
+
+        & .header-controls {
+            background: color-mix(in oklch, var(--color-bg) 86%, transparent);
+            backdrop-filter: blur(16px) saturate(1.4);
+            box-shadow: var(--shadow-card), 0 0 0 1px var(--color-border);
+        }
+    }
+
+    .site-menu {
+        position: absolute;
+        top: calc(var(--header-height) - 0.25rem);
+        right: max(1rem, calc((100vw - var(--container-page)) / 2 + 1rem));
+        width: min(18rem, calc(100vw - 2rem));
+        padding: 0.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        background: var(--color-bg);
+        box-shadow: var(--shadow-glow);
     }
 
     /* How far down the page the reader is, along the header's lower edge. The scroll position draws it
@@ -129,9 +220,10 @@
        asks for less motion, sees no bar. */
     .reading-progress {
         position: absolute;
-        inset: auto 0 -1px;
+        inset: 0 0 auto;
         height: 2px;
-        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        background: var(--color-fg);
+        opacity: 0.7;
         transform-origin: left;
         scale: 0 1;
     }
@@ -157,8 +249,48 @@
         white-space: pre;
     }
 
-    .hex-frame {
-        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    /* The portrait sits in the socket at the middle of the hero's board (scripts/illustrations/hero.mjs, SOCKET). */
+    .hero-socket {
+        left: 32.75%;
+        top: 24%;
+        width: 34.5%;
+        height: 52%;
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 1px oklch(0 0 0 / 0.08);
+    }
+
+    /*
+     * A project tile (components/projects/ProjectTile.tsx): a layer of color holding an illustration, a name and a few
+     * words. The whole tile is a link; it answers a pointer by growing a little, lifting its illustration and leaning
+     * its arrow, and its focus ring follows its corners.
+     */
+    .tile-surface {
+        isolation: isolate;
+        transition: scale var(--duration-base) var(--ease-standard);
+
+        &:focus-visible {
+            outline-offset: 4px;
+        }
+    }
+
+    .tile-illustration,
+    .tile-arrow {
+        transition: translate var(--duration-slow) var(--ease-spring), color var(--duration-base) var(--ease-standard);
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        .tile-surface:hover {
+            scale: 1.015;
+        }
+
+        .tile-surface:hover .tile-illustration {
+            translate: 0 -0.5rem;
+        }
+
+        .tile-surface:hover .tile-arrow {
+            translate: 0.1875rem -0.1875rem;
+            color: var(--color-fg);
+        }
     }
 
     /*
@@ -188,47 +320,12 @@
         }
     }
 
-    @media (width >= 64rem) {
-        .timeline::before,
-        .timeline::after {
-            content: "";
-            position: absolute;
-            inset-block: 2.25rem 0;
-            left: 0.5rem;
-            width: 2px;
-            translate: -50% 0;
-            border-radius: 1px;
-        }
-
-        .timeline::before {
-            background: var(--color-border);
-        }
-
-        .timeline::after {
-            background: linear-gradient(var(--color-primary), var(--color-accent));
-            transform-origin: top;
-        }
-    }
-
     /*
      * What the scroll position draws (view timelines): no script runs, and a browser without scroll-driven animations
      * gets the page at rest. The test asks for animation-range too, which leaves out browsers that only know half of it,
      * and the duration is auto, the timeline's own. Each range is set after its animation, which would reset it.
      */
     @supports ((animation-timeline: view()) and (animation-range: entry)) {
-        @media (width >= 64rem) and (prefers-reduced-motion: no-preference) {
-            .timeline::after {
-                animation: timeline-fill auto linear both;
-                animation-timeline: view(block 50% 50%);
-            }
-
-            .timeline-card {
-                animation: timeline-enter auto linear both;
-                animation-timeline: view();
-                animation-range: entry 0% entry 90%;
-            }
-        }
-
         @media (prefers-reduced-motion: no-preference) {
             /* A section heading, a section of a project or detail page and each part of a list or grid marked
                enter-each rise into place as they enter; one already past its entry is at rest, so nothing above the fold
@@ -254,6 +351,12 @@
                 animation-range-end: entry 13rem;
             }
 
+            .tile-illustration {
+                animation: tile-rise auto linear both;
+                animation-timeline: view();
+                animation-range: entry 10% entry 80%;
+            }
+
             .bar-grow {
                 animation: bar-grow auto linear both;
                 animation-timeline: view();
@@ -265,14 +368,6 @@
                 animation: hero-portrait-exit auto linear both;
                 animation-timeline: view();
                 animation-range: exit 0% exit 100%;
-            }
-
-            /* The screen at the top of a project card starts a little close and settles into its frame as the card
-               comes up; the frame (the card's link) clips it. It moves with transform, so the hover's scale still adds. */
-            .screen-settle {
-                animation: screen-settle auto linear both;
-                animation-timeline: view();
-                animation-range: entry 0% cover 45%;
             }
 
             /* A screen on a project or detail page paints in from its top edge, at most 4rem behind the bottom of the
@@ -315,7 +410,7 @@
             }
 
             /* On a phone a slider shows one card and the edge of the next: the cards half out of view turn away and
-               dim, and the one in view faces the reader. From 48rem a slider is a grid, or a reel (below). */
+               dim, and the one in view faces the reader. From 48rem a slider is a grid. */
             @media (width < 48rem) {
                 .carousel-depth > li > * {
                     animation: carousel-depth auto linear both;
@@ -323,16 +418,6 @@
                 }
             }
 
-            /* A reel from 64rem: the card in the middle faces the reader, and the ones beside it turn in toward it,
-               step back and dim the farther they are, so the row reads as a turntable of projects. The middle one
-               also comes to the front, so a turned neighbour never covers it. */
-            @media (width >= 64rem) {
-                .carousel-reel > li > * {
-                    position: relative;
-                    animation: reel-depth auto linear both;
-                    animation-timeline: view(inline);
-                }
-            }
         }
     }
 
@@ -445,20 +530,6 @@
         }
     }
 
-    /* A reel (Carousel with reel) can be dragged with a mouse; while it is, the cards do not snap or select text. */
-    @media (width >= 64rem) {
-        .carousel-reel {
-            cursor: grab;
-        }
-
-        .carousel-reel[data-dragging] {
-            cursor: grabbing;
-            scroll-snap-type: none;
-            scroll-behavior: auto;
-            user-select: none;
-        }
-    }
-
     /* Small answers to a pointer that hovers: the arrow of a link leans the way it leads, the icon of a link that
        leaves the site lifts and a download drops. The icons are Lucide's (components/ui/icons.tsx), named by class. */
     @media (hover: hover) and (prefers-reduced-motion: no-preference) {
@@ -549,6 +620,24 @@
     }
 }
 
+/*
+ * Which of the header's controls show (components/layout/SiteHeader.tsx). These sit outside the layers so they win
+ * over the display utilities the controls carry. From 80rem the sections sit in the bar, so the menu button only joins
+ * the controls once the bar folds; below 40rem the language moves into the panel, which keeps the bar to the name and
+ * two round buttons.
+ */
+@media (width >= 80rem) {
+    .site-header:not([data-folded], [data-open]) .header-menu-button {
+        display: none;
+    }
+}
+
+@media (width < 40rem) {
+    .header-controls .header-language {
+        display: none;
+    }
+}
+
 /* Where the parts marked appear start from (globals.css, .appear). The rule stays outside any layer and any nesting. */
 @starting-style {
     .appear {
@@ -557,22 +646,18 @@
     }
 }
 
-@keyframes timeline-fill {
-    from {
-        transform: scaleY(0);
-    }
-}
-
-@keyframes timeline-enter {
-    from {
-        translate: -1.5rem 0;
-    }
-}
-
 @keyframes section-enter {
     from {
         opacity: 0;
         translate: 0 1.5rem;
+    }
+}
+
+@keyframes tile-rise {
+    from {
+        opacity: 0;
+        translate: 0 1.5rem;
+        scale: 0.92;
     }
 }
 
@@ -610,12 +695,6 @@
         opacity: 0.15;
         translate: 0 -2.5rem;
         scale: 0.96;
-    }
-}
-
-@keyframes screen-settle {
-    from {
-        transform: scale(1.12);
     }
 }
 
@@ -666,25 +745,6 @@
     exit 100% {
         opacity: 0.4;
         transform: perspective(60rem) rotateY(16deg) scale(0.9);
-    }
-}
-
-/* Entering on the right (0%), in the middle (50%), leaving on the left (100%). */
-@keyframes reel-depth {
-    0%, 100% {
-        z-index: 0;
-        opacity: 0.4;
-    }
-    0% {
-        transform: perspective(80rem) translateZ(-10rem) rotateY(-34deg);
-    }
-    50% {
-        z-index: 10;
-        opacity: 1;
-        transform: perspective(80rem) translateZ(0) rotateY(0deg);
-    }
-    100% {
-        transform: perspective(80rem) translateZ(-10rem) rotateY(34deg);
     }
 }
 

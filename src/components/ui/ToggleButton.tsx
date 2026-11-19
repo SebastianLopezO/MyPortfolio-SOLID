@@ -15,7 +15,7 @@ export function ToggleButton(props: {
             aria-pressed={props.pressed}
             onClick={() => props.onClick()}
             class={cn(
-                "min-h-10 rounded-md border px-3 py-2 text-sm font-semibold transition-colors",
+                "min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition-colors",
                 props.pressed ? "border-primary bg-primary text-on-primary" : "border-border text-fg-muted hover:border-primary hover:text-primary",
             )}
         >

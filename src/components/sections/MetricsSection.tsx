@@ -107,7 +107,7 @@ export function MetricsSection() {
             <p class="mt-4 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
             <Link
                 to={buildDetailPath(lang, "metrics", {locked: locked()})}
-                class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
             >
                 {metrics.pageLink}
                 <ArrowRight class="size-4"/>
@@ -319,7 +319,7 @@ export function MetricsContent() {
                 <button
                     type="button"
                     onClick={() => setLoaded(true)}
-                    class="mt-8 inline-flex min-h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                    class="mt-8 inline-flex min-h-10 items-center rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {metrics.load}
                 </button>

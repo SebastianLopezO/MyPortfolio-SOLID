@@ -189,7 +189,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                              class="mb-3 max-h-[40dvh] space-y-4 overflow-y-auto overscroll-contain border-b border-border pb-3">
                             <For each={copy.catalog.groups}>{(group) => (
                                 <section aria-label={group.title}>
-                                    <h3 class="font-mono text-xs tracking-widest text-fg-subtle uppercase">{group.title}</h3>
+                                    <h3 class="font-mono text-xs text-fg-subtle">{group.title}</h3>
                                     <ul class="mt-2 flex flex-wrap gap-2">
                                         <For each={group.questions}>{(question) => (
                                             <li>
@@ -206,7 +206,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                     </Show>
                     <div class="mb-2 flex items-center justify-between gap-3">
                         <p id="assistant-suggestions"
-                           class="font-mono text-xs tracking-widest text-fg-subtle uppercase">
+                           class="font-mono text-xs text-fg-subtle">
                             {copy.suggestionsLabel}
                         </p>
                         <button
@@ -248,7 +248,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                         type="submit"
                         aria-label={copy.send}
                         disabled={!query().trim()}
-                        class="grid size-11 shrink-0 place-items-center rounded-md bg-primary text-on-primary transition-colors hover:bg-primary-hover disabled:opacity-50"
+                        class="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors hover:bg-primary-hover disabled:opacity-50"
                     >
                         <SendHorizontal class="size-5"/>
                     </button>

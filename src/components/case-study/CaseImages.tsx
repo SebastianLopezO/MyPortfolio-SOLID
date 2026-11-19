@@ -12,7 +12,7 @@ const srcSet = (image: CaseImageFacts, format: "avif" | "webp") =>
  * `bare` drops the frame (corners and outline) for a screen that fills the top of a card that already has one.
  * `eager` is for the screen a page opens with: it loads at once and ahead of the others.
  * `frameClass` styles the picture around the image, such as the motion that brings it into view (globals.css,
- * screen-settle and screen-unmask), kept off the image so it never competes with the image's own fade.
+ * screen-unmask), kept off the image so it never competes with the image's own fade.
  *
  * A screen the reader reaches before it has arrived is marked data-loading, which holds its place with a soft pulse,
  * and data-loaded when it arrives, which fades it in (globals.css). One that arrives before it is reached simply shows,
@@ -76,9 +76,6 @@ export function CaseImage(props: {
 
 /** A screen of a project page paints in from its top edge as it comes into view (globals.css). */
 export const UNMASK = "block screen-unmask";
-
-/** A screen at the top of a card settles into the card's frame as the card comes up (globals.css). */
-export const SETTLE = "block screen-settle";
 
 /** What a screen needs under it: the attribution of its data, or the note that it is a recreation. */
 function Caption(props: { image: CaseImageFacts; recreationLabel: string }) {

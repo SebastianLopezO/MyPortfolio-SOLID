@@ -38,7 +38,8 @@ test("opens a case study from the home page and keeps the locked role view on th
 
 test("links the featured project to its case study, its live demo and its code", async ({page}) => {
     await gotoHydrated(page, "/en");
-    const featured = page.locator("#projects article").first();
+    const featured = page.locator("#projects [data-featured]");
+    await expect(featured.locator("article a")).toHaveAttribute("href", "/en/projects/smartpot");
     await expect(featured.getByRole("link", {name: "Case study"})).toHaveAttribute("href", "/en/projects/smartpot");
     await expect(featured.getByRole("link", {name: "Live demo"})).toHaveAttribute("href", "https://smartpot.app");
     await expect(page.getByRole("link", {name: /All projects/})).toHaveAttribute("href", "/en/projects");
@@ -46,8 +47,11 @@ test("links the featured project to its case study, its live demo and its code",
 
 test("lists every project and the archive with safe external links", async ({page}) => {
     await gotoHydrated(page, "/en/projects");
-    await expect(page.getByRole("link", {name: "Case study"})).toHaveCount(CASES.length);
-    await expect(page.getByRole("link", {name: "View the project"})).toHaveCount(PROJECTS.length - CASES.length);
+    // One tile per project, each the link to its page.
+    const tiles = page.locator("main .project-tile a");
+    await expect(tiles).toHaveCount(PROJECTS.length);
+    const hrefs = await tiles.evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+    expect(new Set(hrefs)).toEqual(new Set(PROJECTS.map((slug) => `/en/projects/${slug}`)));
     const rels = await page.locator('main a[target="_blank"]').evaluateAll((links) => links.map((link) => link.getAttribute("rel")));
     expect(rels.length).toBeGreaterThan(0);
     expect(new Set(rels)).toEqual(new Set(["noopener noreferrer"]));

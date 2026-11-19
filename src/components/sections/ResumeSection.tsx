@@ -81,7 +81,7 @@ export function ResumeSection() {
                                 href={file()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
+                                class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
                             >
                                 <ExternalLink class="size-5"/>
                                 {resume.open}
@@ -90,7 +90,7 @@ export function ResumeSection() {
                             <a
                                 href={file()}
                                 download=""
-                                class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
+                                class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
                             >
                                 <Download class="size-5"/>
                                 {resume.download}
@@ -99,7 +99,7 @@ export function ResumeSection() {
                                 href={file()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary active:translate-y-px"
+                                class="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary active:translate-y-px"
                             >
                                 <ExternalLink class="size-5"/>
                                 {resume.open}

@@ -12,7 +12,8 @@ export function SdgBadge(props: { id: SdgId; label: string; compact?: boolean })
                 class={cn(
                     "grid shrink-0 place-items-center rounded-sm font-mono font-semibold",
                     props.compact ? "size-6 text-xs" : "size-8 text-sm",
-                    goal().onColor === "light" ? "text-fg" : "text-bg",
+                    // The badge colors are fixed, so their ink is too: it does not follow the theme.
+                    goal().onColor === "light" ? "text-paper" : "text-ink",
                 )}
                 style={{background: goal().color}}
             >

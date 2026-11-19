@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <rect width="64" height="64" rx="14" fill="#0d0d0d"/>
-    <rect x="3" y="3" width="58" height="58" rx="11" fill="none" stroke="#35bfb1" stroke-width="3"/>
-    <text x="32" y="43" text-anchor="middle" font-family="Georgia, 'DM Serif Text', serif" font-size="30"
-          fill="#35bfb1">SL
+    <rect width="64" height="64" rx="16" fill="#141619"/>
+    <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="1.5"/>
+    <text x="30" y="42" text-anchor="middle" font-family="Geist, 'Helvetica Neue', Arial, sans-serif" font-size="27"
+          letter-spacing="-1.5" fill="#f5f5f5">SL
     </text>
+    <circle cx="51" cy="13" r="4.5" fill="#2fc79a"/>
 </svg>

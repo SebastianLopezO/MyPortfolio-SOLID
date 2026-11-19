@@ -50,7 +50,7 @@ export function SiteFooter() {
                 </div>
                 <div>
                     <nav aria-label={ui.footer.explore}>
-                        <p class="font-mono text-xs tracking-widest text-fg-subtle uppercase">{ui.footer.explore}</p>
+                        <p class="font-mono text-xs text-fg-subtle">{ui.footer.explore}</p>
                         <ul class="mt-4 mb-8 flex flex-wrap gap-2">
                             <For each={pages}>{(page) => (
                                 <li>
@@ -64,7 +64,7 @@ export function SiteFooter() {
                             )}</For>
                         </ul>
                     </nav>
-                    <p class="font-mono text-xs tracking-widest text-fg-subtle uppercase">{ui.footer.elsewhere}</p>
+                    <p class="font-mono text-xs text-fg-subtle">{ui.footer.elsewhere}</p>
                     <ul translate="no" class="mt-4 flex flex-wrap gap-2">
                         <For each={socialLinks}>{(link) => (
                             <li>

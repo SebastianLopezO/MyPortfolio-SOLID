@@ -90,11 +90,11 @@ export function PageIndex(props: { label: string; sections: { id: string; title:
             <details open={open()} onToggle={(event) => setOpen(event.currentTarget.open)}
                      class="mt-8 rounded-lg border border-border bg-surface xl:hidden">
                 <summary
-                    class="cursor-pointer px-4 py-3 font-mono text-xs tracking-widest text-fg-subtle uppercase">{props.label}</summary>
+                    class="cursor-pointer px-4 py-3 font-mono text-xs text-fg-subtle">{props.label}</summary>
                 <nav aria-label={props.label} class="px-4 pb-4">{links(() => setOpen(false))}</nav>
             </details>
             <nav aria-label={props.label} class="sticky top-24 mt-10 hidden xl:block">
-                <p class="font-mono text-xs tracking-widest text-fg-subtle uppercase">{props.label}</p>
+                <p class="font-mono text-xs text-fg-subtle">{props.label}</p>
                 {links()}
             </nav>
         </>
@@ -138,7 +138,7 @@ export function CopyLink() {
     };
     return (
         <button type="button" onClick={copy}
-                class="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-border px-3 text-sm font-semibold text-fg-muted hover:border-primary hover:text-primary">
+                class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-semibold text-fg-muted hover:border-primary hover:text-primary">
             <Show when={result() === "copied"} fallback={<Copy class="size-4"/>}>
                 <Check class="size-4"/>
             </Show>

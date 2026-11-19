@@ -9,11 +9,24 @@ import {useRole} from "@/context/role";
 import {Section} from "@/components/layout/Section";
 import {ArrowRight} from "@/components/ui/icons";
 import {Carousel} from "@/components/ui/Carousel";
+import {withBase} from "@/lib/base";
 import {buildDetailPath, buildProjectPath} from "@/lib/paths";
 import {prioritize} from "@/lib/role-view";
 import {cn} from "@/lib/utils";
 import {Link} from "@/routes/Router";
 import type {ServiceId} from "@/types/content";
+
+/** The object that stands for each service, from the same family as the projects' illustrations. */
+const SERVICE_ART: Record<ServiceId, string> = {
+    integration: "/illustrations/projects/integration-platform.svg",
+    crm: "/illustrations/projects/crm-widgets.svg",
+    web: "/illustrations/projects/landing-platform.svg",
+    data: "/illustrations/projects/taurus.svg",
+    automation: "/illustrations/projects/email-automations.svg",
+    infra: "/illustrations/lab/cloud.svg",
+    observability: "/illustrations/projects/observability.svg",
+    consulting: "/illustrations/projects/ai-techniques.svg",
+};
 
 /** Where a service sits on the services page, so the home's list can lead straight to it. */
 export const serviceAnchor = (id: ServiceId) => `service-${id}`;
@@ -35,19 +48,26 @@ export function ServicesSection() {
                 <For each={ordered()}>
                     {(id) => (
                         <li class="border-t border-border py-5">
-                            <p class="font-mono text-xs tracking-wider text-accent uppercase">
-                                {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
-                            </p>
-                            <h3 class="mt-2 text-title text-fg">
-                                <Link to={page(serviceAnchor(id))} class="hover:text-primary">{services.items[id].title}</Link>
-                            </h3>
+                            <Link to={page(serviceAnchor(id))} class="group flex items-center gap-4">
+                                <span class="grid size-16 shrink-0 place-items-center rounded-2xl bg-bg">
+                                    <img src={withBase(SERVICE_ART[id])} alt="" width={56} height={56} loading="lazy"
+                                         decoding="async"
+                                         class="size-14 transition-transform duration-400 ease-spring group-hover:-translate-y-1"/>
+                                </span>
+                                <span class="min-w-0">
+                                    <span class="block font-mono text-xs text-fg-subtle">
+                                        {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
+                                    </span>
+                                    <h3 class="mt-1 text-lg leading-snug text-fg group-hover:text-fg-muted">{services.items[id].title}</h3>
+                                </span>
+                            </Link>
                         </li>
                     )}
                 </For>
             </ul>
             <Link
                 to={page()}
-                class="mt-8 inline-flex min-h-10 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                class="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
             >
                 {services.pageLink}
                 <ArrowRight class="size-4"/>
@@ -82,7 +102,7 @@ export function ServicesContent() {
                     return (
                         <article id={serviceAnchor(id)}
                                  class="flex w-full flex-col rounded-lg border border-border bg-surface p-6 shadow-card">
-                            <p class="font-mono text-xs tracking-wider text-accent uppercase">
+                            <p class="font-mono text-xs text-fg-subtle">
                                 {serviceRoles[id].map((serviceRole) => ui.roleSwitcher.roles[serviceRole]).join(" · ")}
                             </p>
                             <h3 class="mt-3 text-title text-fg">{service.title}</h3>

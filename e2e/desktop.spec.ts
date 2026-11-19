@@ -6,8 +6,8 @@ test("lays the profile out across a wide screen", async ({page, isMobile}) => {
     await gotoHydrated(page, "/en");
     const container = await page.locator("#experience .container-page").boundingBox();
     expect(container!.width).toBeGreaterThanOrEqual(1920 * 0.75);
-    // Each job spans the timeline instead of half of it.
-    const job = await page.locator("#experience .timeline-card").first().boundingBox();
+    // Each job spans the container instead of half of it.
+    const job = await page.locator("#experience-jobs > li").first().boundingBox();
     expect(job!.width).toBeGreaterThan(container!.width * 0.8);
 });
 
