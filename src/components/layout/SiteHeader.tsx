@@ -7,10 +7,12 @@ import {useRole} from "@/context/role";
 import {LanguageSwitcher} from "@/components/layout/LanguageSwitcher";
 import {ThemeToggle} from "@/components/layout/ThemeToggle";
 import {withBase} from "@/lib/base";
-import {cn, sectionPath} from "@/lib/utils";
 import type {SectionId} from "@/types/content";
 
 const NAV_SECTIONS: SectionId[] = ["about", "journey", "experience", "skills", "projects", "testimonials", "resume", "contact"];
+
+/** How far the page scrolls before the header folds into its floating name and controls. */
+const FOLD_AT = 48;
 
 interface SiteHeaderProps {
     sections: SectionId[];
@@ -45,22 +47,32 @@ function useCurrentSection(sections: () => SectionId[], enabled: () => boolean) 
 }
 
 /**
- * The header, a bar that stays at the top of the screen the whole way down: the name, so the reader always knows whose
- * page this is, the sections with the one being read marked, and the controls. From 80rem the sections sit in the
- * bar; below it they live in the menu's panel, and the section being read is written after the name, the way its
- * heading's eyebrow writes it (/experiencia).
+ * The header. At the top of a page it is a quiet bar: the name, the sections and the controls. Once the reader
+ * scrolls, the bar folds away and leaves two small floating pieces, so the page has the screen: the name at the left,
+ * so whose page this is never leaves the screen, and at the right a capsule with the theme and a round menu button
+ * whose panel lists every section, the one being read marked. Below 80rem the sections always live in that panel.
  */
 export function SiteHeader(props: SiteHeaderProps) {
     const {ui} = useContent();
     const {role, pathFor} = useRole();
     const [open, setOpen] = createSignal(false);
+    const [folded, setFolded] = createSignal(false);
     const items = () => props.sections.filter((section) => NAV_SECTIONS.includes(section));
-    // Every section is followed, also those the bar has no link for (services, certifications, metrics).
-    const current = useCurrentSection(() => props.sections, () => !props.homeLinks);
+    const current = useCurrentSection(items, () => !props.homeLinks);
     let panel: HTMLDivElement | undefined;
     let toggle: HTMLButtonElement | undefined;
 
     onMount(() => {
+        let frame = 0;
+        const update = () => {
+            frame = 0;
+            setFolded(window.scrollY > FOLD_AT);
+        };
+        const schedule = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+        update();
+        window.addEventListener("scroll", schedule, {passive: true});
         // The panel closes with Escape, which hands the focus back to its button, or with a press anywhere outside it.
         const onKey = (event: KeyboardEvent) => {
             if (event.key !== "Escape" || !open()) return;
@@ -74,6 +86,8 @@ export function SiteHeader(props: SiteHeaderProps) {
         document.addEventListener("keydown", onKey);
         document.addEventListener("pointerdown", onPointer);
         onCleanup(() => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener("scroll", schedule);
             document.removeEventListener("keydown", onKey);
             document.removeEventListener("pointerdown", onPointer);
         });
@@ -84,34 +98,21 @@ export function SiteHeader(props: SiteHeaderProps) {
     return (
         <header
             class="site-header fixed inset-x-0 top-0 z-50"
+            data-folded={folded() || undefined}
             data-open={open() || undefined}
         >
             <span aria-hidden="true" class="header-backdrop"/>
-            <div class="container-page relative flex h-(--header-height) items-center justify-between gap-4 sm:gap-6">
-                {/* On a phone the section goes under the name, on a second line of the bar; from 40rem, beside it. */}
-                <div class="flex min-w-0 flex-col sm:flex-row sm:items-baseline sm:gap-3">
-                    <Link to={pathFor(role())}
-                          class="shrink-0 text-lg leading-tight tracking-tight text-fg hover:text-fg-muted">
-                        <span class="sm:hidden">{profile.shortName}</span>
-                        <span class="hidden sm:inline">{profile.name}</span>
-                        <span class="sr-only"> · {ui.home}</span>
-                    </Link>
-                    {/* Below 80rem the bar has no room for the sections: it names the one being read instead, and from
-                        80rem it does so for a section the bar has no link for. The links mark it for assistive
-                        technology, so this is for the eye only. */}
-                    <Show when={current()} keyed>
-                        {(section) => (
-                            <span aria-hidden="true"
-                                  class={cn("appear truncate font-mono text-xs text-fg-subtle", items().includes(section) && "xl:hidden")}>
-                                {sectionPath(ui.nav[section])}
-                            </span>
-                        )}
-                    </Show>
-                </div>
+            <div class="container-page relative flex h-(--header-height) items-center justify-between gap-3 sm:gap-6">
+                {/* The whole name at every width: folded, it is the pill that keeps whose page this is in sight. */}
+                <Link to={pathFor(role())}
+                      class="header-brand min-w-0 shrink truncate rounded-full text-base leading-tight tracking-tight text-fg hover:text-fg-muted sm:text-lg">
+                    {profile.name}
+                    <span class="sr-only"> · {ui.home}</span>
+                </Link>
 
                 {/* The link of the section being read says so to assistive technology and shows it with more than its
                     color: an underline here, a dot in the panel. */}
-                <nav aria-label={ui.navLabel} class="hidden xl:block">
+                <nav aria-label={ui.navLabel} class="header-nav hidden xl:block">
                     <ul class="flex items-center gap-1">
                         <For each={items()}>
                             {(section) => (

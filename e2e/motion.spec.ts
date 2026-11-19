@@ -2,27 +2,16 @@ import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 
 const opacityOf = (element: Element) => Number(getComputedStyle(element).opacity);
 
-test("keeps the name in the header the whole way down and marks the section being read", async ({
-                                                                                                    page,
-                                                                                                    isMobile,
-                                                                                                    consoleErrors
-                                                                                                }) => {
+test("folds the header as the page scrolls and marks the section being read in its menu", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/en");
     const header = page.locator(".site-header");
+    await expect(header).not.toHaveAttribute("data-folded");
     await expect(page.locator('.site-header a[aria-current="true"]')).toHaveCount(0);
     await hydrateSection(page, "experience");
     await page.locator("#experience h2").scrollIntoViewIfNeeded();
-    // Whose page this is stays in sight, and so does where the reader is.
+    // Once the reader scrolls, the bar folds into the floating name and controls capsule, and the menu lists the sections.
+    await expect(header).toHaveAttribute("data-folded", "true");
     await expect(header.getByRole("link", {name: /Sebastián/})).toBeVisible();
-    if (!isMobile) {
-        const bar = header.getByRole("navigation", {name: "Main navigation"});
-        await expect(bar.getByRole("link", {name: "Experience"})).toHaveAttribute("aria-current", "true");
-        await expect(header.getByRole("button", {name: "Open menu"})).toBeHidden();
-        expect(consoleErrors).toEqual([]);
-        return;
-    }
-    // Below 80rem the bar writes the section after the name, and the menu lists the sections with it marked.
-    await expect(header.getByText("/experience")).toBeVisible();
     await header.getByRole("button", {name: "Open menu"}).click();
     const menu = page.locator("#site-menu").getByRole("navigation", {name: "Main navigation"});
     await expect(menu.getByRole("link", {name: "Experience"})).toHaveAttribute("aria-current", "true");
