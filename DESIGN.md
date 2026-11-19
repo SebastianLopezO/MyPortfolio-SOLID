@@ -5,161 +5,149 @@ This file describes the look of the site in the words a screen generator such as
 source of truth, and [`docs/design-system.md`](docs/design-system.md) keeps the contrast table and the rules for
 components. When the two disagree, the code wins and this file gets fixed.
 
+## 0. Where it comes from
+
+The redesign of November 2026 answers one problem: the site said everything in words, so cards grew long, the dark
+teal theme tired the eye and a project read as a wall of text before anyone saw what it was. Two portfolios set the
+direction.
+
+- **[gabrielvaldivia.com](https://www.gabrielvaldivia.com/work).** A work index of square tiles, each an image on its
+  own field, a name and three or four words; the whole tile is the link, and it grows 2.5% under the pointer. Filters
+  are pills. Inner pages open with the name set very large, a paragraph beside a small table of facts (team, services,
+  date), then large media panels separated by short sections whose title sits in a left column. Long lists (talks,
+  clients, notes) are quiet rows: a title and a muted descriptor. The header folds into one round button once the page
+  scrolls, and its menu is a floating panel that marks the current page with a dot.
+- **[blunar.cz](https://www.blunar.cz/).** White and very light grey layers over a fine technical grid, a grotesk in
+  several weights, eyebrows written as paths (`/about`, `/experiments`), an indexed list whose items carry small
+  colored squares for their category, skills drawn as the dials of a device, and the `/experiments` board: objects
+  lying on a grid, a little turned, that the reader drags around. On a phone the board becomes a row seen one object at
+  a time.
+
+What the site takes is the method, not the look of either: images say what a project is before words do, a tile
+carries a name and a few words, and the details live one click away. Since there are few photographs of the work, the
+images are illustrations drawn for the site (section 4, Illustrations).
+
 ## 1. Visual Theme & Atmosphere
 
-A dark engineering notebook. One near-black canvas, one teal accent, serif headings over a plain sans and monospace
-for every tool name. It reads like a technical dossier written by its owner: indexed lists, captions, dates and
-figures with a source.
+A bench of small devices on clean paper. The interface is monochrome, ink on paper in the light theme and paper on ink
+in the dark one; color appears only in layers: the soft field behind each illustration, the objects themselves, the
+charts. Pages read like a product designer's case files: a large name, a sentence, a table of facts, a picture.
 
-- **Density 5, Daily App Balanced.** Long sections (experience, case studies, recommendations) carry a lot of text, so
-  space goes into the rhythm between sections.
-- **Variance 4, restrained asymmetry.** The hero is an offset split, the experience timeline splits each job in two,
-  and list-like content becomes indexed rows. Nothing is rotated, overlapped or scattered.
-- **Motion 6, Fluid CSS.** The page loads progressively: the hero's secondary parts settle in one after another,
-  parts rise into place as they enter the screen, screens paint in from their top edge or settle into their frame,
-  charts draw themselves, figures count up once, the header draws the reading progress and pages fade into each other;
-  a hover moves an arrow or a screen a few pixels and a button presses 1px. The browser draws nearly all of it from
-  CSS, nothing moves for more than five seconds on its own, and `prefers-reduced-motion` turns it off.
+- **Density 3, Gallery Airy.** The first glance carries a name and a few words per item; everything else opens in
+  place or lives on its own page.
+- **Variance 5, controlled asymmetry.** The hero splits text and board; the lab bench scatters its objects; lists are
+  strict index rows.
+- **Motion 6, Fluid CSS.** Illustrations rise onto their tiles as they come up, the header folds, the bench's objects
+  straighten when picked up and settle when dropped. The browser draws nearly all of it from CSS, nothing moves for more
+  than five seconds on its own, and `prefers-reduced-motion` turns it off.
 
 ## 2. Color Palette & Roles
 
-The site has one theme, dark. Every color is an OKLCH token; the hex values below are their sRGB conversions.
+Every token is `light-dark(light, dark)` in OKLCH; the page follows the system and the header's button pins a theme
+(`<html data-theme>`, remembered in `localStorage`). Hex values below are the sRGB conversions, light / dark.
 
-- **Notebook Black** (#0D0D0D, `bg`): Page background and `theme-color`. Never pure black.
-- **Graphite Surface** (#121615, `surface`): Cards, panels, the raised band behind alternate sections.
-- **Raised Graphite** (#1A1F1F, `surface-raised`): Inputs, the selected entry in the journey lists, the assistant's
-  replies and the tracks of the language bars.
-- **Hairline** (#233937, `border`): Card outlines and the dividers between index rows. Meant for decoration (1.6:1).
-- **Control Edge** (#556F6C, `border-strong`): Borders that must be seen: inputs, outline buttons (3.6:1).
-- **Paper White** (#F1F6F7, `fg`): Headings and body text (17.9:1).
-- **Fog** (#B0C2C0, `fg-muted`): Secondary text, summaries, descriptions (10.5:1).
-- **Ash** (#9FADAB, `fg-subtle`): Captions, dates, issuers, metadata (8.3:1, and at least 7:1 on every surface).
-- **Signal Teal** (#35BFB1, `primary`): The single accent: links, primary buttons, focus, figures (8.6:1).
-- **Bright Teal** (#48D3C5, `primary-hover`): Hover state of everything teal.
-- **Mint** (#61D7B2, `accent`): Teal's lighter partner, used as the end of the teal gradients (section titles, the
-  experience timeline, the language bars) and for small secondary highlights. It never fills a button.
-- **Status Green** (#59D38C, `success`): Availability and the present: the "open to roles" pill, the badge of the
-  current job and one of the three window dots above the ASCII art.
-- **WhatsApp Green** (#25D366, `whatsapp`): The WhatsApp button, the only color from outside the palette.
+- **Paper / Night** (#FBFCFD / #0D0D0D, `bg`): page background and `theme-color`. Never pure white or pure black.
+- **Mist / Graphite** (#F2F4F5 / #161616, `surface`): panels, the lab bench, raised sections.
+- **Fog / Smoke** (#E7EAEC / #202020, `surface-raised`): chips, quiet buttons, the menu's hover.
+- **Hairline** (#DCDEE0 / #2E2E2E, `border`): dividers between index rows. Decoration only.
+- **Control Edge** (#7D8185 / #747474, `border-strong`): borders that must be seen: inputs, outline buttons (3:1+).
+- **Ink / Paper** (#141619 / #F5F5F5, `fg`): headings and body text (17.6:1 / 17.8:1).
+- **Graphite text / Silver** (#3D4044 / #CACACA, `fg-muted`): summaries, briefs, descriptions (AAA on every surface
+  and tile).
+- **Slate / Ash** (#484A4F / #B4B4B4, `fg-subtle`): captions, dates, eyebrows (at least 7:1 everywhere).
+- **Primary = Ink** (`primary`): the action color is the text color. A primary button is an ink pill with paper text;
+  a link darkens to ink.
+- **Cobalt** (#1745C2 / #9DBDFF, `accent`): one small highlight: the dot of the current menu entry, focus rings
+  (`ring`), the first chart series.
+- **Status Green** (`success`): availability and the present, as a dot.
+- **Tiles** (`tile-sky`, `tile-mint`, `tile-peach`, `tile-lilac`, `tile-butter`, `tile-rose`, `tile-sage`,
+  `tile-stone`): the layers behind illustrations. Pastel paper in light (L 0.93), the same hue sunk to L 0.27 in dark.
+  Ink and muted text keep AAA on every tile in both themes.
 
-The teal is 57% saturated in HSL. Chart colors (`viz-*`, `level-*`, `sdg-*`) live in their own validated block and
-appear only inside the journey charts.
+Chart colors (`viz-*`, `level-*`, `chart-*`, `sdg-*`) live in their own validated block. `pnpm check:contrast` checks
+every pair in both themes.
 
 ## 3. Typography Rules
 
-- **Display:** DM Serif Text 400 for `h1` to `h3`. The family has no bold, so `font-synthesis: none` forbids faux bold;
-  hierarchy comes from size and color. Section titles use a teal-to-mint gradient so close in hue that it reads as
-  one color. This serif comes from the previous version of the site and is kept on purpose: the Stitch skill would
-  pick a serif such as Fraunces or Instrument Serif, and switching would break the brand.
-- **Body:** IBM Plex Sans 400 and 600, 1rem with 1.6 leading, measured to 42 to 56rem per paragraph.
-- **Mono:** Source Code Pro 400 for tool and technology names, dates in captions, eyebrows and the ASCII art.
-- **Scale:** `text-display` clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem) for the name, the title of each project page and the
-  404; `text-heading` clamp(1.875rem,
-  1.4rem + 1.8vw, 2.75rem) for section titles; `text-title` 1.375rem for card titles.
-- **Banned:** Inter, generic serifs (Times New Roman, Georgia, Garamond) as visible faces, gradient text on body copy,
-  numbers or the name, all-caps outside small eyebrows.
+- **One family:** Geist for headings and text (400 and 600), Geist Mono 400 for tools, dates, eyebrows and figures.
+  Metric-matched local fallbacks keep the layout still while the faces load.
+- **Headings are large, light and tight:** `text-display` clamp(2.75rem → 6.25rem), leading 1, tracking -0.045em, for
+  the name and each project's title; `text-heading` clamp(1.875rem → 3.25rem), tracking -0.035em, for section titles;
+  `text-title` 1.375rem for rows and tiles. Weight stays 400: hierarchy comes from size and tone, never from bold.
+- **Two tones in a heading:** the hero writes the name in ink and the role under it in `fg-subtle`, the way a title
+  card does.
+- **Eyebrows as paths:** each section opens with its name as a path in Geist Mono (`/proyectos`, `/hoja-de-vida`).
+- **Banned:** Inter, serif display faces, gradient text, all-caps beyond the smallest labels, faux bold.
 
 ## 4. Component Stylings
 
-- **Buttons:** 48px tall in the hero and the contact form (`h-12`), 44px elsewhere (`h-11`), 0.5rem corners.
-  Primary: Signal Teal fill with Notebook Black text. Secondary: transparent with a Control Edge outline that turns
-  teal on hover. Pressing moves them down 1px. No glow, no gradient fill, at most one primary button per view.
-- **Chips:** monospace and small, never below 13px. The hero's core stack and the tech lists inside cards have small
-  square corners;
-  skill tags are pills. Tags of the selected role view are tinted teal; the rest stay Ash on a Hairline outline.
-- **Cards:** one object per card: a job, a project, a recommendation, a service, a language, the contact form.
-  Graphite Surface, Hairline outline, 0.75rem corners. Jobs, services, the resume preview and the contact form sit on
-  a soft `shadow-card`; the featured project gets the teal `shadow-glow`. A card opens with information, never with a
-  decorative icon: a service names the role views it serves, a reason to hire starts with its title.
-- **Index rows:** lists of many similar items (certifications, the repository archive) are rows separated by Hairline
-  rules. Skill groups are open blocks on the same rules, two to three across. No box around each item.
-- **Charts:** bars only, rounded ends, each with its number in text beside it; categories use the six chart tokens,
-  never color alone to carry meaning.
-- **Sliders:** repeated cards on phones (recommendations, services, reasons to hire) show one at a time with the
-  next one peeking at the edge, and move by swipe or by the buttons under them, with a "4 / 16" counter. No dots, no
-  autoplay, no visible scrollbar.
-- **Figures:** a number in DM Serif Text and Signal Teal over a short label, laid out as an open strip. The number
-  always comes from a source listed in `docs/content.md`.
-- **Inputs:** label above, Raised Graphite fill, Control Edge border, teal ring on focus. Placeholders show what to
-  write.
-- **Disclosures:** the second layer of the home. A native `details` element whose summary says what opening it does
-  ("Show more (9)", "Achievements (4)", "Read the full story") in Signal Teal with a chevron that turns, and whose
-  text stays in the prerendered page for search engines and find in page. "Expand all" opens every one of a section
-  at once. Never a "Read more" that hides the only proof of a claim: the first glance keeps the claim and its best
-  evidence.
-- **Reel:** from 64rem the projects of a category turn on a reel: the current card in the middle faces the reader, its
-  neighbours turn in toward it and dim, and the row moves by drag, arrow keys, the buttons or a press on a side card,
-  with a "3 / 12" counter. On phones it is the usual slider.
-- **Stack chips with a count:** a card shows its first ten tools and a dashed "+N" chip for the rest, which its page
-  lists in full.
-- **Loading and empty states:** the site is static and prerendered; images reserve their size, nothing spins. A
-  project screen the reader reaches before it has arrived holds its frame in Raised Graphite with a soft pulse (four
-  beats at most), then fades in; one that arrived first simply shows.
+- **Project tiles** (`ProjectTile`): one layer of color with the project's illustration, then its name and a brief of
+  two to five words, all inside the same rounded tile (1.25rem on phones, 1.75rem from 48rem). The whole tile is the
+  link; under a pointer it grows 1.5%, lifts its illustration 8px and leans its arrow. Two across on a phone, three on
+  a desktop, four on a wide screen. A featured project spans the row with its illustration beside its name, brief and
+  one sentence.
+- **Illustrations:** soft hardware seen from above, slightly tilted toward the reader: rounded plates with a darker
+  side for thickness, a sheen and a bevel, lenses, lights, keys, screens and cables, over a blurred contact shadow.
+  Each one hints at a project without picturing its screens: a hub with three cables for the integrations, a camera
+  beside a database for the CRM snapshots, a planter with a probe for SmartPot. They are static SVG files drawn by
+  `scripts/render-illustrations.mjs` from `scripts/illustrations`, with transparent backgrounds so the tile gives them
+  their color; a light may pulse three times, a dial sweeps once, and nothing loops.
+- **The hero board:** the portrait sits in a socket at the middle of a board, and cables run from it to six devices
+  of the work. It says "I connect systems" before a word is read. The portrait is the largest paint and is drawn at
+  once.
+- **The lab bench** (`LabBoard`): every group of tools is an object on a technical grid. From 48rem the objects lie a
+  little turned and can be dragged anywhere, or moved with the arrow keys; picked up, an object straightens and comes
+  closer; a press opens its tools below. On a phone it is a row swiped one object at a time. A "tidy" button puts every
+  object back.
+- **Header:** at the top of a page, a quiet bar: the name in muted ink, the sections, the language and the theme.
+  Once the reader scrolls it folds into a floating capsule at the right with the theme and a round ink menu button; the
+  menu is a floating panel that marks the section being read with a cobalt dot. A 2px line along the top edge draws the
+  reading progress.
+- **Buttons:** pills. Primary: ink fill, paper text, 48px in the hero, 44px elsewhere. Secondary: a Control Edge
+  outline or a Fog fill. Pressing moves them down 1px. At most one primary button per view.
+- **Chips:** pills in Geist Mono, never below 13px, on Fog; outside the role view's focus they turn into a hairline
+  outline.
+- **Index rows:** jobs, certifications, skill groups, repositories. A row is a date column in mono, a title, its place
+  and one sentence, separated by hairlines; its details open in place (`More`) and its page tells the rest.
+- **Project pages:** the crumbs, the title at display size, then the tagline and summary beside a table of facts (role,
+  place, period, team, status) with mono labels, then the illustration on its tile across the page (21:9 on a desktop),
+  then screens, figures and sections.
+- **Disclosures:** a native `details` whose summary says what it opens ("Show more (9)"), with a chevron that turns;
+  its text stays in the prerendered page.
+- **Inputs:** label above, paper fill, Control Edge border, 0.75rem corners, cobalt ring on focus.
 
 ## 5. Layout Principles
 
-- One container, `clamp(72rem, 80vw, 96rem)` with a `clamp(1rem, 4vw, 2rem)` gutter: wide screens get wider grids
-  instead of wider margins.
-- Section rhythm `clamp(4rem, 3rem + 4vw, 7rem)`, alternating Notebook Black and a raised Graphite band.
-- **Hero:** an offset split (text 1.4fr, portrait 1fr) with the hexagonal portrait on the right, level with the name.
-  The text column reads availability, name, role, one-sentence headline, summary, then the two actions, which must sit
-  inside the first 900px of a 1440px screen. The core stack (eight chips) comes after the actions; from 64rem the role
-  views sit under the portrait, in the space the portrait column leaves empty, and on phones they follow the portrait.
-  The headline speaks about the people the work serves and the summary carries the stack and the proof, rewritten for
-  each role view.
-- **The home is the first glance, not the archive.** About 3,500 words are visible without a gesture (from 7,800):
-  each section keeps its claim and its best proof, the rest opens in place or lives on its own page. Every job,
-  project, certification and organization has a page, and so do the services (`/services`) and the GitHub metrics
-  (`/metrics`), which the home names in a list and a strip of figures. Content in a disclosure is still in the
-  page, so the home keeps its search weight while a recruiter scans it in a minute.
-- CSS Grid for every multi-column layout. Content collapses to one column below 48rem; only short figure strips keep
-  two or three columns. Nothing scrolls sideways except the sliders, which move by swipe or buttons; the
-  assistant's suggested questions wrap. The journey map and the capability heatmap switch to one stop or one year at a
-  time
-  below 64rem.
-- Full-height blocks use `100dvh`, never `100vh`.
+- **The home is the first glance, not the archive.** Each section keeps its claim and its best proof; the rest opens in
+  place or lives on its own page. Every job, project, certification and organization has a page, and so do the
+  services and the GitHub metrics.
+- **Two section layouts:** `wide`, the heading above content that needs the whole row (the projects, the bench, the
+  journey); `split`, the heading in a left column that stays in view beside a list. Both stack below 64rem.
+- CSS Grid for every multi-column layout; nothing scrolls sideways except the sliders and the bench on a phone.
+- `container-page` is 72rem up to a 1440px viewport, then 82% of it up to 96rem. Full-height blocks use `100dvh`.
 
 ## 6. Motion & Interaction
 
-- Durations of 120, 200 and 400ms on `ease-standard` and `ease-emphasized` curves; transitions list their properties.
-- Animations use `transform`, `translate`, `scale`, `opacity` and colors; the exceptions are the active page dot of
-  the recommendations, which widens, the rows under "Show more", which open to their height, and the reveals drawn
-  with `clip-path` (screens, the journey map, the ASCII art). The hero's portrait is the largest paint and is drawn at
-  once; only the parts of the hero that can never be the largest paint wait for their turn.
-- **Progressive load.** When the page opens, the core stack and the role views settle in chip by chip (45ms apart,
-  560ms each, `hero-cascade`), and the availability dot sends out three pulses, under five seconds in all.
-- Scroll-driven animations (`animation-timeline: view()`) fill the experience timeline and slide its cards in, raise
-  each section heading, each card, row and figure of the home sections and each section of the article pages into
-  place, and grow the bars of commits per year. In a row each part settles a little after the one before it, a
-  cascade tied to the scroll. A scroll timeline draws the reading progress along the header's lower edge. Browsers
-  without them get the static layout.
-- Screens and charts arrive the way they would be drawn: the screen of a project card starts 12% close and settles
-  into its frame, a screen on a project page paints in from its top edge just behind the bottom of the screen, the
-  journey map is plotted from left to right with each station settling as the sweep reaches it, and the terminal
-  prints its ASCII art one line at a time. The focus radar powers on when its tab opens: rings grow from the center,
-  then each technology flies out to its place. As the hero leaves, the portrait drifts up and dims.
-- On a phone, a slider's cards at the edges turn away 16° and dim; the card in view faces the reader.
-- Figures count up from zero the first time they come into view, once, and end on the number as written.
-- Following a link cross-fades between pages with the header held in place, and what a control opens (more rows, a
-  tab, the phone menu) eases in instead of popping.
-- Hover: the arrow of a link moves 3px the way it leads, the icon of an outward link lifts, and a project card
-  answers as a whole: it brightens its outline, brings its screen 3% closer and leans the arrow of its page link
-  forward wherever the pointer rests on it. A "Show more" chevron turns to point where the rows go. Only for pointers
-  that hover.
-- The header marks the section being read with teal and an underline, never with color alone.
+- Durations of 120, 200 and 400ms on `ease-standard`, `ease-emphasized` and `ease-spring` (a settle with a touch of
+  spring for what lands: a tile, a dropped object, the header). Transitions list their properties.
+- **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
+  its layer; screens paint in from their top edge; the journey map is plotted from left to right; bars grow; figures
+  count up once. Browsers without scroll-driven animations get the page at rest.
+- **On load:** the hero's stack and role views settle chip by chip; the availability dot sends out three pulses; the
+  illustrations' own lights pulse three times. Under five seconds in all.
+- **Hover:** a tile grows and lifts its illustration; an arrow leans the way it leads; an object on the bench
+  straightens. Only for pointers that hover.
+- Following a link cross-fades between pages with the header held in place.
 - `prefers-reduced-motion: reduce` turns every animation and transition off.
 
 ## 7. Anti-Patterns (Banned)
 
-- No emoji in the interface.
-- No Inter, no generic serif, no faux bold.
-- No pure black (#000000) and no neon glow; the soft teal glow only marks focus and hover.
-- No accent outside the teal family and no purple or blue gradients.
-- No three equal cards in a row for list-like content; use index rows.
-- No boxed stat tiles in a row of three; figures sit in an open strip.
-- No filler such as "scroll to explore", bouncing arrows or custom cursors.
+- No emoji in the interface, no Inter, no serif display, no faux bold, no gradient text.
+- No accent color on text blocks: color lives in the layers and the illustrations.
+- No pure black (#000000) or pure white (#FFFFFF) surfaces, no neon glow.
+- No long cards: a tile is an illustration, a name and a few words; a row is a date, a title and a sentence.
+- No stock photographs or AI renders standing in for the work: the illustrations are drawn for the site, one family.
 - No endless loops: nothing moves on its own for more than five seconds (WCAG 2.2.2), and no spinners.
-- No reveal that hides the largest paint, and no `clip-path` on a focusable element (it would cut its focus ring).
-- No invented figures and no round placeholders like "99.9%": every number has a source and a date.
+- No invented figures: every number has a source and a date (`docs/content.md`).
 - No stock phrases ("elevate", "seamless", "next-gen", "passionate").
 - No client names of TIVENOS or ADCOM anywhere (enforced by `src/content/content.test.ts`).

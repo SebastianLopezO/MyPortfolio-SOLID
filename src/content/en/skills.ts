@@ -28,5 +28,12 @@ export const skills: Content["skills"] = {
         foundations: "Computer Science Foundations",
     },
     count: "{count} tools",
-    moreTitle: "More skills",
+    moreTitle: "Every tool by group",
+    lab: {
+        label: "Workbench",
+        hint: "Each module is a group of tools. Move them around the bench and open one to see what it holds.",
+        keys: "Enter opens it; the arrow keys move it around the bench.",
+        toolsOf: "Tools for {group}",
+        tidy: "Tidy the bench",
+    },
 };

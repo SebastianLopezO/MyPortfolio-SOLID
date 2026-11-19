@@ -1,50 +1,58 @@
 # Design system
 
-The portfolio is dark only. Every color, font, radius, shadow and motion value lives in
-[`src/styles/tokens.css`](../src/styles/tokens.css) as a Tailwind v4 `@theme` token, written in OKLCH.
-`--color-*: initial` removes Tailwind's default palette, so a class such as `text-blue-500` does not compile and
-components can only use the tokens below.
+The portfolio has a light and a dark theme. Every color, font, radius, shadow and motion value lives in
+[`src/styles/tokens.css`](../src/styles/tokens.css) as a Tailwind v4 `@theme` token, written in OKLCH; each color is
+`light-dark(light, dark)`, so the page follows the reader's system and the header's theme button pins one by setting
+`<html data-theme>` (remembered in `localStorage` and applied before the first paint by the script in
+`layouts/Page.astro`). `--color-*: initial` removes Tailwind's default palette, so a class such as `text-blue-500` does
+not compile and components can only use the tokens below. [`DESIGN.md`](../DESIGN.md) explains where the look comes
+from.
 
 ## Brand
 
-| Role                  | Token                        | Value                    | Hex       |
-|-----------------------|------------------------------|--------------------------|-----------|
-| Brand teal            | `teal-500` → `primary`       | `oklch(0.73 0.116 185)`  | `#35BFB1` |
-| Hover teal            | `teal-400` → `primary-hover` | `oklch(0.79 0.12 185)`   | `#48D3C5` |
-| Emerald accent (text) | `emerald-300` → `accent`     | `oklch(0.8 0.12 170)`    | `#61D7B2` |
-| Emerald (fills only)  | `emerald-500`                | `oklch(0.573 0.111 172)` | `#018D71` |
-| Background            | `neutral-950` → `bg`         | `oklch(0.159 0 0)`       | `#0D0D0D` |
+The interface is monochrome: ink on paper in the light theme, paper on ink in the dark one. Color lives in the layers:
+the tiles behind the illustrations, the illustrations themselves and the charts. One cobalt marks what must stand out
+without shouting.
 
-The teal and the near-black background come from the previous palette (`#36BFB1` on `#0D0D0D`). As text, the old
-secondary `#028D71` cleared WCAG AA by a hair (4.7:1) and the accent `#02745D` failed it (3.4:1); white text on the
-secondary failed too (4.2:1). Both are now fill-only (`emerald-500`, `emerald-700`) and the text accent moved to
-`emerald-300`.
+| Role                | Token                 | Light     | Dark      |
+|---------------------|-----------------------|-----------|-----------|
+| Ink (text, actions) | `fg` = `primary`      | `#141619` | `#F5F5F5` |
+| Paper (page)        | `bg` = `on-primary`   | `#FBFCFD` | `#0D0D0D` |
+| Cobalt              | `accent`              | `#1745C2` | `#9DBDFF` |
+| Focus               | `ring`                | `#3266E4` | `#77A2FC` |
+
+The previous identity, a teal on near-black with a serif display face, read as heavy and hard to scan; the redesign of
+November 2026 moved the color out of the interface and into the images.
 
 ## Semantic tokens
 
-| Token                          | Use                                                            | Contrast on `bg`        |
-|--------------------------------|----------------------------------------------------------------|-------------------------|
-| `bg`                           | Page background, also `theme-color`                            | —                       |
-| `surface`                      | Cards and panels                                               | —                       |
-| `surface-raised`               | Hovered cards, inputs, chips                                   | —                       |
-| `border`                       | Decorative dividers and card outlines                          | 1.6:1 (decorative only) |
-| `border-strong`                | Input borders and controls that must be visible                | 3.6:1                   |
-| `fg`                           | Headings and body text                                         | 17.9:1                  |
-| `fg-muted`                     | Secondary text                                                 | 10.5:1                  |
-| `fg-subtle`                    | Captions, dates, metadata                                      | 8.3:1                   |
-| `primary`                      | Links, highlights, primary buttons                             | 8.6:1                   |
-| `on-primary`                   | Text on `primary` buttons                                      | 8.6:1 on `primary`      |
-| `accent`                       | Secondary highlights and gradients                             | 11:1                    |
-| `ring`                         | Focus outline                                                  | 11.7:1                  |
-| `success`, `warning`, `danger` | Status text and icons                                          | ≥ 7.8:1                 |
-| `whatsapp`, `on-whatsapp`      | WhatsApp button, the only brand color from outside the palette | 9.8:1                   |
+| Token                          | Use                                                            | On `bg`, light / dark |
+|--------------------------------|----------------------------------------------------------------|-----------------------|
+| `bg`                           | Page background, also `theme-color`                            | —                     |
+| `surface`                      | Panels, the lab bench, raised sections                         | —                     |
+| `surface-raised`               | Chips, quiet buttons, hovers                                   | —                     |
+| `border`                       | Decorative dividers between rows                               | decorative only       |
+| `border-strong`                | Input borders and controls that must be visible                | 3.8:1 / 4.2:1         |
+| `fg`                           | Headings and body text                                         | 17.6:1 / 17.8:1       |
+| `fg-muted`                     | Summaries, briefs, descriptions                                | 10.1:1 / 11.9:1       |
+| `fg-subtle`                    | Captions, dates, eyebrows                                      | 8.6:1 / 9.4:1         |
+| `primary`                      | Primary buttons and active pills (the ink)                     | 17.6:1 / 17.8:1       |
+| `on-primary`                   | Text on `primary`                                              | 17.6:1 / 17.8:1       |
+| `accent`                       | The current menu entry's dot, the first chart series           | 7.6:1 / 10.3:1        |
+| `ring`                         | Focus outline                                                  | 4.9:1 / 7.7:1         |
+| `success`, `warning`, `danger` | Status text and icons                                          | ≥ 7:1                 |
+| `tile-*`                       | The layer behind each illustration (eight hues)                | —                     |
+| `ink`, `paper`                 | Text on the fixed colors of the UN goal badges                 | —                     |
+| `whatsapp`, `on-whatsapp`      | WhatsApp button, the only brand color from outside the palette | —                     |
 
 `pnpm check:contrast` ([`scripts/check-contrast.mjs`](../scripts/check-contrast.mjs)) converts every token from OKLCH
-to sRGB and checks these minimums; the build pipeline fails when one drops below them:
+to sRGB, takes each half of `light-dark()` in turn and checks these minimums in both themes; the build pipeline fails
+when one drops below them:
 
 | Pair                                                           | Minimum           |
 |----------------------------------------------------------------|-------------------|
 | `fg`, `fg-muted`, `fg-subtle`, `primary` on every surface      | 7:1 (AAA)         |
+| `fg`, `fg-muted` on every `tile-*`                             | 7:1 (AAA)         |
 | `accent`, `danger`, `success`, `warning` on `bg` and `surface` | 7:1 (AAA)         |
 | `on-primary` on `primary` and `primary-hover`                  | 7:1 (AAA)         |
 | `border-strong` and `ring` on every surface                    | 3:1 (WCAG 1.4.11) |
@@ -52,19 +60,34 @@ to sRGB and checks these minimums; the build pipeline fails when one drops below
 | `viz-*` on `bg` and `surface`                                  | 3:1               |
 | `level-*` on `bg` and `surface`                                | 2:1               |
 | `bg` on `level-2` to `level-4`, `fg` on `level-1`              | 4.5:1             |
-| Label ink on each `sdg-*`                                      | 4.5:1             |
+| `paper` or `ink` on each `sdg-*`                               | 4.5:1             |
 
-Every text color reaches AAA on the surfaces it sits on. The one exception is the number inside an SDG badge: the
-badges keep the UN's own colors, on which neither light nor dark ink reaches 7:1, so the number stays at AA and the
-goal's name, written beside the badge in `fg-muted` (or read out to screen readers where the badge is compact),
-carries the same meaning.
+Every text color reaches AAA on the surfaces it sits on, in both themes. The one exception is the number inside an
+SDG badge: the badges keep the UN's own colors, on which neither light nor dark ink reaches 7:1, so the number stays at
+AA in a fixed `paper` or `ink` and the goal's name, written beside the badge in `fg-muted` (or read out to screen
+readers where the badge is compact), carries the same meaning.
+
+## Illustrations
+
+The projects, the hero and the lab bench are illustrated with one family of drawings: soft hardware seen from above,
+built from rounded plates with a darker side for thickness, a sheen, a bevel and a blurred contact shadow, plus lenses,
+lights, keys, screens and cables. `scripts/render-illustrations.mjs` draws them from `scripts/illustrations` (`kit.mjs`
+is the drawing kit, `scenes.mjs` one object per project, `hero.mjs` the hero's board, `lab.mjs` the objects of the
+bench) into `public/illustrations` as static SVG, and writes `src/content/shared/project-art.ts`, the map the
+components read. Run `pnpm illustrations` after changing a scene and commit what it writes; `--sheet` also writes a
+contact sheet of every drawing on its tile in both themes.
+
+The drawings have transparent backgrounds: the page lays each one on its `tile-*`, so the same file works in both
+themes. Their colors are fixed and chosen to read on both a pastel and a deep tile; line work uses a mid grey rather
+than graphite for that reason. They are loaded as images, so they add nothing to the JavaScript, and a light inside
+one may pulse three times or a dial sweep once; nothing loops.
 
 ## Data visualization
 
 The journey section draws charts, so it has its own tokens. They sit in a `@theme static` block at the end of
 `tokens.css`, because the charts read them through inline `var(--color-…)` values that Tailwind cannot see, and a
-plain `@theme` would drop them from the CSS. Every palette was checked with the dataviz palette validator against the
-`surface` color (`#121615`) for color-vision deficiencies as well as contrast.
+plain `@theme` would drop them from the CSS. Every palette was checked with the dataviz palette validator for
+color-vision deficiencies as well as contrast; the line hues sit at a lightness that reads on both themes.
 
 **Lines** (`viz-*`): one categorical hue per career line of the journey map, always in this order so that the
 neighboring lanes keep the most distinct pairs. The worst adjacent pair stays apart under protanopia, deuteranopia and
@@ -80,13 +103,13 @@ tritanopia (ΔE 8.4). Colors never carry meaning alone: every lane has a text la
 | `viz-devops`    | DevOps & cloud         | `#008300` | 3.7:1        |
 | `viz-security`  | Security               | `#9085E9` | 5.9:1        |
 
-**Levels** (`level-1` … `level-4`): an ordinal teal ramp from the brand scale, dark to light, for the capability
-heatmap and the rings of the focus radar. Level 0 is the empty `surface`. Numbers drawn on levels 2–4 use `bg`; on
-level 1 they use `fg`.
+**Levels** (`level-1` … `level-4`): an ordinal cobalt ramp for the capability heatmap and the rings of the focus
+radar, from the step closest to the page to the one that stands out most: light to dark in the light theme, dark to
+light in the dark one. Level 0 is the empty `surface`. Numbers drawn on levels 2–4 use `bg`; on level 1 they use `fg`.
 
 **Sustainable Development Goals** (`sdg-*`): the official UN colors of goals 2, 4, 8, 9, 11, 13 and 16, kept exact
-because they are recognizable. Their number badges use `fg` on goals 4, 8, 13 and 16 and `bg` on goals 2, 9 and 11,
-whichever clears 4.5:1.
+because they are recognizable. Their number badges use `paper` on goals 4, 8, 13 and 16 and `ink` on goals 2, 9 and 11,
+whichever clears 4.5:1, in either theme.
 
 The radar's four quadrants are not colored: four hues on one chart failed the all-pairs color-vision check, so
 quadrants are told apart by position and labels, and only the ring (focus level) is colored.
@@ -95,42 +118,44 @@ quadrants are told apart by position and labels, and only the ring (focus level)
 
 | Token          | Font                    | Use                                                                             |
 |----------------|-------------------------|---------------------------------------------------------------------------------|
-| `font-display` | DM Serif Text 400       | `h1`–`h3`. The family has no bold, so `font-synthesis: none` prevents faux bold |
-| `font-sans`    | IBM Plex Sans 400 / 600 | Body text and UI                                                                |
-| `font-mono`    | Source Code Pro 400     | Tech chips, code, the ASCII art                                                 |
+| `font-display` | Geist 400               | `h1`–`h3`, large and tightly set; hierarchy comes from size, never from bold    |
+| `font-sans`    | Geist 400 / 600         | Body text and UI                                                                |
+| `font-mono`    | Geist Mono 400          | Tech chips, dates, eyebrows, code, the ASCII art                                |
 
 | Token          | Size                                                                                                                                                                          |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `text-display` | `clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem)` / 1.05                                                                                                                                |
-| `text-heading` | `clamp(1.875rem, 1.4rem + 1.8vw, 2.75rem)` / 1.15                                                                                                                             |
-| `text-title`   | `1.375rem` / 1.3                                                                                                                                                              |
+| `text-display` | `clamp(2.75rem, 1.4rem + 5.4vw, 6.25rem)` / 1, tracking -0.045em                                                                                                              |
+| `text-heading` | `clamp(1.875rem, 1.3rem + 2.2vw, 3.25rem)` / 1.08, tracking -0.035em                                                                                                          |
+| `text-title`   | `1.375rem` / 1.25, tracking -0.02em                                                                                                                                           |
 | `text-xs`      | `0.8125rem` / 1.125rem: dates, labels and chips. Nothing that is read goes below 13px; only the axis labels inside the journey's SVG charts do, and they scale with the chart |
 | Body           | `1rem` / 1.6                                                                                                                                                                  |
 
 Only the Latin subsets are bundled, and the web fonts load with the JavaScript after the first paint
-(`src/lib/fonts.ts`). Until they arrive, text uses the faces in `src/styles/fallback-fonts.css`: Arial, Times New
-Roman and Courier New (or their metric twins Liberation Sans, Serif and Mono) with `size-adjust` and ascent/descent
-overrides measured against each web font, so the swap does not move the layout (CLS 0). The four web fonts are loaded
+(`src/lib/fonts.ts`). Until they arrive, text uses the faces in `src/styles/fallback-fonts.css`: Arial and
+Courier New (or their metric twins Liberation Sans and Mono) with `size-adjust` and ascent/descent overrides measured
+against each web font, so the swap does not move the layout (CLS 0). The three web fonts are loaded
 with the `FontFace` API and added to `document.fonts` together once all of them have loaded, so the page lays out
 again only once and no style is recalculated.
 
 Charts that tell categories apart, such as the commit areas in the GitHub metrics, use `chart-1` to `chart-6`: the
-brand teal and emerald first, then a cool blue (`oklch(0.72 0.1 235)`), a dark teal and two neutrals. They never carry
+cobalt first, then mint, amber, lilac and two neutrals, each with a light and a dark half. They never carry
 text; each bar has a labeled legend or row next to it.
 
 ## Layout, shape and motion
 
-- `container-page`: `clamp(72rem, 80vw, 96rem)` with a fluid `clamp(1rem, 4vw, 2rem)` gutter. It stays at 72rem up
+- `container-page`: `clamp(72rem, 82vw, 96rem)` with a fluid `clamp(1rem, 4vw, 2rem)` gutter. It stays at 72rem up
   to a 1440px viewport and then grows with the screen, so wide monitors get wider grids instead of wider margins.
   Prose keeps a reading measure inside it (`max-w-2xl` to `max-w-4xl`); case study pages, which read like
   articles, stop at 80rem.
-- `section`: vertical rhythm of `clamp(4rem, 3rem + 4vw, 7rem)`. A home section off screen skips style and layout
+- `section`: vertical rhythm of `clamp(4.5rem, 3rem + 5vw, 8.5rem)`. A home section off screen skips style and layout
   (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`), and
   `lib/anchors.ts` puts the target of an in-page jump back under the header while the page settles.
-- Radii: `sm` 0.375rem, `md` 0.5rem (buttons), `lg` 0.75rem (cards), `xl` 1rem (panels).
-- Shadows: `shadow-card` for elevation, `shadow-glow` for the brand glow on focus and hover.
+- Radii: `sm` 0.5rem, `md` 0.75rem (inputs), `lg` 1.25rem (tiles on phones, cards), `xl` 1.75rem (tiles, panels), `2xl`
+  2.5rem (the bench, large panels). Buttons and chips are pills.
+- Shadows: `shadow-card` for elevation (the availability pill, the folded header, the bench's labels), `shadow-glow` for
+  what floats highest (the menu panel). Both are soft and neutral, stronger in the dark theme.
 - Motion: `--duration-fast` 120ms, `--duration-base` 200ms, `--duration-slow` 400ms, `ease-standard`,
-  `ease-emphasized`. Nothing that can be the largest paint animates its opacity (on the home that is the hero's
+  `ease-emphasized` and `ease-spring` (a settle with a touch of spring for what lands). Nothing that can be the largest paint animates its opacity (on the home that is the hero's
   portrait), so the LCP is never delayed, nothing moves on its own for more than five seconds, and
   `prefers-reduced-motion: reduce` turns every animation and transition off. The new rules below sit inside
   `@media (prefers-reduced-motion: no-preference)`, so they are never declared for that reader at all.
@@ -139,10 +164,9 @@ text; each bar has a labeled legend or row next to it.
   all). As the hero leaves the screen, its portrait drifts up 2.5rem and dims (`hero-portrait`, the exit range of its
   view timeline).
 - Screens: a screen the reader reaches before it has arrived is marked `data-loading` by `CaseImage` and pulses in
-  Raised Graphite (four beats at most); on arrival it is marked `data-loaded` and fades in. One that arrives before it
+  `surface-raised` (four beats at most); on arrival it is marked `data-loaded` and fades in. One that arrives before it
   is reached, or the one a page opens with (`eager`), shows as it is. Around the image, the `picture` carries the
-  reveal: the screen at the top of a card starts at 1.12 and settles into its frame (`screen-settle`), and a screen on
-  a project or detail page paints in from its top edge (`screen-unmask`, a `clip-path` on the picture, never on the
+  reveal: a screen on a project or detail page paints in from its top edge (`screen-unmask`, a `clip-path` on the picture, never on the
   link, so the link's focus ring stays whole). A frame that clips them uses `overflow: clip`: `overflow: hidden` would
   make it a scroll container, and the view timeline would follow it instead of the page.
 - Charts: the journey map is plotted from left to right (`journey-chart`, a named view timeline on its frame, which
@@ -163,46 +187,46 @@ text; each bar has a labeled legend or row next to it.
 - Figures: the figures under the hero, of the GitHub metrics and of the recommendations (`data-count`) count up from
   zero the first time the reader reaches them (`lib/count-up.ts`). One already on screen when the page settles keeps
   still, and the text ends exactly as it was prerendered.
-- Header: its lower edge fills with the teal gradient as the page scrolls (`reading-progress`, a scroll timeline, no
-  script), and the link of the section that crosses the middle of the screen is teal and underlined and carries
-  `aria-current`; none is marked while the hero is there.
+- Header: a quiet bar at the top of the page that folds, once the reader scrolls 48px, into a floating capsule at the
+  right (`data-folded`): the backdrop, the name and the sections fade out and the header lets the page under its empty
+  part take the pointer. From 80rem the sections sit in the bar and the round menu button only joins the capsule once
+  it folds; below, the sections always live in the menu's floating panel, which closes with Escape or a press outside.
+  A 2px line along the top edge draws the reading progress (`reading-progress`, a scroll timeline, no script). The link
+  of the section that crosses the middle of the screen is underlined in the bar and dotted in cobalt in the panel, and
+  carries `aria-current`; none is marked while the hero is there.
 - Between pages: following a link fades from one page to the next where the browser has cross-document view
   transitions, and the header keeps its place (`view-transition-name: site-header`).
 - What a control brings in: a tab panel, the list of milestones, an organization's metrics card and the phone menu
   ease in from `@starting-style` (`appear`), and a "Show more" opens to its height where the browser eases to `auto`
   (`.more::details-content`, `interpolate-size`).
 - Home layers: the home shows what a recruiter scans in a minute and opens the rest on demand. A job shows two
-  achievements (three that match the role view) and its first ten tools with a "+N" chip; a project card shows its
-  screen, context, name, dates, summary and stack, with its achievements behind "Achievements (n)"; the featured
-  project shows three; About shows the quote and the first paragraph, with "Read the full story". Each of these is a
+  achievements that match the role view (up to three) and folds the rest, its stack and its projects behind "Show
+  more"; a project is a tile with its illustration, name and a few words, and its page tells the rest; About shows the quote and the first paragraph, with "Read the full story". Each of these is a
   native `details` (`components/ui/More.tsx`): find in page opens it, search engines read it, it works before
   hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Services and GitHub
   metrics have a page each (`/services`, `/metrics`, an index with nothing under it and a `WebPage` schema); the home
   keeps the services as a list of names linking to each one's anchor and the metrics as the strip of figures. The
   organizations are named on the home and described on their index.
-- Project reel: from 64rem the category's projects turn on a reel (`Carousel` with `reel`): center snapping with side
-  padding of half the view less half a card, each card turned and dimmed by its place in the track (`reel-depth`, a
-  `view(inline)` timeline, with `z-index` animated so the middle card is in front), mouse drag, and a press on a side
-  card that brings it to the middle instead of following its link.
+- Project tiles: a grid, two across on a phone, three from 64rem and four from 96rem; each tile's illustration rises
+  onto its layer as the tile comes up (`tile-illustration`, a view timeline). The featured project spans the row.
+- Lab bench: from 48rem the objects are absolutely placed at their spot (`--x`, `--y`), offset by what the reader moved
+  them (`--dx`, `--dy`) and turned a few degrees (`--turn`); held, an object straightens and scales to 1.07, dropped it
+  settles with `ease-spring`. Pointer drags use pointer capture and a 6px threshold before a press counts as a drag;
+  the arrow keys move the focused object 16px (48px with Shift). Below 48rem the bench is a row with scroll snapping.
 - Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
-  drops, and a project card brightens its outline, scales its screen to 1.03 and leans the arrow of its page link
-  forward wherever the pointer rests on it (`hover-card`), only under `(hover: hover)`. The "Show more" chevron of
-  the skills turns to point where the rows go.
-- Experience timeline: on screens of 64rem and wider each job spans the width beside a line on the left, and the
-  card splits in two: context, stack and case studies on the left, achievements on the right. The DOM keeps the
-  order phones read (summary, achievements, stack, case studies) and grid placement does the rest. The line fills
-  and the cards slide in with scroll-driven animations (`animation-timeline: view()`) that only move them
-  (`translate`, `transform`), so contrast checks never see half-transparent text. Browsers without scroll-driven
-  animations, and visitors who prefer reduced motion, get the static layout.
+  drops, and a project tile grows to 1.015, lifts its illustration 8px and leans its arrow wherever the pointer rests
+  on it, only under `(hover: hover)`. A "Show more" chevron turns to point where the rows go.
+- Experience: an index of rows split by hairlines, the dates and duration in a mono column at the left from 48rem, then
+  the title (a link to the job's page), the company, place and mode, the status and one sentence. The achievements,
+  the stack and the job's projects (each with its illustration in small) open in place.
 - About: from 64rem the story sits beside the terminal and the languages. The terminal holds the ASCII portrait and
   the trajectory as a `cat` of a log, side by side once the terminal itself is 42rem wide (a container query) and
   stacked below that, so the portrait never floats in an empty box. A role view brightens its own steps of the log and
   dims the rest. Education is a timeline on phones and an index two across from 48rem, with the degree on a row of its
   own; each program links to its GitHub organization.
-- Skill groups: open blocks split by hairlines, the group name and its tool count above its tags, two across from
-  48rem and three from 80rem, so the 15 groups fill the width instead of leaving the right side empty. No box around
-  each group. Certifications are index rows two per row from 48rem, so the full list of 29 reads as one index; each
-  says what it covered, what it adds today (in teal) and the journey stop that groups it, with that stop's line keys.
+- Skill groups: the lab bench (above) opens one group at a time; under it, every group as open blocks split by
+  hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications are index rows two per row from 48rem, so the full list of 29 reads as one index; each
+  says what it covered, what it adds today and the journey stop that groups it, with that stop's line keys.
 - Figures (the highlights under the hero, the recommendation counts and the GitHub metrics): open strips with no box
   around each number, the number above its label. The strip under the hero shows eight figures chosen per role view,
   four across from 48rem and two on phones. Each column stacks from the top, so the numbers stay on one line

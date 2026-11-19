@@ -407,6 +407,16 @@ export interface Content {
         /** `{count}` is replaced with how many tools a group lists. */
         count: string;
         moreTitle: string;
+        /** The lab board: each group of tools as an object that can be moved around and opened. */
+        lab: {
+            label: string;
+            hint: string;
+            /** Read to assistive technology on each module: how to open it and how to move it. */
+            keys: string;
+            /** The heading over the tools of the open module; {group} is its name. */
+            toolsOf: string;
+            tidy: string;
+        };
     };
     projects: {
         title: string;
