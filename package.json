@@ -21,6 +21,7 @@
     "check:links": "node scripts/check-links.mjs",
     "images": "node scripts/optimize-images.mjs",
     "metrics": "node scripts/github-stats.ts",
+    "illustrations": "node scripts/render-illustrations.mjs",
     "mockups": "node scripts/render-mockups.mjs",
     "og": "node scripts/generate-og.mjs",
     "resumes": "node scripts/render-resumes.mjs"
