@@ -78,7 +78,7 @@ export function JourneySteps(props: JourneyStepsProps) {
                 {/* "Today" sits under the strip, where it cannot collide with the year at either end. */}
                 <Show when={todayAt() !== null}>
                     <div class="relative mt-2 h-4">
-                        <span style={{left: `${todayAt()}%`}}
+                        <span style={{left: `clamp(1.75rem, ${todayAt()}%, calc(100% - 1.75rem))`}}
                               class="absolute top-0 -translate-x-1/2 text-[11px] font-semibold text-fg">
                             {copy.today}
                         </span>

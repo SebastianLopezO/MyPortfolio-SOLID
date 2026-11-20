@@ -62,36 +62,43 @@ export function ReasonsSection() {
 
     return (
         <Section id="reasons" title={services.benefitsTitle} subtitle={services.benefitsSubtitle}>
-            <div class="reasons lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14 xl:gap-20">
-                {/* The slide: every reason is in the page, one shows at a time. */}
-                <div class="reasons-stage grid lg:sticky lg:top-[calc(var(--header-height)+var(--screen-py))] lg:self-start">
+            <div class="reasons lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16">
+                {/* The slide: compact horizontal highlight below 64rem so it never fills a phone/tablet screen;
+                    sticky presentation stage from 64rem capped to fit 768px-tall laptops without clipping. */}
+                <div class="reasons-stage grid lg:sticky lg:top-24 lg:self-start">
                     <For each={ordered()}>
                         {(id, index) => {
                             const author = authorOf(id);
                             return (
-                                <figure class="reason-slide m-0" data-active={index() === active() || undefined}>
+                                <figure
+                                    class="reason-slide m-0 grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-border p-4 lg:block lg:border-0 lg:p-0"
+                                    data-active={index() === active() || undefined}
+                                >
                                     <div aria-hidden="true"
-                                         class="grid aspect-[4/3] place-items-center overflow-clip rounded-2xl md:rounded-3xl"
+                                         class="grid aspect-square place-items-center overflow-clip rounded-2xl lg:aspect-video"
                                          style={{background: `var(--color-tile-${REASON_ART[id].tile})`}}>
                                         <img src={withBase(REASON_ART[id].file)} alt="" width={400} height={400}
-                                             loading="lazy" decoding="async" class="reason-slide-art h-[86%] w-auto"/>
+                                             loading="lazy" decoding="async"
+                                             class="reason-slide-art h-[86%] w-auto object-contain"/>
                                     </div>
-                                    <p aria-hidden="true" class="mt-5 font-mono text-xs text-fg-subtle">
-                                        {services.reasons.counter.replace("{current}", ordinal(index())).replace("{total}", String(ordered().length))}
-                                    </p>
-                                    <blockquote class="mt-2 text-xl leading-snug text-fg text-pretty md:text-2xl">
-                                        “{services.benefits[id].evidence.excerpt}”
-                                    </blockquote>
-                                    <figcaption class="mt-3 text-sm text-fg-muted">
-                                        {author.author} · {recommendations.items[author.id].role}
-                                    </figcaption>
+                                    <div class="min-w-0 lg:mt-4">
+                                        <p aria-hidden="true" class="font-mono text-xs text-fg-subtle">
+                                            {services.reasons.counter.replace("{current}", ordinal(index())).replace("{total}", String(ordered().length))}
+                                        </p>
+                                        <blockquote class="mt-2 text-base leading-snug text-fg text-pretty sm:text-lg lg:text-2xl">
+                                            “{services.benefits[id].evidence.excerpt}”
+                                        </blockquote>
+                                        <figcaption class="mt-2 text-xs text-fg-muted sm:text-sm">
+                                            {author.author} · {recommendations.items[author.id].role}
+                                        </figcaption>
+                                    </div>
                                 </figure>
                             );
                         }}
                     </For>
                 </div>
 
-                <ol ref={list} aria-label={services.reasons.listLabel} class="reasons-list mt-10 grid gap-3 lg:mt-0">
+                <ol ref={list} aria-label={services.reasons.listLabel} class="reasons-list mt-6 grid gap-3 lg:mt-0">
                     <For each={ordered()}>
                         {(id, index) => (
                             <li data-index={index()} data-active={index() === active() || undefined}

@@ -79,7 +79,7 @@ export function JourneyMap(props: JourneyMapProps) {
                     type="button"
                     aria-pressed={props.emphasis === null}
                     onClick={() => props.onEmphasis(null)}
-                    class={cn("min-h-9 shrink-0 rounded-full border px-3 text-sm whitespace-nowrap", props.emphasis === null ? "border-primary text-fg" : "border-border text-fg-muted hover:text-fg")}
+                    class={cn("min-h-10 shrink-0 rounded-full border px-3.5 text-sm whitespace-nowrap", props.emphasis === null ? "border-primary text-fg" : "border-border text-fg-muted hover:text-fg")}
                 >
                     {copy.map.allLines}
                 </button>
@@ -90,7 +90,7 @@ export function JourneyMap(props: JourneyMapProps) {
                         aria-label={copy.lines[line]}
                         onClick={() => props.onEmphasis(props.emphasis === line ? null : line)}
                         class={cn(
-                            "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-full border px-3 text-sm whitespace-nowrap",
+                            "inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border px-3.5 text-sm whitespace-nowrap",
                             props.emphasis === line ? "border-primary text-fg" : "border-border text-fg-muted hover:text-fg",
                         )}
                     >

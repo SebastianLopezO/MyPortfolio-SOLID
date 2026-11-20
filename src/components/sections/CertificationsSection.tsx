@@ -36,47 +36,49 @@ export function CertificationsSection() {
                     const text = copy.items[item.id];
                     const stop = STOPS.get(item.milestone)!;
                     return (
-                        <li class="flex gap-4 border-t border-border py-6">
+                        <li class="flex gap-4 border-t border-border py-5">
                             <div class="min-w-0 flex-1">
                                 <h3 class="text-fg">
                                     <Link to={buildDetailPath(lang, "certifications", {
                                         slug: CERTIFICATION_SLUG[item.id],
                                         locked: locked()
-                                    })} class="hover:text-primary">
+                                    })} class="inline-block py-0.5 leading-snug hover:text-primary">
                                         {item.title}
                                     </Link>
                                 </h3>
-                                <p class="text-sm text-fg-subtle">
+                                <p class="text-xs font-mono text-fg-subtle">
                                     {item.issuer} · {formatYearMonth(item.date, ui.months)}
                                 </p>
                                 <p class="mt-2 text-sm text-fg-muted">{text.learned}</p>
-                                <p class="mt-2 text-sm text-fg">
+                                <p class="mt-1.5 text-sm text-fg">
                                     <span class="font-semibold text-primary">{copy.labels.adds}: </span>
                                     {text.adds}
                                 </p>
-                                <p class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-subtle">
-                                    <span>{copy.labels.stop}:</span>
-                                    <a href="#journey"
-                                       class="inline-flex min-h-6 items-center font-semibold text-fg-muted hover:text-primary">
-                                        {journey.milestones[stop.id].title}
-                                    </a>
-                                    <span class="inline-flex items-center gap-1.5">
-                                        <For each={stop.lines}>{(line) => <LineKey line={line}/>}</For>
-                                        <span
-                                            class="sr-only">{stop.lines.map((line) => journey.lines[line]).join(", ")}</span>
-                                    </span>
-                                </p>
-                                <Show when={item.url}>{(url) => (
-                                    <a
-                                        href={url()}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="mt-1 inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover"
-                                    >
-                                        {ui.actions.viewCredential}
-                                        <ExternalLink class="size-4"/>
-                                    </a>
-                                )}</Show>
+                                <div class="mt-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+                                    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-subtle">
+                                        <span>{copy.labels.stop}:</span>
+                                        <a href="#journey"
+                                           class="inline-flex min-h-7 items-center font-semibold text-fg-muted hover:text-primary">
+                                            {journey.milestones[stop.id].title}
+                                        </a>
+                                        <span class="inline-flex items-center gap-1.5">
+                                            <For each={stop.lines}>{(line) => <LineKey line={line}/>}</For>
+                                            <span
+                                                class="sr-only">{stop.lines.map((line) => journey.lines[line]).join(", ")}</span>
+                                        </span>
+                                    </p>
+                                    <Show when={item.url}>{(url) => (
+                                        <a
+                                            href={url()}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover"
+                                        >
+                                            {ui.actions.viewCredential}
+                                            <ExternalLink class="size-4"/>
+                                        </a>
+                                    )}</Show>
+                                </div>
                             </div>
                         </li>
                     );

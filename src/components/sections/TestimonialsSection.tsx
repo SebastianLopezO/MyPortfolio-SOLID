@@ -80,29 +80,29 @@ export function TestimonialsSection() {
 
     return (
         <Section id="testimonials" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
-            {/* An open strip of figures: one per line on phones ("16 Recommendations"), side by side from 40rem. */}
-            <dl class="enter-each mb-10 grid max-w-3xl gap-3 sm:grid-cols-3 sm:gap-0">
+            {/* Compact horizontal strip of figures across every screen width so stats never bloat mobile vertical space. */}
+            <dl class="enter-each mb-8 grid max-w-3xl grid-cols-3 gap-0">
                 <For each={stats}>
                     {([label, value], index) => (
                         <div
                             class={cn(
-                                "flex items-baseline gap-3 sm:flex-col-reverse sm:items-start sm:justify-end sm:gap-1",
-                                index() === 0 ? "sm:pr-8" : "sm:border-l sm:border-border sm:px-8",
+                                "flex flex-col-reverse items-start justify-end gap-1",
+                                index() === 0 ? "pr-3 sm:pr-8" : "border-l border-border px-3 sm:px-8",
                             )}
                         >
-                            <dt class="text-fg-muted sm:text-sm">{label}</dt>
+                            <dt class="text-xs leading-snug text-fg-muted sm:text-sm">{label}</dt>
                             <dd data-count="true"
-                                class="order-first w-12 shrink-0 font-display text-4xl text-primary tabular-nums sm:order-none sm:w-auto">{value}</dd>
+                                class="font-display text-3xl text-primary tabular-nums md:text-4xl">{value}</dd>
                         </div>
                     )}
                 </For>
             </dl>
 
-            {/* One recommendation per view on phones, two on tablets and three on wide screens. */}
+            {/* One recommendation per view on phones, two on tablets/laptops and three on wide desktop screens. */}
             <Carousel
                 previousLabel={copy.previous}
                 nextLabel={copy.next}
-                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] lg:basis-[calc((100%-2.5rem)/3)]"
+                slideClass="flex basis-[85%] sm:basis-[calc((100%-1.25rem)/2)] xl:basis-[calc((100%-2.5rem)/3)]"
                 items={shown()}
             >
                 {(item) => {

@@ -34,7 +34,7 @@ export function ResumeSection() {
         <Section id="resume" title={resume.title} subtitle={forProfile(resume.subtitle, role())} tone="raised">
             {/* Two columns of fixed measure, centered together, so the choices and the preview sit side by side. */}
             <div
-                class="enter-each grid gap-12 lg:grid-cols-[minmax(0,34rem)_minmax(0,28rem)] lg:items-center lg:justify-center lg:gap-16">
+                class="enter-each mx-auto grid max-w-5xl gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
                 <div>
                     <div role="group" aria-label={resume.title} class="flex flex-wrap gap-2">
                         <For each={resumeVersions}>{(item) => (
@@ -43,7 +43,7 @@ export function ResumeSection() {
                                 aria-pressed={item.id === selected()}
                                 onClick={() => setSelected(item.id)}
                                 class={cn(
-                                    "min-h-10 rounded-md border px-4 text-sm font-semibold transition-colors",
+                                    "min-h-10 rounded-full border px-4 text-sm font-semibold transition-colors",
                                     item.id === selected()
                                         ? "border-primary bg-primary text-on-primary"
                                         : "border-border text-fg-muted hover:border-primary hover:text-primary",
@@ -113,7 +113,7 @@ export function ResumeSection() {
                     href={file()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="relative mx-auto block w-full max-w-[28rem]"
+                    class="relative mx-auto mb-6 block w-full max-w-xs sm:max-w-sm lg:mb-0"
                     style={{
                         "padding-right": px(sheets() * SHEET_OFFSET),
                         "padding-bottom": px(sheets() * SHEET_OFFSET),

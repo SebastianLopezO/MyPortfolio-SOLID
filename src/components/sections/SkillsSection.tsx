@@ -163,13 +163,16 @@ export function SkillsSection() {
                                     aria-roledescription="slide"
                                     aria-label={fill(skills.gallery.slide, {index: index() + 1, count: count()})}
                                     class="skill-card absolute inset-0"
-                                    classList={{"pointer-events-none": distance() > 3}}
                                     style={{"--i": String(index()), "--d": String(distance())}}
                                     data-active={distance() === 0 ? "true" : undefined}
+                                    data-edge={distance() === 2 ? "" : undefined}
+                                    data-far={distance() > 2 ? "" : undefined}
+                                    aria-hidden={distance() > 2 ? "true" : undefined}
                                 >
                                     <a
                                         href={withBase(page(SKILL_SLUG[group.id]))}
                                         draggable={false}
+                                        tabindex={distance() > 2 ? -1 : undefined}
                                         class="art-row flex h-full flex-col rounded-2xl border border-border bg-surface p-4 transition-colors hover:border-border-strong"
                                         onFocus={(event) => {
                                             // The keyboard brings a card to the front; a click decides below.
@@ -188,14 +191,14 @@ export function SkillsSection() {
                                         <span aria-hidden="true"
                                               class="grid aspect-[4/3] shrink-0 place-items-center rounded-xl"
                                               style={{background: `var(--color-tile-${SKILL_ART[group.id].tile})`}}>
-                                            <img src={withBase(SKILL_ART[group.id].file)} alt="" width={112}
-                                                 height={112} loading="lazy" decoding="async" draggable={false}
-                                                 class="art-row-icon size-24 sm:size-28"/>
+                                            <img src={withBase(SKILL_ART[group.id].file)} alt="" width={96}
+                                                 height={96} loading="lazy" decoding="async" draggable={false}
+                                                 class="art-row-icon size-20"/>
                                         </span>
-                                        <span class="mt-4 font-mono text-xs text-fg-subtle">
+                                        <span class="mt-3.5 font-mono text-xs text-fg-subtle">
                                             {skills.count.replace("{count}", String(group.items.length))}
                                         </span>
-                                        <h3 class="mt-1 text-lg leading-snug font-semibold text-fg">{skills.groups[group.id]}</h3>
+                                        <h3 class="mt-1 text-base leading-snug font-semibold text-fg sm:text-lg">{skills.groups[group.id]}</h3>
                                         <p class="mt-1 text-sm text-fg-muted">{skills.taglines[group.id]}</p>
                                         <span class="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-fg">
                                             {skills.gallery.open}

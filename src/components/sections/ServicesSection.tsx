@@ -26,23 +26,23 @@ export function ServicesSection() {
 
     return (
         <Section id="services" title={services.title} subtitle={forProfile(services.subtitle, role())} tone="raised">
-            <ul class="enter-each grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 lg:grid-cols-4 lg:gap-y-12">
+            <ul class="enter-each grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4 md:gap-8">
                 <For each={ordered()}>
                     {(id) => (
                         <li>
                             <Link to={page(SERVICE_SLUG[id])}
                                   class="service-entry group flex h-full flex-col items-start">
                                 <span aria-hidden="true"
-                                      class="service-icon grid size-24 place-items-center rounded-3xl sm:size-28"
+                                      class="service-icon grid size-16 place-items-center rounded-2xl md:size-20"
                                       style={{background: `var(--color-tile-${SERVICE_ART[id].tile})`}}>
-                                    <img src={withBase(SERVICE_ART[id].file)} alt="" width={112} height={112}
+                                    <img src={withBase(SERVICE_ART[id].file)} alt="" width={96} height={96}
                                          loading="lazy" decoding="async" class="w-[88%]"/>
                                 </span>
-                                <h3 class="mt-5 flex items-start gap-1.5 text-lg leading-snug text-fg text-pretty sm:text-title">
+                                <h3 class="mt-4 flex items-start gap-1.5 text-base leading-snug text-fg text-pretty sm:text-lg">
                                     {services.items[id].title}
                                     <ArrowUpRight class="service-arrow mt-1 size-4 shrink-0 text-fg-subtle"/>
                                 </h3>
-                                <p class="mt-2 text-sm text-fg-muted sm:text-base">{services.items[id].tagline}</p>
+                                <p class="mt-1.5 text-xs leading-relaxed text-fg-muted sm:text-sm">{services.items[id].tagline}</p>
                             </Link>
                         </li>
                     )}
@@ -50,7 +50,7 @@ export function ServicesSection() {
             </ul>
             <Link
                 to={page()}
-                class="mt-12 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
+                class="mt-10 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
             >
                 {services.pageLink}
                 <ArrowRight class="size-4"/>
