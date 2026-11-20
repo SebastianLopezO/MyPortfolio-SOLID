@@ -1,56 +1,94 @@
 import {whenHydrated} from "@/lib/ready";
 
 /*
- * In-page jumps. Sections off screen take an estimated height until they render (globals.css, .section), so the
- * distance to a section measured before the trip is not the real one, and the fonts and each section's hydration
- * reflow the text on the way. A click on a link to a part of the page therefore travels there itself: it lays every
- * section out for a moment (data-traveling), so the distance is the real one, scrolls there smoothly (at once for a
- * reader who asks for less motion), so the sections on the way play their entrances instead of being skipped, and once
- * it arrives puts the target exactly under the header and keeps it there for a few frames. Loading a page with a
- * fragment keeps the target in place the same way once the page has settled. Any input from the reader ends the trip's
- * corrections: the reader is in charge again.
+ * In-page jumps. Sections off screen on phones take an estimated height until they render (globals.css, .section), and
+ * the web fonts and each section's hydration can reflow text on the way. A click on a link to a part of the page
+ * therefore travels there itself: it lays every section out (data-traveling, data-traveled) while turning scroll-snap
+ * off so the browser's snap engine never hijacks the trip midway, scrolls smoothly to the target's exact frame (top 0
+ * for 100dvh snap boxes on desktop, or under the header on smaller screens and detail pages), holds the target locked
+ * in place for a few frames after arrival, and then re-enables scroll-snap. Any input from the reader ends the trip's
+ * corrections at once.
  */
-const FRAMES = 12;
+const FRAMES = 14;
 /** How long a trip may take before it is taken as over, for browsers without the scrollend event. */
 const TRIP_LIMIT = 2500;
 const INPUT = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
 
 let generation = 0;
+let stopCurrentTrip: (() => void) | null = null;
 
-const headerOffset = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+const isSnapBox = (target: HTMLElement) =>
+    window.matchMedia("(width >= 64rem) and (height >= 40rem)").matches &&
+    target.matches("#home, .section, .screen-box, .screen-break");
+
+const headerOffset = (target: HTMLElement) => {
+    if (isSnapBox(target)) return 0;
+    const margin = parseFloat(getComputedStyle(target).scrollMarginTop);
+    if (margin > 0) return margin;
+    return parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+};
 
 const targetOf = (hash: string) => {
     const id = decodeURIComponent(hash.slice(1));
     return id ? document.getElementById(id) : null;
 };
 
-const offsetOf = (target: HTMLElement) => target.getBoundingClientRect().top - headerOffset();
+const offsetOf = (target: HTMLElement) => target.getBoundingClientRect().top - headerOffset(target);
 
-function hold(target: HTMLElement) {
+function hold(target: HTMLElement, onDone?: () => void) {
     const current = generation;
     let frames = 0;
     const step = () => {
-        if (current !== generation || !target.isConnected) return;
+        if (current !== generation || !target.isConnected) {
+            onDone?.();
+            return;
+        }
         const delta = offsetOf(target);
         if (Math.abs(delta) >= 1) window.scrollBy({top: delta, behavior: "instant"});
         if (++frames < FRAMES) requestAnimationFrame(step);
+        else onDone?.();
     };
     step();
 }
 
 function travel(target: HTMLElement) {
+    stopCurrentTrip?.();
     const root = document.documentElement;
     const current = generation;
     root.dataset.traveling = "true";
+    root.dataset.traveled = "true";
     let timer = 0;
-    const arrive = () => {
+    let finished = false;
+
+    const cleanup = () => {
+        if (finished) return;
+        finished = true;
         window.removeEventListener("scrollend", arrive);
         window.clearTimeout(timer);
-        delete root.dataset.traveling;
-        if (current === generation) hold(target);
+        if (stopCurrentTrip === cancel) stopCurrentTrip = null;
     };
+
+    const releaseSnap = () => {
+        if (current === generation) delete root.dataset.traveling;
+    };
+
+    const cancel = () => {
+        cleanup();
+        delete root.dataset.traveling;
+    };
+
+    const arrive = () => {
+        cleanup();
+        if (current === generation) hold(target, releaseSnap);
+        else delete root.dataset.traveling;
+    };
+
+    stopCurrentTrip = cancel;
     const distance = offsetOf(target);
-    if (Math.abs(distance) < 1) return arrive();
+    if (Math.abs(distance) < 1) {
+        arrive();
+        return;
+    }
     window.addEventListener("scrollend", arrive);
     timer = window.setTimeout(arrive, TRIP_LIMIT);
     const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -73,13 +111,23 @@ function onClick(event: MouseEvent) {
 }
 
 export function keepAnchorsInPlace(fonts: Promise<unknown>) {
-    for (const event of INPUT) window.addEventListener(event, () => generation++, {capture: true, passive: true});
+    for (const event of INPUT) {
+        window.addEventListener(
+            event,
+            () => {
+                generation++;
+                stopCurrentTrip?.();
+            },
+            {capture: true, passive: true},
+        );
+    }
     // Bubbling, so a click that a part of the page handles itself (and prevents) never travels.
     document.addEventListener("click", onClick);
 
     const {hash} = location;
     const target = targetOf(hash);
     if (!target) return;
+    document.documentElement.dataset.traveled = "true";
     const loaded = generation;
     hold(target);
     void Promise.all([fonts, new Promise<void>((resolve) => whenHydrated(resolve))]).then(() => {

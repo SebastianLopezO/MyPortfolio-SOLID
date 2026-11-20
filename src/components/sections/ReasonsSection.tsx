@@ -64,7 +64,7 @@ export function ReasonsSection() {
         <Section id="reasons" title={services.benefitsTitle} subtitle={services.benefitsSubtitle}>
             <div class="reasons lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14 xl:gap-20">
                 {/* The slide: every reason is in the page, one shows at a time. */}
-                <div class="reasons-stage grid lg:sticky lg:top-28 lg:self-start">
+                <div class="reasons-stage grid lg:sticky lg:top-[calc(var(--header-height)+var(--screen-py))] lg:self-start">
                     <For each={ordered()}>
                         {(id, index) => {
                             const author = authorOf(id);

@@ -127,11 +127,15 @@ every pair in both themes.
   right with the theme and a round ink menu button. The button's floating panel lists the sections and marks the one
   being read with a cobalt dot; below 80rem the sections always live there. A 2px line along the top edge draws the
   reading progress.
-- **Screens:** from 64rem wide and 40rem tall, the hero and each section take at least the whole screen under the
-  header, their content in its middle, and the page comes to rest at the start of each one. A long section has a second
-  screen where its content turns (the projects' categories after the featured project, the path through school and
-  work after the story, each job after the first). A link of the header travels there smoothly and stops exactly at
-  the start.
+- **Screens:** from 64rem wide and 40rem tall, the hero and each section take at least the whole `100dvh` viewport
+  (`scroll-snap-align: start`, `scroll-padding-top: 0`), with internal top padding (`--header-height + --screen-py`)
+  that clears the floating header pills and centers the content inside the box. A long section divides into multiple
+  `100dvh` snap boxes (`.screen-box` and `.screen-break`) inside the same `<section>`: About splits the story/terminal
+  and the education index into two `100dvh` boxes; Projects splits the featured project, each batch of six category
+  tiles and the GitHub organizations into dedicated `100dvh` boxes; Experience gives the header + first job and each
+  subsequent job its own `100dvh` box; Reasons and expanded Certifications snap in viewport-sized groups. Clicking any
+  `#section` link in the navbar or menu temporarily disables scroll-snap during travel, aligns the target box at `0px`
+  of the viewport, holds it across layout frames and re-enables scroll-snap without bleed from neighboring sections.
 - **Buttons:** pills. Primary: ink fill, paper text, 48px in the hero, 44px elsewhere. Secondary: a Control Edge
   outline or a Fog fill. Pressing moves them down 1px. At most one primary button per view.
 - **Chips:** pills in Geist Mono, never below 13px, on Fog; outside the role view's focus they turn into a hairline

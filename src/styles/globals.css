@@ -115,49 +115,96 @@
             contain-intrinsic-block-size: auto var(--section-height-lg, 2000px);
         }
 
-        /* While an in-page link travels, every section is laid out, so the trip measures the real distance
+        /* While an in-page link travels, and once it has, every section stays laid out so distances never shift
            (lib/anchors.ts). */
 
-        :root[data-traveling] & {
+        :root:is([data-traveling], [data-traveled]) & {
             content-visibility: visible;
         }
     }
 
     /*
-     * Screens. Where the screen is wide and tall enough to hold one (64rem by 40rem), the hero and every section take
-     * at least the whole screen under the header, with their content in its middle, and the page comes to rest at the
-     * start of each one (scroll-snap: proximity settles the page when the reader stops near a start, and lets a long
-     * section scroll freely). A long section marks where its next screen begins with screen-break, which is a resting
-     * point too, a screen's padding under the header. Smaller screens scroll freely, as a page does.
+     * Screens. Where the screen is wide and tall enough to hold one (64rem by 40rem), the hero, every single-box
+     * section and every sub-screen box (.screen-box, .screen-break) of a multi-part section occupy at least a full
+     * 100dvh viewport frame with their top edge snapped at 0px (scroll-padding-top: 0) and internal top clearance for
+     * the floating header capsules (--header-height + --screen-py). Smaller screens scroll freely, as a page does.
      */
     @media (width >= 64rem) and (height >= 40rem) {
         :root {
             scroll-snap-type: y proximity;
+            scroll-padding-top: 0;
+        }
+
+        :root[data-traveling] {
+            scroll-snap-type: none;
         }
 
         #home {
             display: grid;
             align-content: center;
-            min-height: 100svh;
+            min-height: 100dvh;
+            padding-block: calc(var(--header-height) + var(--screen-py)) var(--screen-py);
             scroll-snap-align: start;
         }
 
         .section {
+            content-visibility: visible;
+        }
+
+        .section:not(:has(.screen-break)):not(#experience) {
             display: grid;
             align-content: center;
-            min-height: calc(100svh - var(--header-height));
-            padding-block: var(--screen-py);
+            min-height: 100dvh;
+            padding-block: calc(var(--header-height) + var(--screen-py)) var(--screen-py);
             scroll-snap-align: start;
         }
 
-        .screen-break {
-            scroll-snap-align: start;
-            scroll-margin-top: var(--screen-py);
+        .section:has(.screen-break) {
+            padding-block: 0;
         }
 
-        /* Each job after the first is a resting point of its own, its rule right under the header. */
+        .section:has(.screen-break) :is(.screen-box, .screen-break) {
+            display: grid;
+            align-content: center;
+            min-height: 100dvh;
+            margin-top: 0;
+            padding-block: calc(var(--header-height) + var(--screen-py)) var(--screen-py);
+            scroll-snap-align: start;
+        }
+
+        /* Experience divides into one 100dvh snap box for the heading + first job, and one 100dvh snap box per
+           subsequent job, while keeping every job as a direct child of #experience-jobs. */
+        #experience {
+            padding-block: 0;
+            scroll-snap-align: start;
+
+            & > .container-page > .screen-box > header {
+                padding-top: calc(var(--header-height) + var(--screen-py));
+            }
+        }
+
+        #experience-jobs > li:first-child {
+            min-height: calc(100dvh - 14.5rem);
+            align-content: center;
+            padding-bottom: var(--screen-py);
+        }
+
         #experience-jobs > li + li {
+            min-height: 100dvh;
+            align-content: center;
+            padding-block: calc(var(--header-height) + var(--screen-py)) var(--screen-py);
             scroll-snap-align: start;
+        }
+
+        /* Long lists inside a section snap in viewport-sized groups with clearance below the floating header. */
+        .reasons-list > li:nth-child(3n + 4),
+        #certifications ul > li:nth-child(6n + 7) {
+            scroll-snap-align: start;
+            scroll-margin-top: calc(var(--header-height) + var(--screen-py));
+        }
+
+        footer {
+            scroll-snap-align: end;
         }
     }
 
@@ -525,10 +572,17 @@
     }
 
     /*
-     * The WhatsApp and assistant buttons float over the right edge of the page. Below 78rem there is no margin beside
-     * the content, so they would cover the contact form, which offers the same actions; they step aside while it is on
-     * screen (ContactSection sets the flag).
+     * The WhatsApp and assistant buttons float over the right edge of the page. Below 82rem there is no wide margin
+     * beside the container, so main reserves a right gutter from 64rem to 82rem, and the floating buttons step aside
+     * whenever the contact section (which offers the same actions) is on screen or when the hero's actions sit at the
+     * bottom of a phone screen.
      */
+    @media (64rem <= width < 82rem) {
+        main .container-page {
+            padding-inline-end: 4.75rem;
+        }
+    }
+
     .floating-action {
         transition-property: opacity, translate, scale, visibility;
         transition-duration: 200ms;
@@ -543,12 +597,10 @@
         }
     }
 
-    @media (width < 78rem) {
-        :root[data-contact-visible] .floating-action {
-            opacity: 0;
-            visibility: hidden;
-            translate: 0 1rem;
-        }
+    :root[data-contact-visible] .floating-action {
+        opacity: 0;
+        visibility: hidden;
+        translate: 0 1rem;
     }
 
     /*

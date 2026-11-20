@@ -156,19 +156,20 @@ text; each bar has a labeled legend or row next to it.
   articles, stop at 80rem.
 - `section`: vertical rhythm of `clamp(4.5rem, 3rem + 5vw, 8.5rem)`. A home section off screen skips style and layout
   (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`).
-- Screens: from 64rem wide and 40rem tall, the hero takes the whole screen and each section at least the screen under
-  the header (`min-height`, its content centered with `align-content`), with a padding that follows the screen's
-  height (`--screen-py`, `clamp(2.5rem, 7svh, 5rem)`). The page rests at the start of each one
-  (`scroll-snap-type: y proximity` on the root, `scroll-snap-align: start`): it settles when the reader stops near a
-  start and lets a section taller than the screen scroll freely. A long section marks its next screen with
-  `screen-break` (the projects' categories, the about section's path through school and work), and each job after the
-  first is a resting point too. Smaller screens scroll as a page does.
+- Screens: from 64rem wide and 40rem tall, the hero, each single-box section and each sub-box (`.screen-box`,
+  `.screen-break`) of a multi-part section occupy a full `100dvh` viewport frame (`min-height: 100dvh`, content
+  centered with `align-content`, top edge snapped to `0px` via `scroll-padding-top: 0`) with internal top clearance
+  (`calc(var(--header-height) + var(--screen-py))`) so the floating header pills never overlap headings or cards and
+  the previous section never bleeds into the top of the screen. About divides into two `100dvh` boxes (story + terminal,
+  then education); Projects divides into `100dvh` boxes for the featured project, each batch of six category tiles and
+  the GitHub organizations; Experience gives the header + first job and each subsequent job its own `100dvh` box;
+  Reasons snaps every three cards alongside its sticky slide. Smaller screens scroll as a normal page.
 - In-page links (`lib/anchors.ts`): a click on a link to a part of the page travels there itself instead of letting the
-  browser jump. It lays every section out for a moment (`data-traveling` turns `content-visibility` off), so it measures
-  the real distance rather than the estimated heights, scrolls there smoothly (at once under reduced motion), so the
-  sections on the way play their entrances, and on `scrollend` puts the target exactly under the header and holds it
-  there for a few frames. The address names the target and the target takes the focus. Loading a page with a fragment
-  holds its target the same way once the page has settled; any input from the reader ends the corrections.
+  browser jump. It lays every section out (`data-traveling`, `data-traveled`) and temporarily turns `scroll-snap-type`
+  off so the browser's snap engine never hijacks the smooth scroll midway, scrolls to the target box (`top: 0` for
+  `100dvh` snap boxes on desktop, or under the header on smaller screens and detail pages), holds the target at `0px`
+  for a few frames after `scrollend`, and then re-enables `scroll-snap-type`. Any input from the reader cancels the
+  active trip and hands control back at once.
 - Radii: `sm` 0.5rem, `md` 0.75rem (inputs), `lg` 1.25rem (tiles on phones, cards), `xl` 1.75rem (tiles, panels), `2xl`
   2.5rem (the bench, large panels). Buttons and chips are pills.
 - Shadows: `shadow-card` for elevation (the tiles' labels, the board's device labels, the bench's labels), `shadow-glow`

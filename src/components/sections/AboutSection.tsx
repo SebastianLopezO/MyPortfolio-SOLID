@@ -55,7 +55,84 @@ export function AboutSection() {
     };
 
     return (
-        <Section id="about" title={about.title} subtitle={forProfile(about.subtitle, role())}>
+        <Section
+            id="about"
+            title={about.title}
+            subtitle={forProfile(about.subtitle, role())}
+            screens={
+                /* The path through school and work is the section's second 100dvh snap box (globals.css, screen-break). */
+                <div class="screen-break mt-16">
+                    <h3 class="flex items-center gap-2 text-title text-fg">
+                        <GraduationCap class="size-5 text-primary"/>
+                        {about.educationTitle}
+                    </h3>
+                    {/* A timeline on phones; from 48rem an index two across, with the degree on a row of its own. */}
+                    <ol class="enter-each mt-6 grid gap-x-12 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
+                        <For each={education}>{(item, index) => {
+                            const copy = about.education[item.id];
+                            return (
+                                <li
+                                    class={cn("relative py-5 md:border-t md:border-border md:py-6", index() === 0 && "md:col-span-2")}>
+                                    <span aria-hidden="true"
+                                          class="absolute top-7 -left-[1.6rem] size-2.5 rounded-full bg-primary md:hidden"/>
+                                    <p class="font-mono text-xs text-fg-subtle">
+                                        {item.start === item.end ? item.start : `${item.start} – ${item.end}`}
+                                    </p>
+                                    <p class="mt-1 font-semibold text-fg">{copy.degree}</p>
+                                    <p class="text-sm text-fg-muted">{item.school}</p>
+                                    <Show when={copy.note}>
+                                        <p class="mt-2 w-fit rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent">{copy.note}</p>
+                                    </Show>
+                                    <p class="mt-1 flex flex-wrap gap-x-5">
+                                        <Link to={buildDetailPath(lang, "education", {
+                                            slug: EDUCATION_SLUG[item.id],
+                                            locked: locked()
+                                        })} class={LINK}>
+                                            {about.educationPage}
+                                            <ArrowRight class="size-4"/>
+                                        </Link>
+                                        <Show when={item.url}>
+                                            {(url) => (
+                                                <a href={url()} target="_blank" rel="noopener noreferrer" class={LINK}>
+                                                    {about.courseworkLink}
+                                                    <ExternalLink class="size-4"/>
+                                                </a>
+                                            )}
+                                        </Show>
+                                        <Show when={item.organization}>
+                                            {(organization) => (
+                                                <a href={organization().url} target="_blank" rel="noopener noreferrer"
+                                                   class={LINK}>
+                                                    <GithubIcon class="size-4"/>
+                                                    {about.organizationLink} · {organization().repositories} {about.repositories}
+                                                </a>
+                                            )}
+                                        </Show>
+                                    </p>
+                                    <ul class="mt-3 flex flex-wrap gap-1.5">
+                                        <For each={copy.skills}>
+                                            {(skill) => (
+                                                <li
+                                                    class="rounded border border-border px-2 py-0.5 text-xs text-fg-subtle">
+                                                    {skill}
+                                                </li>
+                                            )}
+                                        </For>
+                                    </ul>
+                                </li>
+                            );
+                        }}</For>
+                    </ol>
+                    <Link
+                        to={buildDetailPath(lang, "education", {locked: locked()})}
+                        class="mt-6 inline-flex min-h-10 w-fit items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                    >
+                        {about.educationIndex}
+                        <ArrowRight class="size-4"/>
+                    </Link>
+                </div>
+            }
+        >
             {/* From 64rem the story and the languages sit beside the terminal; below that everything stacks. */}
             <div class="grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
                 <div class="space-y-5 text-fg-muted">
@@ -133,80 +210,7 @@ export function AboutSection() {
                             </div>
                         </div>
                     </figure>
-
                 </div>
-            </div>
-
-            {/* The path through school and work is the section's second screen (globals.css, screen-break). */}
-            <div class="screen-break mt-16">
-                <h3 class="flex items-center gap-2 text-title text-fg">
-                    <GraduationCap class="size-5 text-primary"/>
-                    {about.educationTitle}
-                </h3>
-                {/* A timeline on phones; from 48rem an index two across, with the degree on a row of its own. */}
-                <ol class="enter-each mt-6 grid gap-x-12 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
-                    <For each={education}>{(item, index) => {
-                        const copy = about.education[item.id];
-                        return (
-                            <li
-                                class={cn("relative py-5 md:border-t md:border-border md:py-6", index() === 0 && "md:col-span-2")}>
-                                <span aria-hidden="true"
-                                      class="absolute top-7 -left-[1.6rem] size-2.5 rounded-full bg-primary md:hidden"/>
-                                <p class="font-mono text-xs text-fg-subtle">
-                                    {item.start === item.end ? item.start : `${item.start} – ${item.end}`}
-                                </p>
-                                <p class="mt-1 font-semibold text-fg">{copy.degree}</p>
-                                <p class="text-sm text-fg-muted">{item.school}</p>
-                                <Show when={copy.note}>
-                                    <p class="mt-2 w-fit rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent">{copy.note}</p>
-                                </Show>
-                                <p class="mt-1 flex flex-wrap gap-x-5">
-                                    <Link to={buildDetailPath(lang, "education", {
-                                        slug: EDUCATION_SLUG[item.id],
-                                        locked: locked()
-                                    })} class={LINK}>
-                                        {about.educationPage}
-                                        <ArrowRight class="size-4"/>
-                                    </Link>
-                                    <Show when={item.url}>
-                                        {(url) => (
-                                            <a href={url()} target="_blank" rel="noopener noreferrer" class={LINK}>
-                                                {about.courseworkLink}
-                                                <ExternalLink class="size-4"/>
-                                            </a>
-                                        )}
-                                    </Show>
-                                    <Show when={item.organization}>
-                                        {(organization) => (
-                                            <a href={organization().url} target="_blank" rel="noopener noreferrer"
-                                               class={LINK}>
-                                                <GithubIcon class="size-4"/>
-                                                {about.organizationLink} · {organization().repositories} {about.repositories}
-                                            </a>
-                                        )}
-                                    </Show>
-                                </p>
-                                <ul class="mt-3 flex flex-wrap gap-1.5">
-                                    <For each={copy.skills}>
-                                        {(skill) => (
-                                            <li
-                                                class="rounded border border-border px-2 py-0.5 text-xs text-fg-subtle">
-                                                {skill}
-                                            </li>
-                                        )}
-                                    </For>
-                                </ul>
-                            </li>
-                        );
-                    }}</For>
-                </ol>
-                <Link
-                    to={buildDetailPath(lang, "education", {locked: locked()})}
-                    class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
-                >
-                    {about.educationIndex}
-                    <ArrowRight class="size-4"/>
-                </Link>
             </div>
         </Section>
     );

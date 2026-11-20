@@ -19,21 +19,23 @@ interface SectionProps {
     layout?: "wide" | "split" | "pair";
     /** What the heading carries under its subtitle in a "pair" layout, such as the ways to reach me. */
     intro?: JSX.Element;
+    /** Additional 100dvh snap boxes that belong to the same section when its content spans more than one viewport. */
+    screens?: JSX.Element;
 }
 
-// Heights in px measured on the Spanish home at 390px and 1440px wide. A section off screen is not laid out
+// Heights in px measured on the Spanish home at 390px and 1440px wide. A section off screen on a phone is not laid out
 // (globals.css, .section) and takes this height until it renders, so they only need to be close.
 const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
-    about: [3600, 2000],
-    journey: [1300, 1400],
-    services: [1500, 1000],
+    about: [2800, 1800],
+    journey: [1300, 960],
+    services: [1500, 900],
     reasons: [2700, 1900],
-    experience: [4300, 2750],
-    skills: [900, 820],
-    projects: [2600, 2300],
-    certifications: [2100, 1200],
-    metrics: [870, 690],
-    resume: [1400, 1000],
+    experience: [3800, 3600],
+    skills: [900, 900],
+    projects: [2600, 2700],
+    certifications: [1900, 960],
+    metrics: [870, 900],
+    resume: [1400, 900],
     testimonials: [950, 900],
     contact: [1300, 900],
 };
@@ -60,18 +62,36 @@ export function Section(props: SectionProps) {
             <div
                 class={cn("container-page", split() && "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2.15fr)] lg:gap-16",
                     pair() && "lg:grid lg:grid-cols-2 lg:gap-16")}>
-                {/* The heading rises into place as the section enters (globals.css, section-enter). */}
-                <header
-                    class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : pair() ? "lg:mb-0" : "max-w-3xl")}>
-                    <h2 id={`${props.id}-title`} class="text-heading text-fg">
-                        {props.title}
-                    </h2>
-                    <Show when={props.subtitle}>
-                        <p class={cn("mt-4 text-fg-muted", split() ? "text-base lg:text-lg" : "text-lg")}>{props.subtitle}</p>
-                    </Show>
-                    {props.intro}
-                </header>
-                <div class="min-w-0">{props.children}</div>
+                <Show when={!split() && !pair()} fallback={
+                    <>
+                        <header
+                            class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "lg:mb-0")}>
+                            <h2 id={`${props.id}-title`} class="text-heading text-fg">
+                                {props.title}
+                            </h2>
+                            <Show when={props.subtitle}>
+                                <p class={cn("mt-4 text-fg-muted", split() ? "text-base lg:text-lg" : "text-lg")}>{props.subtitle}</p>
+                            </Show>
+                            {props.intro}
+                        </header>
+                        <div class="min-w-0">{props.children}</div>
+                    </>
+                }>
+                    <div class="screen-box">
+                        {/* The heading rises into place as the section enters (globals.css, section-enter). */}
+                        <header class="section-enter mb-10 max-w-3xl md:mb-12">
+                            <h2 id={`${props.id}-title`} class="text-heading text-fg">
+                                {props.title}
+                            </h2>
+                            <Show when={props.subtitle}>
+                                <p class="mt-4 text-lg text-fg-muted">{props.subtitle}</p>
+                            </Show>
+                            {props.intro}
+                        </header>
+                        <div class="min-w-0">{props.children}</div>
+                    </div>
+                    {props.screens}
+                </Show>
             </div>
         </section>
     );
