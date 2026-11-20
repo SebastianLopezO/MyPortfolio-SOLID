@@ -71,30 +71,30 @@ export function HeroSection() {
     return (
         <section id="home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
             <div
-                class="container-page grid items-center gap-x-16 gap-y-12 pt-8 pb-16 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+                class="container-page grid items-center gap-x-12 gap-y-8 pt-8 pb-12 md:py-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:py-8 xl:gap-x-16">
                 <div class="hero-copy">
                     {/* The name and the role read as one statement in two tones, the way a title card does. */}
                     <h1 id="hero-title"
-                        class="text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">
+                        class="text-display tracking-tight">
                         <span class="block text-fg">{profile.name}</span>
                         <span
-                            class="mt-3 block text-[0.56em] leading-[1.08] tracking-[-0.035em] text-fg-subtle">{copy().title}</span>
+                            class="mt-2.5 block text-[0.56em] leading-tight tracking-tight text-fg-subtle">{copy().title}</span>
                     </h1>
-                    <p class="mt-7 max-w-xl text-xl leading-snug text-fg md:text-[1.375rem]">{copy().headline}</p>
-                    <p class="mt-4 max-w-xl text-fg-muted">{copy().summary}</p>
+                    <p class="mt-5 max-w-xl text-lg leading-snug text-fg md:text-xl">{copy().headline}</p>
+                    <p class="mt-3 max-w-xl text-sm leading-relaxed text-fg-muted sm:text-base">{copy().summary}</p>
 
-                    <div ref={actions} class="mt-9 flex flex-wrap gap-3">
+                    <div ref={actions} class="mt-6 flex flex-wrap gap-3 md:mt-8">
                         <a
                             href={cv}
                             download=""
-                            class="inline-flex h-12 items-center gap-2 rounded-full bg-primary px-6 font-semibold text-on-primary transition-colors hover:bg-primary-hover active:translate-y-px"
+                            class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover active:translate-y-px sm:text-base"
                         >
                             <Download class="size-5"/>
                             {ui.actions.downloadCv}
                         </a>
                         <a
                             href="#contact"
-                            class="inline-flex h-12 items-center gap-2 rounded-full border border-border-strong px-6 font-semibold text-fg transition-colors hover:bg-surface-raised active:translate-y-px"
+                            class="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-5 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised active:translate-y-px sm:text-base"
                         >
                             {ui.actions.contact}
                             <ArrowRight class="size-5"/>
@@ -106,7 +106,7 @@ export function HeroSection() {
                     the work (scripts/illustrations/hero.mjs). The portrait is the largest paint, so it is drawn at
                     once; the drawing around it is decoration, and the links over its devices carry its meaning. The
                     role views have no switcher: each one is reached by its address (/en/backend, /es/data...). */}
-                <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-[34rem]">
+                <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-xs sm:max-w-sm lg:max-w-lg">
                     <img
                         src={withBase(HERO_ART.file)}
                         alt=""

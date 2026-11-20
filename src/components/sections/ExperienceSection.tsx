@@ -55,7 +55,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
     return (
         // One job is one row of the index: its dates, its title and company with a sentence, and what it is now. Its
         // achievements, stack and projects open in place; its page tells the whole story.
-        <li class="timeline-card grid gap-x-10 gap-y-3 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:py-10">
+        <li class="timeline-card grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[11rem_minmax(0,1fr)]">
             <div class="font-mono text-xs leading-relaxed text-fg-subtle">
                 <p>{formatRange(props.facts.start, props.facts.end, ui.months, ui.present)}</p>
                 <p>{formatDuration(monthsBetween(props.facts.start, props.facts.end), lang)}</p>
@@ -66,7 +66,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                         <h3 class="text-title text-fg">
                             <Link to={detail()} class="hover:text-fg-muted">{item().title}</Link>
                         </h3>
-                        <p class="mt-1 text-fg-muted">
+                        <p class="mt-1 text-sm text-fg-muted sm:text-base">
                             {props.facts.company}
                             <span class="text-fg-subtle"> · {props.facts.location} · {meta()}</span>
                         </p>
@@ -86,19 +86,19 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                         </Show>
                     </div>
                 </div>
-                <p class="mt-4 max-w-3xl text-fg-muted">{forProfile(item().summary, props.role)}</p>
+                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-fg-muted sm:text-base">{forProfile(item().summary, props.role)}</p>
 
                 <Show when={bullets().visible.length > 0}>
-                    <ul class="mt-4 max-w-3xl space-y-2 text-fg-muted">
+                    <ul class="mt-3.5 max-w-3xl space-y-2 text-sm text-fg-muted sm:text-base">
                         <For each={bullets().visible}>{(bullet) => <BulletItem bullet={bullet}
                                                                                role={props.role}/>}</For>
                     </ul>
                 </Show>
 
-                <More class="mt-3" label={`${ui.actions.showMore} (${bullets().hidden.length})`}
+                <More class="mt-2.5" label={`${ui.actions.showMore} (${bullets().hidden.length})`}
                       openLabel={ui.actions.showLess}>
-                    <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-                        <ul class="space-y-2 text-fg-muted">
+                    <div class="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+                        <ul class="space-y-2 text-sm text-fg-muted sm:text-base">
                             <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
                                                                                   role={props.role}/>}</For>
                         </ul>
@@ -108,20 +108,20 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                 </More>
 
                 <Show when={related().length > 0}>
-                    <div class="mt-5">
-                        <p class="text-sm text-fg-subtle">{copy.projects}</p>
-                        <ul class="mt-2 flex flex-wrap gap-2">
+                    <div class="mt-3">
+                        <p class="font-mono text-xs text-fg-subtle">{copy.projects}</p>
+                        <ul class="mt-1.5 flex flex-wrap gap-2">
                             <For each={related()}>
                                 {(id) => (
                                     <li>
                                         <Link
                                             to={buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()})}
-                                            class="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-border py-1 pr-4 pl-1 text-sm text-fg transition-colors hover:border-border-strong hover:bg-surface"
+                                            class="inline-flex min-h-9 items-center gap-2 rounded-full border border-border py-1 pr-3 pl-1 text-xs text-fg transition-colors hover:border-border-strong hover:bg-surface sm:text-sm"
                                         >
-                                            <span class="grid size-9 shrink-0 place-items-center rounded-full"
+                                            <span class="grid size-6 shrink-0 place-items-center rounded-full"
                                                   style={{background: `var(--color-tile-${PROJECT_ART[id].tile})`}}>
-                                                <img src={withBase(PROJECT_ART[id].file)} alt="" width={32} height={32}
-                                                     loading="lazy" decoding="async" class="size-8"/>
+                                                <img src={withBase(PROJECT_ART[id].file)} alt="" width={24} height={24}
+                                                     loading="lazy" decoding="async" class="size-5"/>
                                             </span>
                                             {projectCopy.items[id].name}
                                         </Link>

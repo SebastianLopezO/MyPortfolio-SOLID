@@ -66,7 +66,9 @@ function AboutTerminal(props: { class?: string }) {
     );
 }
 
-function EducationList() {
+const HOME_EDUCATION_CHIPS = 5;
+
+function EducationList(props: { compact?: boolean }) {
     const about = useSectionCopy("about");
     const {lang} = useLanguage();
     const {locked} = useRole();
@@ -78,14 +80,16 @@ function EducationList() {
                 {about.educationTitle}
             </h3>
             {/* A timeline on phones; from 48rem an index two across, with the degree on a row of its own. */}
-            <ol class="enter-each mt-6 grid gap-x-12 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
+            <ol class="enter-each mt-5 grid gap-x-10 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
                 <For each={education}>{(item, index) => {
                     const copy = about.education[item.id];
+                    const chips = () => (props.compact ? copy.skills.slice(0, HOME_EDUCATION_CHIPS) : copy.skills);
+                    const overflow = () => (props.compact ? Math.max(0, copy.skills.length - HOME_EDUCATION_CHIPS) : 0);
                     return (
                         <li
-                            class={cn("relative py-5 md:border-t md:border-border md:py-6", index() === 0 && "md:col-span-2")}>
+                            class={cn("relative py-4 md:border-t md:border-border md:py-5", index() === 0 && "md:col-span-2")}>
                             <span aria-hidden="true"
-                                  class="absolute top-7 -left-[1.6rem] size-2.5 rounded-full bg-primary md:hidden"/>
+                                  class="absolute top-6 -left-[1.6rem] size-2.5 rounded-full bg-primary md:hidden"/>
                             <p class="font-mono text-xs text-fg-subtle">
                                 {item.start === item.end ? item.start : `${item.start} – ${item.end}`}
                             </p>
@@ -120,8 +124,8 @@ function EducationList() {
                                     )}
                                 </Show>
                             </p>
-                            <ul class="mt-3 flex flex-wrap gap-1.5">
-                                <For each={copy.skills}>
+                            <ul class="mt-2.5 flex flex-wrap gap-1.5">
+                                <For each={chips()}>
                                     {(skill) => (
                                         <li
                                             class="rounded border border-border px-2 py-0.5 text-xs text-fg-subtle">
@@ -129,6 +133,11 @@ function EducationList() {
                                         </li>
                                     )}
                                 </For>
+                                <Show when={overflow() > 0}>
+                                    <li class="rounded border border-border bg-surface px-2 py-0.5 font-mono text-xs text-fg-muted">
+                                        +{overflow()}
+                                    </li>
+                                </Show>
                             </ul>
                         </li>
                     );
@@ -136,7 +145,7 @@ function EducationList() {
             </ol>
             <Link
                 to={buildDetailPath(lang, "education", {locked: locked()})}
-                class="mt-6 inline-flex min-h-10 w-fit items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
+                class="mt-5 inline-flex min-h-10 w-fit items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
             >
                 {about.educationIndex}
                 <ArrowRight class="size-4"/>
@@ -156,18 +165,12 @@ export function AboutSection() {
             id="about"
             title={about.title}
             subtitle={forProfile(about.subtitle, role())}
-            screens={
-                /* The path through school and work is the section's second 100dvh snap box (globals.css, screen-break). */
-                <div class="screen-break mt-16">
-                    <EducationList/>
-                </div>
-            }
         >
             {/* From 64rem the summary + languages and the terminal stretch to the same height side by side. */}
-            <div class="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:items-stretch xl:gap-x-16">
-                <div class="flex flex-col justify-between gap-8 text-fg-muted">
+            <div class="grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:items-stretch xl:gap-x-16">
+                <div class="flex flex-col justify-between gap-7 text-fg-muted">
                     <div class="space-y-4">
-                        <blockquote class="border-l-2 border-primary pl-4 font-display text-2xl text-fg">
+                        <blockquote class="border-l-2 border-primary pl-4 font-display text-xl text-fg md:text-2xl">
                             “{about.quote}”
                         </blockquote>
                         <p class="max-w-[68ch]">{about.intro}</p>
@@ -185,12 +188,12 @@ export function AboutSection() {
                             <Languages class="size-5 text-primary"/>
                             {about.languagesTitle}
                         </h3>
-                        <dl class="mt-3 grid gap-3 sm:grid-cols-3">
+                        <dl class="mt-3 grid grid-cols-3 gap-2">
                             <For each={about.languages}>
                                 {(language) => (
-                                    <div class="rounded-lg border border-border bg-surface p-3.5">
-                                        <dt class="font-semibold text-fg">{language.name}</dt>
-                                        <dd class="text-sm text-fg-muted">{language.level}</dd>
+                                    <div class="rounded-lg border border-border bg-surface p-3">
+                                        <dt class="text-sm font-semibold text-fg sm:text-base">{language.name}</dt>
+                                        <dd class="mt-0.5 text-xs leading-snug text-fg-muted sm:text-sm">{language.level}</dd>
                                     </div>
                                 )}
                             </For>
@@ -201,6 +204,10 @@ export function AboutSection() {
                 <div class="enter-each flex flex-col">
                     <AboutTerminal class="lg:h-full"/>
                 </div>
+            </div>
+
+            <div class="mt-12 border-t border-border pt-10 md:mt-16 md:pt-12">
+                <EducationList compact/>
             </div>
         </Section>
     );
