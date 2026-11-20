@@ -159,7 +159,7 @@ every pair in both themes.
   journey); `split`, the heading in a left column that stays in view beside a list; `pair`, the heading and what it
   carries in the left half and the content in the right half, its top level with the title (the contact: the ways to
   reach me under the title, the form beside it). All stack below 64rem.
-- CSS Grid for every multi-column layout; nothing scrolls sideways except the sliders and the bench on a phone.
+- CSS Grid for every multi-column layout; nothing scrolls sideways except the sliders.
 - `container-page` is 72rem up to a 1440px viewport, then 82% of it up to 96rem. Full-height blocks use `100dvh`.
 
 ## 6. Motion & Interaction

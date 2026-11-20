@@ -29,7 +29,7 @@ November 2026 moved the color out of the interface and into the images.
 | Token                          | Use                                                            | On `bg`, light / dark |
 |--------------------------------|----------------------------------------------------------------|-----------------------|
 | `bg`                           | Page background, also `theme-color`                            | —                     |
-| `surface`                      | Panels, the lab bench, raised sections                         | —                     |
+| `surface`                      | Panels, the skill tiles, raised sections                       | —                     |
 | `surface-raised`               | Chips, quiet buttons, hovers                                   | —                     |
 | `border`                       | Decorative dividers between rows                               | decorative only       |
 | `border-strong`                | Input borders and controls that must be visible                | 3.8:1 / 4.2:1         |
@@ -69,12 +69,15 @@ readers where the badge is compact), carries the same meaning.
 
 ## Illustrations
 
-The projects, the hero and the lab bench are illustrated with one family of drawings: soft hardware seen from above,
-built from rounded plates with a darker side for thickness, a sheen, a bevel and a blurred contact shadow, plus lenses,
-lights, keys, screens and cables. `scripts/render-illustrations.mjs` draws them from `scripts/illustrations` (`kit.mjs`
-is the drawing kit, `scenes.mjs` one object per project, `hero.mjs` the hero's board, `lab.mjs` the objects of the
-bench) into `public/illustrations` as static SVG, and writes `src/content/shared/project-art.ts`, the map the
-components read. That map includes `HERO_SPOTS`, the box each device of the hero's board fills (in `hero.mjs`,
+The projects, the hero, the skills and every page beyond the projects are illustrated with one family of drawings:
+soft hardware seen from above, built from rounded plates with a darker side for thickness, a sheen, a bevel and a
+blurred contact shadow, plus lenses, lights, keys, screens and cables. `scripts/render-illustrations.mjs` draws them
+from `scripts/illustrations` (`kit.mjs` is the drawing kit, `scenes.mjs` one object per project, `hero.mjs` the hero's
+board, `lab.mjs` the objects of the skill groups that borrow none from a project, `pages.mjs` one object per service,
+reason to hire, job, program and GitHub organization) into `public/illustrations` as static SVG, and writes
+`src/content/shared/project-art.ts` and `page-art.ts`, the maps the components read. In `pages.mjs` a job is a badge,
+a program a book with what it led to on top, an organization a cabinet (with a padlock when its code is private), and
+a flat glyph (`GLYPHS`) pressed into a face tells the objects of one kind apart. That map includes `HERO_SPOTS`, the box each device of the hero's board fills (in `hero.mjs`,
 `DEVICES`), which `HeroSection` covers with a link to the device's project; the labels' copy is `hero.board` in each
 language, and a test keeps each label's name equal to its project's. Run `pnpm illustrations` after changing a scene and commit what it writes; `--sheet` also writes a
 contact sheet of every drawing on its tile in both themes.
@@ -199,13 +202,14 @@ text; each bar has a labeled legend or row next to it.
 - Figures: the figures under the hero, of the GitHub metrics and of the recommendations (`data-count`) count up from
   zero the first time the reader reaches them (`lib/count-up.ts`). One already on screen when the page settles keeps
   still, and the text ends exactly as it was prerendered.
-- Header: a frosted bar fixed at the top of the screen the whole way down, so the name never leaves it. From 80rem the
-  sections sit in the bar; below, they live in the round menu button's floating panel, which closes with Escape or a
-  press outside. A 2px line along the top edge draws the reading progress (`reading-progress`, a scroll timeline, no
-  script). The section that crosses the middle of the screen is followed, every one of them: its link is underlined in
-  the bar and dotted in cobalt in the panel, and carries `aria-current`; below 80rem, and from 80rem for a section the
-  bar has no link for, its path is written after the name in mono (`/experiencia`, `aria-hidden`, the links say it),
-  under the name on a phone. Nothing is marked while the hero is there.
+- Header: a frosted bar at the top of the page that folds once the page scrolls 48px (`data-folded`): the backdrop and
+  the sections fade and leave the flow, and two floating frosted pieces stay, the whole name as a pill at the left
+  (it never shrinks, so whose page this is never leaves the screen) and a capsule at the right with the theme and the
+  round menu button. The header lets the page under its empty part take the pointer. From 80rem the sections sit in
+  the unfolded bar; below, and once folded, they live in the menu button's floating panel, which closes with Escape or
+  a press outside. A 2px line along the top edge draws the reading progress (`reading-progress`, a scroll timeline, no
+  script). The section that crosses the middle of the screen is underlined in the bar and dotted in cobalt in the
+  panel, and carries `aria-current`; nothing is marked while the hero is there.
 - Between pages: following a link fades from one page to the next where the browser has cross-document view
   transitions, and the header keeps its place (`view-transition-name: site-header`).
 - What a control brings in: a tab panel, the list of milestones, an organization's metrics card and the phone menu
@@ -215,16 +219,22 @@ text; each bar has a labeled legend or row next to it.
   achievements that match the role view (up to three) and folds the rest, its stack and its projects behind "Show
   more"; a project is a tile with its illustration, name and a few words, and its page tells the rest; About shows the quote and the first paragraph, with "Read the full story". Each of these is a
   native `details` (`components/ui/More.tsx`): find in page opens it, search engines read it, it works before
-  hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Services and GitHub
-  metrics have a page each (`/services`, `/metrics`, an index with nothing under it and a `WebPage` schema); the home
-  keeps the services as a list of names linking to each one's anchor and the metrics as the strip of figures. The
-  organizations are named on the home and described on their index.
+  hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Each service and each
+  reason to hire has a page (`/services/{slug}`, `/reasons/{slug}`, a `WebPage` with a `Service` schema for a service)
+  under its index (`CollectionPage`); the home names each service by its object, name and few words, and shows the
+  reasons as a slide beside their list. The GitHub metrics have one page (`/metrics`, a `WebPage`), and the home keeps
+  the strip of figures. The organizations are named on the home and described on their index.
+- Detail pages: a job, a program, an organization, a service and a reason carry their object on its tile beside the
+  title (`DetailArticle`'s `art`), square from 48rem and a short band on a phone; their indexes open each row with the
+  object. The projects of a job, a program or an organization are tiles (a single project adds its screens), and the
+  pages of the services and reasons link jobs, programs, services and reasons as tiles or rows with their objects
+  (`views/detail-kit.tsx`).
 - Project tiles: a grid, two across on a phone, three from 64rem and four from 96rem; each tile's illustration rises
   onto its layer as the tile comes up (`tile-illustration`, a view timeline). The featured project spans the row.
-- Lab bench: from 48rem the objects are absolutely placed at their spot (`--x`, `--y`), offset by what the reader moved
-  them (`--dx`, `--dy`) and turned a few degrees (`--turn`); held, an object straightens and scales to 1.07, dropped it
-  settles with `ease-spring`. Pointer drags use pointer capture and a 6px threshold before a press counts as a drag;
-  the arrow keys move the focused object 16px (48px with Shift). Below 48rem the bench is a row with scroll snapping.
+- Reasons: a sticky slide from 64rem beside the list; the slides share one grid cell and the active one fades in
+  (`reason-slide[data-active]`, the others `visibility: hidden`, so assistive technology reads one). One
+  `IntersectionObserver` marks the card crossing the middle of the screen, only from 64rem, and that card takes an ink
+  border. Each card slides in from the side of the slide as it comes up (a view timeline).
 - Pointer: the arrow of a link moves 3px the way it leads, the icon of a link that leaves the site lifts, a download
   drops, and a project tile grows to 1.015, lifts its illustration 8px and leans its arrow wherever the pointer rests
   on it, only under `(hover: hover)`. A "Show more" chevron turns to point where the rows go.
@@ -236,8 +246,10 @@ text; each bar has a labeled legend or row next to it.
   stacked below that, so the portrait never floats in an empty box. A role view brightens its own steps of the log and
   dims the rest. Education is a timeline on phones and an index two across from 48rem, with the degree on a row of its
   own; each program links to its GitHub organization.
-- Skill groups: the lab bench (above) opens one group at a time; under it, every group as open blocks split by
-  hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications are index rows two per row from 48rem, so the full list of 29 reads as one index; each
+- Skill groups: a grid of tiles, two across from 40rem and three from 64rem, each with its object on a layer of color,
+  its name, its count and its first six tools (the role view's first), which print one after another as the tile comes
+  up (`skill-chip`, a view timeline offset by `--i`); nothing is dragged or pressed. Under it, every group as open
+  blocks split by hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications are index rows two per row from 48rem, so the full list of 29 reads as one index; each
   says what it covered, what it adds today and the journey stop that groups it, with that stop's line keys.
 - Figures (the highlights under the hero, the recommendation counts and the GitHub metrics): open strips with no box
   around each number, the number above its label. The strip under the hero shows eight figures chosen per role view,
@@ -250,14 +262,16 @@ text; each bar has a labeled legend or row next to it.
 - Resume: the choices and the preview are two columns of fixed measure (34rem and 28rem) centered together. One
   sheet is drawn behind the preview for every extra page (up to four), offset 10px each, with "Page 1 of N" under
   the stack, so the length of each version shows at a glance.
-- Services: each card ends with "Done in" and links to the project pages that show the service, so every promise
-  points to evidence.
+- Services: no card and no list of points on the home; a service's page lists what it covers with checks on its own
+  color, then the project tiles that prove it, the jobs it was done in and the reasons that go with it, so every
+  promise points to evidence.
+- Contact: a `pair` section, the title, the ways to reach me under it, and the form beside them with its top level with
+  the title.
 - Floating buttons (WhatsApp and the assistant): on phones they step aside while the hero's two buttons sit in the
   bottom 9.5rem of the screen, where they would cover them, and while the contact section is on screen.
 - Recommendations: a quote longer than six lines at the card's width shows a "Show more" toggle; the full text
   stays in the page, word for word.
-- Sliders (`Carousel`): the recommendations show one card per view on phones, two on tablets and three from 64rem;
-  the services and the reasons to hire are sliders below 48rem and grids above. The track scrolls sideways with snap
+- Sliders (`Carousel`): the recommendations show one card per view on phones, two on tablets and three from 64rem. The track scrolls sideways with snap
   points, so a swipe moves one card, and the buttons below it do the same with a counter ("4 / 16"). The track hides
   its scrollbar, takes keyboard focus while it scrolls, and keeps every card in the page, so a screen reader reads a
   plain list. The prerendered HTML carries the first three recommendations and the rest arrive with the JavaScript,
