@@ -105,6 +105,7 @@
 
     .section {
         padding-block: var(--section-py);
+        background-color: var(--color-bg);
         /* Sections off screen skip style and layout until they come near; Section.tsx gives each one its measured
            height so the scrollbar and the restored scroll position stay close to the real page. */
         content-visibility: auto;
@@ -112,6 +113,15 @@
 
         @media (width >= 64rem) {
             contain-intrinsic-block-size: auto var(--section-height-lg, 2000px);
+        }
+
+        /* Alternating section layers after #home: odd sections below the hero take a subtle graphite-black layer
+           (soft cool paper in light mode) while even ones keep the deep base black, with cards inside raised a step. */
+        &:nth-of-type(even) {
+            --color-surface: light-dark(oklch(0.99 0.002 250), oklch(0.22 0.003 260));
+            --color-surface-raised: light-dark(oklch(0.945 0.004 250), oklch(0.26 0.003 260));
+            background-color: light-dark(oklch(0.968 0.003 250), oklch(0.188 0.003 260));
+            border-block: 1px solid color-mix(in oklch, var(--color-border) 70%, transparent);
         }
 
         /* While an in-page link travels, and once it has, every section stays laid out so distances never shift
@@ -222,11 +232,17 @@
         background-position: -1px -1px;
     }
 
-    /* Behind the hero the field is fainter, fades out from the middle and shifts in opposite parallax to the pointer. */
+    /* The hero has its own unique layer: a deep obsidian stage with subtle cobalt-slate radial washes and the
+       parallax technical field behind it. */
     .hero-backdrop {
         position: relative;
         isolation: isolate;
         overflow-x: clip;
+        background-color: light-dark(oklch(0.982 0.005 255), oklch(0.135 0.005 260));
+        background-image:
+            radial-gradient(64rem 36rem at 82% 14%, light-dark(oklch(0.55 0.14 264 / 0.08), oklch(0.55 0.14 264 / 0.14)), transparent 65%),
+            radial-gradient(48rem 30rem at 12% 88%, light-dark(oklch(0.58 0.1 220 / 0.06), oklch(0.45 0.08 240 / 0.1)), transparent 65%);
+        border-bottom: 1px solid color-mix(in oklch, var(--color-border) 75%, transparent);
 
         &::before {
             content: "";
