@@ -218,6 +218,7 @@ test("moves between programs and switches language on the same page", async ({pa
 
 test("links the detail pages from the home sections and the footer", async ({page}) => {
     await gotoHydrated(page, "/es");
+    await expect(page.locator("#about").getByRole("link", {name: "Leer la historia completa"})).toHaveAttribute("href", "/es/about");
     await expect(page.locator("#about").getByRole("link", {name: "Ver el programa"}).first()).toHaveAttribute("href", "/es/education/computer-engineering");
     await expect(page.locator("#about").getByRole("link", {name: /Toda la educación/})).toHaveAttribute("href", "/es/education");
     await expect(page.locator("#certifications h3").getByRole("link", {name: "IT Specialist – Python"})).toHaveAttribute("href", "/es/certifications/it-specialist-python");
@@ -229,7 +230,7 @@ test("links the detail pages from the home sections and the footer", async ({pag
     await expect(page.locator("#metrics").getByRole("link", {name: /Ver todas las métricas/})).toHaveAttribute("href", /^\/es\/metrics/);
     const explore = page.getByRole("navigation", {name: "Explora el portafolio"});
     await expect(page.locator("#skills").getByRole("link", {name: /Ver las 15 habilidades/})).toHaveAttribute("href", "/es/skills");
-    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Habilidades técnicas", "Organizaciones en GitHub", "Servicios", "Por qué contratarme", "Métricas de GitHub"]);
+    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Sobre mí", "Experiencia", "Educación", "Certificaciones", "Habilidades técnicas", "Organizaciones en GitHub", "Servicios", "Por qué contratarme", "Métricas de GitHub"]);
     await expect(explore.getByRole("link", {name: "Organizaciones en GitHub"})).toHaveAttribute("href", "/es/organizations");
 });
 

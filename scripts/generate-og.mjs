@@ -69,6 +69,7 @@ const heroBoard = `<div class="tile board">${await inlineSvg(HERO_ART.file, "boa
 const artTile = async ({file, tile}) => `<div class="tile" style="background:var(--tile-${tile})">${await inlineSvg(file, "illustration")}</div>`;
 
 const INDEX_ART = {
+    about: REASON_ART.vision,
     experience: EXPERIENCE_ART.tivenos,
     education: EDUCATION_ART.politecnico,
     certifications: EDUCATION_ART.cyberDiploma,
@@ -196,6 +197,7 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
     const issuers = new Set(certifications.map((item) => item.issuerId)).size;
     const totals = {
         en: {
+            about: "Medellín · Remote or hybrid",
             experience: `${experience.length} companies since 2022`,
             education: `${education.length} programs since 2019`,
             certifications: `${certifications.length} certifications · ${issuers} issuers`,
@@ -206,6 +208,7 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
             metrics: "GitHub activity in numbers",
         },
         es: {
+            about: "Medellín · Remoto o híbrido",
             experience: `${experience.length} empresas desde 2022`,
             education: `${education.length} programas desde 2019`,
             certifications: `${certifications.length} certificaciones · ${issuers} emisores`,
@@ -320,7 +323,11 @@ const filters = process.argv.slice(2);
 
 await mkdir(`${root}public/og`, {recursive: true});
 const browser = await chromium.launch();
-const page = await browser.newPage({viewport: {width: 1200, height: 630}, reducedMotion: "reduce"});
+const page = await browser.newPage({
+    viewport: {width: 1200, height: 630},
+    colorScheme: "dark",
+    reducedMotion: "reduce",
+});
 
 for (const [name, copy] of Object.entries(variants)) {
     if (filters.length > 0 && !filters.some((filter) => name.includes(filter))) continue;

@@ -274,7 +274,18 @@ const skillInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInpu
     };
 };
 
-/** The metrics are a page with nothing under it. */
+/** The about page and the metrics are pages with nothing under them. */
+const aboutInput = (texts: DetailHeadTexts): DetailHeadInput => {
+    const index = texts.copy.indexes.about;
+    return {
+        collection: "about",
+        slug: null,
+        title: index.seo.title,
+        description: index.seo.description,
+        name: index.title
+    };
+};
+
 const metricsInput = (texts: DetailHeadTexts): DetailHeadInput => {
     const index = texts.copy.indexes.metrics;
     return {
@@ -287,6 +298,7 @@ const metricsInput = (texts: DetailHeadTexts): DetailHeadInput => {
 };
 
 const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | null, months: readonly string[]) => DetailHeadInput> = {
+    about: aboutInput,
     experience: experienceInput,
     education: educationInput,
     certifications: certificationInput,

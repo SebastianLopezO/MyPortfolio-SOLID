@@ -4,6 +4,7 @@ export const detailPages: DetailPagesCopy = {
     ui: {
         breadcrumb: "Breadcrumb",
         eyebrow: {
+            about: "About me",
             experience: "Experience",
             education: "Education",
             certifications: "Certification",
@@ -14,6 +15,7 @@ export const detailPages: DetailPagesCopy = {
             metrics: "GitHub metrics"
         },
         all: {
+            about: "About me",
             experience: "All experience",
             education: "All education",
             certifications: "All certifications",
@@ -152,6 +154,14 @@ export const detailPages: DetailPagesCopy = {
         reasonSeoTail: "Backed by the recommendation of {author}.",
     },
     indexes: {
+        about: {
+            title: "The Engineer's Mindset",
+            subtitle: "How I went from data analysis and PHP sites to running 20+ integration services, building products end to end, and working with language models and coding agents.",
+            seo: {
+                title: "About me & the engineer's mindset · Sebastián López Osorno",
+                description: "My story from Medellín: four years connecting CRM, ERP and data systems, building AI and IoT products, and leading integrations at TIVENOS and ADCOM.",
+            },
+        },
         experience: {
             title: "Professional experience",
             subtitle: "Four companies since 2022, from a data internship to leading integrations. Each company's page has the titles, the timeline, the projects, the technologies and the recommendations of the people who worked with me.",

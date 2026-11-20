@@ -145,6 +145,7 @@ export const assistant: AssistantCopy = {
         email: "Send an email",
     },
     pages: {
+        about: "About me",
         experience: "All experience",
         education: "All education",
         certifications: "All certifications",

@@ -20,6 +20,7 @@ const PROJECT_PAGES = ["en", "es"].flatMap((lang) => [`/${lang}/projects`, ...PR
 // Case studies keep their original image names; the other project pages have their own prefix.
 const ogImage = (slug: string, lang: string) => `og/${CASES.includes(slug) ? "case" : "project"}-${slug}-${lang}.jpg`;
 const DETAILS: Record<string, string[]> = {
+    about: [],
     experience: ["tivenos", "adcom", "muv-u", "quipux"],
     education: ["computer-engineering", "cybersecurity-diploma", "programming-technician", "pascual-bravo", "inem"],
     certifications: [
@@ -48,8 +49,8 @@ const DETAILS: Record<string, string[]> = {
     ],
     metrics: [],
 };
-// The metrics are a single page, not a list of pages.
-const SINGLE_PAGES = ["metrics"];
+// The about page and the metrics are single pages, not lists of pages.
+const SINGLE_PAGES = ["about", "metrics"];
 const DETAIL_PAGES = ["en", "es"].flatMap((lang) =>
     Object.entries(DETAILS).flatMap(([collection, slugs]) => [`/${lang}/${collection}`, ...slugs.map((slug) => `/${lang}/${collection}/${slug}`)]),
 );

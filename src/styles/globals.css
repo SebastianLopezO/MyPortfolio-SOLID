@@ -346,6 +346,10 @@
         font-size: min(0.9375rem, calc(100cqi / (var(--ascii-cols) * 0.62)));
         line-height: 1.15;
         white-space: pre;
+
+        @media (width >= 64rem) {
+            font-size: min(0.75rem, calc(100cqi / (var(--ascii-cols) * 0.62)));
+        }
     }
 
     /* The portrait sits whole in the socket at the middle of the hero's board; its box comes from the drawing

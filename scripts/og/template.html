@@ -28,23 +28,57 @@
         }
 
         :root {
-            --bg: #fbfcfd;
-            --surface: #f2f4f5;
-            --surface-raised: #e7eaec;
-            --border: #dcdee0;
-            --fg: #141619;
-            --fg-muted: #3d4044;
-            --fg-subtle: #484a4f;
-            --accent: #1745c2;
-            --success: #227a4b;
-            --tile-sky: oklch(0.93 0.035 240);
-            --tile-mint: oklch(0.93 0.04 170);
-            --tile-peach: oklch(0.93 0.04 55);
-            --tile-lilac: oklch(0.93 0.035 300);
-            --tile-butter: oklch(0.95 0.05 95);
-            --tile-rose: oklch(0.93 0.035 10);
-            --tile-sage: oklch(0.93 0.03 135);
-            --tile-stone: oklch(0.935 0.006 250);
+            color-scheme: dark;
+            --bg: #0d0d0d;
+            --surface: #141619;
+            --surface-raised: #1d2024;
+            --border: #2c3035;
+            --fg: #f5f6f7;
+            --fg-muted: #c8cdd2;
+            --fg-subtle: #a9afb6;
+            --accent: #8ab4ff;
+            --success: #4ade80;
+            --grid-major: rgba(245, 246, 247, 0.085);
+            --grid-line: rgba(245, 246, 247, 0.045);
+            --tile-ring: rgba(255, 255, 255, 0.1);
+            --tile-shadow-sm: rgba(0, 0, 0, 0.45);
+            --tile-shadow-lg: rgba(0, 0, 0, 0.7);
+            --tile-sky: oklch(0.27 0.035 240);
+            --tile-mint: oklch(0.27 0.035 170);
+            --tile-peach: oklch(0.28 0.035 55);
+            --tile-lilac: oklch(0.27 0.035 300);
+            --tile-butter: oklch(0.29 0.035 95);
+            --tile-rose: oklch(0.27 0.035 10);
+            --tile-sage: oklch(0.27 0.03 135);
+            --tile-stone: oklch(0.25 0.004 250);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                color-scheme: light;
+                --bg: #fbfcfd;
+                --surface: #f2f4f5;
+                --surface-raised: #e7eaec;
+                --border: #dcdee0;
+                --fg: #141619;
+                --fg-muted: #3d4044;
+                --fg-subtle: #484a4f;
+                --accent: #1745c2;
+                --success: #227a4b;
+                --grid-major: rgba(20, 22, 25, 0.085);
+                --grid-line: rgba(20, 22, 25, 0.045);
+                --tile-ring: rgba(20, 22, 25, 0.08);
+                --tile-shadow-sm: rgba(0, 0, 0, 0.05);
+                --tile-shadow-lg: rgba(20, 22, 25, 0.24);
+                --tile-sky: oklch(0.93 0.035 240);
+                --tile-mint: oklch(0.93 0.04 170);
+                --tile-peach: oklch(0.93 0.04 55);
+                --tile-lilac: oklch(0.93 0.035 300);
+                --tile-butter: oklch(0.95 0.05 95);
+                --tile-rose: oklch(0.93 0.035 10);
+                --tile-sage: oklch(0.93 0.03 135);
+                --tile-stone: oklch(0.935 0.006 250);
+            }
         }
 
         * {
@@ -75,10 +109,10 @@
             inset: 0;
             z-index: -1;
             background-image:
-                linear-gradient(rgba(20, 22, 25, 0.085) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 22, 25, 0.085) 1px, transparent 1px),
-                linear-gradient(rgba(20, 22, 25, 0.045) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 22, 25, 0.045) 1px, transparent 1px);
+                linear-gradient(var(--grid-major) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
             background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
             background-position: -1px -1px;
             mask-image: radial-gradient(75% 70% at 38% 45%, black 0%, transparent 90%);
@@ -209,9 +243,9 @@
             place-items: center;
             overflow: hidden;
             box-shadow:
-                inset 0 0 0 1px rgba(20, 22, 25, 0.08),
-                0 1px 2px rgba(0, 0, 0, 0.05),
-                0 22px 44px -24px rgba(20, 22, 25, 0.24);
+                inset 0 0 0 1px var(--tile-ring),
+                0 1px 2px var(--tile-shadow-sm),
+                0 22px 44px -24px var(--tile-shadow-lg);
         }
 
         .tile > svg.illustration {

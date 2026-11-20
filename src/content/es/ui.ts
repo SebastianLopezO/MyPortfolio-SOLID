@@ -66,6 +66,7 @@ export const ui: Content["ui"] = {
         explore: "Explora el portafolio",
         pages: {
             projects: "Proyectos",
+            about: "Sobre mí",
             experience: "Experiencia",
             education: "Educación",
             certifications: "Certificaciones",

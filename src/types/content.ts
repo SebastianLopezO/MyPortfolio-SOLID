@@ -330,7 +330,7 @@ export interface Content {
             elsewhere: string;
             /** The pages beyond the profile: the projects and the job, program, certification and organization pages. */
             explore: string;
-            pages: Record<"projects" | "experience" | "education" | "certifications" | "skills" | "organizations" | "services" | "reasons" | "metrics", string>;
+            pages: Record<"projects" | "about" | "experience" | "education" | "certifications" | "skills" | "organizations" | "services" | "reasons" | "metrics", string>;
         };
         whatsapp: { label: string; message: string };
     };

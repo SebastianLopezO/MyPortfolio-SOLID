@@ -17,7 +17,7 @@ export interface LlmsProfile {
 }
 
 const SECTIONS = [
-    {heading: "Profile", match: /^\/en(?:\/(?:backend|crm|data|devops|fullstack))?$/},
+    {heading: "Profile", match: /^\/en(?:\/(?:about|backend|crm|data|devops|fullstack))?$/},
     {heading: "Projects and case studies", match: /^\/en\/projects(?:\/|$)/},
     {heading: "Experience", match: /^\/en\/experience(?:\/|$)/},
     {heading: "Education", match: /^\/en\/education(?:\/|$)/},

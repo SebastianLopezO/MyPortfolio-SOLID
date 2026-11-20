@@ -22,6 +22,7 @@ import type {ProjectFacts, ProjectId} from "@/types/project";
 
 /** The home section each collection comes from, which the first breadcrumb returns to. */
 export const HOME_SECTION: Record<DetailCollection, string> = {
+    about: "about",
     experience: "experience",
     education: "about",
     certifications: "certifications",

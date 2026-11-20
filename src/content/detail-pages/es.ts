@@ -4,6 +4,7 @@ export const detailPages: DetailPagesCopy = {
     ui: {
         breadcrumb: "Ruta de navegación",
         eyebrow: {
+            about: "Sobre mí",
             experience: "Experiencia",
             education: "Educación",
             certifications: "Certificación",
@@ -14,6 +15,7 @@ export const detailPages: DetailPagesCopy = {
             metrics: "Métricas de GitHub"
         },
         all: {
+            about: "Sobre mí",
             experience: "Toda la experiencia",
             education: "Toda la educación",
             certifications: "Todas las certificaciones",
@@ -152,6 +154,14 @@ export const detailPages: DetailPagesCopy = {
         reasonSeoTail: "Lo respalda la recomendación de {author}.",
     },
     indexes: {
+        about: {
+            title: "La mentalidad del ingeniero",
+            subtitle: "Cómo pasé del análisis de datos y los sitios en PHP a operar más de 20 servicios de integración, construir productos de punta a punta y trabajar con modelos de lenguaje y agentes de código.",
+            seo: {
+                title: "Sobre mí y la mentalidad del ingeniero · Sebastián López Osorno",
+                description: "Mi historia desde Medellín: más de cuatro años conectando sistemas de CRM, ERP y datos, construyendo productos con IA e IoT y liderando integraciones.",
+            },
+        },
         experience: {
             title: "Experiencia profesional",
             subtitle: "Cuatro empresas desde 2022, de la práctica de datos al liderazgo de integraciones. En la página de cada una están los cargos, la cronología, los proyectos, las tecnologías y las recomendaciones de quienes trabajaron conmigo.",

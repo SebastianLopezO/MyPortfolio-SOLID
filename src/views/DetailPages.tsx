@@ -29,6 +29,7 @@ import {Timeline} from "@/components/page/Timeline";
 import {Carousel} from "@/components/ui/Carousel";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {TechExplorer} from "@/components/projects/TechExplorer";
+import {AboutContent} from "@/components/sections/AboutSection";
 import {MetricsContent} from "@/components/sections/MetricsSection";
 import {TechList} from "@/components/ui/TechList";
 import {ToggleButton} from "@/components/ui/ToggleButton";
@@ -1331,6 +1332,20 @@ function IndexArt(props: { art: Art; to: string }) {
     );
 }
 
+/** The full About Me story, AI workflow, terminal and education; the home keeps the summary. */
+function AboutIndex() {
+    const about = useSectionCopy("about");
+    const {role} = useRole();
+    return (
+        <div class="container-page py-12 md:py-16">
+            <IndexHeader collection="about" subtitle={forProfile(about.subtitle, role())}/>
+            <div class="mt-12">
+                <AboutContent/>
+            </div>
+        </div>
+    );
+}
+
 /** Every GitHub figure with what it tells; the home keeps the headline figures. */
 function MetricsIndex() {
     return (
@@ -1347,6 +1362,9 @@ function MetricsIndex() {
 export function DetailBody(props: { collection: DetailCollection; slug: string | null }): JSX.Element {
     return (
         <Switch>
+            <Match when={props.collection === "about"}>
+                <AboutIndex/>
+            </Match>
             <Match when={props.collection === "experience"}>
                 <Show when={props.slug} keyed fallback={<ExperienceIndex/>}>{(slug) => <ExperiencePage
                     slug={slug}/>}</Show>

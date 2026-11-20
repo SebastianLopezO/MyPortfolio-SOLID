@@ -15,7 +15,7 @@ import type {
  * alone: the home keeps the headline figures and links to its page. The router and the startup bundle need only these
  * strings; the pages' text and facts load with the pages.
  */
-export const DETAIL_COLLECTIONS = ["experience", "education", "certifications", "skills", "organizations", "services", "reasons", "metrics"] as const;
+export const DETAIL_COLLECTIONS = ["about", "experience", "education", "certifications", "skills", "organizations", "services", "reasons", "metrics"] as const;
 
 export type DetailCollection = (typeof DETAIL_COLLECTIONS)[number];
 
@@ -116,6 +116,7 @@ export const CERTIFICATION_SLUG = Object.fromEntries(
 ) as Record<CertificationId, string>;
 
 const SLUGS: Record<DetailCollection, Record<string, string>> = {
+    about: {},
     experience: EXPERIENCE_SLUG,
     education: EDUCATION_SLUG,
     certifications: CERTIFICATION_SLUG,

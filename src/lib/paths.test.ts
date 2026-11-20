@@ -92,6 +92,7 @@ describe("paths", () => {
             "lettuce-diseases", "radar-imaging", "school-services", "fashionline", "tdd-six-languages", "artificial-intelligence", "huffman-compressor", "carspace", "sitepersist", "video-to-ascii", "the-company-dream",
         ];
         const details = {
+            about: [],
             experience: ["tivenos", "adcom", "muv-u", "quipux"],
             education: ["computer-engineering", "cybersecurity-diploma", "programming-technician", "pascual-bravo", "inem"],
             certifications: [
@@ -130,7 +131,7 @@ describe("paths", () => {
                 Object.entries(details).flatMap(([collection, items]) => [`/${lang}/${collection}`, ...items.map((slug) => `/${lang}/${collection}/${slug}`)]),
             ),
         ]);
-        expect(prerenderRoutes).toHaveLength(258);
+        expect(prerenderRoutes).toHaveLength(260);
     });
 
     it("links every page to both languages and an English default", () => {
