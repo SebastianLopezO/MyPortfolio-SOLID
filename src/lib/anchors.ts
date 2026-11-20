@@ -17,12 +17,7 @@ const INPUT = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
 let generation = 0;
 let stopCurrentTrip: (() => void) | null = null;
 
-const isSnapBox = (target: HTMLElement) =>
-    window.matchMedia("(width >= 64rem) and (height >= 40rem)").matches &&
-    target.matches("#home, .section, .screen-box, .screen-break");
-
 const headerOffset = (target: HTMLElement) => {
-    if (isSnapBox(target)) return 0;
     const margin = parseFloat(getComputedStyle(target).scrollMarginTop);
     if (margin > 0) return margin;
     return parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;

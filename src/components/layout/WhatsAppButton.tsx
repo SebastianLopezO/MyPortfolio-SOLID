@@ -13,9 +13,9 @@ export function WhatsAppButton() {
             rel="noopener noreferrer"
             aria-label={ui.whatsapp.label}
             title={ui.whatsapp.label}
-            class="floating-action fixed right-5 bottom-24 z-40 grid size-12 place-items-center rounded-full bg-whatsapp text-on-whatsapp shadow-card hover:scale-105"
+            class="floating-action fixed right-16 bottom-3 z-40 grid size-11 place-items-center rounded-full bg-whatsapp text-on-whatsapp shadow-card hover:scale-105 md:right-5 md:bottom-20 md:size-12"
         >
-            <WhatsappIcon class="size-6"/>
+            <WhatsappIcon class="size-5 md:size-6"/>
         </a>
     );
 }

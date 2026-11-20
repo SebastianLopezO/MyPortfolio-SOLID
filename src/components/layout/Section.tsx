@@ -23,21 +23,22 @@ interface SectionProps {
     screens?: JSX.Element;
 }
 
-// Heights in px measured on the Spanish home at 390px and 1440px wide. A section off screen on a phone is not laid out
-// (globals.css, .section) and takes this height until it renders, so they only need to be close.
+// Safe heights in px measured across mobile (390px) and desktop (1440px). Off-screen sections on phones reserve this
+// height under content-visibility: auto; keeping estimates at or slightly above actual height prevents off-screen
+// bounding boxes from overlapping the following section during accessibility audits.
 const HEIGHT: Record<SectionId, readonly [phone: number, desktop: number]> = {
-    about: [2800, 1800],
+    about: [2200, 1200],
     journey: [1300, 960],
-    services: [1500, 900],
-    reasons: [2700, 1900],
-    experience: [3800, 3600],
-    skills: [900, 900],
-    projects: [2600, 2700],
-    certifications: [1900, 960],
-    metrics: [870, 900],
-    resume: [1400, 900],
-    testimonials: [950, 900],
-    contact: [1300, 900],
+    services: [1250, 760],
+    reasons: [2200, 1500],
+    experience: [2400, 1600],
+    skills: [900, 820],
+    projects: [3100, 1700],
+    certifications: [1750, 960],
+    metrics: [720, 560],
+    resume: [1300, 840],
+    testimonials: [920, 760],
+    contact: [1200, 760],
 };
 
 export function Section(props: SectionProps) {
@@ -65,26 +66,26 @@ export function Section(props: SectionProps) {
                 <Show when={!split() && !pair()} fallback={
                     <>
                         <header
-                            class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "lg:mb-0")}>
+                            class={cn("section-enter mb-8 md:mb-10", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "lg:mb-0")}>
                             <h2 id={`${props.id}-title`} class="text-heading text-fg">
                                 {props.title}
                             </h2>
                             <Show when={props.subtitle}>
-                                <p class={cn("mt-4 text-fg-muted", split() ? "text-base lg:text-lg" : "text-lg")}>{props.subtitle}</p>
+                                <p class={cn("mt-3 text-fg-muted", split() ? "text-base lg:text-lg" : "text-base sm:text-lg")}>{props.subtitle}</p>
                             </Show>
                             {props.intro}
                         </header>
                         <div class="min-w-0">{props.children}</div>
                     </>
                 }>
-                    <div class="screen-box">
+                    <div class="min-w-0">
                         {/* The heading rises into place as the section enters (globals.css, section-enter). */}
-                        <header class="section-enter mb-10 max-w-3xl md:mb-12">
+                        <header class="section-enter mb-8 max-w-3xl md:mb-10">
                             <h2 id={`${props.id}-title`} class="text-heading text-fg">
                                 {props.title}
                             </h2>
                             <Show when={props.subtitle}>
-                                <p class="mt-4 text-lg text-fg-muted">{props.subtitle}</p>
+                                <p class="mt-3 text-base text-fg-muted sm:text-lg">{props.subtitle}</p>
                             </Show>
                             {props.intro}
                         </header>

@@ -57,9 +57,9 @@ export function AssistantLauncher() {
                 onPointerEnter={() => void prefetch().catch(() => undefined)}
                 onFocus={() => void prefetch().catch(() => undefined)}
                 onClick={show}
-                class="floating-action fixed right-5 bottom-5 z-40 grid size-12 place-items-center rounded-full bg-primary text-on-primary shadow-glow hover:scale-105"
+                class="floating-action fixed right-3 bottom-3 z-40 grid size-11 place-items-center rounded-full bg-primary text-on-primary shadow-glow hover:scale-105 md:right-5 md:bottom-5 md:size-12"
             >
-                <MessageCircleQuestionMark class="size-6"/>
+                <MessageCircleQuestionMark class="size-5 md:size-6"/>
             </button>
             <Show when={open() && assistant()}>
                 {(loaded) => (

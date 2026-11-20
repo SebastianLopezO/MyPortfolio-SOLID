@@ -12,6 +12,12 @@ import type {SectionId} from "@/types/content";
 /** How far the page scrolls before the header folds into its floating name and controls. */
 const FOLD_AT = 48;
 
+/**
+ * Primary sections shown in the horizontal desktop bar so it always stays on a single clean line across every
+ * breakpoint (1280px through 2560px); all twelve sections remain accessible from the menu button panel.
+ */
+const PRIMARY_NAV = new Set<SectionId>(["about", "experience", "projects", "skills", "services", "contact"]);
+
 interface SiteHeaderProps {
     sections: SectionId[];
     /** Pages other than the home page link each section back to the home page of the current role view. */
@@ -56,6 +62,7 @@ export function SiteHeader(props: SiteHeaderProps) {
     const [open, setOpen] = createSignal(false);
     const [folded, setFolded] = createSignal(false);
     const items = () => props.sections;
+    const primaryItems = () => props.sections.filter((section) => PRIMARY_NAV.has(section));
     const current = useCurrentSection(items, () => !props.homeLinks);
     let panel: HTMLDivElement | undefined;
     let toggle: HTMLButtonElement | undefined;
@@ -103,22 +110,21 @@ export function SiteHeader(props: SiteHeaderProps) {
             <div class="container-page relative flex h-(--header-height) items-center justify-between gap-3 sm:gap-6">
                 {/* The whole name at every width: folded, it is the pill that keeps whose page this is in sight. */}
                 <Link to={pathFor(role())}
-                      class="header-brand shrink-0 rounded-full text-base leading-tight tracking-tight whitespace-nowrap text-fg hover:text-fg-muted sm:text-lg">
+                      class="header-brand shrink-0 rounded-full text-sm leading-tight tracking-tight whitespace-nowrap text-fg hover:text-fg-muted sm:text-lg">
                     {profile.name}
                     <span class="sr-only"> · {ui.home}</span>
                 </Link>
 
-                {/* The link of the section being read says so to assistive technology and shows it with more than its
-                    color: an underline here, a dot in the panel. */}
+                {/* Primary sections in a strictly single-line bar; the full list of sections stays in the menu panel. */}
                 <nav aria-label={ui.navLabel} class="header-nav hidden min-w-0 flex-1 xl:block">
-                    <ul class="flex flex-wrap items-center justify-center gap-x-1 gap-y-0.5">
-                        <For each={items()}>
+                    <ul class="flex flex-nowrap items-center justify-center gap-x-1.5">
+                        <For each={primaryItems()}>
                             {(section) => (
-                                <li>
+                                <li class="shrink-0">
                                     <a
                                         href={hrefOf(section)}
                                         aria-current={current() === section ? "true" : undefined}
-                                        class="block rounded-full px-2 py-1 text-xs whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.35rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
+                                        class="block rounded-full px-3 py-1.5 text-sm whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.35rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
                                     >
                                         {ui.nav[section]}
                                     </a>
