@@ -148,14 +148,7 @@ export const detailPages: DetailPagesCopy = {
         workKinds: {project: "Proyecto", experience: "Experiencia"},
         contextIntro: "Cuando la obtuve, trabajaba o estudiaba aquí:",
         certificationGroups: {label: "Agrupar las certificaciones", issuer: "Por emisor", year: "Por año"},
-        certificate: {
-            title: "El certificado",
-            caption: "Tal como lo publica {issuer}.",
-            redacted: "El número de documento viene tapado en el original.",
-            alt: "Certificado de «{title}» emitido por {issuer} a nombre de Sebastián López Osorno",
-            enlarge: "abrir en tamaño completo",
-            seoTail: "Certificado a nombre de Sebastián López Osorno.",
-        },
+        certificationSeoTail: "Certificado a nombre de Sebastián López Osorno.",
         reasonSeoTail: "Lo respalda la recomendación de {author}.",
     },
     indexes: {

@@ -234,8 +234,8 @@ export interface DetailPagesUi {
     contextIntro: string;
     /** The buttons of the certifications index that group it by issuer or by year. */
     certificationGroups: { label: string; issuer: string; year: string };
-    /** The certificate's own image on its page; {issuer} and {title} are filled in. */
-    certificate: { title: string; caption: string; redacted: string; alt: string; enlarge: string; seoTail: string };
+    /** Added to a certification's search description when it is short. */
+    certificationSeoTail: string;
     /** Added to a reason's search description when it is short; {author} wrote the recommendation it quotes. */
     reasonSeoTail: string;
 }

@@ -1,4 +1,3 @@
-import {certificateImage} from "@/content/shared/certificate-images";
 import {certifications} from "@/content/shared/certifications";
 import {
     CERTIFICATION_SLUG,
@@ -27,7 +26,6 @@ import {
     skillBySlug
 } from "@/lib/details";
 import {formatYearMonth} from "@/lib/format";
-import {widestVariant} from "@/lib/image-widths";
 import {buildDetailPath, buildPath, detailAlternates, otherLang} from "@/lib/paths";
 import {type HeadData, LOCALES} from "@/lib/seo";
 import {breadcrumb, graphOf, personNode} from "@/lib/seo-graph";
@@ -178,7 +176,6 @@ const certificationInput = (texts: DetailHeadTexts, slug: string | null, months:
     })));
     const item = certificationBySlug(slug)!;
     const text = texts.certifications.items[item.id];
-    const image = certificateImage(item.id);
     // Certificate titles are the same in both languages, so the collection's name keeps each title unique. Search results
     // cut a title past about 65 characters, so a long one leaves the issuer to the description.
     const eyebrow = texts.copy.ui.eyebrow.certifications;
@@ -186,7 +183,7 @@ const certificationInput = (texts: DetailHeadTexts, slug: string | null, months:
     const lead = `${item.issuer}, ${formatYearMonth(item.date, months)}. ${text.learned}`;
     const full = `${lead} ${text.adds}`;
     const description = full.length <= 160 ? full : lead;
-    const tailed = `${description} ${texts.copy.ui.certificate.seoTail}`;
+    const tailed = `${description} ${texts.copy.ui.certificationSeoTail}`;
     return {
         collection: "certifications",
         slug,
@@ -200,7 +197,6 @@ const certificationInput = (texts: DetailHeadTexts, slug: string | null, months:
             dateCreated: item.date,
             recognizedBy: {"@type": "Organization", name: item.issuer},
             ...(item.url ? {url: item.url} : {}),
-            ...(image ? {image: absoluteUrl(widestVariant(image))} : {}),
         },
     };
 };

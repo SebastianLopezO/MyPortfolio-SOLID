@@ -258,19 +258,6 @@ describe("content security policy", () => {
     });
 });
 
-describe("certificate images", () => {
-    it("ships every certificate variant the certification pages and their index reference", () => {
-        const pages = ["en", "es"].flatMap((lang) =>
-            readdirSync(join(DIST, lang, "certifications"), {withFileTypes: true})
-                .filter((entry) => entry.isDirectory())
-                .map((entry) => `${lang}/certifications/${entry.name}/index.html`)
-                .concat(`${lang}/certifications/index.html`));
-        const files = new Set(pages.flatMap((page) => [...read(page).matchAll(/\/certificates\/[a-z0-9-]+\.(?:avif|webp)/g)].map((match) => match[0])));
-        expect(files.size).toBeGreaterThan(40);
-        for (const file of files) expect(existsSync(join(DIST, file)), file).toBe(true);
-    });
-});
-
 describe("crawler files", () => {
     it("lists every page in the sitemap without XHTML elements", () => {
         const sitemap = read("sitemap.xml");
@@ -343,10 +330,10 @@ describe("search snippets", () => {
         expect(decode(attr(html, /<meta[^>]+name="description" content="([^"]+)"/) ?? "").length).toBeLessThanOrEqual(170);
     });
 
-    it("lists each project's screens and each certificate in the image sitemap", () => {
+    it("lists each project's screens in the image sitemap", () => {
         const sitemap = read("sitemap.xml");
         const images = [...sitemap.matchAll(/<image:loc>https:\/\/sebastianlopezo\.page(\/[^<]+)<\/image:loc>/g)].map((match) => match[1]);
-        expect(images.length).toBeGreaterThan(100);
+        expect(images.length).toBeGreaterThan(80);
         for (const image of new Set(images)) expect(existsSync(join(DIST, image)), image).toBe(true);
     });
 });

@@ -1,8 +1,6 @@
-import {certificateImage} from "@/content/shared/certificate-images";
 import {projectIdBySlug} from "@/content/shared/project-links";
 import {projectById, projectImages} from "@/content/shared/projects";
 import {absoluteUrl, BUILD_DATE, SITE_URL} from "@/content/shared/site";
-import {certificationBySlug} from "@/lib/details";
 import {widestVariant} from "@/lib/image-widths";
 import {prerenderRoutes, type Route} from "@/lib/paths";
 
@@ -12,16 +10,9 @@ const priority = (route: Route) => {
     return route.slug ? "0.6" : "0.8";
 };
 
-/** The pictures a page shows of its own subject: a project's screens, or a certification's certificate. */
-const imagesOf = (route: Route) => {
-    if (route.kind === "projects" && route.slug) return projectImages(projectById(projectIdBySlug(route.slug)));
-    if (route.kind === "detail" && route.collection === "certifications" && route.slug) {
-        const item = certificationBySlug(route.slug);
-        const image = item && certificateImage(item.id);
-        return image ? [image] : [];
-    }
-    return [];
-};
+/** The pictures a page shows of its own subject: a project's screens. */
+const imagesOf = (route: Route) =>
+    route.kind === "projects" && route.slug ? projectImages(projectById(projectIdBySlug(route.slug))) : [];
 
 /**
  * `lastmod` gives the day a page last changed what it says (scripts/page-dates.ts); the build date otherwise.

@@ -1,8 +1,4 @@
-import {readdirSync} from "node:fs";
 import {fileURLToPath} from "node:url";
-import sharp from "sharp";
-import {CERTIFICATION_SLUG} from "../src/content/shared/detail-links.ts";
-import {variantWidths} from "../src/lib/image-widths.ts";
 import {writeVariants} from "./lib/images.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -70,12 +66,6 @@ const jobs = [
         output: `${root}public/projects/${name}`,
         widths: [480, 960, 1440],
     })),
-    // Certificates as their issuers publish them, never enlarged past their source.
-    ...readdirSync(source("certificates")).filter((file) => file.endsWith(".webp")).map((file) => ({
-        input: source(`certificates/${file}`),
-        output: `${root}public/certificates/${CERTIFICATION_SLUG[file.replace(/\.webp$/, "")]}`,
-        widths: "source",
-    })),
 ];
 
 // `pnpm images` writes every variant; `pnpm images smartpot observability` only the jobs whose output names match.
@@ -83,8 +73,7 @@ const filters = process.argv.slice(2);
 const selected = filters.length > 0 ? jobs.filter((job) => filters.some((filter) => job.output.includes(filter))) : jobs;
 
 for (const job of selected) {
-    const widths = job.widths === "source" ? variantWidths((await sharp(job.input).metadata()).width) : job.widths;
-    const results = await writeVariants(job.input, job.output, widths, {crop: job.crop, headroom: job.headroom});
+    const results = await writeVariants(job.input, job.output, job.widths, {crop: job.crop, headroom: job.headroom});
     for (const {width, avif, webp} of results) {
         console.log(`${job.output.replace(root, "")}-${width}: avif ${(avif / 1024).toFixed(1)} KB, webp ${(webp / 1024).toFixed(1)} KB`);
     }

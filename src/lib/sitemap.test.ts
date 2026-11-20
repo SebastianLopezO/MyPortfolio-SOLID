@@ -22,12 +22,11 @@ describe("sitemap and robots", () => {
         expect(sitemap.match(/<lastmod>2026-09-12<\/lastmod>/g)).toHaveLength(1);
     });
 
-    it("lists the screens of each project and the certificate of each certification", () => {
+    it("lists the screens of each project", () => {
         const sitemap = buildSitemap();
         const smartpot = sitemap.split("<url>").find((entry) => entry.includes("<loc>https://sebastianlopezo.page/en/projects/smartpot</loc>"))!;
         expect(smartpot.match(/<image:loc>/g)).toHaveLength(3);
         expect(smartpot).toMatch(/<image:loc>https:\/\/sebastianlopezo\.page\/[^<]+\.webp<\/image:loc>/);
-        expect(sitemap).toContain("<image:loc>https://sebastianlopezo.page/certificates/hacklab-1035.webp</image:loc>");
         const profile = sitemap.split("<url>").find((entry) => entry.includes("<loc>https://sebastianlopezo.page/en</loc>"))!;
         expect(profile).not.toContain("<image:image>");
     });

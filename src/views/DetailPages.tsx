@@ -4,7 +4,6 @@ import {forProfile} from "@/content/roles";
 import {useDetailCopy} from "@/content/detail-copy";
 import {useProjectsCopy} from "@/content/project-copy";
 import {useSectionCopy} from "@/content/sections";
-import {certificateImage} from "@/content/shared/certificate-images";
 import {certifications} from "@/content/shared/certifications";
 import {
     CERTIFICATION_SLUG,
@@ -56,7 +55,6 @@ import {
 } from "@/lib/details";
 import {formatDay, formatDuration, formatRange, formatYearMonth, monthsBetween} from "@/lib/format";
 import {withBase} from "@/lib/base";
-import {widestVariant} from "@/lib/image-widths";
 import {prioritize} from "@/lib/role-view";
 import {BUILD_DATE} from "@/content/shared/site";
 import {cn} from "@/lib/utils";
@@ -747,7 +745,6 @@ function CertificationPage(props: { slug: string }) {
     const jobs = jobsAt(facts.date);
     const programs = programsAt(facts.date);
     const siblings = sameStop(facts);
-    const image = certificateImage(facts.id);
     const index = certifications.findIndex((item) => item.id === facts.id);
     const {previous, next} = neighbors(certifications, index);
 
@@ -767,7 +764,6 @@ function CertificationPage(props: { slug: string }) {
                 name: experienceById(ref.id).company
             };
     const sections = [
-        ...(image ? [{id: "detail-certificate", title: ui.certificate.title}] : []),
         {id: "detail-earned", title: ui.sections.earned},
         {id: "detail-learned", title: ui.sections.learned},
         ...(text.built ? [{id: "detail-built", title: ui.sections.built}] : []),
@@ -824,29 +820,6 @@ function CertificationPage(props: { slug: string }) {
                 />
             }
         >
-            <Show when={image}>
-                {(certificate) => (
-                    <TextSection id="detail-certificate" title={ui.certificate.title}>
-                        <figure class={cn(certificate().height > certificate().width ? "max-w-sm" : "max-w-3xl")}>
-                            {/* The largest variant opens in a new tab, so the small print can be read. */}
-                            <a href={withBase(widestVariant(certificate()))} target="_blank" rel="noopener noreferrer"
-                               class="block rounded-lg hover:opacity-90">
-                                <CaseImage
-                                    image={certificate()}
-                                    alt={fill(ui.certificate.alt, {title: facts.title, issuer: facts.issuer})}
-                                    sizes="(min-width: 80rem) 48rem, 90vw"
-                                    eager
-                                />
-                                <span class="sr-only"> ({ui.certificate.enlarge})</span>
-                            </a>
-                            <figcaption class="mt-2 text-sm text-fg-subtle">
-                                {fill(ui.certificate.caption, {issuer: facts.issuer})}
-                                {certificate().redacted && ` ${ui.certificate.redacted}`}
-                            </figcaption>
-                        </figure>
-                    </TextSection>
-                )}
-            </Show>
             <TextSection id="detail-earned" title={ui.sections.earned}>
                 <p class="max-w-[68ch] text-lg text-fg-muted">{text.earned}</p>
             </TextSection>
@@ -1213,25 +1186,14 @@ function CertificationRow(props: { item: CertificationFacts }) {
     const {content: {ui: siteUi}} = useLanguage();
     const copy = useSectionCopy("certifications");
     const links = useLinks();
-    const image = () => certificateImage(props.item.id);
     const to = () => links.detail("certifications", CERTIFICATION_SLUG[props.item.id]);
     return (
-        <li class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-t border-border py-5">
-            <div>
-                <p class="font-mono text-xs text-fg-subtle">{formatYearMonth(props.item.date, siteUi.months)}</p>
-                <h3 class="mt-1 font-semibold text-fg">
-                    <Link to={to()} class="hover:text-primary">{props.item.title}</Link>
-                </h3>
-                <p class="mt-1 text-sm text-fg-muted">{copy.items[props.item.id].learned}</p>
-            </div>
-            {/* The title already links to the page, so the thumbnail is a second, unannounced way in. */}
-            <Show when={image()}>
-                {(thumbnail) => (
-                    <Link to={to()} tabindex={-1} aria-hidden="true" class="mt-1 block w-20 sm:w-28">
-                        <CaseImage image={thumbnail()} alt="" sizes="7rem"/>
-                    </Link>
-                )}
-            </Show>
+        <li class="border-t border-border py-5">
+            <p class="font-mono text-xs text-fg-subtle">{formatYearMonth(props.item.date, siteUi.months)}</p>
+            <h3 class="mt-1 font-semibold text-fg">
+                <Link to={to()} class="hover:text-primary">{props.item.title}</Link>
+            </h3>
+            <p class="mt-1 text-sm text-fg-muted">{copy.items[props.item.id].learned}</p>
         </li>
     );
 }
