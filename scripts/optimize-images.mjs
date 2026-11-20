@@ -8,7 +8,7 @@ const jobs = [
     {
         input: source("profile.webp"),
         output: `${root}src/assets/images/profile`,
-        widths: [320, 480, 640],
+        widths: [480, 640],
         headroom: 0.14
     },
     {input: source("designed-cv-en.webp"), output: `${root}public/cv/previews/designed-en`, widths: [480, 960]},

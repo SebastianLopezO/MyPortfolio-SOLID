@@ -9,15 +9,13 @@ import {useRole} from "@/context/role";
 import {withBase} from "@/lib/base";
 import {buildProjectPath} from "@/lib/paths";
 import {Link} from "@/routes/Router";
-import profile320Avif from "@/assets/images/profile-320.avif?url";
 import profile480Avif from "@/assets/images/profile-480.avif?url";
 import profile640Avif from "@/assets/images/profile-640.avif?url";
-import profile320Webp from "@/assets/images/profile-320.webp?url";
 import profile480Webp from "@/assets/images/profile-480.webp?url";
 import profile640Webp from "@/assets/images/profile-640.webp?url";
 
-// The portrait fills a little under half the board's width, and the board is at most 34rem wide.
-const PHOTO_SIZES = "(min-width: 1024px) 16rem, 45vw";
+// Kept at the portrait's full measure so 1x and 1.25x screens load at least the 480px variant instead of a soft thumbnail.
+const PHOTO_SIZES = "(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 16rem";
 
 export function HeroSection() {
     const {lang, content} = useLanguage();
@@ -120,12 +118,12 @@ export function HeroSection() {
                     <picture>
                         <source
                             type="image/avif"
-                            srcset={`${profile320Avif} 320w, ${profile480Avif} 480w, ${profile640Avif} 640w`}
+                            srcset={`${profile480Avif} 480w, ${profile640Avif} 640w`}
                             sizes={PHOTO_SIZES}
                         />
                         <img
                             src={profile640Webp}
-                            srcset={`${profile320Webp} 320w, ${profile480Webp} 480w, ${profile640Webp} 640w`}
+                            srcset={`${profile480Webp} 480w, ${profile640Webp} 640w`}
                             sizes={PHOTO_SIZES}
                             alt={profile.name}
                             width={640}
