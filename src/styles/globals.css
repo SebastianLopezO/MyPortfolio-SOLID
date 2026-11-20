@@ -3,10 +3,10 @@
 @import "./fallback-fonts.css";
 
 @layer base {
-    /* The page follows the reader's system; the theme button pins one (SiteHeader, the script in Page.astro), and
-       every token answers through light-dark() (tokens.css). */
+    /* The page opens in the dark theme by default; the theme button pins light or dark (SiteHeader, the script in
+       Page.astro), and every token answers through light-dark() (tokens.css). */
     :root {
-        color-scheme: light dark;
+        color-scheme: dark;
         /* Lets a height ease between 0 and auto where the browser can, as a "Show more" does when it opens (.more). */
         interpolate-size: allow-keywords;
     }
