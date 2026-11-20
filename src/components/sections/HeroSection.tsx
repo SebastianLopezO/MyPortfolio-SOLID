@@ -72,7 +72,7 @@ export function HeroSection() {
         <section id="home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
             <div
                 class="container-page grid items-center gap-x-16 gap-y-12 pt-8 pb-16 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-                <div>
+                <div class="hero-copy">
                     {/* The name and the role read as one statement in two tones, the way a title card does. */}
                     <h1 id="hero-title"
                         class="text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">

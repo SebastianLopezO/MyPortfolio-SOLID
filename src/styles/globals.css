@@ -658,11 +658,28 @@
                 animation-range: entry 0% entry 60%;
             }
 
-            /* The hero's portrait drifts up and dims as the hero leaves the screen; at rest while the hero is read. */
+            /* Scroll-driven parallax as the hero leaves the screen: the technical grid moves slower in the background,
+               the copy drifts at mid-ground speed and the board rises faster in the foreground. */
+            #home {
+                view-timeline: --hero block;
+            }
+
+            .hero-backdrop::before {
+                animation: hero-grid-parallax auto linear both;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
+            }
+
+            .hero-copy {
+                animation: hero-copy-parallax auto linear both;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
+            }
+
             .hero-portrait {
                 animation: hero-portrait-exit auto linear both;
-                animation-timeline: view();
-                animation-range: exit 0% exit 100%;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
             }
 
             /* A screen on a project or detail page paints in from its top edge, at most 4rem behind the bottom of the
@@ -984,11 +1001,26 @@
     }
 }
 
+@keyframes hero-grid-parallax {
+    to {
+        opacity: 0.2;
+        translate: 0 7rem;
+        scale: 1.05;
+    }
+}
+
+@keyframes hero-copy-parallax {
+    to {
+        opacity: 0.15;
+        translate: 0 -3rem;
+    }
+}
+
 @keyframes hero-portrait-exit {
     to {
         opacity: 0.15;
-        translate: 0 -2.5rem;
-        scale: 0.96;
+        translate: 0 -6.5rem;
+        scale: 0.94;
     }
 }
 
