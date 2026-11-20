@@ -222,18 +222,21 @@
         background-position: -1px -1px;
     }
 
-    /* Behind the hero the field is fainter and fades out from the middle. */
+    /* Behind the hero the field is fainter, fades out from the middle and shifts in opposite parallax to the pointer. */
     .hero-backdrop {
         position: relative;
         isolation: isolate;
+        overflow-x: clip;
 
         &::before {
             content: "";
             position: absolute;
-            inset: 0;
+            inset: -2rem;
             z-index: -1;
             opacity: 0.8;
             mask-image: radial-gradient(70% 60% at 50% 35%, black 0%, transparent 85%);
+            translate: calc(var(--px, 0) * -0.75rem) calc(var(--py, 0) * -0.75rem);
+            transition: translate var(--duration-slow) var(--ease-standard);
         }
     }
 
@@ -367,6 +370,21 @@
      */
     .hero-board {
         container-type: inline-size;
+        transform: perspective(64rem) rotateX(calc(var(--py, 0) * -3.5deg)) rotateY(calc(var(--px, 0) * 3.5deg));
+        transition: transform var(--duration-slow) var(--ease-standard);
+    }
+
+    .hero-board-art {
+        translate: calc(var(--px, 0) * 0.35rem) calc(var(--py, 0) * 0.35rem);
+        transition: translate var(--duration-slow) var(--ease-standard);
+    }
+
+    .hero-socket-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        translate: calc(var(--px, 0) * 0.65rem) calc(var(--py, 0) * 0.65rem);
+        transition: translate var(--duration-slow) var(--ease-standard);
     }
 
     .board-spots {
@@ -658,11 +676,28 @@
                 animation-range: entry 0% entry 60%;
             }
 
-            /* The hero's portrait drifts up and dims as the hero leaves the screen; at rest while the hero is read. */
+            /* Multi-layer scroll parallax as the hero leaves the screen: the grid sinks back, the copy rises at
+               mid-ground speed and the board floats ahead in the foreground; all at rest while at the top. */
+            #home {
+                view-timeline: --hero block;
+            }
+
+            .hero-backdrop::before {
+                animation: hero-grid-parallax auto linear both;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
+            }
+
+            .hero-copy {
+                animation: hero-copy-parallax auto linear both;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
+            }
+
             .hero-portrait {
                 animation: hero-portrait-exit auto linear both;
-                animation-timeline: view();
-                animation-range: exit 0% exit 100%;
+                animation-timeline: --hero;
+                animation-range: exit-crossing 0% exit-crossing 100%;
             }
 
             /* A screen on a project or detail page paints in from its top edge, at most 4rem behind the bottom of the
@@ -984,11 +1019,26 @@
     }
 }
 
+@keyframes hero-grid-parallax {
+    to {
+        opacity: 0.2;
+        translate: 0 7rem;
+        scale: 1.06;
+    }
+}
+
+@keyframes hero-copy-parallax {
+    to {
+        opacity: 0.15;
+        translate: 0 -3.5rem;
+    }
+}
+
 @keyframes hero-portrait-exit {
     to {
         opacity: 0.15;
-        translate: 0 -2.5rem;
-        scale: 0.96;
+        translate: 0 -6.5rem;
+        scale: 0.94;
     }
 }
 

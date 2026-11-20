@@ -23,6 +23,7 @@ export function HeroSection() {
     const {hero, ui} = content;
     const copy = () => hero.byProfile[role() ?? "general"];
     const cv = withBase(resumeVersions[0].files[lang]);
+    let sectionRef: HTMLElement | undefined;
     let actions: HTMLDivElement | undefined;
     // Escape puts away a device's label without moving the pointer or the focus (WCAG 1.4.13); the next device the
     // pointer or the focus reaches shows its own again.
@@ -34,6 +35,40 @@ export function HeroSection() {
         };
         document.addEventListener("keydown", dismiss);
         onCleanup(() => document.removeEventListener("keydown", dismiss));
+    });
+
+    // Multi-plane pointer parallax across the hero backdrop, copy and hardware board on devices with a fine pointer.
+    onMount(() => {
+        const heroEl = sectionRef;
+        if (!heroEl || typeof window.matchMedia !== "function") return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce), (hover: none)").matches) return;
+        let frame = 0;
+        let nextX = 0;
+        let nextY = 0;
+        const apply = () => {
+            frame = 0;
+            heroEl.style.setProperty("--px", nextX.toFixed(3));
+            heroEl.style.setProperty("--py", nextY.toFixed(3));
+        };
+        const onMove = (event: PointerEvent) => {
+            const rect = heroEl.getBoundingClientRect();
+            if (rect.width <= 0 || rect.height <= 0) return;
+            nextX = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2));
+            nextY = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2));
+            if (!frame) frame = requestAnimationFrame(apply);
+        };
+        const onLeave = () => {
+            nextX = 0;
+            nextY = 0;
+            if (!frame) frame = requestAnimationFrame(apply);
+        };
+        heroEl.addEventListener("pointermove", onMove, {passive: true});
+        heroEl.addEventListener("pointerleave", onLeave, {passive: true});
+        onCleanup(() => {
+            cancelAnimationFrame(frame);
+            heroEl.removeEventListener("pointermove", onMove);
+            heroEl.removeEventListener("pointerleave", onLeave);
+        });
     });
 
     // The floating buttons take the bottom 9.5rem of a phone screen; while the hero's buttons sit there, the page flags
@@ -69,10 +104,10 @@ export function HeroSection() {
     });
 
     return (
-        <section id="home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
+        <section ref={sectionRef} id="home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
             <div
                 class="container-page grid items-center gap-x-16 gap-y-12 pt-8 pb-16 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-                <div>
+                <div class="hero-copy">
                     {/* The name and the role read as one statement in two tones, the way a title card does. */}
                     <h1 id="hero-title"
                         class="text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">
@@ -113,9 +148,9 @@ export function HeroSection() {
                         width={HERO_ART.width}
                         height={HERO_ART.height}
                         decoding="async"
-                        class="absolute inset-0 size-full"
+                        class="hero-board-art absolute inset-0 size-full"
                     />
-                    <picture>
+                    <picture class="hero-socket-layer">
                         <source
                             type="image/avif"
                             srcset={`${profile480Avif} 480w, ${profile640Avif} 640w`}
