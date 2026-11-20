@@ -167,11 +167,11 @@ function ProjectHeader(props: {
                 </div>
             </header>
             <div
-                class="section-enter mt-12 grid aspect-[4/3] place-items-center overflow-clip rounded-xl sm:aspect-[16/9] md:mt-16 md:rounded-2xl lg:aspect-[21/9]"
+                class="section-enter mt-10 grid aspect-[4/3] place-items-center overflow-clip rounded-xl sm:aspect-video md:mt-14 md:rounded-2xl lg:aspect-[21/9]"
                 style={{background: `var(--color-tile-${art().tile})`}}
             >
                 <img src={withBase(art().file)} alt="" width={400} height={400} decoding="async"
-                     class="tile-illustration h-auto w-[64%] max-w-[30rem] sm:w-[46%] lg:w-[34%]"/>
+                     class="tile-illustration h-auto w-1/2 max-w-md sm:w-[46%] lg:w-[34%]"/>
             </div>
         </>
     );

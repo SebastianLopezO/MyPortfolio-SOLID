@@ -129,7 +129,7 @@ export function DetailArticle(props: ArticleProps) {
     // eslint-disable-next-line solid/reactivity
     const crumbs = useCrumbs(props.collection, props.title);
     return (
-        <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
+        <article class="container-page py-10 md:py-14 xl:max-w-[80rem]">
             <PageTrail label={ui.breadcrumb} items={crumbs()}/>
             <header class={cn("mt-6", props.art
                 ? "grid gap-6 md:grid-cols-[minmax(0,1fr)_13rem] md:items-center md:gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-16"

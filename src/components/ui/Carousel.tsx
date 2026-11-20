@@ -92,7 +92,7 @@ export function Carousel<T>(props: CarouselProps<T>) {
     const range = () => (position().perView > 1 ? `${position().index + 1}–${last()}` : `${position().index + 1}`);
 
     return (
-        <div>
+        <div class="min-w-0">
             {/* As a grid, each card rises as it enters the screen (globals.css, .enter-each); as a slider on a phone,
                 the cards at its edges turn away and dim (carousel-depth). */}
             <ul
