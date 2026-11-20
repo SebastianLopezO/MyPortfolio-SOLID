@@ -189,8 +189,8 @@ text; each bar has a labeled legend or row next to it.
   picture, never on the
   link, so the link's focus ring stays whole). A frame that clips them uses `overflow: clip`: `overflow: hidden` would
   make it a scroll container, and the view timeline would follow it instead of the page.
-- Charts: the journey map is plotted from left to right (`journey-chart`, a named view timeline on its frame, which
-  scrolls sideways itself) and each station settles as the sweep reaches it (`--x`, its place from 0 to 1). The focus
+- Charts: the journey map rises into place as one piece, like any other block (`section-enter` on its frame); nothing
+  inside it is clipped, swept or popped in. The focus
   radar powers on when its tab opens: rings grow from the center (`radar-ring`), then each technology flies out from
   the center (`radar-blip`, `--dx` and `--dy`). The terminal prints its ASCII art one line at a time
   (`ascii-print`, `steps(--ascii-rows)`).
@@ -284,11 +284,17 @@ text; each bar has a labeled legend or row next to it.
   its scrollbar, takes keyboard focus while it scrolls, and keeps every card in the page, so a screen reader reads a
   plain list. The prerendered HTML carries the first three recommendations and the rest arrive with the JavaScript,
   which keeps the page within the HTML budgets checked in `tests/build/build-output.test.ts`.
-- Journey charts: nothing scrolls sideways. From 64rem the map is an SVG with the lane names on its left edge;
-  below that, a strip with one dot per stop and previous and next buttons (or a swipe on the details) move one stop
+- Journey charts: nothing scrolls sideways. From 64rem the map is an SVG with the short lane names on its left edge
+  (the chips above carry the full ones). It stays quiet, after the reference of a plain subway diagram: a hairline
+  rail per lane, the line's own span at 3px and 60% opacity, a dashed year grid, and no text on the plot but the years
+  and "today". A main milestone is a ring, a smaller step a dot, and neighbors on a lane keep 5 units between their
+  edges (`layoutStations`), so a step that has happened never lands past today. A stop's lanes are joined and ringed
+  only while it is selected (faintly while pointed at), and a single tag names the selected or pointed stop half a
+  lane below it (`tagLayout`), so it covers no other stop. Every line that is still active runs on to today; the years
+  ahead are a faintly tinted zone. Below 64rem, a strip with one dot per stop and previous and next buttons (or a swipe on the details) move one stop
   at a time, and the line chips use one-word names. Picking a line moves to its latest stop when the selected one is
   not on it. The capability heatmap is a table from 64rem and one year at a time below it. Past spans are solid;
-  planned ones are dotted, planned stations have dashed outlines and planned heatmap cells are hatched, so the
+  planned ones are dashed, planned stations have dashed outlines and planned heatmap cells are hatched, so the
   difference between fact and plan does
   not depend on color. Every chart has an accessible alternative: stations are
   focusable buttons with the date and title as their name, the map has a list view, the heatmap is a table, and the

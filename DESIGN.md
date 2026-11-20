@@ -169,7 +169,7 @@ every pair in both themes.
   spring for what lands: a tile, a lifted object, the header). Transitions list their properties.
 - **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
   its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map
-  is plotted from left to right; a skill tile prints its tools one by one; a reason's card slides in from the side of
+  rises in as one piece; a skill tile prints its tools one by one; a reason's card slides in from the side of
   its slide; bars grow; figures count up once. Browsers without scroll-driven animations get the page at rest.
 - **On load:** the illustrations' own lights pulse three times. Under five seconds in all.
 - **Hover:** a tile grows and lifts its illustration; a service's object lifts; an arrow leans the way it leads. Only
