@@ -131,9 +131,9 @@ quadrants are told apart by position and labels, and only the ring (focus level)
 
 | Token          | Size                                                                                                                                                                          |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `text-display` | `clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem)` / 1.05                                                                                                                                |
-| `text-heading` | `clamp(1.875rem, 1.4rem + 1.8vw, 2.75rem)` / 1.15                                                                                                                             |
-| `text-title`   | `1.375rem` / 1.3                                                                                                                                                              |
+| `text-display` | `clamp(2.125rem, 1.4rem + 3.2vw, 4.25rem)` / 1.05                                                                                                                             |
+| `text-heading` | `clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem)` / 1.15                                                                                                                              |
+| `text-title`   | `1.25rem` / 1.3                                                                                                                                                               |
 | `text-xs`      | `0.8125rem` / 1.125rem: dates, labels and chips. Nothing that is read goes below 13px; only the axis labels inside the journey's SVG charts do, and they scale with the chart |
 | Body           | `1rem` / 1.6                                                                                                                                                                  |
 
@@ -154,22 +154,16 @@ text; each bar has a labeled legend or row next to it.
   to a 1440px viewport and then grows with the screen, so wide monitors get wider grids instead of wider margins.
   Prose keeps a reading measure inside it (`max-w-2xl` to `max-w-4xl`); case study pages, which read like
   articles, stop at 80rem.
-- `section`: vertical rhythm of `clamp(4.5rem, 3rem + 5vw, 8.5rem)`. A home section off screen skips style and layout
-  (`content-visibility: auto`) and takes a measured height until it renders (`components/layout/Section.tsx`).
-- Screens: from 64rem wide and 40rem tall, the hero, each single-box section and each sub-box (`.screen-box`,
-  `.screen-break`) of a multi-part section occupy a full `100dvh` viewport frame (`min-height: 100dvh`, content
-  centered with `align-content`, top edge snapped to `0px` via `scroll-padding-top: 0`) with internal top clearance
-  (`calc(var(--header-height) + var(--screen-py))`) so the floating header pills never overlap headings or cards and
-  the previous section never bleeds into the top of the screen. About divides into two `100dvh` boxes (story + terminal,
-  then education); Projects divides into `100dvh` boxes for the featured project, each batch of six category tiles and
-  the GitHub organizations; Experience gives the header + first job and each subsequent job its own `100dvh` box;
-  Reasons snaps every three cards alongside its sticky slide. Smaller screens scroll as a normal page.
+- `section`: vertical rhythm of `clamp(3.5rem, 2.5rem + 3.2vw, 6rem)` with `overflow-x: clip` to prevent horizontal
+  bleed without disabling `position: sticky`. A home section off screen on phones skips style and layout
+  (`content-visibility: auto`) and reserves a safe measured height (`components/layout/Section.tsx`).
+- Hero & flow: from 64rem wide and 40rem tall, the hero opens as a centered frame capped at `min(100dvh, 54rem)` with
+  `grid-template-columns: minmax(0, 1fr)`. Every section below flows naturally without forced `100dvh` traps per card
+  or artificial pagination breaks, preventing oversized cards and empty voids across laptops and tall screens.
 - In-page links (`lib/anchors.ts`): a click on a link to a part of the page travels there itself instead of letting the
-  browser jump. It lays every section out (`data-traveling`, `data-traveled`) and temporarily turns `scroll-snap-type`
-  off so the browser's snap engine never hijacks the smooth scroll midway, scrolls to the target box (`top: 0` for
-  `100dvh` snap boxes on desktop, or under the header on smaller screens and detail pages), holds the target at `0px`
-  for a few frames after `scrollend`, and then re-enables `scroll-snap-type`. Any input from the reader cancels the
-  active trip and hands control back at once.
+  browser jump. It lays every section out (`data-traveling`, `data-traveled`), scrolls smoothly so the target aligns
+  right beneath the fixed header (`scroll-padding-top: var(--header-height)`), and holds it steady across layout
+  frames. Any input from the reader cancels the active trip and hands control back at once.
 - Radii: `sm` 0.5rem, `md` 0.75rem (inputs), `lg` 1.25rem (tiles on phones, cards), `xl` 1.75rem (tiles, panels), `2xl`
   2.5rem (the bench, large panels). Buttons and chips are pills.
 - Shadows: `shadow-card` for elevation (the tiles' labels, the board's device labels, the bench's labels), `shadow-glow`

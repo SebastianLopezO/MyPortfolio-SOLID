@@ -73,8 +73,8 @@ every pair in both themes.
 - **Three voices:** DM Serif Text (400) for display headings, IBM Plex Sans (400 and 600) for body text and UI, and
   Source Code Pro (400) for tools, dates, eyebrows and figures. Metric-matched local fallbacks keep the layout still
   while the faces load.
-- **Headings:** `text-display` clamp(2.5rem → 4.5rem), leading 1.05, for the name and each project's title;
-  `text-heading` clamp(1.875rem → 2.75rem), leading 1.15, for section titles; `text-title` 1.375rem, leading 1.3, for
+- **Headings:** `text-display` clamp(2.125rem → 4.25rem), leading 1.05, for the name and each project's title;
+  `text-heading` clamp(1.75rem → 2.5rem), leading 1.15, for section titles; `text-title` 1.25rem, leading 1.3, for
   rows and tiles. Weight stays 400: hierarchy comes from size and tone, never from bold.
 - **Two tones in a heading:** the hero writes the name in ink and the role under it in `fg-subtle`, the way a title
   card does.
@@ -82,11 +82,11 @@ every pair in both themes.
 
 ## 4. Component Stylings
 
-- **Project tiles** (`ProjectTile`): one layer of color with the project's illustration, then its name and a brief of
-  two to five words, all inside the same rounded tile (1.25rem on phones, 1.75rem from 48rem). The whole tile is the
-  link; under a pointer it grows 1.5%, lifts its illustration 8px and leans its arrow. Two across on a phone, three on
-  a desktop, four on a wide screen. A featured project spans the row with its illustration beside its name, brief and
-  one sentence.
+- **Project tiles** (`ProjectTile`): one layer of color with the project's illustration on a 4:3 field, then its name
+  and a brief of two to five words, all inside the same rounded tile (1.25rem on phones, 1.75rem from 48rem). The whole
+  tile is the link; under a pointer it grows 1.5%, lifts its illustration 8px and leans its arrow (always pinned to the
+  tile's bottom-right corner). Two across on a phone, three at 64rem, four from 80rem. A featured project spans the row
+  with its illustration beside its name, brief and one sentence.
 - **Illustrations:** soft hardware seen from above, slightly tilted toward the reader: rounded plates with a darker
   side for thickness, a sheen and a bevel, lenses, lights, keys, screens and cables, over a blurred contact shadow.
   Each one hints at a project without picturing its screens: a hub with three cables for the integrations, a camera
@@ -115,28 +115,26 @@ every pair in both themes.
 - **Services** (`ServicesSection`): no cards and no lists of points on the home. Each service is its object on a
   rounded layer, its name with an arrow and a few words, and the whole of it leads to the service's page, which tells
   what it covers, the projects that prove it, the jobs it was done in and the reasons that go with it.
-- **The reasons to hire me** (`ReasonsSection`): a presentation. A slide holds the reason's object on a large tile,
-  its number (`03 de 11`) and the words of the recommendation behind it; beside it, the list of every reason, one
-  bordered card each (object, number, title, sentence), sliding in from the side as it comes up. From 64rem the slide
-  stays in view and turns to the reason whose card crosses the middle of the screen, which takes an ink border; on a
-  phone the slide shows the first reason above the list. Every reason has a page with the whole recommendation, the
-  quoted words marked on the reason's color, where it shows in the work, and the projects, jobs, programs and services
-  it links.
-- **Header:** at the top of a page a quiet frosted bar: the whole name in ink, the sections with the one being read
-  underlined, the language and the theme. Once the reader scrolls it folds into two floating pieces so the page has
-  the screen: the name as a frosted pill at the left, so whose page this is never leaves it, and a capsule at the
-  right with the theme and a round ink menu button. The button's floating panel lists the sections and marks the one
-  being read with a cobalt dot; below 80rem the sections always live there. A 2px line along the top edge draws the
-  reading progress.
-- **Screens:** from 64rem wide and 40rem tall, the hero and each section take at least the whole `100dvh` viewport
-  (`scroll-snap-align: start`, `scroll-padding-top: 0`), with internal top padding (`--header-height + --screen-py`)
-  that clears the floating header pills and centers the content inside the box. A long section divides into multiple
-  `100dvh` snap boxes (`.screen-box` and `.screen-break`) inside the same `<section>`: About splits the story/terminal
-  and the education index into two `100dvh` boxes; Projects splits the featured project, each batch of six category
-  tiles and the GitHub organizations into dedicated `100dvh` boxes; Experience gives the header + first job and each
-  subsequent job its own `100dvh` box; Reasons and expanded Certifications snap in viewport-sized groups. Clicking any
-  `#section` link in the navbar or menu temporarily disables scroll-snap during travel, aligns the target box at `0px`
-  of the viewport, holds it across layout frames and re-enables scroll-snap without bleed from neighboring sections.
+- **The reasons to hire me** (`ReasonsSection`): a presentation. A slide holds the reason's object on a tile, its
+  number (`03 de 11`) and the words of the recommendation behind it; beside it, the list of every reason, one bordered
+  card each (object, number, title, sentence), sliding in from the side as it comes up. From 64rem the slide stays in
+  view (`aspect-[16/10]`, capped at `40svh` so it never clips on 768px laptops) and turns to the reason whose card
+  crosses the middle of the screen, which takes an ink border; below 64rem the active reason renders as a compact
+  horizontal highlight card above the list instead of taking a full screen. Every reason has a page with the whole
+  recommendation, the quoted words marked on the reason's color, where it shows in the work, and the projects, jobs,
+  programs and services it links.
+- **Header:** at the top of a page a strictly single-line quiet frosted bar: the whole name in ink, six primary
+  sections (`about`, `experience`, `projects`, `skills`, `services`, `contact`) with the one being read underlined,
+  and the controls capsule (language, theme and the round ink menu button that always opens the full twelve-section
+  floating panel). Once the reader scrolls it folds into two high-contrast frosted floating pieces (94% opacity): the
+  name pill at the left and the controls capsule at the right. The floating panel lists all twelve sections and marks
+  the active one with a cobalt dot; below 80rem the navigation lives entirely inside that panel. A 2px line along the
+  top edge draws the reading progress.
+- **Section rhythm:** from 64rem wide and 40rem tall, the hero opens as a calm centered frame capped at
+  `min(100dvh, 54rem)` so tall monitors never stretch empty space. Every section below flows naturally with fluid
+  vertical rhythm (`clamp(3.5rem, 2.5rem + 3.2vw, 6rem)`) and `overflow-x: clip`, avoiding forced `100dvh` traps per
+  card or empty vertical voids. Clicking any `#section` link smoothly aligns the target right beneath the fixed header
+  (`scroll-padding-top: var(--header-height)`).
 - **Buttons:** pills. Primary: ink fill, paper text, 48px in the hero, 44px elsewhere. Secondary: a Control Edge
   outline or a Fog fill. Pressing moves them down 1px. At most one primary button per view.
 - **Chips:** pills in Source Code Pro, never below 13px, on Fog; outside the role view's focus they turn into a hairline
