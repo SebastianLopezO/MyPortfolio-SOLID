@@ -151,6 +151,12 @@ every pair in both themes.
 - **Disclosures:** a native `details` whose summary says what it opens ("Show more (9)"), with a chevron that turns;
   its text stays in the prerendered page.
 - **Inputs:** label above, paper fill, Control Edge border, 0.75rem corners, cobalt ring on focus.
+- **Open Graph cards** (`scripts/generate-og.mjs`, `scripts/og/template.html`): 1200 × 630 cards on Paper (`#FBFCFD`)
+  with the hero's fine technical grid, a path eyebrow in Geist Mono with a status or cobalt dot, a two-tone heading in
+  Geist 400 (title in ink, subtitle in slate), an ink pill for `sebastianlopezo.page` beside a Fog pill for the
+  context, and a 460 × 460 rounded square tile on the right holding the page's illustration on its `tile-*` color (or
+  the hero board with the portrait in its socket on the home card). Certifications link out to their credentials on
+  Google Drive and issuer verification pages rather than embedding scanned documents on the site or in social cards.
 
 ## 5. Layout Principles
 

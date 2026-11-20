@@ -4,20 +4,41 @@
     <meta charset="utf-8">
     <style>
         @font-face {
-            font-family: "DM Serif Text";
-            src: url("{{fonts}}/@fontsource/dm-serif-text/files/dm-serif-text-latin-400-normal.woff2") format("woff2");
-        }
-
-        @font-face {
-            font-family: "IBM Plex Sans";
+            font-family: "Geist";
             font-weight: 400;
-            src: url("{{fonts}}/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+            src: url("{{fonts}}/@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2") format("woff2");
         }
 
         @font-face {
-            font-family: "IBM Plex Sans";
+            font-family: "Geist";
             font-weight: 600;
-            src: url("{{fonts}}/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+            src: url("{{fonts}}/@fontsource/geist-sans/files/geist-sans-latin-600-normal.woff2") format("woff2");
+        }
+
+        @font-face {
+            font-family: "Geist Mono";
+            font-weight: 400;
+            src: url("{{fonts}}/@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff2") format("woff2");
+        }
+
+        :root {
+            --bg: #fbfcfd;
+            --surface: #f2f4f5;
+            --surface-raised: #e7eaec;
+            --border: #dcdee0;
+            --fg: #141619;
+            --fg-muted: #3d4044;
+            --fg-subtle: #484a4f;
+            --accent: #1745c2;
+            --success: #227a4b;
+            --tile-sky: oklch(0.93 0.035 240);
+            --tile-mint: oklch(0.93 0.04 170);
+            --tile-peach: oklch(0.93 0.04 55);
+            --tile-lilac: oklch(0.93 0.035 300);
+            --tile-butter: oklch(0.95 0.05 95);
+            --tile-rose: oklch(0.93 0.035 10);
+            --tile-sage: oklch(0.93 0.03 135);
+            --tile-stone: oklch(0.935 0.006 250);
         }
 
         * {
@@ -26,133 +47,212 @@
         }
 
         body {
+            position: relative;
+            isolation: isolate;
             width: 1200px;
             height: 630px;
             overflow: hidden;
-            font-family: "IBM Plex Sans", sans-serif;
-            color: #f1f6f7;
-            background: radial-gradient(700px 420px at 92% 0%, rgba(53, 191, 177, 0.28), transparent 60%),
-            radial-gradient(520px 360px at 0% 100%, rgba(97, 215, 178, 0.14), transparent 60%),
-            #0d0d0d;
+            font-family: "Geist", sans-serif;
+            color: var(--fg);
+            background-color: var(--bg);
             display: grid;
-            grid-template-columns: 1fr 340px;
-            align-items: center;
+            grid-template-columns: minmax(0, 1fr) 460px;
+            align-items: stretch;
             gap: 56px;
-            padding: 72px 80px;
+            padding: 64px 72px;
+        }
+
+        /* The technical field from the hero: fine hairlines with every fourth line stronger, fading toward the edges. */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(20, 22, 25, 0.085) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 22, 25, 0.085) 1px, transparent 1px),
+                linear-gradient(rgba(20, 22, 25, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 22, 25, 0.045) 1px, transparent 1px);
+            background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+            background-position: -1px -1px;
+            mask-image: radial-gradient(75% 70% at 38% 45%, black 0%, transparent 90%);
+        }
+
+        .copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+            padding-block: 6px;
         }
 
         .eyebrow {
-            font-size: 22px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: #35bfb1;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Geist Mono", monospace;
+            font-size: 19px;
+            color: var(--fg-subtle);
+            letter-spacing: -0.01em;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: var(--success);
+            flex-shrink: 0;
+        }
+
+        .case .dot {
+            background: var(--accent);
+        }
+
+        .eyebrow-path {
+            color: var(--fg);
         }
 
         h1 {
-            margin-top: 20px;
-            font-family: "DM Serif Text", serif;
+            margin-top: 22px;
+            font-family: "Geist", sans-serif;
             font-weight: 400;
-            font-size: 76px;
-            line-height: 1.02;
+            font-size: 68px;
+            line-height: 0.98;
+            letter-spacing: -0.045em;
+            color: var(--fg);
+            text-wrap: balance;
         }
 
         h2 {
-            margin-top: 18px;
-            font-family: "DM Serif Text", serif;
+            margin-top: 14px;
+            font-family: "Geist", sans-serif;
             font-weight: 400;
-            font-size: 40px;
-            line-height: 1.15;
-            background: linear-gradient(120deg, #35bfb1, #61d7b2);
-            -webkit-background-clip: text;
-            color: transparent;
+            font-size: 34px;
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+            color: var(--fg-subtle);
         }
 
         p {
-            margin-top: 26px;
-            font-size: 26px;
-            color: #a4b5b3;
-        }
-
-        .footer {
-            margin-top: 34px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            font-size: 22px;
-            color: #f1f6f7;
-        }
-
-        .chip {
-            border: 2px solid #233937;
-            border-radius: 999px;
-            padding: 6px 18px;
-            white-space: nowrap;
+            margin-top: 22px;
+            font-size: 23px;
+            line-height: 1.42;
+            color: var(--fg-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-wrap: pretty;
         }
 
         .case h1 {
-            font-size: 58px;
-            line-height: 1.06;
+            font-size: 56px;
+            line-height: 1.02;
+        }
+
+        .case.long h1 {
+            font-size: 46px;
+            line-height: 1.05;
+        }
+
+        .case.xlong h1 {
+            font-size: 40px;
+            line-height: 1.08;
         }
 
         .case h2 {
-            font-size: 34px;
+            font-size: 28px;
         }
 
         .case p {
-            margin-top: 22px;
-            font-size: 24px;
-            line-height: 1.35;
+            margin-top: 18px;
+            font-size: 22px;
         }
 
-        /* A certification shows its certificate where the other cards show the photo. */
-        .certificate {
-            grid-template-columns: 1fr 470px;
-        }
-
-        .certificate h1 {
-            font-size: 46px;
-        }
-
-        .sheet {
+        .footer {
+            margin-top: 28px;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: center;
-            height: 486px;
+            gap: 12px;
+            font-family: "Geist Mono", monospace;
+            font-size: 17px;
         }
 
-        .sheet img {
-            max-width: 100%;
-            max-height: 100%;
-            border: 2px solid #233937;
-            border-radius: 10px;
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 9px 18px;
+            white-space: nowrap;
+            line-height: 1;
         }
 
-        .photo {
-            width: 340px;
-            aspect-ratio: 1;
-            padding: 8px;
-            background: linear-gradient(135deg, #35bfb1, #018d71);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        .chip-ink {
+            background: var(--fg);
+            color: var(--bg);
         }
 
-        .photo img {
+        .chip-fog {
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            color: var(--fg);
+        }
+
+        .tile {
+            position: relative;
+            width: 460px;
+            height: 460px;
+            align-self: center;
+            border-radius: 42px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 0 1px rgba(20, 22, 25, 0.08),
+                0 1px 2px rgba(0, 0, 0, 0.05),
+                0 22px 44px -24px rgba(20, 22, 25, 0.24);
+        }
+
+        .tile > svg.illustration {
+            width: 84%;
+            height: 84%;
+        }
+
+        .board {
+            background: var(--surface-raised);
+        }
+
+        .board > svg.board-svg {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
+        }
+
+        .board > img.socket {
+            position: absolute;
             object-fit: cover;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
 <body class="{{bodyClass}}">
-<div>
-    <div class="eyebrow">{{eyebrow}}</div>
-    <h1>{{heading}}</h1>
-    <h2>{{subheading}}</h2>
-    <p>{{tagline}}</p>
+<div class="copy">
+    <div>
+        <div class="eyebrow">
+            <span class="dot"></span>
+            <span class="eyebrow-path">{{path}}</span>
+            <span>·</span>
+            <span>{{eyebrow}}</span>
+        </div>
+        <h1>{{heading}}</h1>
+        <h2>{{subheading}}</h2>
+        <p>{{tagline}}</p>
+    </div>
     <div class="footer">
-        <span class="chip">sebastianlopezo.page</span>
-        <span class="chip">{{location}}</span>
+        <span class="chip chip-ink">sebastianlopezo.page</span>
+        <span class="chip chip-fog">{{location}}</span>
     </div>
 </div>
 {{aside}}

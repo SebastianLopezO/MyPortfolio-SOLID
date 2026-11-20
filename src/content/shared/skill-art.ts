@@ -1,7 +1,7 @@
-import type {Art} from "@/content/shared/page-art";
-import {LAB_ART, type Tile} from "@/content/shared/project-art";
-import {SKILL_IDS} from "@/content/shared/skills";
-import type {SkillGroupId} from "@/types/content";
+import type {Art} from "./page-art.ts";
+import {LAB_ART, type Tile} from "./project-art.ts";
+import {SKILL_IDS} from "./skills.ts";
+import type {SkillGroupId} from "../../types/content.ts";
 
 // Apart from the facts of the groups (skills.ts), which the scripts read without the site's import aliases.
 

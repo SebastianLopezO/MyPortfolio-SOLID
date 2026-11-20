@@ -1,5 +1,4 @@
-import {existsSync} from "node:fs";
-import {mkdir, readFile, writeFile} from "node:fs/promises";
+import {mkdir, readFile, rm, writeFile} from "node:fs/promises";
 import {fileURLToPath, pathToFileURL} from "node:url";
 import {chromium} from "@playwright/test";
 import sharp from "sharp";
@@ -30,6 +29,15 @@ import {
     SERVICE_SLUG,
     SKILL_SLUG
 } from "../src/content/shared/detail-links.ts";
+import {
+    EDUCATION_ART,
+    EXPERIENCE_ART,
+    ORGANIZATION_ART,
+    REASON_ART,
+    SERVICE_ART
+} from "../src/content/shared/page-art.ts";
+import {HERO_ART, PROJECT_ART} from "../src/content/shared/project-art.ts";
+import {SKILL_ART} from "../src/content/shared/skill-art.ts";
 import {certifications} from "../src/content/shared/certifications.ts";
 import {education} from "../src/content/shared/education.ts";
 import {experience} from "../src/content/shared/experience.ts";
@@ -40,47 +48,110 @@ import {testimonials} from "../src/content/shared/testimonials.ts";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const template = await readFile(`${root}scripts/og/template.html`, "utf8");
-const photo = `data:image/webp;base64,${(await readFile(`${root}assets-src/profile.webp`)).toString("base64")}`;
-const portrait = `<div class="photo"><img alt="" src="${photo}"></div>`;
+const portraitUrl = pathToFileURL(`${root}src/assets/images/profile-640.webp`).href;
+const svgCache = new Map();
+const inlineSvg = async (file, className) => {
+    const key = `${className}:${file}`;
+    if (!svgCache.has(key)) {
+        const raw = await readFile(`${root}public${file}`, "utf8");
+        svgCache.set(
+            key,
+            raw
+                .replace(/<style>[\s\S]*?<\/style>\s*/, "")
+                .replace("<svg ", `<svg class="${className}" `),
+        );
+    }
+    return svgCache.get(key);
+};
 
-// A certification's card shows the certificate itself when there is a copy of it (assets-src/certificates).
-const sheets = new Map();
-for (const item of certifications) {
-    const source = `${root}assets-src/certificates/${item.id}.webp`;
-    if (existsSync(source)) sheets.set(item.id, `<div class="sheet"><img alt="" src="data:image/webp;base64,${(await readFile(source)).toString("base64")}"></div>`);
-}
+const {left, top, width, height, radius} = HERO_ART.portrait;
+const heroBoard = `<div class="tile board">${await inlineSvg(HERO_ART.file, "board-svg")}<img class="socket" alt="" src="${portraitUrl}" style="left:${left}%;top:${top}%;width:${width}%;height:${height}%;border-radius:${radius}%"></div>`;
+const artTile = async ({file, tile}) => `<div class="tile" style="background:var(--tile-${tile})">${await inlineSvg(file, "illustration")}</div>`;
+
+const INDEX_ART = {
+    experience: EXPERIENCE_ART.tivenos,
+    education: EDUCATION_ART.politecnico,
+    certifications: EDUCATION_ART.cyberDiploma,
+    skills: SKILL_ART.backend,
+    organizations: ORGANIZATION_ART.smartpot,
+    services: SERVICE_ART.integration,
+    reasons: REASON_ART.vision,
+    metrics: SERVICE_ART.data,
+};
+
+const CERTIFICATION_ART = {
+    itSpecialistPython: SKILL_ART.languages,
+    daxPowerBi: SKILL_ART.data,
+    powerBiAnalysis: SKILL_ART.data,
+    dataScienceAi: SKILL_ART.ai,
+    cybersecurity: EDUCATION_ART.cyberDiploma,
+    problemSolving: SKILL_ART.foundations,
+    excelMastery: SKILL_ART.data,
+    excelDataAnalysis: SKILL_ART.data,
+    searchConsoleSeo: SKILL_ART.frontend,
+    greenDigitalSkills: ORGANIZATION_ART.smartpot,
+    dataVisualization: SKILL_ART.data,
+    webProgramming: SKILL_ART.frontend,
+    iotProtocols: SKILL_ART.iot,
+    gitGithub: SKILL_ART.tools,
+    softwareEngineering: SKILL_ART.foundations,
+    djangoTwo: SKILL_ART.backend,
+    practicalJavascript: SKILL_ART.frontend,
+    basicProgramming: SKILL_ART.foundations,
+    pythonFundamentals: SKILL_ART.languages,
+    hacklab: EDUCATION_ART.cyberDiploma,
+    javaBasic: SKILL_ART.languages,
+    css: SKILL_ART.frontend,
+    pythonDjango: SKILL_ART.backend,
+    pythonBasic: SKILL_ART.languages,
+    excelProfessional: SKILL_ART.data,
+    sqlBasic: SKILL_ART.databases,
+    programmingFundamentals: SKILL_ART.foundations,
+    pythonEia: SKILL_ART.languages,
+    html: SKILL_ART.frontend,
+};
+
+const caseClass = (heading) =>
+    heading.length > 44 ? "case xlong" : heading.length > 30 ? "case long" : "case";
 
 const NAME = "Sebastián López Osorno";
 
 const variants = {
     en: {
         bodyClass: "",
+        path: "/portfolio",
         eyebrow: "Open to new opportunities",
         heading: NAME,
         subheading: "Backend & Integration Developer",
         tagline: "FastAPI · Spring Boot · Zoho CRM · Data · DevOps",
         location: "Medellín · Remote or hybrid",
+        aside: heroBoard,
     },
     es: {
         bodyClass: "",
+        path: "/portafolio",
         eyebrow: "Abierto a nuevas oportunidades",
         heading: NAME,
         subheading: "Desarrollador Backend & Integraciones",
         tagline: "FastAPI · Spring Boot · Zoho CRM · Datos · DevOps",
         location: "Medellín · Remoto o híbrido",
+        aside: heroBoard,
     },
 };
 
 // One image per case study and language, shown when a case study link is shared.
 for (const [lang, cases] of Object.entries({en: enCases, es: esCases})) {
+    const path = lang === "es" ? "/proyectos" : "/projects";
     for (const [id, copy] of Object.entries(cases.items)) {
         variants[`case-${PROJECT_SLUG[id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(copy.name),
+            path,
             eyebrow: cases.ui.eyebrow,
             heading: copy.name,
             subheading: NAME,
             tagline: copy.tagline,
             location: copy.status,
+            aside: await artTile(PROJECT_ART[id]),
         };
     }
 }
@@ -90,15 +161,18 @@ for (const [lang, {cards, pages}] of Object.entries({
     en: {cards: enCards, pages: enPages},
     es: {cards: esCards, pages: esPages}
 })) {
+    const path = lang === "es" ? "/proyectos" : "/projects";
     for (const [id, page] of Object.entries(pages.items)) {
         const card = cards.items[id];
         variants[`project-${PROJECT_SLUG[id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(card.name),
+            path,
             eyebrow: card.context.split(" · ")[0],
             heading: card.name,
             subheading: NAME,
             tagline: page.tagline,
             location: page.status,
+            aside: await artTile(PROJECT_ART[id]),
         };
     }
 }
@@ -149,90 +223,108 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         },
     }[lang];
     for (const collection of DETAIL_COLLECTIONS) {
+        const heading = indexes[collection].title;
         variants[`${collection}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(heading),
+            path: `/${collection}`,
             eyebrow: lang === "es" ? "Portafolio" : "Portfolio",
-            heading: indexes[collection].title,
+            heading,
             subheading: NAME,
             tagline: indexes[collection].seo.description,
             location: totals[collection],
+            aside: await artTile(INDEX_ART[collection]),
         };
     }
     for (const job of experience) {
         const page = details.experience[job.id];
         variants[`experience-${EXPERIENCE_SLUG[job.id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(job.company),
+            path: "/experience",
             eyebrow: ui.eyebrow.experience,
             heading: job.company,
             subheading: NAME,
             tagline: page.tagline,
             location: page.positions.at(-1).title.split(" · ")[0],
+            aside: await artTile(EXPERIENCE_ART[job.id]),
         };
     }
     for (const program of education) {
+        const heading = journey.milestones[program.id].title;
         variants[`education-${EDUCATION_SLUG[program.id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(heading),
+            path: "/education",
             eyebrow: ui.eyebrow.education,
-            heading: journey.milestones[program.id].title,
+            heading,
             subheading: NAME,
             tagline: details.education[program.id].tagline,
             location: program.school.split(" – ")[0],
+            aside: await artTile(EDUCATION_ART[program.id]),
         };
     }
     for (const item of certifications) {
         const [year, month] = item.date.split("-").map(Number);
         variants[`certifications-${CERTIFICATION_SLUG[item.id]}-${lang}`] = {
-            bodyClass: sheets.has(item.id) ? "case certificate" : "case",
+            bodyClass: caseClass(item.title),
+            path: "/certifications",
             eyebrow: ui.eyebrow.certifications,
             heading: item.title,
             subheading: NAME,
             tagline: item.issuer,
             location: `${months[month - 1]} ${year}`,
-            ...(sheets.has(item.id) ? {aside: sheets.get(item.id)} : {}),
+            aside: await artTile(CERTIFICATION_ART[item.id] ?? EDUCATION_ART.cyberDiploma),
         };
     }
     for (const id of SKILL_IDS) {
         const group = skillGroups.find((item) => item.id === id);
+        const heading = skillsCopy.groups[id];
         variants[`skills-${SKILL_SLUG[id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(heading),
+            path: "/skills",
             eyebrow: ui.eyebrow.skills,
-            heading: skillsCopy.groups[id],
+            heading,
             subheading: NAME,
             tagline: skillsCopy.taglines[id],
-            location: group.items.slice(0, 4).join(" · "),
+            location: group.items.slice(0, 3).join(" · "),
+            aside: await artTile(SKILL_ART[id]),
         };
     }
     for (const organization of organizations) {
         variants[`organizations-${ORGANIZATION_SLUG[organization.id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(organization.name),
+            path: "/organizations",
             eyebrow: ui.eyebrow.organizations,
             heading: organization.name,
             subheading: NAME,
             tagline: details.organizations[organization.id].tagline,
             location: `${organization.repositories} ${cards.repositories} · ${organization.visibility === "private" ? ui.visibility.private : ui.visibility.public}`,
+            aside: await artTile(ORGANIZATION_ART[organization.id]),
         };
     }
     for (const id of SERVICE_IDS) {
         const service = servicesCopy.items[id];
         variants[`services-${SERVICE_SLUG[id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(service.title),
+            path: "/services",
             eyebrow: ui.eyebrow.services,
             heading: service.title,
             subheading: NAME,
             tagline: service.tagline,
             location: serviceRoles[id].map((role) => siteUi.roleNames[role]).join(" · "),
+            aside: await artTile(SERVICE_ART[id]),
         };
     }
     for (const id of benefitOrder) {
         const benefit = servicesCopy.benefits[id];
         const author = testimonials.find((item) => item.id === benefit.evidence.testimonial);
         variants[`reasons-${REASON_SLUG[id]}-${lang}`] = {
-            bodyClass: "case",
+            bodyClass: caseClass(benefit.title),
+            path: "/reasons",
             eyebrow: ui.eyebrow.reasons,
             heading: benefit.title,
             subheading: NAME,
             tagline: benefit.description,
             location: author.author,
+            aside: await artTile(REASON_ART[id]),
         };
     }
 }
@@ -242,22 +334,26 @@ const filters = process.argv.slice(2);
 
 await mkdir(`${root}public/og`, {recursive: true});
 const browser = await chromium.launch();
-const page = await browser.newPage({viewport: {width: 1200, height: 630}});
+const page = await browser.newPage({viewport: {width: 1200, height: 630}, reducedMotion: "reduce"});
 
 for (const [name, copy] of Object.entries(variants)) {
     if (filters.length > 0 && !filters.some((filter) => name.includes(filter))) continue;
-    const html = Object.entries({aside: portrait, ...copy, fonts: pathToFileURL(`${root}node_modules`).href}).reduce(
+    const html = Object.entries({aside: heroBoard, ...copy, fonts: pathToFileURL(`${root}node_modules`).href}).reduce(
         (result, [key, value]) => result.replaceAll(`{{${key}}}`, value),
         template,
     );
     const file = `${root}scripts/og/.render-${name}.html`;
     await writeFile(file, html);
-    await page.goto(pathToFileURL(file).href);
-    await page.evaluate(() => document.fonts.ready);
-    const png = await page.screenshot({type: "png"});
-    const output = /^(en|es)$/.test(name) ? `public/og/og-${name}.jpg` : `public/og/${name}.jpg`;
-    await sharp(png).jpeg({quality: 84, mozjpeg: true}).toFile(`${root}${output}`);
-    console.log(output);
+    try {
+        await page.goto(pathToFileURL(file).href);
+        await page.evaluate(() => document.fonts.ready);
+        const png = await page.screenshot({type: "png"});
+        const output = /^(en|es)$/.test(name) ? `public/og/og-${name}.jpg` : `public/og/${name}.jpg`;
+        await sharp(png).jpeg({quality: 84, mozjpeg: true}).toFile(`${root}${output}`);
+        console.log(output);
+    } finally {
+        await rm(file, {force: true});
+    }
 }
 
 await browser.close();

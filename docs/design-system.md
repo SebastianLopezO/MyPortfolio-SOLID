@@ -315,37 +315,31 @@ text; each bar has a labeled legend or row next to it.
   overview comes first. Every page ends with the previous and next project, as two cards, and a link to the index.
   The count beside a heading (projects in a category, certifications of an issuer) sits next to it, outside the
   `h2`, so a heading keeps one typeface.
-- Detail pages (jobs, programs, certifications, organizations) share that layout (`components/page/PageParts.tsx`)
-  and add a breadcrumb above the title: the profile section they come from, the collection's index and the page.
-  Titles longer than 28 characters take the heading size instead of the display size, and a dash between two names
-  stays with the word before it. Timelines are a vertical hairline with a dot per step, oldest first, and steps that
-  have a page of their own are links. Up to 40 characters a title takes the display size from 48rem; longer ones
-  keep the heading size. Running text keeps a 68-character measure. A job, program or organization shows the main
-  screen of each of its projects (or up to four screens when it has one project), each linking to the project and
-  captioned when it is a recreation; they slide on phones and sit two across from 48rem, like the recommendations.
-  Certifications are grouped by issuer: an issuer with three or more gets a section across the page, the rest share a
-  grid. Commits per year are horizontal bars in `chart-1` on a `surface-raised` track,
-  with the number beside each bar, so the figure never depends on the bar. Lists of related pages are index rows in a
-  bordered surface, each row a link with its label, name and one line of context; recommendations reuse the slider.
-- Project screens: a project card opens with its main screen when the project has one, filling the top of the card (a
-  recreated screen says so on its corner), and the featured project shows its screen beside the text from 80rem and
-  under the summary before. Phone screens keep their shape instead of being cropped. The alt text of each main screen
-  lives with the card copy, the same words as on the project's page (a content test compares them), so the home page
-  does not load the project pages' text.
-- Projects on the home page: the role view's featured project spans the section, then tabs by category (products,
-  work, education) open the role's own category. Only the open tab is rendered, which keeps the prerendered page
-  small; its cards are a slider on phones, two across from 48rem and three from 80rem. The projects index lists the
-  three categories the same way, and its archive of repositories filters by GitHub organization with toggle buttons
-  (`aria-pressed`); the prerendered page lists them all.
-- Project screens (`CaseImages`): a wide first screenshot spans the page and the rest go two across, or full width when
-  only one follows; phone screenshots (taller than wide) go three across at any width, centered within 48rem. An image
-  that needs attribution, such as map data, carries a `credit` that renders as a linked caption, and a recreated
-  screen of a private project carries `recreation`, captioned as fictional data.
+- Detail pages (jobs, programs, certifications, skills, organizations, services and reasons) share that layout
+  (`components/page/PageParts.tsx`, `views/detail-kit.tsx`) and add a breadcrumb above the title: the profile section
+  they come from, the collection's index and the page. Titles longer than 28 characters beside an illustration (or 40
+  without one) take the heading size instead of the display size, and a dash between two names stays with the word
+  before it. Timelines are a vertical hairline with a dot per step, oldest first, and steps that have a page of their
+  own are links. Running text keeps a 68-character measure. Certifications are grouped by issuer or by year, and open
+  their external credentials on Google Drive or the issuer's verification page rather than hosting document scans on
+  the site. Commits per year are horizontal bars in `chart-1` on a `surface-raised` track, with the number beside each
+  bar, so the figure never depends on the bar. Lists of related pages are index rows or illustrated rows in a bordered
+  surface; recommendations reuse the slider.
+- Project screens (`CaseImages`): on a project's page, a wide first screenshot spans the page and the rest go two
+  across, or full width when only one follows; phone screenshots (taller than wide) go three across at any width,
+  centered within 48rem. An image that needs attribution, such as map data, carries a `credit` that renders as a linked
+  caption, and a recreated screen of a private project carries `recreation`, captioned as fictional data.
+- Open Graph images (`scripts/generate-og.mjs`, `scripts/og/template.html`): every prerendered route has a 1200 × 630
+  card in `public/og/` that follows the monochrome Paper/Ink surface and layered tile system: the technical hairline
+  grid, a path eyebrow in Geist Mono with a status green or cobalt dot, a two-tone heading in Geist 400 (`fg` and
+  `fg-subtle`), an ink primary pill (`sebastianlopezo.page`) next to a `surface-raised` context pill, and a rounded
+  square tile on the right holding the hero board with its socketed portrait on the home cards or the page's own
+  hardware illustration on its `tile-*` layer on every inner page.
 
 ## Rules
 
 1. Use semantic tokens (`text-fg-muted`, `bg-surface`), never scale steps, in components.
-2. Text never sits on `emerald-500`, `emerald-700` or `border`.
+2. Text never sits on `border` or on a chart series that carries a legend instead of an inline label.
 3. Every interactive element shows the `ring` focus outline and has a touch target of at least 24px.
 4. New colors go through `tokens.css` and `CONTRAST_PAIRS` in the check script.
 5. `cn()` (`src/lib/utils.ts`) joins class names and skips the falsy ones a condition leaves; it does not resolve
