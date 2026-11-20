@@ -1011,14 +1011,54 @@ export const detailPages: DetailPagesCopy = {
         },
     },
     services: {
-        integration: {seo: {title: "Integrations and backend with FastAPI and Spring Boot · Services", description: "Custom APIs and connectors that join Zoho CRM with academic and legacy systems over REST, SOAP, SQL Server or FTP, proven on the TIVENOS integration platform."}},
-        crm: {seo: {title: "Zoho CRM development and automation · Services", description: "Modules, workflows and Deluge functions, widgets inside the record, Zoho Creator and Analytics, bulk loads with the Bulk API and forms connected to the CRM."}},
-        web: {seo: {title: "Web development and landing pages connected to the CRM · Services", description: "Sites and apps in React, Next.js and Vite, campaign landing pages with UTM capture and conversion events, full SEO and performance measured with Lighthouse."}},
-        data: {seo: {title: "Business intelligence and data with SQL and Power BI · Services", description: "Database audits and cleanup, CRM snapshots in PostgreSQL, dashboards in Power BI and Zoho Analytics, and reports that update themselves."}},
-        automation: {seo: {title: "Process automation with n8n, Python and Deluge · Services", description: "Workflows in n8n, Zapier and Power Automate, scheduled scripts, bulk email with Jinja2 and Amazon SES and generated documents, with alerts when something fails."}},
-        infra: {seo: {title: "Infrastructure, Docker and continuous deployment · Services", description: "Linux VPS with Nginx and SSL, Docker images, CI/CD with GitHub Actions and zero-restart deploys for fleets of sites, with restricted deploy users."}},
-        observability: {seo: {title: "Observability with Prometheus, Grafana and OpenTelemetry · Services", description: "Metrics, centralized logs, traces, uptime probes and Telegram alerts, to know what fails in a service before anyone reports it."}},
-        consulting: {seo: {title: "Technical consulting and CRM support · Services", description: "Process diagnosis, architecture proposals, documentation and standards for logs, security and deployment, and support for the CRM's users."}},
+        integration: {
+            seo: {
+                title: "Integrations and backend with FastAPI and Spring Boot · Services",
+                description: "Custom APIs and connectors that join Zoho CRM with academic and legacy systems over REST, SOAP, SQL Server or FTP, proven on the TIVENOS integration platform."
+            }
+        },
+        crm: {
+            seo: {
+                title: "Zoho CRM development and automation · Services",
+                description: "Modules, workflows and Deluge functions, widgets inside the record, Zoho Creator and Analytics, bulk loads with the Bulk API and forms connected to the CRM."
+            }
+        },
+        web: {
+            seo: {
+                title: "Web development and landing pages connected to the CRM · Services",
+                description: "Sites and apps in React, Next.js and Vite, campaign landing pages with UTM capture and conversion events, full SEO and performance measured with Lighthouse."
+            }
+        },
+        data: {
+            seo: {
+                title: "Business intelligence and data with SQL and Power BI · Services",
+                description: "Database audits and cleanup, CRM snapshots in PostgreSQL, dashboards in Power BI and Zoho Analytics, and reports that update themselves."
+            }
+        },
+        automation: {
+            seo: {
+                title: "Process automation with n8n, Python and Deluge · Services",
+                description: "Workflows in n8n, Zapier and Power Automate, scheduled scripts, bulk email with Jinja2 and Amazon SES and generated documents, with alerts when something fails."
+            }
+        },
+        infra: {
+            seo: {
+                title: "Infrastructure, Docker and continuous deployment · Services",
+                description: "Linux VPS with Nginx and SSL, Docker images, CI/CD with GitHub Actions and zero-restart deploys for fleets of sites, with restricted deploy users."
+            }
+        },
+        observability: {
+            seo: {
+                title: "Observability with Prometheus, Grafana and OpenTelemetry · Services",
+                description: "Metrics, centralized logs, traces, uptime probes and Telegram alerts, to know what fails in a service before anyone reports it."
+            }
+        },
+        consulting: {
+            seo: {
+                title: "Technical consulting and CRM support · Services",
+                description: "Process diagnosis, architecture proposals, documentation and standards for logs, security and deployment, and support for the CRM's users."
+            }
+        },
     },
     issuers: {
         certiport: {

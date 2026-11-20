@@ -30,7 +30,10 @@ export function ReasonsSection() {
     const {role, locked} = useRole();
     const ordered = createMemo(() => prioritize(benefitOrder, (id) => benefitRoles[id], role()));
     const [active, setActive] = createSignal(0);
-    const page = (id: BenefitId | null = null) => buildDetailPath(lang, "reasons", {slug: id ? REASON_SLUG[id] : null, locked: locked()});
+    const page = (id: BenefitId | null = null) => buildDetailPath(lang, "reasons", {
+        slug: id ? REASON_SLUG[id] : null,
+        locked: locked()
+    });
     const authorOf = (id: BenefitId) => testimonials.find((item) => item.id === services.benefits[id].evidence.testimonial)!;
     let list: HTMLOListElement | undefined;
 
@@ -91,7 +94,8 @@ export function ReasonsSection() {
                 <ol ref={list} aria-label={services.reasons.listLabel} class="reasons-list mt-10 grid gap-3 lg:mt-0">
                     <For each={ordered()}>
                         {(id, index) => (
-                            <li data-index={index()} data-active={index() === active() || undefined} class="group/reason">
+                            <li data-index={index()} data-active={index() === active() || undefined}
+                                class="group/reason">
                                 <Link to={page(id)}
                                       class="reason-card group grid grid-cols-[3.5rem_minmax(0,1fr)_auto] items-center gap-4 rounded-2xl border border-border bg-bg p-3 pr-4 hover:border-border-strong sm:grid-cols-[4.5rem_minmax(0,1fr)_auto] sm:p-4 lg:group-data-active/reason:border-fg">
                                     <span aria-hidden="true" class="grid aspect-square place-items-center rounded-xl"
@@ -100,9 +104,11 @@ export function ReasonsSection() {
                                              loading="lazy" decoding="async" class="w-[90%]"/>
                                     </span>
                                     <span class="min-w-0">
-                                        <span aria-hidden="true" class="block font-mono text-xs text-fg-subtle">{ordinal(index())}</span>
+                                        <span aria-hidden="true"
+                                              class="block font-mono text-xs text-fg-subtle">{ordinal(index())}</span>
                                         <h3 class="text-base leading-snug text-fg sm:text-lg">{services.benefits[id].title}</h3>
-                                        <span class="mt-1 block text-sm text-fg-muted">{services.benefits[id].description}</span>
+                                        <span
+                                            class="mt-1 block text-sm text-fg-muted">{services.benefits[id].description}</span>
                                     </span>
                                     <ArrowRight class="reason-arrow size-4 text-fg-subtle"/>
                                 </Link>

@@ -48,7 +48,8 @@ export function ArtTile(rawProps: ArtTileProps) {
                     class="absolute inset-0 -z-10 rounded-[inherit]"
                     style={{background: `var(--color-tile-${props.art.tile})`}}
                 />
-                <div class={cn("tile-art relative grid place-items-center", props.wide ? "aspect-[4/3] md:order-2 md:aspect-auto" : "aspect-square")}>
+                <div
+                    class={cn("tile-art relative grid place-items-center", props.wide ? "aspect-[4/3] md:order-2 md:aspect-auto" : "aspect-square")}>
                     <img
                         src={withBase(props.art.file)}
                         alt=""
@@ -62,7 +63,8 @@ export function ArtTile(rawProps: ArtTileProps) {
                         )}
                     />
                 </div>
-                <div class={cn("relative flex flex-1 flex-col px-4 pb-4 sm:px-6 sm:pb-6", props.wide ? "md:justify-end md:p-10" : "pr-10 sm:pr-12")}>
+                <div
+                    class={cn("relative flex flex-1 flex-col px-4 pb-4 sm:px-6 sm:pb-6", props.wide ? "md:justify-end md:p-10" : "pr-10 sm:pr-12")}>
                     <Show when={props.tag}>
                         <span
                             class="tile-tag absolute top-0 right-4 -translate-y-[calc(100%+0.75rem)] rounded-full bg-bg/70 px-2.5 py-0.5 font-mono text-xs text-fg-muted backdrop-blur sm:right-6 md:static md:mb-auto md:translate-y-0 md:self-start">

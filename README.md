@@ -16,7 +16,8 @@ see [Migration from React](#migration-from-react)).
 - Thirty-two project pages: five full case studies (integration platform, SmartPot, GoPoli, MarTech, email
   signatures) and twenty-seven lighter pages for the other work, product and education projects, each with its
   achievements, architecture, figures and repositories, its decisions shown whole as a flow from the problem to the
-  solution and its cost, and links to the job, program, organization and certifications behind it; a projects index by category and a
+  solution and its cost, and links to the job, program, organization and certifications behind it; a projects index by
+  category and a
   filterable archive of public repositories.
 - A page for every job, program, certification and GitHub organization (4, 5, 29 and 10, each collection with its
   index): titles and role changes, a timeline built from the facts that filters by kind and groups by year, projects,
@@ -122,7 +123,7 @@ pnpm preview    # serves dist/ with the same rules as production on http://127.0
 | `pnpm test:e2e`                | Playwright tests on desktop and mobile against `dist/`                                                                                               |
 | `pnpm check:contrast`          | Verifies WCAG contrast of the design tokens, in the light and the dark theme                                                                         |
 | `pnpm check:links`             | Requests every external link in the content and reports broken ones (run before a release)                                                           |
-| `pnpm illustrations`           | Redraws the project, hero, skill and page illustrations into `public/illustrations` from `scripts/illustrations` (`--sheet` writes a contact sheet)    |
+| `pnpm illustrations`           | Redraws the project, hero, skill and page illustrations into `public/illustrations` from `scripts/illustrations` (`--sheet` writes a contact sheet)  |
 | `pnpm images`                  | Regenerates AVIF/WebP variants from `assets-src/`                                                                                                    |
 | `pnpm metrics`                 | Copies the latest GitHub and WakaTime figures from the profile repository into `src/content/shared/github-stats.json` (CI builds do it on their own) |
 | `pnpm og`                      | Regenerates the Open Graph images and the Apple touch icon                                                                                           |

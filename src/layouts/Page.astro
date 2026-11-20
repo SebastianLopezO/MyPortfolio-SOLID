@@ -57,7 +57,8 @@ const SPECULATION_RULES = JSON.stringify({
     <link href={withBase("/icon.svg")} rel="icon" type="image/svg+xml">
     <link href={withBase("/apple-touch-icon.png")} rel="apple-touch-icon">
     <script is:inline set:html={THEME_SCRIPT}></script>
-    {firstScreen && <link rel="expect" href={`#${firstScreen}`} blocking="render">}
+    {firstScreen &&
+            <link rel="expect" href={`#${firstScreen}`} blocking="render">}
     <script is:inline type="speculationrules" set:html={SPECULATION_RULES}></script>
     <Fragment set:html={head}/>
 </head>

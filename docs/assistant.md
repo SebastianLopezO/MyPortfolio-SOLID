@@ -60,7 +60,8 @@ question ─► normalize ─► detect intents ─► compose answer
 
 When the page is opened with `?locked=true`, answers never link to another role view, and the links to project and
 detail pages carry the lock (`/en/projects/gopoli?locked=true`); following one adds the role
-(`?from=backend&locked=true`, `lib/role-links.ts`), so the way back returns to the same view. On a project or detail page, links to a section open the profile at that section.
+(`?from=backend&locked=true`, `lib/role-links.ts`), so the way back returns to the same view. On a project or detail
+page, links to a section open the profile at that section.
 
 ## Extending
 

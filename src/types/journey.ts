@@ -154,8 +154,6 @@ export interface JourneyCopy {
         previousStop: string;
         nextStop: string;
         listToggle: { show: string; hide: string };
-        activityLabel: string;
-        streakLabel: string;
         goTo: string;
         /** Heading of the certificates a certification stop groups. */
         certificates: string;

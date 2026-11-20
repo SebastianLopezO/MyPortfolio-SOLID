@@ -22,7 +22,10 @@ describe("carryRole", () => {
         controller = new AbortController();
         const add = document.addEventListener.bind(document);
         vi.spyOn(document, "addEventListener").mockImplementation((type, listener, options) =>
-            add(type, listener, {...(typeof options === "object" ? options : {capture: options}), signal: controller.signal}));
+            add(type, listener, {
+                ...(typeof options === "object" ? options : {capture: options}),
+                signal: controller.signal
+            }));
     });
 
     afterEach(() => {

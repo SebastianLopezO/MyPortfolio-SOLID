@@ -270,7 +270,10 @@ function Related(props: { id: ProjectId; sectionId: string }) {
                                         id={sibling.id}
                                         name={cards.items[sibling.id].name}
                                         brief={cards.items[sibling.id].brief}
-                                        href={buildProjectPath(lang, {slug: PROJECT_SLUG[sibling.id], locked: locked()})}
+                                        href={buildProjectPath(lang, {
+                                            slug: PROJECT_SLUG[sibling.id],
+                                            locked: locked()
+                                        })}
                                         headingLevel="h4"
                                     />
                                 )}
@@ -369,7 +372,8 @@ function CaseStudy(props: { slug: ProjectSlug }) {
         <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <ProjectCrumbs current={copy.name}/>
             <ProjectHeader id={id} eyebrow={ui.eyebrow} name={copy.name} tagline={copy.tagline} summary={copy.summary}
-                           meta={<ProjectMeta facts={facts} role={copy.role} place={copy.organization} status={copy.status}/>}/>
+                           meta={<ProjectMeta facts={facts} role={copy.role} place={copy.organization}
+                                              status={copy.status}/>}/>
 
             {/* On wide screens the figures and the page index sit beside the text instead of above it. */}
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
@@ -473,7 +477,8 @@ function ProjectPage(props: { slug: ProjectSlug }) {
             <ProjectCrumbs current={card.name}/>
             <ProjectHeader id={id} eyebrow={pages.ui.eyebrow[facts.category]} name={card.name} tagline={page.tagline}
                            summary={card.summary}
-                           meta={<ProjectMeta facts={facts} role={page.role} place={card.context} status={page.status}/>}/>
+                           meta={<ProjectMeta facts={facts} role={page.role} place={card.context}
+                                              status={page.status}/>}/>
 
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
                 <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">

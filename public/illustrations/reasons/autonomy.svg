@@ -1,10 +1,76 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="">
-<style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3 both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1) both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1 both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes sweep{from{transform:rotate(-120deg)}}</style>
-<defs>
-<linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".07"/></linearGradient>
-<radialGradient id="glass" cx=".32" cy=".28" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-</defs>
-<g class="rise"><g ><path d="M174 268c0 30 12 52 26 72 14-20 26-42 26-72z" fill="#ff6b2c"/><path d="M188 268c0 18 5 32 12 44 7-12 12-26 12-44z" fill="#ffcd45"/><g ><path d="M150 214l-36 44v28l36-16z" fill="#0d1120" opacity="0.2" filter="url(#soft)" transform="translate(6 18)"/><path d="M150 214l-36 44v28l36-16z" fill="#b33932" transform="translate(0 8)"/><path d="M150 214l-36 44v28l36-16z" fill="#ff5148"/><path d="M150 214l-36 44v28l36-16z" fill="url(#sheen)"/><path d="M150 214l-36 44v28l36-16z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><g ><path d="M250 214l36 44v28l-36-16z" fill="#0d1120" opacity="0.2" filter="url(#soft)" transform="translate(6 18)"/><path d="M250 214l36 44v28l-36-16z" fill="#b33932" transform="translate(0 8)"/><path d="M250 214l36 44v28l-36-16z" fill="#ff5148"/><path d="M250 214l36 44v28l-36-16z" fill="url(#sheen)"/><path d="M250 214l36 44v28l-36-16z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><g ><path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#0d1120" opacity="0.2" filter="url(#soft)" transform="translate(6 22)"/><path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#cacac7" transform="translate(0 12)"/><path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#f3f3f0"/><path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="url(#sheen)"/><path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.5"/></g><g ><circle cx="200" cy="150" r="30" fill="#d6d6d3"/><circle cx="200" cy="150" r="24" fill="#15161a"/><circle cx="200" cy="150" r="14.9" fill="#2e4f6a"/><circle cx="200" cy="150" r="8.6" fill="#15161a"/><circle cx="200" cy="150" r="24" fill="url(#glass)"/><ellipse cx="192.8" cy="141.8" rx="3.8" ry="2.4" fill="#fff" opacity="0.8"/></g><g ><rect x="172" y="250" width="56" height="18" rx="6" fill="#24272a"/><rect x="172" y="244" width="56" height="18" rx="6" fill="#34373c"/><rect x="172" y="244" width="56" height="18" rx="6" fill="url(#sheen)"/><rect x="173" y="245" width="54" height="16" rx="5" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><circle cx="96" cy="110" r="5" fill="#ffcd45"/><circle cx="318" cy="150" r="4" fill="#ffcd45"/><circle cx="300" cy="74" r="3.5" fill="#ffcd45"/><circle cx="86" cy="210" r="3" fill="#ffcd45"/></g></g>
+    <style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3
+        both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1)
+        both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1
+        both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes
+        sweep{from{transform:rotate(-120deg)}}
+    </style>
+    <defs>
+        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity=".06"/>
+            <stop offset="1" stop-color="#000" stop-opacity=".07"/>
+        </linearGradient>
+        <radialGradient id="glass" cx=".32" cy=".28" r=".75">
+            <stop offset="0" stop-color="#fff" stop-opacity=".6"/>
+            <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="9"/>
+        </filter>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3"/>
+        </filter>
+    </defs>
+    <g class="rise">
+        <g>
+            <path d="M174 268c0 30 12 52 26 72 14-20 26-42 26-72z" fill="#ff6b2c"/>
+            <path d="M188 268c0 18 5 32 12 44 7-12 12-26 12-44z" fill="#ffcd45"/>
+            <g>
+                <path d="M150 214l-36 44v28l36-16z" fill="#0d1120" opacity="0.2" filter="url(#soft)"
+                      transform="translate(6 18)"/>
+                <path d="M150 214l-36 44v28l36-16z" fill="#b33932" transform="translate(0 8)"/>
+                <path d="M150 214l-36 44v28l36-16z" fill="#ff5148"/>
+                <path d="M150 214l-36 44v28l36-16z" fill="url(#sheen)"/>
+                <path d="M150 214l-36 44v28l36-16z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/>
+            </g>
+            <g>
+                <path d="M250 214l36 44v28l-36-16z" fill="#0d1120" opacity="0.2" filter="url(#soft)"
+                      transform="translate(6 18)"/>
+                <path d="M250 214l36 44v28l-36-16z" fill="#b33932" transform="translate(0 8)"/>
+                <path d="M250 214l36 44v28l-36-16z" fill="#ff5148"/>
+                <path d="M250 214l36 44v28l-36-16z" fill="url(#sheen)"/>
+                <path d="M250 214l36 44v28l-36-16z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/>
+            </g>
+            <g>
+                <path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#0d1120" opacity="0.2"
+                      filter="url(#soft)" transform="translate(6 22)"/>
+                <path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#cacac7"
+                      transform="translate(0 12)"/>
+                <path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="#f3f3f0"/>
+                <path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="url(#sheen)"/>
+                <path d="M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z" fill="none" stroke="#fff"
+                      stroke-opacity="0.6" stroke-width="1.5"/>
+            </g>
+            <g>
+                <circle cx="200" cy="150" r="30" fill="#d6d6d3"/>
+                <circle cx="200" cy="150" r="24" fill="#15161a"/>
+                <circle cx="200" cy="150" r="14.9" fill="#2e4f6a"/>
+                <circle cx="200" cy="150" r="8.6" fill="#15161a"/>
+                <circle cx="200" cy="150" r="24" fill="url(#glass)"/>
+                <ellipse cx="192.8" cy="141.8" rx="3.8" ry="2.4" fill="#fff" opacity="0.8"/>
+            </g>
+            <g>
+                <rect x="172" y="250" width="56" height="18" rx="6" fill="#24272a"/>
+                <rect x="172" y="244" width="56" height="18" rx="6" fill="#34373c"/>
+                <rect x="172" y="244" width="56" height="18" rx="6" fill="url(#sheen)"/>
+                <rect x="173" y="245" width="54" height="16" rx="5" fill="none" stroke="#fff" stroke-opacity="0.2"
+                      stroke-width="1.5"/>
+            </g>
+            <circle cx="96" cy="110" r="5" fill="#ffcd45"/>
+            <circle cx="318" cy="150" r="4" fill="#ffcd45"/>
+            <circle cx="300" cy="74" r="3.5" fill="#ffcd45"/>
+            <circle cx="86" cy="210" r="3" fill="#ffcd45"/>
+        </g>
+    </g>
 </svg>

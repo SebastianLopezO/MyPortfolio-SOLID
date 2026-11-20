@@ -14,12 +14,12 @@ The interface is monochrome: ink on paper in the light theme, paper on ink in th
 the tiles behind the illustrations, the illustrations themselves and the charts. One cobalt marks what must stand out
 without shouting.
 
-| Role                | Token                 | Light     | Dark      |
-|---------------------|-----------------------|-----------|-----------|
-| Ink (text, actions) | `fg` = `primary`      | `#141619` | `#F5F5F5` |
-| Paper (page)        | `bg` = `on-primary`   | `#FBFCFD` | `#0D0D0D` |
-| Cobalt              | `accent`              | `#1745C2` | `#9DBDFF` |
-| Focus               | `ring`                | `#3266E4` | `#77A2FC` |
+| Role                | Token               | Light     | Dark      |
+|---------------------|---------------------|-----------|-----------|
+| Ink (text, actions) | `fg` = `primary`    | `#141619` | `#F5F5F5` |
+| Paper (page)        | `bg` = `on-primary` | `#FBFCFD` | `#0D0D0D` |
+| Cobalt              | `accent`            | `#1745C2` | `#9DBDFF` |
+| Focus               | `ring`              | `#3266E4` | `#77A2FC` |
 
 The previous identity, a teal on near-black with a serif display face, read as heavy and hard to scan; the redesign of
 November 2026 moved the color out of the interface and into the images.
@@ -77,9 +77,11 @@ board, `lab.mjs` the objects of the skill groups that borrow none from a project
 reason to hire, job, program and GitHub organization) into `public/illustrations` as static SVG, and writes
 `src/content/shared/project-art.ts` and `page-art.ts`, the maps the components read. In `pages.mjs` a job is a badge,
 a program a book with what it led to on top, an organization a cabinet (with a padlock when its code is private), and
-a flat glyph (`GLYPHS`) pressed into a face tells the objects of one kind apart. That map includes `HERO_SPOTS`, the box each device of the hero's board fills (in `hero.mjs`,
+a flat glyph (`GLYPHS`) pressed into a face tells the objects of one kind apart. That map includes `HERO_SPOTS`, the box
+each device of the hero's board fills (in `hero.mjs`,
 `DEVICES`), which `HeroSection` covers with a link to the device's project; the labels' copy is `hero.board` in each
-language, and a test keeps each label's name equal to its project's. Run `pnpm illustrations` after changing a scene and commit what it writes; `--sheet` also writes a
+language, and a test keeps each label's name equal to its project's. Run `pnpm illustrations` after changing a scene and
+commit what it writes; `--sheet` also writes a
 contact sheet of every drawing on its tile in both themes.
 
 The drawings have transparent backgrounds: the page lays each one on its `tile-*`, so the same file works in both
@@ -121,11 +123,11 @@ quadrants are told apart by position and labels, and only the ring (focus level)
 
 ## Typography
 
-| Token          | Font                    | Use                                                                             |
-|----------------|-------------------------|---------------------------------------------------------------------------------|
-| `font-display` | Geist 400               | `h1`–`h3`, large and tightly set; hierarchy comes from size, never from bold    |
-| `font-sans`    | Geist 400 / 600         | Body text and UI                                                                |
-| `font-mono`    | Geist Mono 400          | Tech chips, dates, eyebrows, code, the ASCII art                                |
+| Token          | Font            | Use                                                                          |
+|----------------|-----------------|------------------------------------------------------------------------------|
+| `font-display` | Geist 400       | `h1`–`h3`, large and tightly set; hierarchy comes from size, never from bold |
+| `font-sans`    | Geist 400 / 600 | Body text and UI                                                             |
+| `font-mono`    | Geist Mono 400  | Tech chips, dates, eyebrows, code, the ASCII art                             |
 
 | Token          | Size                                                                                                                                                                          |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -169,10 +171,12 @@ text; each bar has a labeled legend or row next to it.
   holds its target the same way once the page has settled; any input from the reader ends the corrections.
 - Radii: `sm` 0.5rem, `md` 0.75rem (inputs), `lg` 1.25rem (tiles on phones, cards), `xl` 1.75rem (tiles, panels), `2xl`
   2.5rem (the bench, large panels). Buttons and chips are pills.
-- Shadows: `shadow-card` for elevation (the tiles' labels, the board's device labels, the bench's labels), `shadow-glow` for
+- Shadows: `shadow-card` for elevation (the tiles' labels, the board's device labels, the bench's labels), `shadow-glow`
+  for
   what floats highest (the menu panel). Both are soft and neutral, stronger in the dark theme.
 - Motion: `--duration-fast` 120ms, `--duration-base` 200ms, `--duration-slow` 400ms, `ease-standard`,
-  `ease-emphasized` and `ease-spring` (a settle with a touch of spring for what lands). Nothing that can be the largest paint animates its opacity (on the home that is the hero's
+  `ease-emphasized` and `ease-spring` (a settle with a touch of spring for what lands). Nothing that can be the largest
+  paint animates its opacity (on the home that is the hero's
   portrait), so the LCP is never delayed, nothing moves on its own for more than five seconds, and
   `prefers-reduced-motion: reduce` turns every animation and transition off. The new rules below sit inside
   `@media (prefers-reduced-motion: no-preference)`, so they are never declared for that reader at all.
@@ -181,7 +185,8 @@ text; each bar has a labeled legend or row next to it.
 - Screens: a screen the reader reaches before it has arrived is marked `data-loading` by `CaseImage` and pulses in
   `surface-raised` (four beats at most); on arrival it is marked `data-loaded` and fades in. One that arrives before it
   is reached, or the one a page opens with (`eager`), shows as it is. Around the image, the `picture` carries the
-  reveal: a screen on a project or detail page paints in from its top edge (`screen-unmask`, a `clip-path` on the picture, never on the
+  reveal: a screen on a project or detail page paints in from its top edge (`screen-unmask`, a `clip-path` on the
+  picture, never on the
   link, so the link's focus ring stays whole). A frame that clips them uses `overflow: clip`: `overflow: hidden` would
   make it a scroll container, and the view timeline would follow it instead of the page.
 - Charts: the journey map is plotted from left to right (`journey-chart`, a named view timeline on its frame, which
@@ -217,7 +222,8 @@ text; each bar has a labeled legend or row next to it.
   (`.more::details-content`, `interpolate-size`).
 - Home layers: the home shows what a recruiter scans in a minute and opens the rest on demand. A job shows two
   achievements that match the role view (up to three) and folds the rest, its stack and its projects behind "Show
-  more"; a project is a tile with its illustration, name and a few words, and its page tells the rest; About shows the quote and the first paragraph, with "Read the full story". Each of these is a
+  more"; a project is a tile with its illustration, name and a few words, and its page tells the rest; About shows the
+  quote and the first paragraph, with "Read the full story". Each of these is a
   native `details` (`components/ui/More.tsx`): find in page opens it, search engines read it, it works before
   hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Each service and each
   reason to hire has a page (`/services/{slug}`, `/reasons/{slug}`, a `WebPage` with a `Service` schema for a service)
@@ -249,7 +255,8 @@ text; each bar has a labeled legend or row next to it.
 - Skill groups: a grid of tiles, two across from 40rem and three from 64rem, each with its object on a layer of color,
   its name, its count and its first six tools (the role view's first), which print one after another as the tile comes
   up (`skill-chip`, a view timeline offset by `--i`); nothing is dragged or pressed. Under it, every group as open
-  blocks split by hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications are index rows two per row from 48rem, so the full list of 29 reads as one index; each
+  blocks split by hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications
+  are index rows two per row from 48rem, so the full list of 29 reads as one index; each
   says what it covered, what it adds today and the journey stop that groups it, with that stop's line keys.
 - Figures (the highlights under the hero, the recommendation counts and the GitHub metrics): open strips with no box
   around each number, the number above its label. The strip under the hero shows eight figures chosen per role view,
@@ -271,7 +278,8 @@ text; each bar has a labeled legend or row next to it.
   bottom 9.5rem of the screen, where they would cover them, and while the contact section is on screen.
 - Recommendations: a quote longer than six lines at the card's width shows a "Show more" toggle; the full text
   stays in the page, word for word.
-- Sliders (`Carousel`): the recommendations show one card per view on phones, two on tablets and three from 64rem. The track scrolls sideways with snap
+- Sliders (`Carousel`): the recommendations show one card per view on phones, two on tablets and three from 64rem. The
+  track scrolls sideways with snap
   points, so a swipe moves one card, and the buttons below it do the same with a counter ("4 / 16"). The track hides
   its scrollbar, takes keyboard focus while it scrolls, and keeps every card in the page, so a screen reader reads a
   plain list. The prerendered HTML carries the first three recommendations and the rest arrive with the JavaScript,

@@ -44,7 +44,8 @@ export function Decisions(props: { items: DecisionCopy[]; labels: DecisionLabels
                             <Show when={decision.tradeoff}>
                                 <div class="decision-cost mt-auto pt-5">
                                     <p class="border-t border-dashed border-fg-subtle/40 pt-4 text-sm text-fg-muted">
-                                        <span class="font-semibold text-fg">{props.labels.tradeoff}:</span> {decision.tradeoff}
+                                        <span
+                                            class="font-semibold text-fg">{props.labels.tradeoff}:</span> {decision.tradeoff}
                                     </p>
                                 </div>
                             </Show>

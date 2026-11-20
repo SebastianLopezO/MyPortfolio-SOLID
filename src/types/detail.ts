@@ -192,7 +192,10 @@ export interface DetailPagesUi {
      * sentence read out when the filter changes ({count}: the entries left). */
     timeline: TimelineLabels;
     /** `{count}`: projects, recommendations, certifications or repositories listed; `one` is used for a single one. */
-    counts: Record<"projects" | "recommendations" | "certifications" | "repositories" | "jobs" | "programs", { one: string; other: string }>;
+    counts: Record<"projects" | "recommendations" | "certifications" | "repositories" | "jobs" | "programs", {
+        one: string;
+        other: string
+    }>;
     actions: {
         credential: string;
         openRepository: string;

@@ -102,7 +102,8 @@ every pair in both themes.
   plea (no availability pill), no stack chips (the skills section has the tools) and no role switcher (a role view is
   reached by its address).
 - **The hero board:** the portrait sits whole in a square socket at the middle of a board, as large as the room
-  between the devices allows, and cables run from the socket's sides to six devices of the work. It says "I connect systems" before a word is read. The portrait is the largest paint and is drawn at
+  between the devices allows, and cables run from the socket's sides to six devices of the work. It says "I connect
+  systems" before a word is read. The portrait is the largest paint and is drawn at
   once. Each device is a link to the project it stands for: with a pointer on the board a dashed outline marks every
   device, and the one under the pointer, or reached with the keyboard, shows a label with the project's name and a
   line about it, opening toward the middle of the board. Escape puts the label away.

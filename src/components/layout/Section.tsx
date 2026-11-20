@@ -65,7 +65,8 @@ export function Section(props: SectionProps) {
                 {/* The heading rises into place as the section enters (globals.css, section-enter). */}
                 <header
                     class={cn("section-enter mb-10 md:mb-14", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : pair() ? "lg:mb-0" : "max-w-3xl")}>
-                    <p aria-hidden="true" class="mb-4 font-mono text-xs text-fg-subtle">{sectionPath(ui.nav[props.id])}</p>
+                    <p aria-hidden="true"
+                       class="mb-4 font-mono text-xs text-fg-subtle">{sectionPath(ui.nav[props.id])}</p>
                     <h2 id={`${props.id}-title`} class="text-heading text-fg">
                         {props.title}
                     </h2>

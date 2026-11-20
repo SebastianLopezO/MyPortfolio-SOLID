@@ -287,8 +287,6 @@ export const journey: JourneyCopy = {
         previousStop: "Previous stop",
         nextStop: "Next stop",
         listToggle: {show: "Show as a list", hide: "Hide the list"},
-        activityLabel: "Active days on GitHub",
-        streakLabel: "{days}+ days in a row",
         goTo: "Go to the section",
         certificates: "Certificates at this stop",
     },
@@ -323,7 +321,10 @@ export const journey: JourneyCopy = {
             zoho: {name: "Zoho CRM · Deluge", note: "CRM modules, functions, widgets and OAuth integrations."},
             integrations: {name: "REST · SOAP · Webhooks", note: "Connecting academic, legacy and marketing systems."},
             spring: {name: "Java · Spring Boot", note: "APIs for SmartPot, PepperCRM and GoPoli."},
-            react: {name: "React · TypeScript", note: "The SmartPot and GoPoli PWAs, plus the TypeScript of this portfolio, kept sharp for full-stack work."},
+            react: {
+                name: "React · TypeScript",
+                note: "The SmartPot and GoPoli PWAs, plus the TypeScript of this portfolio, kept sharp for full-stack work."
+            },
             jobs: {
                 name: "Background jobs",
                 note: "Long processes that answer 202, avoid duplicates with an idempotency key and leave a status to query."

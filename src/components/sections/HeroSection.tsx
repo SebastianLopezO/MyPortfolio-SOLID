@@ -79,7 +79,8 @@ export function HeroSection() {
                     <h1 id="hero-title"
                         class="text-[clamp(2.625rem,1.4rem+3.6vw,4.75rem)] leading-[0.98] tracking-[-0.045em]">
                         <span class="block text-fg">{profile.name}</span>
-                        <span class="mt-3 block text-[0.56em] leading-[1.08] tracking-[-0.035em] text-fg-subtle">{copy().title}</span>
+                        <span
+                            class="mt-3 block text-[0.56em] leading-[1.08] tracking-[-0.035em] text-fg-subtle">{copy().title}</span>
                     </h1>
                     <p class="mt-7 max-w-xl text-xl leading-snug text-fg md:text-[1.375rem]">{copy().headline}</p>
                     <p class="mt-4 max-w-xl text-fg-muted">{copy().summary}</p>

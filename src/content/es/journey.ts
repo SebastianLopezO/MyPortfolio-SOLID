@@ -287,8 +287,6 @@ export const journey: JourneyCopy = {
         previousStop: "Parada anterior",
         nextStop: "Parada siguiente",
         listToggle: {show: "Ver como lista", hide: "Ocultar la lista"},
-        activityLabel: "Días activos en GitHub",
-        streakLabel: "{days}+ días seguidos",
         goTo: "Ir a la sección",
         certificates: "Certificados en esta parada",
     },
@@ -329,7 +327,10 @@ export const journey: JourneyCopy = {
                 note: "Para conectar sistemas académicos, heredados y de marketing."
             },
             spring: {name: "Java · Spring Boot", note: "APIs de SmartPot, PepperCRM y GoPoli."},
-            react: {name: "React · TypeScript", note: "Las PWA de SmartPot y GoPoli y el TypeScript de este portafolio, al día para el trabajo full-stack."},
+            react: {
+                name: "React · TypeScript",
+                note: "Las PWA de SmartPot y GoPoli y el TypeScript de este portafolio, al día para el trabajo full-stack."
+            },
             jobs: {
                 name: "Trabajos en segundo plano",
                 note: "Procesos largos que responden 202, evitan duplicados con una clave de idempotencia y dejan su estado consultable."

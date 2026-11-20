@@ -30,7 +30,8 @@ export function ServicesSection() {
                 <For each={ordered()}>
                     {(id) => (
                         <li>
-                            <Link to={page(SERVICE_SLUG[id])} class="service-entry group flex h-full flex-col items-start">
+                            <Link to={page(SERVICE_SLUG[id])}
+                                  class="service-entry group flex h-full flex-col items-start">
                                 <span aria-hidden="true"
                                       class="service-icon grid size-24 place-items-center rounded-3xl sm:size-28"
                                       style={{background: `var(--color-tile-${SERVICE_ART[id].tile})`}}>

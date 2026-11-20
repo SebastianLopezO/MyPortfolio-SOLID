@@ -87,7 +87,13 @@ export const HERO_ART = {
 
 /** The devices on the hero's board: the project each one stands for and the box it fills, in percent of the board. */
 export const HERO_SPOTS = [
-${HERO.spots.map(({id, left, top, width, height}) => `    {id: "${id}", left: ${left}, top: ${top}, width: ${width}, height: ${height}},`).join("\n")}
+${HERO.spots.map(({
+                                                                                                                                                                                                                                                                                                                                                                                   id,
+                                                                                                                                                                                                                                                                                                                                                                                   left,
+                                                                                                                                                                                                                                                                                                                                                                                   top,
+                                                                                                                                                                                                                                                                                                                                                                                   width,
+                                                                                                                                                                                                                                                                                                                                                                                   height
+                                                                                                                                                                                                                                                                                                                                                                               }) => `    {id: "${id}", left: ${left}, top: ${top}, width: ${width}, height: ${height}},`).join("\n")}
 ] as const satisfies readonly { id: ProjectId; left: number; top: number; width: number; height: number }[];
 
 export type HeroDeviceId = (typeof HERO_SPOTS)[number]["id"];
@@ -125,7 +131,11 @@ if (process.argv.includes("--sheet")) {
     const entries = [
         ...Object.keys(SCENES).map((id) => ({id, file: files[id], tile: TILES[id]})),
         ...Object.entries(PAGE_ART).flatMap(([collection, {tiles: pageTiles}]) =>
-            Object.keys(pageTiles).map((id) => ({id: `${collection}/${id}`, file: pageFiles[collection][id], tile: pageTiles[id]}))),
+            Object.keys(pageTiles).map((id) => ({
+                id: `${collection}/${id}`,
+                file: pageFiles[collection][id],
+                tile: pageTiles[id]
+            }))),
     ].filter(({id}) => !process.env.SHEET_ONLY || id.startsWith(process.env.SHEET_ONLY));
     const cells = (theme) => entries.map(({id, file, tile}) =>
         `<figure><div style="background:${tiles[theme][tile]}"><img src="file:///${join(OUT, file).replaceAll("\\", "/")}"></div><figcaption>${id}</figcaption></figure>`).join("");

@@ -66,7 +66,8 @@ export function AboutSection() {
                     {/* The rest of the story opens on demand and stays in the page for search engines and find in page. */}
                     <More label={ui.actions.readStory} openLabel={ui.actions.hideStory}>
                         <div class="mt-3 space-y-5">
-                            <For each={paragraphs().slice(1)}>{(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}</For>
+                            <For each={paragraphs().slice(1)}>{(paragraph) => <p
+                                class="max-w-[68ch]">{paragraph}</p>}</For>
                         </div>
                     </More>
                     {/* The languages sit under the story, so the column beside the terminal never runs empty. */}

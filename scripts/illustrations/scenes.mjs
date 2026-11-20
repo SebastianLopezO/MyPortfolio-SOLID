@@ -28,11 +28,21 @@ import {
 export const leaf = (x, y, angle, scale = 1, color = P.leaf) => group([
     el("path", {d: "M0 0C18-24 56-30 84-6C56 10 22 12 0 0Z", fill: color}),
     el("path", {d: "M0 0C18-24 56-30 84-6C56 10 22 12 0 0Z", fill: "url(#sheen)"}),
-    el("path", {d: "M4 -1C30-8 54-10 78-6", fill: "none", stroke: "#fff", "stroke-opacity": 0.45, "stroke-width": 2, "stroke-linecap": "round"}),
+    el("path", {
+        d: "M4 -1C30-8 54-10 78-6",
+        fill: "none",
+        stroke: "#fff",
+        "stroke-opacity": 0.45,
+        "stroke-width": 2,
+        "stroke-linecap": "round"
+    }),
 ], {transform: `translate(${x} ${y}) rotate(${angle}) scale(${scale})`});
 
 /** Concentric arcs that leave a point: a signal. */
-export const signal = (x, y, color, {angle = -45, radii = [14, 26, 38]} = {}) => group(radii.map((r, index) => el("path", {
+export const signal = (x, y, color, {
+    angle = -45,
+    radii = [14, 26, 38]
+} = {}) => group(radii.map((r, index) => el("path", {
     d: `M${-r * 0.7} ${-r * 0.7}A${r} ${r} 0 0 1 ${r * 0.7} ${-r * 0.7}`,
     fill: "none",
     stroke: color,
@@ -286,7 +296,15 @@ export const SCENES = {
         well(96, 196, 98, 94, {r: 14, color: darken(P.paper, 0.06)}),
         bars(108, 0, [24, 40, 30, 56], {w: 12, gap: 8, color: P.orange, base: 278}),
         disc(276, 222, 34, {color: P.graphite, depth: 9}),
-        el("line", {x1: 276, y1: 222, x2: 276, y2: 196, stroke: P.orange, "stroke-width": 5, "stroke-linecap": "round"}),
+        el("line", {
+            x1: 276,
+            y1: 222,
+            x2: 276,
+            y2: 196,
+            stroke: P.orange,
+            "stroke-width": 5,
+            "stroke-linecap": "round"
+        }),
         slab(244, 286, 82, 34, {r: 17, depth: 7, color: P.mint}),
         disc(306, 303, 12, {color: "#fff", depth: 3, shadow: false}),
     ],
@@ -403,7 +421,14 @@ export const SCENES = {
         ...[0, 1, 2, 3].map((index) => group([
             well(92 + index * 46, 108, 14, 150, {r: 7}),
             slab(80 + index * 46, [196, 132, 218, 160][index], 38, 26, {r: 8, depth: 6, color: P.alu, shadow: false}),
-            el("rect", {x: 86 + index * 46, y: [207, 143, 229, 171][index], width: 26, height: 3, rx: 1.5, fill: P.orange}),
+            el("rect", {
+                x: 86 + index * 46,
+                y: [207, 143, 229, 171][index],
+                width: 26,
+                height: 3,
+                rx: 1.5,
+                fill: P.orange
+            }),
         ])),
         key(266, 112, 50, 50, P.orange, {depth: 7}),
         key(266, 176, 50, 50, P.alu, {depth: 7}),
@@ -416,7 +441,14 @@ export const SCENES = {
         ...[[150, 70], [320, 96], [270, 58]].map(([x, y]) => el("circle", {cx: x, cy: y, r: 3, fill: P.butter})),
         slab(108, 176, 184, 150, {r: 10, depth: 12, color: P.bone}),
         el("path", {d: "M96 186L200 104L304 186Z", fill: darken(P.graphite, 0.05), "stroke-linejoin": "round"}),
-        el("path", {d: "M96 186L200 104L304 186", fill: "none", stroke: P.graphite, "stroke-width": 12, "stroke-linejoin": "round", "stroke-linecap": "round"}),
+        el("path", {
+            d: "M96 186L200 104L304 186",
+            fill: "none",
+            stroke: P.graphite,
+            "stroke-width": 12,
+            "stroke-linejoin": "round",
+            "stroke-linecap": "round"
+        }),
         ...[[128, 200], [236, 200]].map(([x, y]) => group([well(x, y, 40, 40, {r: 6, color: P.butter}), el("rect", {
             x: x + 18,
             y,
@@ -433,7 +465,15 @@ export const SCENES = {
         stack(196, 262, 42, 8, P.butter, {step: 13}),
         stack(272, 258, 42, 3, P.butter, {step: 13}),
         disc(300, 108, 44, {color: P.alu, depth: 10}),
-        el("circle", {cx: 300, cy: 108, r: 34, fill: "none", stroke: "#000", "stroke-opacity": 0.12, "stroke-width": 3}),
+        el("circle", {
+            cx: 300,
+            cy: 108,
+            r: 34,
+            fill: "none",
+            stroke: "#000",
+            "stroke-opacity": 0.12,
+            "stroke-width": 3
+        }),
         el("path", {
             d: "M300 82V108L320 116",
             fill: "none",
@@ -565,7 +605,11 @@ export const SCENES = {
             "stroke-width": 2
         })),
         el("path", {d: "M92 196H308M200 88V304", stroke: P.mint, "stroke-opacity": 0.2, "stroke-width": 2}),
-        group([el("path", {d: "M200 196L200 90A106 106 0 0 1 292 143Z", fill: P.mint, opacity: 0.35})], {class: "sweep"}),
+        group([el("path", {
+            d: "M200 196L200 90A106 106 0 0 1 292 143Z",
+            fill: P.mint,
+            opacity: 0.35
+        })], {class: "sweep"}),
         ...[[230, 140], [250, 170], [158, 230], [176, 150], [266, 236], [140, 176], [214, 262], [244, 120]].map(([x, y], index) => el("circle", {
             cx: x,
             cy: y,
@@ -666,7 +710,13 @@ export const SCENES = {
             depth: 6
         })),
         slab(176, 300, 48, 40, {r: 10, depth: 8, color: P.butter}),
-        el("path", {d: "M200 300v40", stroke: "#000", "stroke-opacity": 0.15, "stroke-width": 3, "stroke-dasharray": "4 4"}),
+        el("path", {
+            d: "M200 300v40",
+            stroke: "#000",
+            "stroke-opacity": 0.15,
+            "stroke-width": 3,
+            "stroke-dasharray": "4 4"
+        }),
     ],
 
     carSpace: () => [
@@ -708,7 +758,14 @@ export const SCENES = {
     sitePersist: () => [
         slab(80, 74, 220, 232, {r: 22, depth: 14, color: P.paper}),
         el("path", {d: "M80 96a22 22 0 0 1 22-22h176a22 22 0 0 1 22 22v28H80z", fill: P.red}),
-        ...[124, 176, 228, 256].map((x) => el("rect", {x: x - 4, y: 60, width: 8, height: 30, rx: 4, fill: P.graphite})),
+        ...[124, 176, 228, 256].map((x) => el("rect", {
+            x: x - 4,
+            y: 60,
+            width: 8,
+            height: 30,
+            rx: 4,
+            fill: P.graphite
+        })),
         ...Array.from({length: 20}, (_, index) => {
             const col = index % 5;
             const row = Math.floor(index / 5);

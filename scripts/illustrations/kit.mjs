@@ -72,7 +72,14 @@ export function slab(x, y, w, h, {r = 22, depth = 12, color = PALETTE.alu, shado
             opacity: 0.2,
             filter: "url(#soft)"
         }),
-        depth > 0 && el("rect", {x, y: y + depth, width: w, height: h, rx: r, fill: darken(color, bright ? 0.17 : 0.3)}),
+        depth > 0 && el("rect", {
+            x,
+            y: y + depth,
+            width: w,
+            height: h,
+            rx: r,
+            fill: darken(color, bright ? 0.17 : 0.3)
+        }),
         el("rect", {x, y, width: w, height: h, rx: r, fill: color}),
         el("rect", {x, y, width: w, height: h, rx: r, fill: "url(#sheen)"}),
         bevel && el("rect", {

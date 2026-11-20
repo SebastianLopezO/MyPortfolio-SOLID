@@ -68,7 +68,8 @@ function Marked(props: { quote: string; excerpt: string; tile: string }) {
     return (
         <>
             {parts()[0]}
-            <mark class="rounded px-0.5 text-fg [box-decoration-break:clone]" style={{background: `var(--color-tile-${props.tile})`}}>{parts()[1]}</mark>
+            <mark class="rounded px-0.5 text-fg [box-decoration-break:clone]"
+                  style={{background: `var(--color-tile-${props.tile})`}}>{parts()[1]}</mark>
             {parts()[2]}
         </>
     );
@@ -91,7 +92,8 @@ export function ServicesIndex() {
                     <li>
                         <Link to={links.detail("services", SERVICE_SLUG[id])}
                               class="service-entry group grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-7">
-                            <span aria-hidden="true" class="service-icon grid aspect-square place-items-center rounded-3xl"
+                            <span aria-hidden="true"
+                                  class="service-icon grid aspect-square place-items-center rounded-3xl"
                                   style={{background: `var(--color-tile-${SERVICE_ART[id].tile})`}}>
                                 <img src={withBase(SERVICE_ART[id].file)} alt="" width={128} height={128} loading="lazy"
                                      decoding="async" class="w-[88%]"/>
@@ -142,7 +144,10 @@ export function ServicePage(props: { slug: string }) {
         ...(jobsHere.length > 0 ? [{id: "detail-jobs", title: ui.sections.jobs}] : []),
         {id: "detail-reasons", title: ui.sections.whyMe},
     ];
-    const serviceLink = (other: ServiceId) => ({to: links.detail("services", SERVICE_SLUG[other]), label: copy.items[other].title});
+    const serviceLink = (other: ServiceId) => ({
+        to: links.detail("services", SERVICE_SLUG[other]),
+        label: copy.items[other].title
+    });
 
     return (
         <DetailArticle
@@ -238,8 +243,10 @@ export function ReasonsIndex() {
                                 <span aria-hidden="true"
                                       class="grid aspect-[2/1] place-items-center rounded-xl sm:aspect-square"
                                       style={{background: `var(--color-tile-${REASON_ART[id].tile})`}}>
-                                    <img src={withBase(REASON_ART[id].file)} alt="" width={192} height={192} loading="lazy"
-                                         decoding="async" class="tile-illustration h-full max-h-40 w-auto sm:h-auto sm:w-[86%]"/>
+                                    <img src={withBase(REASON_ART[id].file)} alt="" width={192} height={192}
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="tile-illustration h-full max-h-40 w-auto sm:h-auto sm:w-[86%]"/>
                                 </span>
                                 <span class="min-w-0 self-center">
                                     <span class="block font-mono text-xs text-fg-subtle">{ordinal(index())}</span>
@@ -247,7 +254,8 @@ export function ReasonsIndex() {
                                     <span class="mt-2 block max-w-[68ch] text-fg-muted">{benefit.description}</span>
                                     <span class="mt-4 block border-l-2 border-fg/20 pl-3 text-sm">
                                         <span class="block text-fg">“{benefit.evidence.excerpt}”</span>
-                                        <span class="mt-1 block text-fg-subtle">{author.author} · {recommendations.items[author.id].role}</span>
+                                        <span
+                                            class="mt-1 block text-fg-subtle">{author.author} · {recommendations.items[author.id].role}</span>
                                     </span>
                                 </span>
                             </Link>
@@ -287,7 +295,10 @@ export function ReasonPage(props: { slug: string }) {
         ...(programsHere.length > 0 ? [{id: "detail-studies", title: ui.sections.studies}] : []),
         ...(services.length > 0 ? [{id: "detail-services", title: ui.sections.services}] : []),
     ];
-    const reasonLink = (other: BenefitId) => ({to: links.detail("reasons", REASON_SLUG[other]), label: copy.benefits[other].title});
+    const reasonLink = (other: BenefitId) => ({
+        to: links.detail("reasons", REASON_SLUG[other]),
+        label: copy.benefits[other].title
+    });
 
     return (
         <DetailArticle

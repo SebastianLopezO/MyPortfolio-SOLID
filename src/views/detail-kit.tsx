@@ -3,7 +3,7 @@ import {ArrowRight} from "@/components/ui/icons";
 import {useDetailCopy} from "@/content/detail-copy";
 import {useSectionCopy} from "@/content/sections";
 import {type DetailCollection, EDUCATION_SLUG, EXPERIENCE_SLUG} from "@/content/shared/detail-links";
-import {EDUCATION_ART, EXPERIENCE_ART, type Art} from "@/content/shared/page-art";
+import {type Art, EDUCATION_ART, EXPERIENCE_ART} from "@/content/shared/page-art";
 import {PROJECT_SLUG} from "@/content/shared/project-links";
 import {useLanguage} from "@/context/language";
 import {useRole} from "@/context/role";
@@ -194,7 +194,8 @@ export function Paragraphs(props: { items: string[]; lead?: string }) {
 
 /** A grid of tiles: two across on a phone, three from 64rem, each one rising into place as it comes up. */
 export function TileGrid(props: { children: JSX.Element; class?: string }) {
-    return <ul class={cn("enter-each grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3", props.class)}>{props.children}</ul>;
+    return <ul
+        class={cn("enter-each grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3", props.class)}>{props.children}</ul>;
 }
 
 /** Each project as its tile, its illustration on its color, linked to its page. */
@@ -205,7 +206,8 @@ export function ProjectTiles(props: { items: ProjectFacts[] }) {
         <TileGrid>
             <For each={props.items}>{(project) => (
                 <li>
-                    <ProjectTile id={project.id} name={cards.items[project.id].name} brief={cards.items[project.id].brief}
+                    <ProjectTile id={project.id} name={cards.items[project.id].name}
+                                 brief={cards.items[project.id].brief}
                                  href={links.project(project.id)}/>
                 </li>
             )}</For>

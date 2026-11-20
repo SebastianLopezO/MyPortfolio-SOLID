@@ -4,12 +4,15 @@ import {journeyCopy} from "@/content/journey-copy";
 import {
     evidenceFor,
     isFuture,
-    layoutLabels,
     layoutStations,
     lineSpans,
     MAP,
     milestonesForSdg,
+    STATION_SPACE,
+    stationRadius,
     stepsAround,
+    TAG_HEIGHT,
+    tagLayout,
     xFor
 } from "@/lib/journey";
 
@@ -24,31 +27,45 @@ describe("journey map", () => {
     it("keeps stations that share a line apart", () => {
         const stations = layoutStations();
         for (const line of JOURNEY_LINES) {
-            const xs = milestones
+            const marks = milestones
                 .filter((milestone) => milestone.lines.includes(line))
-                .map((milestone) => stations.find((station) => station.id === milestone.id)!.x)
-                .sort((a, b) => a - b);
-            xs.slice(1).forEach((x, index) => expect(x - xs[index]).toBeGreaterThanOrEqual(18));
+                .map((milestone) => ({x: stations.find((station) => station.id === milestone.id)!.x, r: stationRadius(milestone)}))
+                .sort((a, b) => a.x - b.x);
+            marks.slice(1).forEach((mark, index) => expect(mark.x - mark.r - (marks[index].x + marks[index].r)).toBeGreaterThanOrEqual(STATION_SPACE - 1e-9));
         }
     });
 
-    it("runs every line from its first to its last station", () => {
-        const spans = lineSpans(layoutStations(), "2026-10-05");
-        expect(spans.map((span) => span.line)).toEqual(JOURNEY_LINES);
-        for (const span of spans) expect(span.to).toBeGreaterThanOrEqual(span.from);
+    it("never pushes a stop that has happened past today", () => {
+        const today = "2026-11-19";
+        const stations = layoutStations();
+        for (const milestone of milestones.filter((item) => !isFuture(item, today))) {
+            expect(stations.find((station) => station.id === milestone.id)!.x).toBeLessThanOrEqual(xFor(today));
+        }
     });
 
-    it("never lets two labels overlap", () => {
+    it("runs every line from its first to its last station, and on to today while it is still active", () => {
+        const today = "2026-10-05";
         const stations = layoutStations();
-        const labels = layoutLabels(stations, Object.fromEntries(milestones.filter((item) => item.major).map((item) => [item.id, journeyCopy.en.milestones[item.id].short])));
-        for (const [index, a] of labels.entries()) {
-            for (const b of labels.slice(index + 1)) {
-                const sameRow = Math.abs(a.y - b.y) < 12;
-                const width = ((journeyCopy.en.milestones[a.id].short!.length + journeyCopy.en.milestones[b.id].short!.length) * 6.2) / 2 + 6;
-                expect(sameRow && Math.abs(a.x - b.x) < width).toBe(false);
+        const spans = lineSpans(stations, today);
+        expect(spans.map((span) => span.line)).toEqual(JOURNEY_LINES);
+        for (const span of spans) {
+            expect(span.to).toBeGreaterThanOrEqual(span.from);
+            const ongoing = milestones.some((item) => item.lines.includes(span.line) && item.end === null && !isFuture(item, today));
+            if (ongoing) expect(span.to).toBeGreaterThanOrEqual(xFor(today));
+        }
+    });
+
+    it("keeps the tag of any stop inside the map and between two lanes", () => {
+        const stations = layoutStations();
+        for (const copy of Object.values(journeyCopy)) {
+            for (const station of stations) {
+                const tag = tagLayout(station, `Sep 2026 · ${copy.milestones[station.id].title}`);
+                expect(tag.x - tag.width / 2).toBeGreaterThanOrEqual(0);
+                expect(tag.x + tag.width / 2).toBeLessThanOrEqual(MAP.width);
+                expect(tag.y - TAG_HEIGHT / 2).toBeGreaterThan(station.bottom + 6);
+                expect(tag.y + TAG_HEIGHT / 2).toBeLessThan(Math.min(station.bottom + MAP.laneGap - 6, MAP.gridBottom));
             }
         }
-        expect(labels.length).toBeGreaterThanOrEqual(10);
     });
 
     it("steps through every stop in date order, or only through one line's stops", () => {

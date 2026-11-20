@@ -171,7 +171,8 @@ export function ProjectsSection() {
             </Link>
 
             {/* The organizations get a line each on their index; here, their names lead there. */}
-            <div class="mt-20 grid gap-6 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+            <div
+                class="mt-20 grid gap-6 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
                 <div>
                     <h3 class="text-title text-fg">{copy.organizationsTitle}</h3>
                     <p class="mt-2 text-fg-muted">{copy.organizationsSubtitle}</p>

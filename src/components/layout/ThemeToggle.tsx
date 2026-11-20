@@ -59,7 +59,8 @@ export function ThemeToggle(props: { class?: string }) {
                 props.class,
             )}
         >
-            <Show when={theme()} fallback={<span aria-hidden="true" class="size-4 rounded-full border-2 border-current"/>}>
+            <Show when={theme()}
+                  fallback={<span aria-hidden="true" class="size-4 rounded-full border-2 border-current"/>}>
                 {(current) => (current() === "dark" ? <Sun class="size-[1.125rem]"/> : <Moon class="size-[1.125rem]"/>)}
             </Show>
         </button>

@@ -1,10 +1,21 @@
 import {createMemo, createSignal, For, onMount, Show} from "solid-js";
-import {githubActivity, JOURNEY_LINES, JOURNEY_YEARS, milestones} from "@/content/shared/journey";
+import {JOURNEY_END, JOURNEY_LINES, JOURNEY_YEARS, milestones} from "@/content/shared/journey";
 import {BUILD_DATE} from "@/content/shared/site";
 import {useContent} from "@/context/language";
 import {useJourneyCopy} from "@/hooks/useJourneyCopy";
 import {formatYearMonth} from "@/lib/format";
-import {isFuture, laneY, layoutLabels, layoutStations, lineSpans, MAP, stepsAround, xFor} from "@/lib/journey";
+import {
+    isFuture,
+    laneY,
+    layoutStations,
+    lineSpans,
+    MAP,
+    stationRadius,
+    stepsAround,
+    TAG_HEIGHT,
+    tagLayout,
+    xFor
+} from "@/lib/journey";
 import {cn} from "@/lib/utils";
 import type {JourneyLineId, MilestoneId} from "@/types/journey";
 import {JourneySteps, SwipeArea} from "./JourneySteps";
@@ -12,18 +23,14 @@ import {LineKey} from "./LineKey";
 import {MilestoneDetails} from "./MilestoneDetails";
 
 const STATIONS = layoutStations();
+const STATION_BY_ID = new Map(STATIONS.map((station) => [station.id, station]));
 const SPANS = lineSpans(STATIONS, BUILD_DATE);
 const BY_ID = new Map(milestones.map((milestone) => [milestone.id, milestone]));
 const TODAY_X = xFor(BUILD_DATE);
-const ACTIVITY_BASE = MAP.activityTop + MAP.activityHeight;
 const color = (line: JourneyLineId) => `var(--color-viz-${line})`;
-const GRID = JOURNEY_YEARS.map((year) => `M${xFor(year)} 36V${ACTIVITY_BASE}`).join("");
-
-// A column with a 4px rounded data end and a square base.
-const column = (x: number, top: number, width: number) => {
-    const r = Math.min(4, (ACTIVITY_BASE - top) / 2);
-    return `M${x} ${ACTIVITY_BASE}V${top + r}Q${x} ${top} ${x + r} ${top}H${x + width - r}Q${x + width} ${top} ${x + width} ${top + r}V${ACTIVITY_BASE}Z`;
-};
+const GRID = JOURNEY_YEARS.map((year) => `M${xFor(year)} ${MAP.gridTop}V${MAP.gridBottom}`).join("");
+const RAILS = JOURNEY_LINES.map((line) => `M${MAP.plotLeft} ${laneY(line)}H${MAP.plotRight}`).join("");
+const LINE_OPACITY = 0.6;
 
 interface JourneyMapProps {
     selected: MilestoneId;
@@ -36,8 +43,9 @@ export function JourneyMap(props: JourneyMapProps) {
     const {ui} = useContent();
     const copy = useJourneyCopy();
     const [showList, setShowList] = createSignal(false);
+    // The stop under the pointer or the keyboard focus names itself in the tag; otherwise the selected one does.
+    const [pointed, setPointed] = createSignal<MilestoneId | null>(null);
     let scroller: HTMLDivElement | undefined;
-    const labels = layoutLabels(STATIONS, Object.fromEntries(milestones.filter((item) => item.major).map((item) => [item.id, copy.milestones[item.id].short])));
 
     // The map only shows from 64rem, where it fits; if large text still makes it wider than its box, start near today.
     onMount(() => {
@@ -49,6 +57,14 @@ export function JourneyMap(props: JourneyMapProps) {
 
     const dimmed = (lines: JourneyLineId[]) => props.emphasis !== null && !lines.includes(props.emphasis);
     const steps = createMemo(() => stepsAround(STATIONS, props.selected, props.emphasis));
+    const tag = createMemo(() => {
+        const id = pointed() ?? props.selected;
+        const text = `${formatYearMonth(BY_ID.get(id)!.start, ui.months)} · ${copy.milestones[id].title}`;
+        return {text, ...tagLayout(STATION_BY_ID.get(id)!, text)};
+    });
+    const leave = (id: MilestoneId) => {
+        if (pointed() === id) setPointed(null);
+    };
     const onStationKey = (event: KeyboardEvent, id: MilestoneId) => {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
@@ -86,68 +102,60 @@ export function JourneyMap(props: JourneyMapProps) {
                 )}</For>
             </div>
 
-            {/* The map draws itself from left to right as it comes up the screen (globals.css, journey-chart). */}
+            {/* The map rises into place as one piece, like the other blocks of the page (globals.css, section-enter). */}
             <div ref={scroller}
-                 class="journey-chart hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:flex">
-                {/* Lane names stay pinned to the left edge if large text makes the map scroll. */}
+                 class="journey-chart section-enter hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:flex">
+                {/* Lane names, short since the chips above carry the full ones, stay pinned to the left edge if large
+                    text makes the map scroll. */}
                 <div aria-hidden="true" class="pointer-events-none sticky left-0 z-10 w-0 shrink-0">
                     <For each={JOURNEY_LINES}>{(line) => (
                         <span
                             style={{top: `${(laneY(line) / MAP.height) * 100}%`}}
                             class={cn(
-                                "absolute left-1.5 -translate-y-1/2 rounded-sm bg-surface px-1 text-xs leading-4 whitespace-nowrap",
+                                "absolute left-3 inline-flex -translate-y-1/2 items-center gap-2 text-xs leading-4 whitespace-nowrap transition-colors",
                                 props.emphasis === line ? "font-semibold text-fg" : dimmed([line]) ? "text-fg-subtle" : "text-fg-muted",
                             )}
                         >
-                            {copy.lines[line]}
+                            <span class="size-2 shrink-0 rounded-full" style={{background: color(line)}}/>
+                            {copy.linesShort[line]}
                         </span>
                     )}</For>
-                    <span
-                        style={{top: `${(MAP.activityTop / MAP.height) * 100}%`}}
-                        class="absolute left-1.5 translate-y-1/2 rounded-sm bg-surface px-1 text-xs leading-4 whitespace-nowrap text-fg-subtle"
-                    >
-                        {copy.map.activityLabel}
-                    </span>
                 </div>
                 <svg viewBox={`0 0 ${MAP.width} ${MAP.height}`}
                      class="block h-auto w-full min-w-[56rem] shrink-0 font-sans" role="group"
                      aria-label={copy.tabs.map.label}>
+                    {/* The years ahead are a tinted zone, so a plan never reads as a fact. */}
                     <g aria-hidden="true">
-                        <path d={GRID} stroke="var(--color-border)" stroke-width={1}/>
+                        <rect x={TODAY_X} y={MAP.gridTop} width={MAP.width - 8 - TODAY_X}
+                              height={MAP.gridBottom - MAP.gridTop} rx={6} fill="var(--color-fg)" fill-opacity={0.02}/>
+                        <path d={GRID} stroke="var(--color-border)" stroke-width={1} stroke-dasharray="2 4"/>
                         <For each={JOURNEY_YEARS}>{(year) => (
-                            <text x={xFor(year) + 5} y={30}
-                                  class="fill-fg-subtle font-mono text-[11px]">{year}</text>
+                            <text x={(xFor(year) + xFor(Math.min(year + 1, JOURNEY_END + 1))) / 2} y={MAP.axisY}
+                                  text-anchor="middle" class="fill-fg-subtle font-mono text-[11px]">{year}</text>
                         )}</For>
-                    </g>
-
-                    <g aria-hidden="true">
-                        <line x1={TODAY_X} x2={TODAY_X} y1={20} y2={ACTIVITY_BASE} stroke="var(--color-fg-subtle)"
-                              stroke-width={1}/>
-                        <text x={TODAY_X} y={14} text-anchor="middle"
-                              class="fill-fg text-[11px] font-semibold">{copy.today}</text>
+                        <line x1={TODAY_X} x2={TODAY_X} y1={MAP.gridTop} y2={MAP.gridBottom}
+                              stroke="var(--color-fg-subtle)" stroke-width={1}/>
+                        <text x={TODAY_X} y={MAP.height - 8} text-anchor="middle"
+                              class="fill-fg font-mono text-[11px] font-semibold">{copy.today}</text>
+                        <path d={RAILS} stroke="var(--color-border)" stroke-width={1}/>
                     </g>
 
                     <g aria-hidden="true">
                         <For each={SPANS}>{(span) => {
                             const y = laneY(span.line);
                             const solidEnd = Math.min(span.to, span.todayX);
-                            const opacity = () => (dimmed([span.line]) ? 0.2 : 1);
+                            const style = () => ({opacity: dimmed([span.line]) ? 0.12 : LINE_OPACITY});
                             return (
                                 <>
                                     <Show when={span.from < solidEnd}>
-                                        <path d={`M${span.from} ${y}H${solidEnd}`}
-                                              opacity={opacity()} stroke={color(span.line)} stroke-width={5}
+                                        <path d={`M${span.from} ${y}H${solidEnd}`} style={style()}
+                                              class="transition-opacity" stroke={color(span.line)} stroke-width={3}
                                               stroke-linecap="round"/>
                                     </Show>
                                     <Show when={span.to > span.todayX}>
-                                        <path
-                                            d={`M${Math.max(span.from, span.todayX)} ${y}H${span.to}`}
-                                            opacity={opacity()}
-                                            stroke={color(span.line)}
-                                            stroke-width={3}
-                                            stroke-dasharray="1 7"
-                                            stroke-linecap="round"
-                                        />
+                                        <path d={`M${Math.max(span.from, span.todayX)} ${y}H${span.to}`}
+                                              style={style()} class="transition-opacity" stroke={color(span.line)}
+                                              stroke-width={2} stroke-dasharray="5 5"/>
                                     </Show>
                                 </>
                             );
@@ -157,86 +165,54 @@ export function JourneyMap(props: JourneyMapProps) {
                     <For each={STATIONS}>{(station) => {
                         const milestone = BY_ID.get(station.id)!;
                         const future = isFuture(milestone, BUILD_DATE);
-                        const active = () => station.id === props.selected;
                         const height = station.bottom - station.top;
                         return (
                             <g
                                 role="button"
                                 tabindex={0}
-                                aria-pressed={active()}
+                                aria-pressed={station.id === props.selected}
                                 aria-label={`${formatYearMonth(milestone.start, ui.months)} · ${copy.milestones[station.id].title}`}
                                 onClick={() => props.onSelect(station.id)}
                                 onKeyDown={(event) => onStationKey(event, station.id)}
-                                opacity={dimmed(milestone.lines) ? 0.3 : 1}
-                                style={{"--x": (station.x / MAP.width).toFixed(3)}}
-                                class="journey-station cursor-pointer"
+                                onPointerEnter={() => setPointed(station.id)}
+                                onPointerLeave={() => leave(station.id)}
+                                onFocus={() => setPointed(station.id)}
+                                onBlur={() => leave(station.id)}
+                                style={{opacity: dimmed(milestone.lines) ? 0.2 : 1}}
+                                class="journey-station cursor-pointer transition-opacity"
                             >
-                                <rect
-                                    class="journey-station-ring"
-                                    x={station.x - 13}
-                                    y={station.top - 13}
-                                    width={26}
-                                    height={height + 26}
-                                    rx={13}
-                                    fill="transparent"
-                                    stroke={active() ? "var(--color-fg)" : "transparent"}
-                                    stroke-width={2}
-                                />
-                                <Show when={height > 0}>
-                                    <line x1={station.x} x2={station.x} y1={station.top} y2={station.bottom}
-                                          stroke="var(--color-fg-muted)" stroke-width={2}/>
-                                </Show>
-                                <For each={milestone.lines}>{(line) => (
-                                    <circle
-                                        cx={station.x}
-                                        cy={laneY(line)}
-                                        r={6}
-                                        fill="var(--color-surface)"
-                                        stroke={color(line)}
-                                        stroke-width={3}
-                                        stroke-dasharray={future ? "3 2" : undefined}
-                                    />
+                                <rect class="journey-station-ring" x={station.x - 12} y={station.top - 12} width={24}
+                                      height={height + 24} rx={12} fill="transparent"/>
+                                {/* The stop's lanes are joined and ringed only while it is selected or pointed at. */}
+                                <g class="journey-halo">
+                                    <Show when={height > 0}>
+                                        <line x1={station.x} x2={station.x} y1={station.top} y2={station.bottom}
+                                              stroke="var(--color-fg-subtle)" stroke-width={1.5}/>
+                                    </Show>
+                                    <For each={milestone.lines}>{(line) => (
+                                        <circle cx={station.x} cy={laneY(line)} r={10} fill="none"
+                                                stroke={color(line)} stroke-width={1.5}/>
+                                    )}</For>
+                                </g>
+                                {/* A main milestone is a ring; a smaller step on the way, a dot. */}
+                                <For each={milestone.lines}>{(line) => milestone.major ? (
+                                    <circle cx={station.x} cy={laneY(line)} r={stationRadius(milestone)}
+                                            fill="var(--color-surface)" stroke={color(line)} stroke-width={2.5}
+                                            stroke-dasharray={future ? "2.5 2" : undefined}/>
+                                ) : (
+                                    <circle cx={station.x} cy={laneY(line)} r={stationRadius(milestone)}
+                                            fill={color(line)}/>
                                 )}</For>
                             </g>
                         );
                     }}</For>
 
-                    <For each={labels}>{(label) => (
-                        <text
-                            x={label.x}
-                            y={label.y}
-                            text-anchor="middle" aria-hidden="true"
-                            class={cn("pointer-events-none text-[11px] font-semibold", label.id === props.selected ? "fill-fg" : "fill-fg-muted")}
-                        >
-                            {copy.milestones[label.id].short}
-                        </text>
-                    )}</For>
-
-                    <g aria-hidden="true">
-                        <line
-                            x1={xFor(githubActivity.streak.from)}
-                            x2={xFor(githubActivity.streak.to)}
-                            y1={MAP.activityTop - 14}
-                            y2={MAP.activityTop - 14}
-                            stroke="var(--color-accent)"
-                            stroke-width={2}
-                            stroke-linecap="round"
-                        />
-                        <text x={xFor(githubActivity.streak.from)} y={MAP.activityTop - 20}
-                              class="fill-fg-muted text-[10px]">
-                            {copy.map.streakLabel.replace("{days}", String(githubActivity.streak.days))}
-                        </text>
-                        <For each={githubActivity.years}>{({year, activeDays}) => {
-                            const top = ACTIVITY_BASE - (activeDays / 366) * MAP.activityHeight;
-                            const center = (xFor(year) + xFor(year + 1)) / 2;
-                            return (
-                                <g>
-                                    <path d={column(center - 12, top, 24)} fill="var(--color-primary)"/>
-                                    <text x={center} y={top - 4} text-anchor="middle"
-                                          class="fill-fg-muted text-[10px]">{activeDays}</text>
-                                </g>
-                            );
-                        }}</For>
+                    <g aria-hidden="true" class="pointer-events-none">
+                        <rect x={tag().x - tag().width / 2} y={tag().y - TAG_HEIGHT / 2} width={tag().width}
+                              height={TAG_HEIGHT} rx={TAG_HEIGHT / 2} fill="var(--color-bg)"
+                              stroke="var(--color-border-strong)" stroke-width={1}/>
+                        <text x={tag().x} y={tag().y + 4} text-anchor="middle"
+                              class="fill-fg font-mono text-[11px]">{tag().text}</text>
                     </g>
                 </svg>
             </div>

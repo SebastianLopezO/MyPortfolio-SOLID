@@ -1,10 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="">
-<style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3 both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1) both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1 both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes sweep{from{transform:rotate(-120deg)}}</style>
-<defs>
-<linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".07"/></linearGradient>
-<radialGradient id="glass" cx=".32" cy=".28" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-</defs>
-<g class="rise"><g ><g ><rect x="84" y="86" width="202" height="262" rx="24" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><rect x="78" y="76" width="214" height="262" rx="24" fill="#d0d0cc"/><rect x="78" y="64" width="214" height="262" rx="24" fill="#fbfaf6"/><rect x="78" y="64" width="214" height="262" rx="24" fill="url(#sheen)"/><rect x="79" y="65" width="212" height="260" rx="23" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.5"/></g><rect x="96" y="84" width="120" height="14" rx="7" fill="#ff6b2c" opacity="0.8"/><g ><rect x="96" y="116" width="170" height="7" rx="3.5" fill="#000" opacity="0.2"/><rect x="96" y="134" width="140" height="7" rx="3.5" fill="#000" opacity="0.2"/><rect x="96" y="152" width="156" height="7" rx="3.5" fill="#000" opacity="0.2"/><rect x="96" y="170" width="120" height="7" rx="3.5" fill="#000" opacity="0.2"/></g><g ><rect x="96" y="196" width="98" height="94" rx="14" fill="#ecebe7"/><rect x="97" y="197" width="96" height="92" rx="13" fill="none" stroke="#000" stroke-opacity="0.2" stroke-width="2"/></g><g ><rect x="108" y="254" width="12" height="24" rx="2.5" fill="#ff6b2c"/><rect x="128" y="238" width="12" height="40" rx="2.5" fill="#ff6b2c"/><rect x="148" y="248" width="12" height="30" rx="2.5" fill="#ff6b2c"/><rect x="168" y="222" width="12" height="56" rx="2.5" fill="#ff6b2c"/></g><g ><circle cx="276" cy="240" r="32" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><circle cx="276" cy="231" r="34" fill="#24272a"/><circle cx="276" cy="222" r="34" fill="#34373c"/><circle cx="276" cy="222" r="34" fill="url(#sheen)"/><circle cx="276" cy="222" r="33" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><line x1="276" y1="222" x2="276" y2="196" stroke="#ff6b2c" stroke-width="5" stroke-linecap="round"/><g ><rect x="250" y="303" width="70" height="34" rx="17" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><rect x="244" y="293" width="82" height="34" rx="17" fill="#27a580"/><rect x="244" y="286" width="82" height="34" rx="17" fill="#2fc79a"/><rect x="244" y="286" width="82" height="34" rx="17" fill="url(#sheen)"/><rect x="245" y="287" width="80" height="32" rx="16" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.5"/></g><g ><circle cx="306" cy="306" r="12" fill="#b30bNaN"/><circle cx="306" cy="303" r="12" fill="#fff"/><circle cx="306" cy="303" r="12" fill="url(#sheen)"/><circle cx="306" cy="303" r="11" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g></g></g>
+    <style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3
+        both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1)
+        both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1
+        both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes
+        sweep{from{transform:rotate(-120deg)}}
+    </style>
+    <defs>
+        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity=".06"/>
+            <stop offset="1" stop-color="#000" stop-opacity=".07"/>
+        </linearGradient>
+        <radialGradient id="glass" cx=".32" cy=".28" r=".75">
+            <stop offset="0" stop-color="#fff" stop-opacity=".6"/>
+            <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="9"/>
+        </filter>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3"/>
+        </filter>
+    </defs>
+    <g class="rise">
+        <g>
+            <g>
+                <rect x="84" y="86" width="202" height="262" rx="24" fill="#0d1120" opacity="0.2" filter="url(#soft)"/>
+                <rect x="78" y="76" width="214" height="262" rx="24" fill="#d0d0cc"/>
+                <rect x="78" y="64" width="214" height="262" rx="24" fill="#fbfaf6"/>
+                <rect x="78" y="64" width="214" height="262" rx="24" fill="url(#sheen)"/>
+                <rect x="79" y="65" width="212" height="260" rx="23" fill="none" stroke="#fff" stroke-opacity="0.7"
+                      stroke-width="1.5"/>
+            </g>
+            <rect x="96" y="84" width="120" height="14" rx="7" fill="#ff6b2c" opacity="0.8"/>
+            <g>
+                <rect x="96" y="116" width="170" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+                <rect x="96" y="134" width="140" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+                <rect x="96" y="152" width="156" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+                <rect x="96" y="170" width="120" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+            </g>
+            <g>
+                <rect x="96" y="196" width="98" height="94" rx="14" fill="#ecebe7"/>
+                <rect x="97" y="197" width="96" height="92" rx="13" fill="none" stroke="#000" stroke-opacity="0.2"
+                      stroke-width="2"/>
+            </g>
+            <g>
+                <rect x="108" y="254" width="12" height="24" rx="2.5" fill="#ff6b2c"/>
+                <rect x="128" y="238" width="12" height="40" rx="2.5" fill="#ff6b2c"/>
+                <rect x="148" y="248" width="12" height="30" rx="2.5" fill="#ff6b2c"/>
+                <rect x="168" y="222" width="12" height="56" rx="2.5" fill="#ff6b2c"/>
+            </g>
+            <g>
+                <circle cx="276" cy="240" r="32" fill="#0d1120" opacity="0.2" filter="url(#soft)"/>
+                <circle cx="276" cy="231" r="34" fill="#24272a"/>
+                <circle cx="276" cy="222" r="34" fill="#34373c"/>
+                <circle cx="276" cy="222" r="34" fill="url(#sheen)"/>
+                <circle cx="276" cy="222" r="33" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/>
+            </g>
+            <line x1="276" y1="222" x2="276" y2="196" stroke="#ff6b2c" stroke-width="5" stroke-linecap="round"/>
+            <g>
+                <rect x="250" y="303" width="70" height="34" rx="17" fill="#0d1120" opacity="0.2" filter="url(#soft)"/>
+                <rect x="244" y="293" width="82" height="34" rx="17" fill="#27a580"/>
+                <rect x="244" y="286" width="82" height="34" rx="17" fill="#2fc79a"/>
+                <rect x="244" y="286" width="82" height="34" rx="17" fill="url(#sheen)"/>
+                <rect x="245" y="287" width="80" height="32" rx="16" fill="none" stroke="#fff" stroke-opacity="0.7"
+                      stroke-width="1.5"/>
+            </g>
+            <g>
+                <circle cx="306" cy="306" r="12" fill="#b30bNaN"/>
+                <circle cx="306" cy="303" r="12" fill="#fff"/>
+                <circle cx="306" cy="303" r="12" fill="url(#sheen)"/>
+                <circle cx="306" cy="303" r="11" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/>
+            </g>
+        </g>
+    </g>
 </svg>

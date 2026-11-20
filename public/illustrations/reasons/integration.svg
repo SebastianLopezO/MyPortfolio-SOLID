@@ -1,10 +1,67 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="">
-<style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3 both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1) both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1 both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes sweep{from{transform:rotate(-120deg)}}</style>
-<defs>
-<linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".07"/></linearGradient>
-<radialGradient id="glass" cx=".32" cy=".28" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-</defs>
-<g class="rise"><g ><g ><g ><path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#0d1120" opacity="0.2" filter="url(#soft)" transform="translate(6 24)"/><path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#2940b3" transform="translate(0 14)"/><path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#3a5cff"/><path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="url(#sheen)"/><path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><g ><rect x="88" y="156" width="80" height="7" rx="3.5" fill="#fff" opacity="0.4"/><rect x="88" y="174" width="60" height="7" rx="3.5" fill="#fff" opacity="0.4"/><rect x="88" y="192" width="72" height="7" rx="3.5" fill="#fff" opacity="0.4"/><rect x="88" y="210" width="50" height="7" rx="3.5" fill="#fff" opacity="0.4"/></g></g><g ><g ><path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#0d1120" opacity="0.2" filter="url(#soft)" transform="translate(6 24)"/><path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#b34b1f" transform="translate(0 14)"/><path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#ff6b2c"/><path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="url(#sheen)"/><path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><g transform="translate(290 197) scale(2.167)"><path d="M-10 2h5v9h-5zM-2.5-4h5v15h-5zM5-10h5v21h-5z" fill="#fff"/></g></g><g ><circle cx="94" cy="232" r="8.8" fill="#2fc79a" opacity="0.3" filter="url(#glow)"/><circle cx="94" cy="232" r="4" fill="#2fc79a" class="pulse"/><circle cx="92.8" cy="230.6" r="1.4" fill="#fff" opacity="0.8"/></g></g></g>
+    <style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3
+        both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1)
+        both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1
+        both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes
+        sweep{from{transform:rotate(-120deg)}}
+    </style>
+    <defs>
+        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity=".06"/>
+            <stop offset="1" stop-color="#000" stop-opacity=".07"/>
+        </linearGradient>
+        <radialGradient id="glass" cx=".32" cy=".28" r=".75">
+            <stop offset="0" stop-color="#fff" stop-opacity=".6"/>
+            <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="9"/>
+        </filter>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3"/>
+        </filter>
+    </defs>
+    <g class="rise">
+        <g>
+            <g>
+                <g>
+                    <path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#0d1120"
+                          opacity="0.2" filter="url(#soft)" transform="translate(6 24)"/>
+                    <path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#2940b3"
+                          transform="translate(0 14)"/>
+                    <path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="#3a5cff"/>
+                    <path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="url(#sheen)"/>
+                    <path d="M64 124H196V164C210 156 234 162 234 189S210 222 196 214V254H64Z" fill="none" stroke="#fff"
+                          stroke-opacity="0.2" stroke-width="1.5"/>
+                </g>
+                <g>
+                    <rect x="88" y="156" width="80" height="7" rx="3.5" fill="#fff" opacity="0.4"/>
+                    <rect x="88" y="174" width="60" height="7" rx="3.5" fill="#fff" opacity="0.4"/>
+                    <rect x="88" y="192" width="72" height="7" rx="3.5" fill="#fff" opacity="0.4"/>
+                    <rect x="88" y="210" width="50" height="7" rx="3.5" fill="#fff" opacity="0.4"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#0d1120"
+                          opacity="0.2" filter="url(#soft)" transform="translate(6 24)"/>
+                    <path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#b34b1f"
+                          transform="translate(0 14)"/>
+                    <path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="#ff6b2c"/>
+                    <path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="url(#sheen)"/>
+                    <path d="M206 132H338V262H206V222C220 230 244 224 244 197S220 164 206 172Z" fill="none"
+                          stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/>
+                </g>
+                <g transform="translate(290 197) scale(2.167)">
+                    <path d="M-10 2h5v9h-5zM-2.5-4h5v15h-5zM5-10h5v21h-5z" fill="#fff"/>
+                </g>
+            </g>
+            <g>
+                <circle cx="94" cy="232" r="8.8" fill="#2fc79a" opacity="0.3" filter="url(#glow)"/>
+                <circle cx="94" cy="232" r="4" fill="#2fc79a" class="pulse"/>
+                <circle cx="92.8" cy="230.6" r="1.4" fill="#fff" opacity="0.8"/>
+            </g>
+        </g>
+    </g>
 </svg>

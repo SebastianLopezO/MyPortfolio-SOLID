@@ -214,7 +214,8 @@ export function MetricsContent() {
                 </section>
             </div>
 
-            <section aria-labelledby="metrics-years" class="section-enter mt-6 rounded-lg border border-border bg-surface p-6">
+            <section aria-labelledby="metrics-years"
+                     class="section-enter mt-6 rounded-lg border border-border bg-surface p-6">
                 <h3 id="metrics-years" class="font-semibold text-fg">{metrics.years.title}</h3>
                 <p class="mt-1 text-sm text-fg-subtle">{metrics.years.note}</p>
                 {/* Rows with horizontal bars on phones and tablets; from 64rem, one column per year. */}

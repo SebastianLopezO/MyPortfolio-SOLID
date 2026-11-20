@@ -2,7 +2,10 @@ import {expect, gotoHydrated, hydrateSection, test} from "./fixtures";
 
 const opacityOf = (element: Element) => Number(getComputedStyle(element).opacity);
 
-test("folds the header as the page scrolls and marks the section being read in its menu", async ({page, consoleErrors}) => {
+test("folds the header as the page scrolls and marks the section being read in its menu", async ({
+                                                                                                     page,
+                                                                                                     consoleErrors
+                                                                                                 }) => {
     await gotoHydrated(page, "/en");
     const header = page.locator(".site-header");
     await expect(header).not.toHaveAttribute("data-folded");
@@ -69,9 +72,6 @@ test("draws the reading progress on the header as the page scrolls", async ({pag
 
 const animationNames = (element: Element) => element.getAnimations().map((animation) => (animation as CSSAnimation).animationName);
 
-// The part of the journey map still hidden by its sweep, as the right inset of its clip (100 hidden, 0 drawn).
-const hiddenShare = (element: Element) => parseFloat(getComputedStyle(element).clipPath.split(" ")[1] ?? "0") || 0;
-
 test("draws the portrait at once", async ({page}) => {
     await gotoHydrated(page, "/en");
     // The portrait is the largest paint: nothing fades it in, and it only drifts once the hero leaves.
@@ -98,15 +98,17 @@ test("holds the place of a screen that has not arrived and fades it in once it h
     await expect.poll(() => screen.evaluate(opacityOf)).toBe(1);
 });
 
-test("draws the journey map from left to right as it comes up the screen", async ({page, isMobile}) => {
+test("brings the journey map in as one piece as it comes up the screen", async ({page, isMobile}) => {
     test.skip(isMobile, "The map shows from 64rem; phones go through it one stop at a time");
     await gotoHydrated(page, "/en");
     await hydrateSection(page, "journey");
-    const map = page.locator(".journey-chart > svg");
+    const map = page.locator(".journey-chart");
     await page.evaluate(() => window.scrollTo(0, 0));
-    expect(await map.evaluate(hiddenShare)).toBe(100);
+    expect(await map.evaluate(opacityOf)).toBe(0);
+    // Nothing inside it is clipped or held back: the whole map is there once the frame is.
+    expect(await map.locator("svg").evaluate((element) => getComputedStyle(element).clipPath)).toBe("none");
     await map.evaluate((element) => element.scrollIntoView({block: "center"}));
-    await expect.poll(() => map.evaluate(hiddenShare)).toBe(0);
+    await expect.poll(() => map.evaluate(opacityOf)).toBe(1);
 });
 
 test("turns the cards at a slider's edge away on a phone", async ({page, isMobile}) => {

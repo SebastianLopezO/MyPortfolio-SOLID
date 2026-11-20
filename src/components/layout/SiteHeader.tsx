@@ -151,35 +151,35 @@ export function SiteHeader(props: SiteHeaderProps) {
 
             {/* The panel exists only while open: it needs the button, so the prerendered page leaves it out. */}
             <Show when={open()}>
-            <div
-                ref={panel}
-                id="site-menu"
-                class="site-menu appear"
-            >
-                <nav aria-label={ui.navLabel}>
-                    <ul class="grid gap-0.5">
-                        <For each={items()}>
-                            {(section) => (
-                                <li>
-                                    <a
-                                        href={hrefOf(section)}
-                                        aria-current={current() === section ? "true" : undefined}
-                                        onClick={() => setOpen(false)}
-                                        class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg aria-[current=true]:text-fg"
-                                    >
+                <div
+                    ref={panel}
+                    id="site-menu"
+                    class="site-menu appear"
+                >
+                    <nav aria-label={ui.navLabel}>
+                        <ul class="grid gap-0.5">
+                            <For each={items()}>
+                                {(section) => (
+                                    <li>
+                                        <a
+                                            href={hrefOf(section)}
+                                            aria-current={current() === section ? "true" : undefined}
+                                            onClick={() => setOpen(false)}
+                                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg aria-[current=true]:text-fg"
+                                        >
                                         <span aria-hidden="true"
                                               class="size-1.5 rounded-full bg-transparent group-aria-[current=true]:bg-accent"/>
-                                        {ui.nav[section]}
-                                    </a>
-                                </li>
-                            )}
-                        </For>
-                    </ul>
-                </nav>
-                <div class="mt-2 border-t border-border px-3 pt-3 pb-1">
-                    <LanguageSwitcher href={props.languageHref} class="w-full justify-center"/>
+                                            {ui.nav[section]}
+                                        </a>
+                                    </li>
+                                )}
+                            </For>
+                        </ul>
+                    </nav>
+                    <div class="mt-2 border-t border-border px-3 pt-3 pb-1">
+                        <LanguageSwitcher href={props.languageHref} class="w-full justify-center"/>
+                    </div>
                 </div>
-            </div>
             </Show>
             {/* How far down the page the reader is (globals.css, .reading-progress). */}
             <span aria-hidden="true" class="reading-progress"/>

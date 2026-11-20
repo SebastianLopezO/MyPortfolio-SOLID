@@ -90,7 +90,8 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
 
                 <Show when={bullets().visible.length > 0}>
                     <ul class="mt-4 max-w-3xl space-y-2 text-fg-muted">
-                        <For each={bullets().visible}>{(bullet) => <BulletItem bullet={bullet} role={props.role}/>}</For>
+                        <For each={bullets().visible}>{(bullet) => <BulletItem bullet={bullet}
+                                                                               role={props.role}/>}</For>
                     </ul>
                 </Show>
 
@@ -98,7 +99,8 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                       openLabel={ui.actions.showLess}>
                     <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
                         <ul class="space-y-2 text-fg-muted">
-                            <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet} role={props.role}/>}</For>
+                            <For each={bullets().hidden}>{(bullet) => <BulletItem bullet={bullet}
+                                                                                  role={props.role}/>}</For>
                         </ul>
                         {/* The first ten tools, the role view's first; the job's page lists them all. */}
                         <TechList tech={props.facts.tech} role={props.role} limit={10} class="content-start"/>
@@ -172,7 +174,8 @@ export function ExperienceSection() {
                         class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised active:translate-y-px"
                     >
                         {everything() ? ui.actions.collapseAll : ui.actions.expandAll}
-                        <ChevronDown class={cn("size-4 motion-safe:transition-transform motion-safe:duration-400", everything() && "rotate-180")}/>
+                        <ChevronDown
+                            class={cn("size-4 motion-safe:transition-transform motion-safe:duration-400", everything() && "rotate-180")}/>
                     </button>
                 </div>
             </Show>

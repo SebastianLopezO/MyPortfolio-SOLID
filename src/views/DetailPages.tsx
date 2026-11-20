@@ -65,8 +65,8 @@ import type {CertificationFacts, EducationFacts, OrganizationId, TestimonialFact
 import type {ProgramCopy, PublishedSource} from "@/types/detail";
 import type {ProjectFacts, ProjectId, ProjectPageId} from "@/types/project";
 import type {Art} from "@/content/shared/page-art";
-import type {TimelineItem} from "@/types/timeline";
 import {EDUCATION_ART, EXPERIENCE_ART, ORGANIZATION_ART} from "@/content/shared/page-art";
+import type {TimelineItem} from "@/types/timeline";
 import {
     countOf,
     DetailArticle,
@@ -1127,7 +1127,8 @@ function ExperienceIndex() {
                     return (
                         <li
                             class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
-                            <IndexArt art={EXPERIENCE_ART[job.id]} to={links.detail("experience", EXPERIENCE_SLUG[job.id])}/>
+                            <IndexArt art={EXPERIENCE_ART[job.id]}
+                                      to={links.detail("experience", EXPERIENCE_SLUG[job.id])}/>
                             <div class="max-w-3xl">
                                 <p class="font-mono text-xs text-fg-subtle">{formatRange(job.start, job.end, siteUi.months, siteUi.present)}</p>
                                 <h2 class="text-title text-fg">
@@ -1167,7 +1168,8 @@ function EducationIndex() {
                     return (
                         <li
                             class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
-                            <IndexArt art={EDUCATION_ART[program.id]} to={links.detail("education", EDUCATION_SLUG[program.id])}/>
+                            <IndexArt art={EDUCATION_ART[program.id]}
+                                      to={links.detail("education", EDUCATION_SLUG[program.id])}/>
                             <div class="max-w-3xl">
                                 <p class="font-mono text-xs text-fg-subtle">{program.start === program.end ? program.start : `${program.start} – ${program.end}`}</p>
                                 <h2 class="text-title text-fg">
@@ -1321,27 +1323,28 @@ function OrganizationsIndex() {
                     const activity = organizationActivity[organization.id];
                     return (
                         <li class="section-enter grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-5 border-t border-border py-6">
-                            <IndexArt art={ORGANIZATION_ART[organization.id]} to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}/>
+                            <IndexArt art={ORGANIZATION_ART[organization.id]}
+                                      to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}/>
                             <div>
-                            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                                <h2 class="text-title text-fg" translate="no">
-                                    <Link to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}
-                                          class="[overflow-wrap:anywhere] hover:text-primary">
-                                        {organization.name}
-                                    </Link>
-                                </h2>
-                                <span class="text-xs text-fg-subtle">
+                                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                                    <h2 class="text-title text-fg" translate="no">
+                                        <Link to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}
+                                              class="[overflow-wrap:anywhere] hover:text-primary">
+                                            {organization.name}
+                                        </Link>
+                                    </h2>
+                                    <span class="text-xs text-fg-subtle">
                                     {organization.visibility === "private" ? ui.visibility.private : ui.visibility.public}
                                 </span>
-                            </div>
-                            <p class="mt-2 text-fg-muted">{cards.organizations[organization.id]}</p>
-                            <p class="mt-3 font-mono text-xs text-fg-subtle">
-                                {countOf(ui.counts.repositories, activity.repositories)} ·{" "}
-                                {fill(ui.activity.commits, {
-                                    mine: numbers.integer(activity.mine),
-                                    people: numbers.integer(activity.people)
-                                })}
-                            </p>
+                                </div>
+                                <p class="mt-2 text-fg-muted">{cards.organizations[organization.id]}</p>
+                                <p class="mt-3 font-mono text-xs text-fg-subtle">
+                                    {countOf(ui.counts.repositories, activity.repositories)} ·{" "}
+                                    {fill(ui.activity.commits, {
+                                        mine: numbers.integer(activity.mine),
+                                        people: numbers.integer(activity.people)
+                                    })}
+                                </p>
                             </div>
                         </li>
                     );

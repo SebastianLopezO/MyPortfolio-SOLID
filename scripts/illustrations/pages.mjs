@@ -5,7 +5,25 @@
  * code is private), a service or a reason is one object that says it. Each one has a flat glyph of its own, printed
  * on a face the way a logo is pressed into a device.
  */
-import {bars, cable, darken, disc, el, group, key, led, lens, lighten, mix, PALETTE as P, plug, screw, slab, textLines, well} from "./kit.mjs";
+import {
+    bars,
+    cable,
+    darken,
+    disc,
+    el,
+    group,
+    key,
+    led,
+    lens,
+    lighten,
+    mix,
+    PALETTE as P,
+    plug,
+    screw,
+    slab,
+    textLines,
+    well
+} from "./kit.mjs";
 import {check, leaf, pin, signal, stack} from "./scenes.mjs";
 
 const luminance = (hex) => {
@@ -17,11 +35,23 @@ const luminance = (hex) => {
 const plate = (d, color, {depth = 12, shadow = true, bevel = true, evenodd = false} = {}) => {
     const bright = luminance(color) > 0.55;
     return group([
-        shadow && el("path", {d, fill: "#0d1120", opacity: 0.2, filter: "url(#soft)", transform: `translate(6 ${depth + 10})`}),
+        shadow && el("path", {
+            d,
+            fill: "#0d1120",
+            opacity: 0.2,
+            filter: "url(#soft)",
+            transform: `translate(6 ${depth + 10})`
+        }),
         depth > 0 && el("path", {d, fill: darken(color, bright ? 0.17 : 0.3), transform: `translate(0 ${depth})`}),
         el("path", {d, fill: color}),
         el("path", {d, fill: "url(#sheen)"}),
-        bevel && el("path", {d, fill: "none", stroke: "#fff", "stroke-opacity": bright ? 0.6 : 0.16, "stroke-width": 1.5}),
+        bevel && el("path", {
+            d,
+            fill: "none",
+            stroke: "#fff",
+            "stroke-opacity": bright ? 0.6 : 0.16,
+            "stroke-width": 1.5
+        }),
     ], evenodd ? {"fill-rule": "evenodd"} : {});
 };
 
@@ -31,19 +61,42 @@ const plate = (d, color, {depth = 12, shadow = true, bevel = true, evenodd = fal
  */
 const GLYPHS = {
     cap: [{d: "M-12-3L0-9 12-3 0 3Z"}, {d: "M-7 0v5.5c0 3.2 14 3.2 14 0V0L0 3Z"}, {d: "M11-2.5v7", stroke: true}],
-    plug: [{d: "M-6-2h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"}, {d: "M-4.5-10h3v8h-3zM1.5-10h3v8h-3z"}, {d: "M0 10v3", stroke: true}],
-    megaphone: [{d: "M-11-4h5l11-7v22l-11-7h-5z"}, {d: "M-7 4l2 6", stroke: true}, {d: "M8-4a5 5 0 0 1 0 8", stroke: true}],
+    plug: [{d: "M-6-2h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"}, {d: "M-4.5-10h3v8h-3zM1.5-10h3v8h-3z"}, {
+        d: "M0 10v3",
+        stroke: true
+    }],
+    megaphone: [{d: "M-11-4h5l11-7v22l-11-7h-5z"}, {d: "M-7 4l2 6", stroke: true}, {
+        d: "M8-4a5 5 0 0 1 0 8",
+        stroke: true
+    }],
     plane: [{d: "M-12 1L12-10 5 11 0 4Z"}],
     chart: [{d: "M-10 2h5v9h-5zM-2.5-4h5v15h-5zM5-10h5v21h-5z"}],
-    leaf: [{d: "M-10 10C-10-3-1-10 11-11 11 1 4 10-10 10Z"}, {d: "M-8 8L6-5", stroke: true, tone: "#fff", opacity: 0.55}],
+    leaf: [{d: "M-10 10C-10-3-1-10 11-11 11 1 4 10-10 10Z"}, {
+        d: "M-8 8L6-5",
+        stroke: true,
+        tone: "#fff",
+        opacity: 0.55
+    }],
     pin: [{d: "M0 12C-6 5-8 1-8-3a8 8 0 0 1 16 0c0 4-2 8-8 15ZM-3-3a3 3 0 1 0 6 0a3 3 0 1 0-6 0Z", evenodd: true}],
     pepper: [{d: "M-9 9C-11 1-5-6 4-6c5 0 7 3 5 7C6 8-2 12-9 9Z"}, {d: "M4-6c0-3 2-5 5-5", stroke: true}],
-    taurus: [{d: "M-6 4a6 6 0 1 0 12 0a6 6 0 1 0-12 0", stroke: true, width: 3}, {d: "M-10-10c2 6 18 6 20 0", stroke: true, width: 3}],
-    flask: [{d: "M-3-11h6v7l7 12c1 2 0 4-2 4h-16c-2 0-3-2-2-4l7-12z"}, {d: "M-2 6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M2 2a1 1 0 1 0 2 0a1 1 0 1 0-2 0", tone: "#fff", opacity: 0.7}],
+    taurus: [{d: "M-6 4a6 6 0 1 0 12 0a6 6 0 1 0-12 0", stroke: true, width: 3}, {
+        d: "M-10-10c2 6 18 6 20 0",
+        stroke: true,
+        width: 3
+    }],
+    flask: [{d: "M-3-11h6v7l7 12c1 2 0 4-2 4h-16c-2 0-3-2-2-4l7-12z"}, {
+        d: "M-2 6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M2 2a1 1 0 1 0 2 0a1 1 0 1 0-2 0",
+        tone: "#fff",
+        opacity: 0.7
+    }],
     code: [{d: "M-5-7l-6 7 6 7M5-7l6 7-6 7M2-10l-4 20", stroke: true, width: 2.6}],
     pencil: [{d: "M-11 11L-10.3 6.05 5.9-10.1 10.1-5.9-6.05 10.3Z"}],
     shield: [{d: "M0-12l9 4v6c0 7-4 11-9 14-5-3-9-7-9-14v-6z"}, {d: "M-4 0l3 3 5-6", stroke: true, tone: "#fff"}],
-    globe: [{d: "M-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0M-10 0h20M0-10c-5 5-5 15 0 20M0-10c5 5 5 15 0 20", stroke: true, width: 2}],
+    globe: [{
+        d: "M-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0M-10 0h20M0-10c-5 5-5 15 0 20M0-10c5 5 5 15 0 20",
+        stroke: true,
+        width: 2
+    }],
     gear: [{d: gearPath(0, 0, 11, 8, 0) + "M-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0Z", evenodd: true}],
     lock: [{d: "M-7-1h14v11h-14z"}, {d: "M-4-1v-4a4 4 0 0 1 8 0v4", stroke: true, width: 2.6}],
     bolt: [{d: "M3-12L-8 2h7l-2 10 11-14h-7z"}],
@@ -62,17 +115,22 @@ function gearPath(cx, cy, r, teeth, phase) {
 }
 
 const glyph = (name, cx, cy, size, color) => group(GLYPHS[name].map((part) => part.stroke
-    ? el("path", {
-        d: part.d,
-        fill: "none",
-        stroke: part.tone ?? color,
-        "stroke-opacity": part.opacity,
-        "stroke-width": part.width ?? 2.4,
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-    })
-    : el("path", {d: part.d, fill: part.tone ?? color, opacity: part.opacity, "fill-rule": part.evenodd ? "evenodd" : undefined})),
-{transform: `translate(${cx} ${cy}) scale(${(size / 24).toFixed(3)})`});
+        ? el("path", {
+            d: part.d,
+            fill: "none",
+            stroke: part.tone ?? color,
+            "stroke-opacity": part.opacity,
+            "stroke-width": part.width ?? 2.4,
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+        })
+        : el("path", {
+            d: part.d,
+            fill: part.tone ?? color,
+            opacity: part.opacity,
+            "fill-rule": part.evenodd ? "evenodd" : undefined
+        })),
+    {transform: `translate(${cx} ${cy}) scale(${(size / 24).toFixed(3)})`});
 
 /** A round pin-back button with a glyph, worn on a badge or stuck on a cabinet. */
 const button = (cx, cy, r, color, name, ink = "#fff") => group([
@@ -115,7 +173,12 @@ export const EXPERIENCE_SCENES = {
     tivenos: () => badge({band: P.cobalt, mark: "cap", extra: button(290, 292, 36, P.mint, "plug")}),
     adcom: () => badge({band: P.orange, mark: "megaphone", extra: button(290, 292, 36, P.butter, "chart", P.ink)}),
     muvu: () => badge({band: mix(P.mint, P.ink, 0.18), mark: "plane", extra: button(290, 292, 36, P.sky, "globe")}),
-    quipux: () => badge({band: P.butter, mark: "chart", ink: P.ink, extra: stack(296, 312, 34, 4, P.orange, {step: 11, depth: 7})}),
+    quipux: () => badge({
+        band: P.butter,
+        mark: "chart",
+        ink: P.ink,
+        extra: stack(296, 312, 34, 4, P.orange, {step: 11, depth: 7})
+    }),
 };
 
 // ─── Programs: a book with what it led to on top ─────────────────────────────────────────────────────────────────
@@ -140,10 +203,20 @@ const book = (x, y, w, h, color, {rotate, depth = 16} = {}) => group([
 const mortarboard = (cx, cy, color = P.ink) => group([
     el("ellipse", {cx, cy: cy + 50, rx: 80, ry: 16, fill: "#0d1120", opacity: 0.2, filter: "url(#soft)"}),
     el("path", {d: `M${cx - 50} ${cy + 8}v28c0 16 100 16 100 0v-28l-50 18z`, fill: darken(color, 0.15)}),
-    el("path", {d: `M${cx} ${cy - 34}L${cx + 92} ${cy}L${cx} ${cy + 34}L${cx - 92} ${cy}Z`, fill: darken(color, 0.4), transform: "translate(0 7)"}),
+    el("path", {
+        d: `M${cx} ${cy - 34}L${cx + 92} ${cy}L${cx} ${cy + 34}L${cx - 92} ${cy}Z`,
+        fill: darken(color, 0.4),
+        transform: "translate(0 7)"
+    }),
     el("path", {d: `M${cx} ${cy - 34}L${cx + 92} ${cy}L${cx} ${cy + 34}L${cx - 92} ${cy}Z`, fill: color}),
     el("path", {d: `M${cx} ${cy - 34}L${cx + 92} ${cy}L${cx} ${cy + 34}L${cx - 92} ${cy}Z`, fill: "url(#sheen)"}),
-    el("path", {d: `M${cx} ${cy}L${cx + 76} ${cy + 6}V${cy + 46}`, fill: "none", stroke: P.orange, "stroke-width": 4, "stroke-linecap": "round"}),
+    el("path", {
+        d: `M${cx} ${cy}L${cx + 76} ${cy + 6}V${cy + 46}`,
+        fill: "none",
+        stroke: P.orange,
+        "stroke-width": 4,
+        "stroke-linecap": "round"
+    }),
     disc(cx + 76, cy + 52, 8, {color: P.orange, depth: 3, shadow: false}),
     disc(cx, cy, 7, {color: P.orange, depth: 2, shadow: false}),
 ]);
@@ -163,7 +236,17 @@ export const EDUCATION_SCENES = {
     cyberDiploma: () => [
         group([
             slab(80, 84, 214, 172, {r: 14, depth: 8, color: P.paper}),
-            el("rect", {x: 96, y: 100, width: 182, height: 140, rx: 8, fill: "none", stroke: P.leaf, "stroke-opacity": 0.5, "stroke-width": 2}),
+            el("rect", {
+                x: 96,
+                y: 100,
+                width: 182,
+                height: 140,
+                rx: 8,
+                fill: "none",
+                stroke: P.leaf,
+                "stroke-opacity": 0.5,
+                "stroke-width": 2
+            }),
             el("rect", {x: 138, y: 118, width: 98, height: 10, rx: 5, fill: P.leaf, opacity: 0.8}),
             textLines(118, 148, [138, 112, 126], {gap: 16, h: 6}),
             disc(126, 212, 16, {color: P.red, depth: 4, shadow: false}),
@@ -184,11 +267,27 @@ export const EDUCATION_SCENES = {
         slab(112, 84, 176, 128, {r: 16, depth: 8, color: P.graphite}),
         well(124, 96, 152, 102, {r: 8, color: P.paper}),
         el("rect", {x: 134, y: 106, width: 132, height: 28, rx: 6, fill: lighten(P.lilac, 0.45)}),
-        ...[0, 1, 2].map((index) => el("rect", {x: 134 + index * 46, y: 142, width: 40, height: 46, rx: 6, fill: lighten([P.sky, P.mint, P.butter][index], 0.4)})),
+        ...[0, 1, 2].map((index) => el("rect", {
+            x: 134 + index * 46,
+            y: 142,
+            width: 40,
+            height: 46,
+            rx: 6,
+            fill: lighten([P.sky, P.mint, P.butter][index], 0.4)
+        })),
         slab(80, 220, 240, 46, {r: 14, depth: 12, color: P.alu}),
         well(166, 232, 68, 22, {r: 8, color: darken(P.alu, 0.1)}),
         slab(286, 252, 42, 60, {r: 21, depth: 8, color: P.graphite}),
-        el("line", {x1: 307, x2: 307, y1: 258, y2: 276, stroke: "#fff", "stroke-opacity": 0.25, "stroke-width": 2, "stroke-linecap": "round"}),
+        el("line", {
+            x1: 307,
+            x2: 307,
+            y1: 258,
+            y2: 276,
+            stroke: "#fff",
+            "stroke-opacity": 0.25,
+            "stroke-width": 2,
+            "stroke-linecap": "round"
+        }),
     ],
     inem: () => [
         group([
@@ -202,10 +301,36 @@ export const EDUCATION_SCENES = {
                 "stroke-opacity": 0.35,
                 "stroke-width": 1.5,
             })),
-            ...Array.from({length: 7}, (_, index) => disc(110, 112 + index * 30, 6, {color: P.graphite, depth: 2, shadow: false, bevel: false})),
-            el("rect", {x: 166, y: 112, width: 60, height: 26, rx: 13, fill: "none", stroke: P.cobalt, "stroke-width": 3}),
-            el("path", {d: "M196 138v14M196 152l26 22-26 22-26-22z", fill: "none", stroke: P.cobalt, "stroke-width": 3, "stroke-linejoin": "round"}),
-            el("path", {d: "M196 196v16M166 212h60v26h-60z", fill: "none", stroke: P.cobalt, "stroke-width": 3, "stroke-linejoin": "round"}),
+            ...Array.from({length: 7}, (_, index) => disc(110, 112 + index * 30, 6, {
+                color: P.graphite,
+                depth: 2,
+                shadow: false,
+                bevel: false
+            })),
+            el("rect", {
+                x: 166,
+                y: 112,
+                width: 60,
+                height: 26,
+                rx: 13,
+                fill: "none",
+                stroke: P.cobalt,
+                "stroke-width": 3
+            }),
+            el("path", {
+                d: "M196 138v14M196 152l26 22-26 22-26-22z",
+                fill: "none",
+                stroke: P.cobalt,
+                "stroke-width": 3,
+                "stroke-linejoin": "round"
+            }),
+            el("path", {
+                d: "M196 196v16M166 212h60v26h-60z",
+                fill: "none",
+                stroke: P.cobalt,
+                "stroke-width": 3,
+                "stroke-linejoin": "round"
+            }),
         ], {transform: "rotate(-6 192 202)"}),
         group([
             slab(214, 254, 124, 22, {r: 6, depth: 6, color: P.butter}),
@@ -230,7 +355,13 @@ const cabinet = ({color, mark, privateCode = false, ink}) => {
         textLines(146, 129, [44], {h: 6}),
         led(262, 126, P.mint, {r: 3.6, pulse: true}),
         privateCode && group([
-            el("path", {d: "M200 166v18a12 12 0 0 0 24 0v-6", fill: "none", stroke: P.graphite, "stroke-width": 5, "stroke-linecap": "round"}),
+            el("path", {
+                d: "M200 166v18a12 12 0 0 0 24 0v-6",
+                fill: "none",
+                stroke: P.graphite,
+                "stroke-width": 5,
+                "stroke-linecap": "round"
+            }),
             slab(196, 188, 46, 40, {r: 9, depth: 7, color: P.butter, shadow: false}),
             el("circle", {cx: 219, cy: 205, r: 4.5, fill: darken(P.butter, 0.5)}),
             el("rect", {x: 217.5, y: 206, width: 3, height: 10, rx: 1.5, fill: darken(P.butter, 0.5)}),
@@ -242,7 +373,10 @@ const cabinet = ({color, mark, privateCode = false, ink}) => {
 export const ORGANIZATION_SCENES = {
     tivenos: () => cabinet({color: P.cobalt, mark: "cap", privateCode: true}),
     adcom: () => cabinet({color: P.orange, mark: "megaphone", privateCode: true}),
-    smartpot: () => [...cabinet({color: P.leaf, mark: "leaf"}), leaf(286, 96, -60, 0.7, lighten(P.leaf, 0.1)), leaf(286, 96, -120, 0.55, darken(P.leaf, 0.08))],
+    smartpot: () => [...cabinet({
+        color: P.leaf,
+        mark: "leaf"
+    }), leaf(286, 96, -60, 0.7, lighten(P.leaf, 0.1)), leaf(286, 96, -120, 0.55, darken(P.leaf, 0.08))],
     gopoli: () => cabinet({color: P.sky, mark: "pin", ink: P.cobalt}),
     peppertech: () => cabinet({color: P.red, mark: "pepper"}),
     engineering: () => cabinet({color: P.graphite, mark: "gear"}),
@@ -299,7 +433,10 @@ export const SERVICE_SCENES = {
         disc(200, 196, 64, {color: P.graphite, depth: 14}),
         ...Array.from({length: 8}, (_, index) => {
             const angle = (Math.PI / 4) * index;
-            return led(200 + Math.cos(angle) * 44, 196 + Math.sin(angle) * 44, index === 2 ? P.butter : P.mint, {r: 3.4, pulse: index === 2});
+            return led(200 + Math.cos(angle) * 44, 196 + Math.sin(angle) * 44, index === 2 ? P.butter : P.mint, {
+                r: 3.4,
+                pulse: index === 2
+            });
         }),
         disc(200, 196, 22, {color: P.alu, depth: 5, shadow: false}),
         glyph("plug", 200, 196, 22, P.graphite),
@@ -313,7 +450,12 @@ export const SERVICE_SCENES = {
         el("circle", {cx: 150, cy: 180, r: 9, fill: P.orange}),
         el("path", {d: "M134 204c2-9 8-13 16-13s14 4 16 13z", fill: P.orange}),
         textLines(188, 172, [86, 64, 76], {gap: 16, h: 7}),
-        ...[0, 1, 2].map((index) => el("circle", {cx: 192 + index * 16, cy: 236, r: 5, fill: index < 2 ? P.butter : darken(P.paper, 0.12)})),
+        ...[0, 1, 2].map((index) => el("circle", {
+            cx: 192 + index * 16,
+            cy: 236,
+            r: 5,
+            fill: index < 2 ? P.butter : darken(P.paper, 0.12)
+        })),
         slab(78, 240, 244, 70, {r: 22, depth: 14, color: P.graphite}),
         el("rect", {x: 168, y: 262, width: 64, height: 24, rx: 6, fill: P.paper, opacity: 0.9}),
         textLines(178, 270, [44], {h: 6}),
@@ -326,21 +468,47 @@ export const SERVICE_SCENES = {
         el("rect", {x: 98, y: 142, width: 204, height: 58, rx: 10, fill: lighten(P.lilac, 0.4)}),
         textLines(114, 158, [112, 74], {gap: 14, h: 7, color: P.ink, opacity: 0.3}),
         el("rect", {x: 114, y: 184, width: 54, height: 10, rx: 5, fill: P.cobalt}),
-        ...[P.sky, P.mint, P.butter].map((color, index) => el("rect", {x: 98 + index * 71, y: 212, width: 62, height: 56, rx: 10, fill: lighten(color, 0.4)})),
-        el("path", {d: "M258 226l0 52 13-12 9 20 9-4-9-20 18-1z", fill: P.ink, stroke: "#fff", "stroke-width": 2.5, "stroke-linejoin": "round"}),
+        ...[P.sky, P.mint, P.butter].map((color, index) => el("rect", {
+            x: 98 + index * 71,
+            y: 212,
+            width: 62,
+            height: 56,
+            rx: 10,
+            fill: lighten(color, 0.4)
+        })),
+        el("path", {
+            d: "M258 226l0 52 13-12 9 20 9-4-9-20 18-1z",
+            fill: P.ink,
+            stroke: "#fff",
+            "stroke-width": 2.5,
+            "stroke-linejoin": "round"
+        }),
     ],
     data: () => [
         slab(56, 96, 288, 206, {r: 26, depth: 14, color: P.graphite}),
         well(74, 114, 252, 170, {r: 14}),
         donut(142, 199, 44, [[0.46, P.butter], [0.32, P.orange], [0.22, P.mint]]),
         bars(208, 0, [42, 66, 54, 92], {w: 18, gap: 10, color: P.butter, base: 262}),
-        el("polyline", {points: "214,196 242,172 270,182 300,140", fill: "none", stroke: P.mint, "stroke-width": 4, "stroke-linecap": "round", "stroke-linejoin": "round"}),
+        el("polyline", {
+            points: "214,196 242,172 270,182 300,140",
+            fill: "none",
+            stroke: P.mint,
+            "stroke-width": 4,
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round"
+        }),
         disc(300, 140, 6, {color: P.mint, depth: 0, shadow: false}),
     ],
     automation: () => [
         gear(158, 222, 84, 10, P.orange, 0.15),
         gear(276, 138, 54, 8, P.cobalt, 0.2),
-        el("path", {d: "M300 230a64 64 0 0 1-30 64", fill: "none", stroke: P.mint, "stroke-width": 9, "stroke-linecap": "round"}),
+        el("path", {
+            d: "M300 230a64 64 0 0 1-30 64",
+            fill: "none",
+            stroke: P.mint,
+            "stroke-width": 9,
+            "stroke-linecap": "round"
+        }),
         el("path", {d: "M252 290l22 14 6-26z", fill: P.mint}),
         led(318, 96, P.mint, {r: 4, pulse: true}),
     ],
@@ -352,14 +520,37 @@ export const SERVICE_SCENES = {
             led(254, 115 + index * 72, index === 2 ? P.butter : P.mint, {r: 3.6}),
         ])),
         slab(244, 244, 112, 76, {r: 10, depth: 12, color: P.cobalt}),
-        ...Array.from({length: 7}, (_, index) => el("rect", {x: 256 + index * 13, y: 254, width: 5, height: 56, rx: 2.5, fill: "#fff", opacity: 0.18})),
+        ...Array.from({length: 7}, (_, index) => el("rect", {
+            x: 256 + index * 13,
+            y: 254,
+            width: 5,
+            height: 56,
+            rx: 2.5,
+            fill: "#fff",
+            opacity: 0.18
+        })),
         el("rect", {x: 250, y: 236, width: 100, height: 8, rx: 4, fill: darken(P.cobalt, 0.25)}),
     ],
     observability: () => [
         slab(56, 100, 236, 176, {r: 24, depth: 14, color: P.alu}),
         well(74, 118, 200, 124, {r: 12}),
-        ...[0, 1, 2].map((row) => el("line", {x1: 84, x2: 264, y1: 148 + row * 32, y2: 148 + row * 32, stroke: "#fff", "stroke-opacity": 0.07, "stroke-width": 1.5})),
-        el("polyline", {points: "86,186 126,186 142,152 160,220 178,170 194,186 262,186", fill: "none", stroke: P.mint, "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round"}),
+        ...[0, 1, 2].map((row) => el("line", {
+            x1: 84,
+            x2: 264,
+            y1: 148 + row * 32,
+            y2: 148 + row * 32,
+            stroke: "#fff",
+            "stroke-opacity": 0.07,
+            "stroke-width": 1.5
+        })),
+        el("polyline", {
+            points: "86,186 126,186 142,152 160,220 178,170 194,186 262,186",
+            fill: "none",
+            stroke: P.mint,
+            "stroke-width": 4.5,
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round"
+        }),
         led(90, 260, P.mint, {r: 3.6}), led(110, 260, P.mint, {r: 3.6}),
         plate("M306 190c-26 0-40 20-40 46v26l-12 14h104l-12-14v-26c0-26-14-46-40-46z", P.butter, {depth: 10}),
         disc(306, 186, 8, {color: P.butter, depth: 3, shadow: false}),
@@ -376,7 +567,14 @@ export const SERVICE_SCENES = {
             el("ellipse", {cx: 200, cy: 330, rx: 150, ry: 18, fill: "#0d1120", opacity: 0.2, filter: "url(#soft)"}),
             ...panels.map((d, index) => el("path", {d, fill: index === 1 ? P.bone : P.paper})),
             ...panels.map((d) => el("path", {d, fill: "url(#sheen)"})),
-            el("path", {d: "M90 290C120 250 130 210 176 196S270 180 296 150", fill: "none", stroke: P.cobalt, "stroke-width": 4, "stroke-dasharray": "2 10", "stroke-linecap": "round"}),
+            el("path", {
+                d: "M90 290C120 250 130 210 176 196S270 180 296 150",
+                fill: "none",
+                stroke: P.cobalt,
+                "stroke-width": 4,
+                "stroke-dasharray": "2 10",
+                "stroke-linecap": "round"
+            }),
             pin(300, 156, P.red),
             disc(188, 236, 64, {color: P.alu, depth: 12}),
             el("circle", {cx: 188, cy: 236, r: 50, fill: P.ink}),
@@ -403,10 +601,43 @@ export const REASON_SCENES = {
     vision: () => [
         group([
             slab(64, 84, 252, 196, {r: 14, depth: 8, color: "#2f5bd8"}),
-            ...Array.from({length: 11}, (_, index) => el("line", {x1: 64 + 22 * (index + 1), x2: 64 + 22 * (index + 1), y1: 92, y2: 272, stroke: "#fff", "stroke-opacity": 0.12, "stroke-width": 1})),
-            ...Array.from({length: 8}, (_, index) => el("line", {x1: 72, x2: 308, y1: 84 + 22 * (index + 1), y2: 84 + 22 * (index + 1), stroke: "#fff", "stroke-opacity": 0.12, "stroke-width": 1})),
-            ...[[96, 112], [216, 112], [156, 196]].map(([x, y]) => el("rect", {x, y, width: 66, height: 40, rx: 6, fill: "none", stroke: "#fff", "stroke-width": 3, opacity: 0.9})),
-            el("path", {d: "M162 132h54M129 152v24h60v20M249 152v24h-60", fill: "none", stroke: "#fff", "stroke-width": 3, opacity: 0.9, "stroke-linejoin": "round"}),
+            ...Array.from({length: 11}, (_, index) => el("line", {
+                x1: 64 + 22 * (index + 1),
+                x2: 64 + 22 * (index + 1),
+                y1: 92,
+                y2: 272,
+                stroke: "#fff",
+                "stroke-opacity": 0.12,
+                "stroke-width": 1
+            })),
+            ...Array.from({length: 8}, (_, index) => el("line", {
+                x1: 72,
+                x2: 308,
+                y1: 84 + 22 * (index + 1),
+                y2: 84 + 22 * (index + 1),
+                stroke: "#fff",
+                "stroke-opacity": 0.12,
+                "stroke-width": 1
+            })),
+            ...[[96, 112], [216, 112], [156, 196]].map(([x, y]) => el("rect", {
+                x,
+                y,
+                width: 66,
+                height: 40,
+                rx: 6,
+                fill: "none",
+                stroke: "#fff",
+                "stroke-width": 3,
+                opacity: 0.9
+            })),
+            el("path", {
+                d: "M162 132h54M129 152v24h60v20M249 152v24h-60",
+                fill: "none",
+                stroke: "#fff",
+                "stroke-width": 3,
+                opacity: 0.9,
+                "stroke-linejoin": "round"
+            }),
         ], {transform: "rotate(-4 190 182)"}),
         plate("M206 332H346V192ZM252 312H318V246Z", P.butter, {depth: 9, evenodd: true}),
     ],
@@ -427,7 +658,15 @@ export const REASON_SCENES = {
                 stroke: P.ink, "stroke-opacity": 0.45, "stroke-width": 3, "stroke-linecap": "round",
             });
         }),
-        group([el("line", {x1: 200, y1: 214, x2: 254, y2: 168, stroke: P.orange, "stroke-width": 6, "stroke-linecap": "round"})], {class: "sweep"}),
+        group([el("line", {
+            x1: 200,
+            y1: 214,
+            x2: 254,
+            y2: 168,
+            stroke: P.orange,
+            "stroke-width": 6,
+            "stroke-linecap": "round"
+        })], {class: "sweep"}),
         disc(200, 214, 11, {color: P.graphite, depth: 3, shadow: false}),
     ],
     integration: () => [
@@ -449,7 +688,12 @@ export const REASON_SCENES = {
         plate("M200 60c34 26 52 72 52 120v80H148v-80c0-48 18-94 52-120z", P.alu, {depth: 12}),
         lens(200, 150, 24, {ring: P.sky}),
         slab(172, 244, 56, 18, {r: 6, depth: 6, color: P.graphite, shadow: false}),
-        ...[[96, 110, 5], [318, 150, 4], [300, 74, 3.5], [86, 210, 3]].map(([x, y, r]) => el("circle", {cx: x, cy: y, r, fill: P.butter})),
+        ...[[96, 110, 5], [318, 150, 4], [300, 74, 3.5], [86, 210, 3]].map(([x, y, r]) => el("circle", {
+            cx: x,
+            cy: y,
+            r,
+            fill: P.butter
+        })),
     ],
     versatility: () => [
         cable("M150 128C150 80 112 54 70 40", P.cobalt, {width: 8}),
@@ -460,7 +704,13 @@ export const REASON_SCENES = {
         plug(262, 136, P.mint, {w: 26, h: 34}),
         slab(104, 176, 204, 126, {r: 28, depth: 18, color: P.alu}),
         well(132, 214, 36, 36, {r: 18}),
-        el("circle", {cx: 143, cy: 232, r: 3.5, fill: "#fff", opacity: 0.4}), el("circle", {cx: 157, cy: 232, r: 3.5, fill: "#fff", opacity: 0.4}),
+        el("circle", {cx: 143, cy: 232, r: 3.5, fill: "#fff", opacity: 0.4}), el("circle", {
+            cx: 157,
+            cy: 232,
+            r: 3.5,
+            fill: "#fff",
+            opacity: 0.4
+        }),
         well(188, 214, 36, 36, {r: 8}),
         well(252, 210, 16, 44, {r: 8}),
         led(280, 276, P.mint, {r: 3.6, pulse: true}),
@@ -474,7 +724,14 @@ export const REASON_SCENES = {
         el("line", {x1: 216, x2: 216, y1: 190, y2: 226, stroke: P.ink, "stroke-opacity": 0.45, "stroke-width": 2.5}),
         el("ellipse", {cx: 200, cy: 206, rx: 15, ry: 11, fill: "#fff", opacity: 0.9}),
         screw(112, 208), screw(288, 208),
-        el("path", {d: "M80 300h240", stroke: P.ink, "stroke-opacity": 0.18, "stroke-width": 3, "stroke-linecap": "round", "stroke-dasharray": "2 12"}),
+        el("path", {
+            d: "M80 300h240",
+            stroke: P.ink,
+            "stroke-opacity": 0.18,
+            "stroke-width": 3,
+            "stroke-linecap": "round",
+            "stroke-dasharray": "2 12"
+        }),
     ],
     business: () => [
         disc(186, 218, 112, {color: P.paper, depth: 16}),
@@ -489,11 +746,21 @@ export const REASON_SCENES = {
     ],
     learning: () => [
         el("ellipse", {cx: 200, cy: 316, rx: 140, ry: 16, fill: "#0d1120", opacity: 0.2, filter: "url(#soft)"}),
-        el("path", {d: "M200 312c-34-16-80-18-128-8V200c48-10 94-8 128 8 34-16 80-18 128-8v104c-48-10-94-8-128 8z", fill: darken(P.cobalt, 0.2)}),
+        el("path", {
+            d: "M200 312c-34-16-80-18-128-8V200c48-10 94-8 128 8 34-16 80-18 128-8v104c-48-10-94-8-128 8z",
+            fill: darken(P.cobalt, 0.2)
+        }),
         el("path", {d: "M200 296c-30-14-72-16-114-8v-96c42-8 84-6 114 8z", fill: P.paper}),
         el("path", {d: "M200 296c30-14 72-16 114-8v-96c-42-8-84-6-114 8z", fill: darken(P.paper, 0.04)}),
         el("path", {d: "M200 200v96", stroke: "#000", "stroke-opacity": 0.12, "stroke-width": 2}),
-        ...[0, 1, 2, 3].map((row) => el("path", {d: `M100 ${214 + row * 18}c26-5 54-4 82 4M218 ${218 + row * 18}c28-8 56-9 82-4`, fill: "none", stroke: "#000", "stroke-opacity": 0.14, "stroke-width": 4, "stroke-linecap": "round"})),
+        ...[0, 1, 2, 3].map((row) => el("path", {
+            d: `M100 ${214 + row * 18}c26-5 54-4 82 4M218 ${218 + row * 18}c28-8 56-9 82-4`,
+            fill: "none",
+            stroke: "#000",
+            "stroke-opacity": 0.14,
+            "stroke-width": 4,
+            "stroke-linecap": "round"
+        })),
         el("circle", {cx: 200, cy: 112, r: 52, fill: P.butter, opacity: 0.35, filter: "url(#glow)"}),
         disc(200, 112, 38, {color: P.butter, depth: 0}),
         el("circle", {cx: 200, cy: 112, r: 38, fill: "url(#glass)"}),
@@ -506,8 +773,24 @@ export const REASON_SCENES = {
     detail: () => [
         group([
             slab(70, 92, 216, 196, {r: 14, depth: 8, color: P.paper}),
-            ...Array.from({length: 5}, (_, row) => el("line", {x1: 84, x2: 272, y1: 128 + row * 30, y2: 128 + row * 30, stroke: "#000", "stroke-opacity": 0.1, "stroke-width": 2})),
-            ...[132, 184, 230].map((x) => el("line", {x1: x, x2: x, y1: 106, y2: 274, stroke: "#000", "stroke-opacity": 0.1, "stroke-width": 2})),
+            ...Array.from({length: 5}, (_, row) => el("line", {
+                x1: 84,
+                x2: 272,
+                y1: 128 + row * 30,
+                y2: 128 + row * 30,
+                stroke: "#000",
+                "stroke-opacity": 0.1,
+                "stroke-width": 2
+            })),
+            ...[132, 184, 230].map((x) => el("line", {
+                x1: x,
+                x2: x,
+                y1: 106,
+                y2: 274,
+                stroke: "#000",
+                "stroke-opacity": 0.1,
+                "stroke-width": 2
+            })),
             el("rect", {x: 186, y: 190, width: 42, height: 26, rx: 4, fill: P.mint, opacity: 0.8}),
         ], {transform: "rotate(-6 178 190)"}),
         group([slab(296, 250, 28, 96, {r: 14, depth: 8, color: P.graphite})], {transform: "rotate(-45 310 298)"}),
@@ -526,16 +809,35 @@ export const REASON_SCENES = {
         textLines(238, 222, [76, 58, 68], {gap: 16, h: 7, color: "#fff", opacity: 0.5}),
     ],
     initiative: () => [
-        el("path", {d: "M40 290C80 280 120 250 150 222", fill: "none", stroke: P.ink, "stroke-opacity": 0.28, "stroke-width": 4, "stroke-dasharray": "2 12", "stroke-linecap": "round"}),
+        el("path", {
+            d: "M40 290C80 280 120 250 150 222",
+            fill: "none",
+            stroke: P.ink,
+            "stroke-opacity": 0.28,
+            "stroke-width": 4,
+            "stroke-dasharray": "2 12",
+            "stroke-linecap": "round"
+        }),
         disc(64, 280, 22, {color: P.alu, depth: 6}),
         ...[[178, 210, 236, 112], [178, 210, 312, 206], [178, 210, 240, 296]].map(([x1, y1, x2, y2]) => el("path", {
             d: `M${x1} ${y1}Q${(x1 + x2) / 2} ${(y1 + y2) / 2 - 24} ${x2} ${y2}`,
-            fill: "none", stroke: P.ink, "stroke-opacity": 0.28, "stroke-width": 4, "stroke-dasharray": "2 12", "stroke-linecap": "round",
+            fill: "none",
+            stroke: P.ink,
+            "stroke-opacity": 0.28,
+            "stroke-width": 4,
+            "stroke-dasharray": "2 12",
+            "stroke-linecap": "round",
         })),
         disc(178, 214, 16, {color: P.graphite, depth: 5}),
         ...[[236, 112, 40, P.orange], [312, 206, 36, P.cobalt], [240, 296, 34, P.mint]].map(([x, y, r, color]) => group([
             disc(x, y, r, {color, depth: 9}),
-            el("path", {d: `M${x - r * 0.9} ${y - r * 0.2}C${x - r * 0.3} ${y + r * 0.4} ${x + r * 0.3} ${y + r * 0.4} ${x + r * 0.9} ${y - r * 0.2}`, fill: "none", stroke: "#fff", "stroke-opacity": 0.55, "stroke-width": 3}),
+            el("path", {
+                d: `M${x - r * 0.9} ${y - r * 0.2}C${x - r * 0.3} ${y + r * 0.4} ${x + r * 0.3} ${y + r * 0.4} ${x + r * 0.9} ${y - r * 0.2}`,
+                fill: "none",
+                stroke: "#fff",
+                "stroke-opacity": 0.55,
+                "stroke-width": 3
+            }),
         ])),
         led(332, 108, P.butter, {r: 4, pulse: true}),
     ],
@@ -545,7 +847,16 @@ export const REASON_SCENES = {
 export const PAGE_ART = {
     services: {
         scenes: SERVICE_SCENES,
-        tiles: {integration: "sky", crm: "peach", web: "lilac", data: "butter", automation: "rose", infra: "stone", observability: "sage", consulting: "mint"},
+        tiles: {
+            integration: "sky",
+            crm: "peach",
+            web: "lilac",
+            data: "butter",
+            automation: "rose",
+            infra: "stone",
+            observability: "sage",
+            consulting: "mint"
+        },
     },
     reasons: {
         scenes: REASON_SCENES,

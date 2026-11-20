@@ -45,25 +45,29 @@ export interface MapGeometry {
     height: number;
     plotLeft: number;
     plotRight: number;
+    /** Baseline of the year labels. */
+    axisY: number;
+    /** Where the year grid, the "today" rule and the planned zone start and end. */
+    gridTop: number;
+    gridBottom: number;
     laneTop: number;
     laneGap: number;
-    activityTop: number;
-    activityHeight: number;
 }
 
 export const MAP: MapGeometry = {
     width: 1120,
-    height: 452,
-    plotLeft: 184,
-    plotRight: 1096,
+    height: 400,
+    plotLeft: 128,
+    plotRight: 1090,
+    axisY: 36,
+    gridTop: 48,
+    gridBottom: 376,
     laneTop: 72,
     laneGap: 44,
-    activityTop: 392,
-    activityHeight: 40,
 };
 
 // Recent years hold most milestones, so they get more width than the early school years and the planned ones.
-const YEAR_WEIGHT = (year: number) => (year < 2022 ? 0.55 : year <= 2026 ? 1.35 : 0.75);
+const YEAR_WEIGHT = (year: number) => (year < 2022 ? 0.7 : year <= 2026 ? 1.3 : 0.7);
 const TOTAL_WEIGHT = Array.from({length: JOURNEY_END + 1 - JOURNEY_START}, (_, index) => YEAR_WEIGHT(JOURNEY_START + index)).reduce((a, b) => a + b, 0);
 
 export const xFor = (value: YearMonth | string | number) => {
@@ -76,7 +80,9 @@ export const xFor = (value: YearMonth | string | number) => {
 
 export const laneY = (line: JourneyLineId) => MAP.laneTop + JOURNEY_LINES.indexOf(line) * MAP.laneGap;
 
-const STATION_GAP = 18;
+/** A main milestone is drawn as a ring, a smaller step as a dot; neighbors on a lane keep STATION_SPACE between them. */
+export const stationRadius = (milestone: MilestoneFacts) => (milestone.major ? 5.5 : 3.5);
+export const STATION_SPACE = 5;
 
 export interface StationLayout {
     id: MilestoneId;
@@ -86,15 +92,19 @@ export interface StationLayout {
     lanes: number[];
 }
 
-/** Places stations by date and nudges them right when they would overlap a station on a shared lane. */
+/** Places stations by date and nudges them right when they would touch a station on a shared lane. */
 export function layoutStations(items: MilestoneFacts[] = milestones): StationLayout[] {
-    const lastX = new Map<JourneyLineId, number>();
+    const last = new Map<JourneyLineId, { x: number; r: number }>();
     return [...items]
         .sort((a, b) => a.start.localeCompare(b.start))
         .map((milestone) => {
-            const minimum = Math.max(...milestone.lines.map((line) => (lastX.get(line) ?? -Infinity) + STATION_GAP));
+            const r = stationRadius(milestone);
+            const minimum = Math.max(...milestone.lines.map((line) => {
+                const before = last.get(line);
+                return before ? before.x + before.r + STATION_SPACE + r : -Infinity;
+            }));
             const x = Math.max(xFor(milestone.start), minimum);
-            for (const line of milestone.lines) lastX.set(line, x);
+            for (const line of milestone.lines) last.set(line, {x, r});
             const lanes = milestone.lines.map(laneY).sort((a, b) => a - b);
             return {id: milestone.id, x, top: lanes[0], bottom: lanes[lanes.length - 1], lanes};
         });
@@ -131,44 +141,39 @@ export interface LineSpan {
     todayX: number;
 }
 
-/** Each line runs from its first to its last station; the part after today is drawn as a projection. */
+/**
+ * Each line runs from its first station to its last one, and on to today while one of its milestones is still going
+ * on, so every active line meets the "today" rule; the part after today is drawn as a projection.
+ */
 export function lineSpans(stations: StationLayout[], today: string): LineSpan[] {
     const byId = new Map(stations.map((station) => [station.id, station]));
     const todayX = xFor(today);
     return JOURNEY_LINES.map((line) => {
-        const xs = milestones.filter((milestone) => milestone.lines.includes(line)).map((milestone) => byId.get(milestone.id)!.x);
-        return {line, from: Math.min(...xs), to: Math.max(...xs), todayX};
+        const onLine = milestones.filter((milestone) => milestone.lines.includes(line));
+        const xs = onLine.map((milestone) => byId.get(milestone.id)!.x);
+        const ongoing = onLine.some((milestone) => milestone.end === null && !isFuture(milestone, today));
+        return {line, from: Math.min(...xs), to: Math.max(...xs, ongoing ? todayX : -Infinity), todayX};
     });
 }
 
-export interface LabelLayout {
-    id: MilestoneId;
+/** Width of one character of the 11px monospaced type the map's tag uses. */
+const TAG_CHAR = 6.6;
+export const TAG_HEIGHT = 22;
+
+export interface TagLayout {
+    /** Center of the tag. */
     x: number;
     y: number;
+    width: number;
 }
 
-/** Puts each short label above its station, or below it, wherever it overlaps no other label or station. */
-export function layoutLabels(stations: StationLayout[], labels: Partial<Record<MilestoneId, string>>): LabelLayout[] {
-    const boxes = stations.map((station) => ({
-        left: station.x - 10,
-        right: station.x + 10,
-        top: station.top - 10,
-        bottom: station.bottom + 10
-    }));
-    const result: LabelLayout[] = [];
-    for (const station of stations) {
-        const text = labels[station.id];
-        if (!text) continue;
-        const half = (text.length * 6.2) / 2 + 3;
-        for (const y of [station.top - 16, station.bottom + 24, station.top - 30, station.bottom + 38]) {
-            const box = {left: station.x - half, right: station.x + half, top: y - 10, bottom: y + 3};
-            const free = boxes.every((other) => other.right < box.left || other.left > box.right || other.bottom < box.top || other.top > box.bottom);
-            if (free) {
-                boxes.push(box);
-                result.push({id: station.id, x: station.x, y});
-                break;
-            }
-        }
-    }
-    return result;
+/**
+ * The tag that names the selected or pointed stop: half a lane below its lowest dot, so it sits between two lines and
+ * covers none of their stops, and pulled inside the map at either end.
+ */
+export function tagLayout(station: StationLayout, text: string): TagLayout {
+    const width = Math.ceil(text.length * TAG_CHAR + 20);
+    const half = width / 2;
+    const x = Math.min(Math.max(station.x, 12 + half), MAP.width - 12 - half);
+    return {x, y: station.bottom + MAP.laneGap / 2, width};
 }

@@ -117,6 +117,7 @@
 
         /* While an in-page link travels, every section is laid out, so the trip measures the real distance
            (lib/anchors.ts). */
+
         :root[data-traveling] & {
             content-visibility: visible;
         }
@@ -231,6 +232,7 @@
         }
 
         /* Out of the flow too, so the name and the capsule keep their width once the menu button joins it. */
+
         & .header-nav {
             position: absolute;
             opacity: 0;
@@ -354,6 +356,7 @@
         transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base);
 
         /* A bridge over the gap between the device and its label, so the pointer crosses it without losing either. */
+
         &::before {
             content: "";
             position: absolute;
@@ -437,7 +440,6 @@
     .reason-card {
         transition: border-color var(--duration-base) var(--ease-standard);
     }
-
 
 
     /*
@@ -638,28 +640,6 @@
                 animation-range: entry 40% entry 100%;
             }
 
-            /* The journey map draws itself from left to right as it comes up, the way a chart is plotted, and is whole
-               once it has fully entered; each station settles as the sweep reaches it (--x is its place along the map,
-               from 0 to 1). The timeline is the map's frame, which scrolls sideways itself, so the drawing follows the
-               page. */
-            .journey-chart {
-                view-timeline: --journey-chart block;
-            }
-
-            .journey-chart > svg {
-                animation: journey-sweep auto linear both;
-                animation-timeline: --journey-chart;
-                animation-range: entry 25% entry 100%;
-            }
-
-            .journey-chart .journey-station {
-                transform-box: fill-box;
-                transform-origin: center;
-                animation: journey-station auto var(--ease-emphasized) both;
-                animation-timeline: --journey-chart;
-                animation-range: entry calc(22% + var(--x, 0) * 72%) entry calc(28% + var(--x, 0) * 72%);
-            }
-
             /* On a phone a slider shows one card and the edge of the next: the cards half out of view turn away and
                dim, and the one in view faces the reader. From 48rem a slider is a grid. */
             @media (width < 48rem) {
@@ -786,13 +766,23 @@
         outline: none;
     }
 
-    .journey-station:hover .journey-station-ring {
-        stroke: var(--color-fg-subtle);
+    /* A stop joins and rings its lanes only while it is selected, and faintly while it is pointed at. */
+    .journey-halo {
+        opacity: 0;
+        transition: opacity 150ms;
+    }
+
+    .journey-station:hover .journey-halo {
+        opacity: 0.5;
+    }
+
+    .journey-station[aria-pressed="true"] .journey-halo {
+        opacity: 1;
     }
 
     .journey-station:focus-visible .journey-station-ring {
         stroke: var(--color-ring);
-        stroke-width: 3;
+        stroke-width: 2;
     }
 
     /* Planned values keep their level color, hatched so that a target never reads as a fact. */
@@ -939,15 +929,6 @@
 @keyframes ascii-print {
     from {
         clip-path: inset(0 0 100% 0);
-    }
-    to {
-        clip-path: inset(0);
-    }
-}
-
-@keyframes journey-sweep {
-    from {
-        clip-path: inset(0 100% 0 0);
     }
     to {
         clip-path: inset(0);

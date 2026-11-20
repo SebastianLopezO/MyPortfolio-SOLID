@@ -6,14 +6,31 @@ import {cable, darken, disc, el, grill, group, led, lighten, PALETTE as P, slab,
 
 /** A database: three stacked cylinders seen from the front, with a light on each band. */
 const databases = () => {
-    const parts = [el("ellipse", {cx: 200, cy: 318, rx: 104, ry: 26, fill: "#0d1120", opacity: 0.2, filter: "url(#soft)"})];
+    const parts = [el("ellipse", {
+        cx: 200,
+        cy: 318,
+        rx: 104,
+        ry: 26,
+        fill: "#0d1120",
+        opacity: 0.2,
+        filter: "url(#soft)"
+    })];
     for (let index = 2; index >= 0; index--) {
         const y = 118 + index * 62;
         const color = [P.cobalt, lighten(P.cobalt, 0.18), lighten(P.cobalt, 0.32)][index];
         parts.push(
             el("path", {d: `M100 ${y}v52a100 34 0 0 0 200 0v-52z`, fill: darken(color, 0.18)}),
             el("ellipse", {cx: 200, cy: y, rx: 100, ry: 34, fill: color}),
-            el("ellipse", {cx: 200, cy: y, rx: 99, ry: 33, fill: "none", stroke: "#fff", "stroke-opacity": 0.4, "stroke-width": 1.5}),
+            el("ellipse", {
+                cx: 200,
+                cy: y,
+                rx: 99,
+                ry: 33,
+                fill: "none",
+                stroke: "#fff",
+                "stroke-opacity": 0.4,
+                "stroke-width": 1.5
+            }),
             led(262, y + 46, index === 0 ? P.mint : P.butter, {r: 4, pulse: index === 0}),
         );
     }
@@ -29,7 +46,10 @@ const cloud = () => {
         el("path", {d: outline, fill: P.alu}),
         el("path", {d: outline, fill: "url(#sheen)"}),
         well(132, 206, 136, 34, {r: 17}),
-        ...[P.mint, P.mint, P.sky, P.butter].map((color, index) => led(152 + index * 32, 223, color, {r: 4, pulse: index === 3})),
+        ...[P.mint, P.mint, P.sky, P.butter].map((color, index) => led(152 + index * 32, 223, color, {
+            r: 4,
+            pulse: index === 3
+        })),
         cable("M200 284C200 316 236 330 268 348", P.sky, {width: 7}),
     ];
 };
@@ -42,7 +62,10 @@ const networks = () => [
     ], {transform: `rotate(${angle} ${x} 170)`})),
     slab(64, 160, 272, 118, {r: 26, depth: 16, color: P.graphite}),
     ...[0, 1, 2, 3, 4].map((index) => well(90 + index * 44, 208, 32, 26, {r: 6})),
-    ...[P.mint, P.mint, P.butter, P.mint, P.lilac].map((color, index) => led(106 + index * 44, 186, color, {r: 3.6, pulse: index === 2})),
+    ...[P.mint, P.mint, P.butter, P.mint, P.lilac].map((color, index) => led(106 + index * 44, 186, color, {
+        r: 3.6,
+        pulse: index === 2
+    })),
     grill(92, 254, 12, 1, {gap: 18, r: 2.4, color: "#fff", opacity: 0.14}),
     disc(200, 112, 18, {color: P.sky, depth: 5}),
 ];

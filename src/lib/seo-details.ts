@@ -217,7 +217,10 @@ const organizationInput = (texts: DetailHeadTexts, slug: string | null): DetailH
 };
 
 const serviceInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInput => {
-    if (!slug) return indexInput(texts, "services", SERVICE_IDS.map((id) => ({slug: SERVICE_SLUG[id], name: texts.services.items[id].title})));
+    if (!slug) return indexInput(texts, "services", SERVICE_IDS.map((id) => ({
+        slug: SERVICE_SLUG[id],
+        name: texts.services.items[id].title
+    })));
     const id = serviceBySlug(slug)!;
     const service = texts.services.items[id];
     return {
@@ -237,7 +240,10 @@ const serviceInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadIn
 
 /** A reason's search result: its title with the collection's name, its sentence and, when there is room, who backs it. */
 const reasonInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInput => {
-    if (!slug) return indexInput(texts, "reasons", benefitOrder.map((id) => ({slug: REASON_SLUG[id], name: texts.services.benefits[id].title})));
+    if (!slug) return indexInput(texts, "reasons", benefitOrder.map((id) => ({
+        slug: REASON_SLUG[id],
+        name: texts.services.benefits[id].title
+    })));
     const id = reasonBySlug(slug)!;
     const benefit = texts.services.benefits[id];
     const author = testimonials.find((item) => item.id === benefit.evidence.testimonial)!.author;
@@ -254,7 +260,13 @@ const reasonInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInp
 /** The metrics are a page with nothing under it. */
 const metricsInput = (texts: DetailHeadTexts): DetailHeadInput => {
     const index = texts.copy.indexes.metrics;
-    return {collection: "metrics", slug: null, title: index.seo.title, description: index.seo.description, name: index.title};
+    return {
+        collection: "metrics",
+        slug: null,
+        title: index.seo.title,
+        description: index.seo.description,
+        name: index.title
+    };
 };
 
 const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | null, months: readonly string[]) => DetailHeadInput> = {

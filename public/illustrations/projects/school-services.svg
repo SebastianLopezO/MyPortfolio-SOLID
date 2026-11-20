@@ -1,10 +1,84 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="">
-<style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3 both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1) both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1 both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes sweep{from{transform:rotate(-120deg)}}</style>
-<defs>
-<linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".07"/></linearGradient>
-<radialGradient id="glass" cx=".32" cy=".28" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
-<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-</defs>
-<g class="rise"><g ><g ><path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#b84d20" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 3)"/><path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#ff6b2c" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#fff" stroke-opacity="0.3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.3499999999999999 -1.8)"/></g><g ><path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#b8667f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 3)"/><path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#ff8db0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#fff" stroke-opacity="0.3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.3499999999999999 -1.8)"/></g><g ><rect x="146" y="130" width="108" height="112" rx="24" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><rect x="140" y="120" width="120" height="112" rx="24" fill="#cacac7"/><rect x="140" y="104" width="120" height="112" rx="24" fill="#f3f3f0"/><rect x="140" y="104" width="120" height="112" rx="24" fill="url(#sheen)"/><rect x="141" y="105" width="118" height="110" rx="23" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.5"/></g><g ><rect x="160" y="132" width="80" height="7" rx="3.5" fill="#000" opacity="0.2"/><rect x="160" y="148" width="56" height="7" rx="3.5" fill="#000" opacity="0.2"/><rect x="160" y="164" width="70" height="7" rx="3.5" fill="#000" opacity="0.2"/></g><g ><circle cx="240" cy="124" r="7.7" fill="#2fc79a" opacity="0.3" filter="url(#glow)"/><circle cx="240" cy="124" r="3.5" fill="#2fc79a"/><circle cx="238.9" cy="122.8" r="1.2" fill="#fff" opacity="0.8"/></g><g ><rect x="72" y="304" width="68" height="64" rx="14" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><rect x="66" y="294" width="80" height="64" rx="14" fill="#b34b1f"/><rect x="66" y="284" width="80" height="64" rx="14" fill="#ff6b2c"/><rect x="66" y="284" width="80" height="64" rx="14" fill="url(#sheen)"/><rect x="67" y="285" width="78" height="62" rx="13" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.5"/></g><g ><polygon points="332.4,353.0 296.0,374.0 259.6,353.0 259.6,311.0 296.0,290.0 332.4,311.0" fill="#0d1120" opacity="0.2" filter="url(#soft)"/><polygon points="332.4,344.0 296.0,365.0 259.6,344.0 259.6,302.0 296.0,281.0 332.4,302.0" fill="#cc718d" stroke-linejoin="round"/><polygon points="332.4,335.0 296.0,356.0 259.6,335.0 259.6,293.0 296.0,272.0 332.4,293.0" fill="#ff8db0"/><polygon points="332.4,335.0 296.0,356.0 259.6,335.0 259.6,293.0 296.0,272.0 332.4,293.0" fill="url(#sheen)"/></g></g></g>
+    <style>@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.4s ease-in-out 3
+        both}.rise{animation:rise .9s cubic-bezier(.32,.72,0,1)
+        both}.sweep{transform-origin:center;transform-box:fill-box;animation:sweep 2.4s cubic-bezier(.3,0,0,1) 1
+        both}}@keyframes pulse{50%{opacity:.25}}@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes
+        sweep{from{transform:rotate(-120deg)}}
+    </style>
+    <defs>
+        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity=".06"/>
+            <stop offset="1" stop-color="#000" stop-opacity=".07"/>
+        </linearGradient>
+        <radialGradient id="glass" cx=".32" cy=".28" r=".75">
+            <stop offset="0" stop-color="#fff" stop-opacity=".6"/>
+            <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="9"/>
+        </filter>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3"/>
+        </filter>
+    </defs>
+    <g class="rise">
+        <g>
+            <g>
+                <path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#b84d20" stroke-width="12"
+                      stroke-linecap="round" stroke-linejoin="round" transform="translate(0 3)"/>
+                <path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#ff6b2c" stroke-width="9"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M180 196C130 220 110 250 106 290" fill="none" stroke="#fff" stroke-opacity="0.3"
+                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                      transform="translate(-1.3499999999999999 -1.8)"/>
+            </g>
+            <g>
+                <path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#b8667f" stroke-width="12"
+                      stroke-linecap="round" stroke-linejoin="round" transform="translate(0 3)"/>
+                <path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#ff8db0" stroke-width="9"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M220 196C270 220 292 250 296 290" fill="none" stroke="#fff" stroke-opacity="0.3"
+                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                      transform="translate(-1.3499999999999999 -1.8)"/>
+            </g>
+            <g>
+                <rect x="146" y="130" width="108" height="112" rx="24" fill="#0d1120" opacity="0.2"
+                      filter="url(#soft)"/>
+                <rect x="140" y="120" width="120" height="112" rx="24" fill="#cacac7"/>
+                <rect x="140" y="104" width="120" height="112" rx="24" fill="#f3f3f0"/>
+                <rect x="140" y="104" width="120" height="112" rx="24" fill="url(#sheen)"/>
+                <rect x="141" y="105" width="118" height="110" rx="23" fill="none" stroke="#fff" stroke-opacity="0.7"
+                      stroke-width="1.5"/>
+            </g>
+            <g>
+                <rect x="160" y="132" width="80" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+                <rect x="160" y="148" width="56" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+                <rect x="160" y="164" width="70" height="7" rx="3.5" fill="#000" opacity="0.2"/>
+            </g>
+            <g>
+                <circle cx="240" cy="124" r="7.7" fill="#2fc79a" opacity="0.3" filter="url(#glow)"/>
+                <circle cx="240" cy="124" r="3.5" fill="#2fc79a"/>
+                <circle cx="238.9" cy="122.8" r="1.2" fill="#fff" opacity="0.8"/>
+            </g>
+            <g>
+                <rect x="72" y="304" width="68" height="64" rx="14" fill="#0d1120" opacity="0.2" filter="url(#soft)"/>
+                <rect x="66" y="294" width="80" height="64" rx="14" fill="#b34b1f"/>
+                <rect x="66" y="284" width="80" height="64" rx="14" fill="#ff6b2c"/>
+                <rect x="66" y="284" width="80" height="64" rx="14" fill="url(#sheen)"/>
+                <rect x="67" y="285" width="78" height="62" rx="13" fill="none" stroke="#fff" stroke-opacity="0.2"
+                      stroke-width="1.5"/>
+            </g>
+            <g>
+                <polygon points="332.4,353.0 296.0,374.0 259.6,353.0 259.6,311.0 296.0,290.0 332.4,311.0" fill="#0d1120"
+                         opacity="0.2" filter="url(#soft)"/>
+                <polygon points="332.4,344.0 296.0,365.0 259.6,344.0 259.6,302.0 296.0,281.0 332.4,302.0" fill="#cc718d"
+                         stroke-linejoin="round"/>
+                <polygon points="332.4,335.0 296.0,356.0 259.6,335.0 259.6,293.0 296.0,272.0 332.4,293.0"
+                         fill="#ff8db0"/>
+                <polygon points="332.4,335.0 296.0,356.0 259.6,335.0 259.6,293.0 296.0,272.0 332.4,293.0"
+                         fill="url(#sheen)"/>
+            </g>
+        </g>
+    </g>
 </svg>

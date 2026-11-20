@@ -101,8 +101,22 @@ for (const [lang, {cards, pages}] of Object.entries({
 
 // Every job, program, certification, organization, service and reason page has an image of its own; the indexes share one per collection.
 for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Object.entries({
-    en: {details: enDetails, journey: enJourney, cards: enCards, months: enUi.months, servicesCopy: enServices, siteUi: enUi},
-    es: {details: esDetails, journey: esJourney, cards: esCards, months: esUi.months, servicesCopy: esServices, siteUi: esUi},
+    en: {
+        details: enDetails,
+        journey: enJourney,
+        cards: enCards,
+        months: enUi.months,
+        servicesCopy: enServices,
+        siteUi: enUi
+    },
+    es: {
+        details: esDetails,
+        journey: esJourney,
+        cards: esCards,
+        months: esUi.months,
+        servicesCopy: esServices,
+        siteUi: esUi
+    },
 })) {
     const {ui, indexes} = details;
     const issuers = new Set(certifications.map((item) => item.issuerId)).size;
