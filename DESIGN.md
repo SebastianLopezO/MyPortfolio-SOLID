@@ -70,14 +70,15 @@ every pair in both themes.
 
 ## 3. Typography Rules
 
-- **One family:** Geist for headings and text (400 and 600), Geist Mono 400 for tools, dates, eyebrows and figures.
-  Metric-matched local fallbacks keep the layout still while the faces load.
-- **Headings are large, light and tight:** `text-display` clamp(2.75rem → 6.25rem), leading 1, tracking -0.045em, for
-  the name and each project's title; `text-heading` clamp(1.875rem → 3.25rem), tracking -0.035em, for section titles;
-  `text-title` 1.375rem for rows and tiles. Weight stays 400: hierarchy comes from size and tone, never from bold.
+- **Three voices:** DM Serif Text (400) for display headings, IBM Plex Sans (400 and 600) for body text and UI, and
+  Source Code Pro (400) for tools, dates, eyebrows and figures. Metric-matched local fallbacks keep the layout still
+  while the faces load.
+- **Headings:** `text-display` clamp(2.5rem → 4.5rem), leading 1.05, for the name and each project's title;
+  `text-heading` clamp(1.875rem → 2.75rem), leading 1.15, for section titles; `text-title` 1.375rem, leading 1.3, for
+  rows and tiles. Weight stays 400: hierarchy comes from size and tone, never from bold.
 - **Two tones in a heading:** the hero writes the name in ink and the role under it in `fg-subtle`, the way a title
   card does.
-- **Banned:** Inter, serif display faces, gradient text, all-caps beyond the smallest labels, faux bold.
+- **Banned:** Inter, gradient text, all-caps beyond the smallest labels, faux bold.
 
 ## 4. Component Stylings
 
@@ -138,7 +139,7 @@ every pair in both themes.
   of the viewport, holds it across layout frames and re-enables scroll-snap without bleed from neighboring sections.
 - **Buttons:** pills. Primary: ink fill, paper text, 48px in the hero, 44px elsewhere. Secondary: a Control Edge
   outline or a Fog fill. Pressing moves them down 1px. At most one primary button per view.
-- **Chips:** pills in Geist Mono, never below 13px, on Fog; outside the role view's focus they turn into a hairline
+- **Chips:** pills in Source Code Pro, never below 13px, on Fog; outside the role view's focus they turn into a hairline
   outline.
 - **Index rows:** jobs, certifications, skill groups, repositories. A row is a date column in mono, a title, its place
   and one sentence, separated by hairlines; its details open in place (`More`) and its page tells the rest.
@@ -155,8 +156,8 @@ every pair in both themes.
   its text stays in the prerendered page.
 - **Inputs:** label above, paper fill, Control Edge border, 0.75rem corners, cobalt ring on focus.
 - **Open Graph cards** (`scripts/generate-og.mjs`, `scripts/og/template.html`): 1200 × 630 cards on Paper (`#FBFCFD`)
-  with the hero's fine technical grid, an eyebrow in Geist Mono with a status or cobalt dot, a two-tone heading in
-  Geist 400 (title in ink, subtitle in slate), an ink pill for `sebastianlopezo.page` beside a Fog pill for the
+  with the hero's fine technical grid, an eyebrow in Source Code Pro with a status or cobalt dot, a two-tone heading in
+  DM Serif Text 400 (title in ink, subtitle in slate), an ink pill for `sebastianlopezo.page` beside a Fog pill for the
   context, and a 460 × 460 rounded square tile on the right holding the page's illustration on its `tile-*` color (or
   the hero board with the portrait in its socket on the home card). Certifications link out to their credentials on
   Google Drive and issuer verification pages rather than embedding scanned documents on the site or in social cards.

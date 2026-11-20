@@ -9,8 +9,6 @@ import {ThemeToggle} from "@/components/layout/ThemeToggle";
 import {withBase} from "@/lib/base";
 import type {SectionId} from "@/types/content";
 
-const NAV_SECTIONS: SectionId[] = ["about", "journey", "experience", "skills", "projects", "testimonials", "resume", "contact"];
-
 /** How far the page scrolls before the header folds into its floating name and controls. */
 const FOLD_AT = 48;
 
@@ -57,7 +55,7 @@ export function SiteHeader(props: SiteHeaderProps) {
     const {role, pathFor} = useRole();
     const [open, setOpen] = createSignal(false);
     const [folded, setFolded] = createSignal(false);
-    const items = () => props.sections.filter((section) => NAV_SECTIONS.includes(section));
+    const items = () => props.sections;
     const current = useCurrentSection(items, () => !props.homeLinks);
     let panel: HTMLDivElement | undefined;
     let toggle: HTMLButtonElement | undefined;
@@ -112,15 +110,15 @@ export function SiteHeader(props: SiteHeaderProps) {
 
                 {/* The link of the section being read says so to assistive technology and shows it with more than its
                     color: an underline here, a dot in the panel. */}
-                <nav aria-label={ui.navLabel} class="header-nav hidden xl:block">
-                    <ul class="flex items-center gap-1">
+                <nav aria-label={ui.navLabel} class="header-nav hidden min-w-0 flex-1 xl:block">
+                    <ul class="flex flex-wrap items-center justify-center gap-x-1 gap-y-0.5">
                         <For each={items()}>
                             {(section) => (
                                 <li>
                                     <a
                                         href={hrefOf(section)}
                                         aria-current={current() === section ? "true" : undefined}
-                                        class="block rounded-full px-2.5 py-2 text-sm whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.4rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
+                                        class="block rounded-full px-2 py-1 text-xs whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.35rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
                                     >
                                         {ui.nav[section]}
                                     </a>
@@ -165,7 +163,7 @@ export function SiteHeader(props: SiteHeaderProps) {
                                             href={hrefOf(section)}
                                             aria-current={current() === section ? "true" : undefined}
                                             onClick={() => setOpen(false)}
-                                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg aria-[current=true]:text-fg"
+                                            class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg aria-[current=true]:text-fg"
                                         >
                                         <span aria-hidden="true"
                                               class="size-1.5 rounded-full bg-transparent group-aria-[current=true]:bg-accent"/>

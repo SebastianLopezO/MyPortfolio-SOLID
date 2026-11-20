@@ -123,24 +123,24 @@ quadrants are told apart by position and labels, and only the ring (focus level)
 
 ## Typography
 
-| Token          | Font            | Use                                                                          |
-|----------------|-----------------|------------------------------------------------------------------------------|
-| `font-display` | Geist 400       | `h1`–`h3`, large and tightly set; hierarchy comes from size, never from bold |
-| `font-sans`    | Geist 400 / 600 | Body text and UI                                                             |
-| `font-mono`    | Geist Mono 400  | Tech chips, dates, eyebrows, code, the ASCII art                             |
+| Token          | Font                | Use                                                  |
+|----------------|---------------------|------------------------------------------------------|
+| `font-display` | DM Serif Text 400   | `h1`–`h3`; hierarchy comes from size, never bold     |
+| `font-sans`    | IBM Plex Sans 400/600 | Body text and UI                                   |
+| `font-mono`    | Source Code Pro 400 | Tech chips, dates, eyebrows, code, the ASCII art     |
 
 | Token          | Size                                                                                                                                                                          |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `text-display` | `clamp(2.75rem, 1.4rem + 5.4vw, 6.25rem)` / 1, tracking -0.045em                                                                                                              |
-| `text-heading` | `clamp(1.875rem, 1.3rem + 2.2vw, 3.25rem)` / 1.08, tracking -0.035em                                                                                                          |
-| `text-title`   | `1.375rem` / 1.25, tracking -0.02em                                                                                                                                           |
+| `text-display` | `clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem)` / 1.05                                                                                                                                |
+| `text-heading` | `clamp(1.875rem, 1.4rem + 1.8vw, 2.75rem)` / 1.15                                                                                                                             |
+| `text-title`   | `1.375rem` / 1.3                                                                                                                                                              |
 | `text-xs`      | `0.8125rem` / 1.125rem: dates, labels and chips. Nothing that is read goes below 13px; only the axis labels inside the journey's SVG charts do, and they scale with the chart |
 | Body           | `1rem` / 1.6                                                                                                                                                                  |
 
 Only the Latin subsets are bundled, and the web fonts load with the JavaScript after the first paint
-(`src/lib/fonts.ts`). Until they arrive, text uses the faces in `src/styles/fallback-fonts.css`: Arial and
-Courier New (or their metric twins Liberation Sans and Mono) with `size-adjust` and ascent/descent overrides measured
-against each web font, so the swap does not move the layout (CLS 0). The three web fonts are loaded
+(`src/lib/fonts.ts`). Until they arrive, text uses the faces in `src/styles/fallback-fonts.css`: Arial, Times New
+Roman and Courier New (or their metric twins Liberation Sans, Serif and Mono) with `size-adjust` and ascent/descent
+overrides measured against each web font, so the swap does not move the layout (CLS 0). The four web fonts are loaded
 with the `FontFace` API and added to `document.fonts` together once all of them have loaded, so the page lays out
 again only once and no style is recalculated.
 
@@ -332,8 +332,8 @@ text; each bar has a labeled legend or row next to it.
   caption, and a recreated screen of a private project carries `recreation`, captioned as fictional data.
 - Open Graph images (`scripts/generate-og.mjs`, `scripts/og/template.html`): every prerendered route has a 1200 × 630
   card in `public/og/` that follows the monochrome Paper/Ink surface and layered tile system: the technical hairline
-  grid, an eyebrow in Geist Mono with a status green or cobalt dot, a two-tone heading in Geist 400 (`fg` and
-  `fg-subtle`), an ink primary pill (`sebastianlopezo.page`) next to a `surface-raised` context pill, and a rounded
+  grid, an eyebrow in Source Code Pro with a status green or cobalt dot, a two-tone heading in DM Serif Text 400 (`fg`
+  and `fg-subtle`), an ink primary pill (`sebastianlopezo.page`) next to a `surface-raised` context pill, and a rounded
   square tile on the right holding the hero board with its socketed portrait on the home cards or the page's own
   hardware illustration on its `tile-*` layer on every inner page.
 
