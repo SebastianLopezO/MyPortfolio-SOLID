@@ -331,7 +331,7 @@ text; each bar has a labeled legend or row next to it.
   caption, and a recreated screen of a private project carries `recreation`, captioned as fictional data.
 - Open Graph images (`scripts/generate-og.mjs`, `scripts/og/template.html`): every prerendered route has a 1200 × 630
   card in `public/og/` that follows the monochrome Paper/Ink surface and layered tile system: the technical hairline
-  grid, a path eyebrow in Geist Mono with a status green or cobalt dot, a two-tone heading in Geist 400 (`fg` and
+  grid, an eyebrow in Geist Mono with a status green or cobalt dot, a two-tone heading in Geist 400 (`fg` and
   `fg-subtle`), an ink primary pill (`sebastianlopezo.page`) next to a `surface-raised` context pill, and a rounded
   square tile on the right holding the hero board with its socketed portrait on the home cards or the page's own
   hardware illustration on its `tile-*` layer on every inner page.

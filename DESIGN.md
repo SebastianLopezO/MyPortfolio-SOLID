@@ -77,7 +77,6 @@ every pair in both themes.
   `text-title` 1.375rem for rows and tiles. Weight stays 400: hierarchy comes from size and tone, never from bold.
 - **Two tones in a heading:** the hero writes the name in ink and the role under it in `fg-subtle`, the way a title
   card does.
-- **Eyebrows as paths:** each section opens with its name as a path in Geist Mono (`/proyectos`, `/hoja-de-vida`).
 - **Banned:** Inter, serif display faces, gradient text, all-caps beyond the smallest labels, faux bold.
 
 ## 4. Component Stylings
@@ -152,7 +151,7 @@ every pair in both themes.
   its text stays in the prerendered page.
 - **Inputs:** label above, paper fill, Control Edge border, 0.75rem corners, cobalt ring on focus.
 - **Open Graph cards** (`scripts/generate-og.mjs`, `scripts/og/template.html`): 1200 × 630 cards on Paper (`#FBFCFD`)
-  with the hero's fine technical grid, a path eyebrow in Geist Mono with a status or cobalt dot, a two-tone heading in
+  with the hero's fine technical grid, an eyebrow in Geist Mono with a status or cobalt dot, a two-tone heading in
   Geist 400 (title in ink, subtitle in slate), an ink pill for `sebastianlopezo.page` beside a Fog pill for the
   context, and a 460 × 460 rounded square tile on the right holding the page's illustration on its `tile-*` color (or
   the hero board with the portrait in its socket on the home card). Certifications link out to their credentials on

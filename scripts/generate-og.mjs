@@ -119,7 +119,6 @@ const NAME = "Sebastián López Osorno";
 const variants = {
     en: {
         bodyClass: "",
-        path: "/portfolio",
         eyebrow: "Open to new opportunities",
         heading: NAME,
         subheading: "Backend & Integration Developer",
@@ -129,7 +128,6 @@ const variants = {
     },
     es: {
         bodyClass: "",
-        path: "/portafolio",
         eyebrow: "Abierto a nuevas oportunidades",
         heading: NAME,
         subheading: "Desarrollador Backend & Integraciones",
@@ -141,11 +139,9 @@ const variants = {
 
 // One image per case study and language, shown when a case study link is shared.
 for (const [lang, cases] of Object.entries({en: enCases, es: esCases})) {
-    const path = lang === "es" ? "/proyectos" : "/projects";
     for (const [id, copy] of Object.entries(cases.items)) {
         variants[`case-${PROJECT_SLUG[id]}-${lang}`] = {
             bodyClass: caseClass(copy.name),
-            path,
             eyebrow: cases.ui.eyebrow,
             heading: copy.name,
             subheading: NAME,
@@ -161,12 +157,10 @@ for (const [lang, {cards, pages}] of Object.entries({
     en: {cards: enCards, pages: enPages},
     es: {cards: esCards, pages: esPages}
 })) {
-    const path = lang === "es" ? "/proyectos" : "/projects";
     for (const [id, page] of Object.entries(pages.items)) {
         const card = cards.items[id];
         variants[`project-${PROJECT_SLUG[id]}-${lang}`] = {
             bodyClass: caseClass(card.name),
-            path,
             eyebrow: card.context.split(" · ")[0],
             heading: card.name,
             subheading: NAME,
@@ -226,7 +220,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const heading = indexes[collection].title;
         variants[`${collection}-${lang}`] = {
             bodyClass: caseClass(heading),
-            path: `/${collection}`,
             eyebrow: lang === "es" ? "Portafolio" : "Portfolio",
             heading,
             subheading: NAME,
@@ -239,7 +232,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const page = details.experience[job.id];
         variants[`experience-${EXPERIENCE_SLUG[job.id]}-${lang}`] = {
             bodyClass: caseClass(job.company),
-            path: "/experience",
             eyebrow: ui.eyebrow.experience,
             heading: job.company,
             subheading: NAME,
@@ -252,7 +244,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const heading = journey.milestones[program.id].title;
         variants[`education-${EDUCATION_SLUG[program.id]}-${lang}`] = {
             bodyClass: caseClass(heading),
-            path: "/education",
             eyebrow: ui.eyebrow.education,
             heading,
             subheading: NAME,
@@ -265,7 +256,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const [year, month] = item.date.split("-").map(Number);
         variants[`certifications-${CERTIFICATION_SLUG[item.id]}-${lang}`] = {
             bodyClass: caseClass(item.title),
-            path: "/certifications",
             eyebrow: ui.eyebrow.certifications,
             heading: item.title,
             subheading: NAME,
@@ -279,7 +269,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const heading = skillsCopy.groups[id];
         variants[`skills-${SKILL_SLUG[id]}-${lang}`] = {
             bodyClass: caseClass(heading),
-            path: "/skills",
             eyebrow: ui.eyebrow.skills,
             heading,
             subheading: NAME,
@@ -291,7 +280,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
     for (const organization of organizations) {
         variants[`organizations-${ORGANIZATION_SLUG[organization.id]}-${lang}`] = {
             bodyClass: caseClass(organization.name),
-            path: "/organizations",
             eyebrow: ui.eyebrow.organizations,
             heading: organization.name,
             subheading: NAME,
@@ -304,7 +292,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const service = servicesCopy.items[id];
         variants[`services-${SERVICE_SLUG[id]}-${lang}`] = {
             bodyClass: caseClass(service.title),
-            path: "/services",
             eyebrow: ui.eyebrow.services,
             heading: service.title,
             subheading: NAME,
@@ -318,7 +305,6 @@ for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, si
         const author = testimonials.find((item) => item.id === benefit.evidence.testimonial);
         variants[`reasons-${REASON_SLUG[id]}-${lang}`] = {
             bodyClass: caseClass(benefit.title),
-            path: "/reasons",
             eyebrow: ui.eyebrow.reasons,
             heading: benefit.title,
             subheading: NAME,
