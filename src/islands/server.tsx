@@ -7,7 +7,6 @@ import {CertificationsSection} from "@/components/sections/CertificationsSection
 import {ContactSection} from "@/components/sections/ContactSection";
 import {ExperienceSection} from "@/components/sections/ExperienceSection";
 import {HeroSection} from "@/components/sections/HeroSection";
-import {HighlightsStrip} from "@/components/sections/HighlightsStrip";
 import {JourneySection} from "@/components/sections/JourneySection";
 import {MetricsSection} from "@/components/sections/MetricsSection";
 import {ProjectsSection} from "@/components/sections/ProjectsSection";
@@ -39,7 +38,6 @@ registerServerParts({
     skip: SkipLink,
     header: HeaderPart,
     hero: HeroSection,
-    highlights: HighlightsStrip,
     footer: SiteFooter,
     whatsapp: WhatsAppButton,
     assistant: AssistantLauncher,

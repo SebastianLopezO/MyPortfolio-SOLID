@@ -10,7 +10,7 @@ import type {PartProps} from "./shell";
 export type PartName =
     | "boot" | "header" | "hero" | "assistant" | "projectBody" | "detailBody"
     | `section:${SectionId}`
-    | "skip" | "highlights" | "footer" | "whatsapp" | "notFound";
+    | "skip" | "footer" | "whatsapp" | "notFound";
 
 type Loader = (lang: Lang, path: string) => Promise<Component<PartProps>>;
 

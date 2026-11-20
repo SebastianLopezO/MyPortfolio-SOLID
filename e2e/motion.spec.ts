@@ -56,7 +56,7 @@ test("counts a figure up to the text it was written with", async ({page}) => {
     await gotoHydrated(page, "/en");
     const figure = page.locator("[data-count]").first();
     const written = await figure.textContent();
-    expect(written).toMatch(/^\d+\+$/);
+    expect(written).toMatch(/^[\d,]+\+?$/);
     await figure.evaluate((element) => element.scrollIntoView({block: "center"}));
     await expect.poll(() => figure.textContent(), {intervals: [40]}).not.toBe(written);
     await expect(figure).toHaveText(written!);
