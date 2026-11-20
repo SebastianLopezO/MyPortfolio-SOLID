@@ -441,6 +441,44 @@
         transition: border-color var(--duration-base) var(--ease-standard);
     }
 
+    /*
+     * The skills gallery (components/sections/SkillsSection.tsx): the cards stand around a ring, each turned by its
+     * place (--i) and pushed out to the radius the card's width and their count (--count) leave between them; the ring
+     * sits back by that radius, so the card in front is at its own size, and turns by --turn steps. A card fades with
+     * its distance from the front (--d) and the ones behind show their back, which is hidden. The edges of the stage
+     * fade out instead of cutting the cards.
+     */
+    .skill-stage {
+        --card: clamp(13.5rem, 40vw, 17rem);
+        --angle: calc(360deg / var(--count));
+        --radius: calc(var(--card) / 2 / tan(var(--angle) / 2) + 1rem);
+        height: 25rem;
+        perspective: 80rem;
+        mask-image: linear-gradient(90deg, #0000, #000 10% 90%, #0000);
+    }
+
+    .skill-ring {
+        width: var(--card);
+        transform-style: preserve-3d;
+        transform: translateZ(calc(-1 * var(--radius))) rotateY(calc(-1 * var(--turn) * var(--angle)));
+    }
+
+    .skill-card {
+        backface-visibility: hidden;
+        opacity: calc(1 - min(var(--d), 4) * 0.22);
+        transform: rotateY(calc(var(--i) * var(--angle))) translateZ(var(--radius));
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .skill-ring {
+            transition: transform 1.1s var(--ease-emphasized);
+        }
+
+        .skill-card {
+            transition: opacity 1.1s;
+        }
+    }
+
 
     /*
      * A project tile (components/projects/ProjectTile.tsx): a layer of color holding an illustration, a name and a few
@@ -548,26 +586,6 @@
                 animation: tile-rise auto linear both;
                 animation-timeline: view();
                 animation-range: entry 10% entry 80%;
-            }
-
-            /* A skill tile rises into place, its object lifts onto its layer and its tools print one after another,
-               each a rem of scroll after the one before it (--i is its place). */
-            .skill-tile {
-                animation: section-enter auto linear both;
-                animation-timeline: view();
-                animation-range: entry 0% entry 8rem;
-            }
-
-            .skill-art {
-                animation: tile-rise auto linear both;
-                animation-timeline: view();
-                animation-range: entry 1rem entry 7rem;
-            }
-
-            .skill-chip {
-                animation: journey-station auto linear both;
-                animation-timeline: view();
-                animation-range: entry calc(1rem + var(--i, 0) * 0.75rem) entry calc(3.5rem + var(--i, 0) * 0.75rem);
             }
 
             /* Each card of the reasons slides in from the side the slide stands on as it comes up. */
@@ -932,13 +950,6 @@
     }
     to {
         clip-path: inset(0);
-    }
-}
-
-@keyframes journey-station {
-    from {
-        opacity: 0;
-        scale: 0.4;
     }
 }
 

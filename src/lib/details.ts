@@ -6,7 +6,8 @@ import {
     EXPERIENCE_SLUG,
     ORGANIZATION_SLUG,
     REASON_SLUG,
-    SERVICE_SLUG
+    SERVICE_SLUG,
+    SKILL_SLUG
 } from "@/content/shared/detail-links";
 import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
@@ -14,6 +15,7 @@ import {organizations} from "@/content/shared/organizations";
 import {EXPERIENCE_PROJECTS} from "@/content/shared/project-links";
 import {projects} from "@/content/shared/projects";
 import {benefitOrder, SERVICE_IDS, serviceProjects, serviceReasons} from "@/content/shared/services";
+import {SKILL_IDS, skillGroups} from "@/content/shared/skills";
 import {testimonials} from "@/content/shared/testimonials";
 import type {
     BenefitId,
@@ -24,6 +26,7 @@ import type {
     OrganizationFacts,
     OrganizationId,
     ServiceId,
+    SkillGroupId,
     YearMonth
 } from "@/types/content";
 import type {ProjectFacts, ProjectId} from "@/types/project";
@@ -37,6 +40,18 @@ export const certificationBySlug = (slug: string) => certifications.find((item) 
 export const organizationBySlug = (slug: string) => organizations.find((item) => ORGANIZATION_SLUG[item.id] === slug);
 export const serviceBySlug = (slug: string) => SERVICE_IDS.find((id) => SERVICE_SLUG[id] === slug);
 export const reasonBySlug = (slug: string) => benefitOrder.find((id) => REASON_SLUG[id] === slug);
+export const skillBySlug = (slug: string) => SKILL_IDS.find((id) => SKILL_SLUG[id] === slug);
+
+export const skillGroupById = (id: SkillGroupId) => skillGroups.find((group) => group.id === id)!;
+
+/** A tool's name without its version, its note in brackets or its case: "React 19" and "React" are the same tool. */
+const toolKey = (name: string) => name.toLowerCase().replace(/\s*\(.*\)$/, "").replace(/\s+\d[\w.]*$/, "").trim();
+
+/** The tools of a group that a stack uses, as the group names them, in the group's order. */
+export const toolsOfGroupIn = (id: SkillGroupId, stack: readonly string[]) => {
+    const used = new Set(stack.map(toolKey));
+    return skillGroupById(id).items.filter((item) => used.has(toolKey(item)));
+};
 
 export const experienceById = (id: ExperienceId) => experience.find((item) => item.id === id)!;
 export const educationById = (id: EducationId) => education.find((item) => item.id === id)!;

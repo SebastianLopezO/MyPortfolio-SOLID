@@ -1,4 +1,12 @@
-import type {SkillGroupFacts} from "@/types/content";
+import type {
+    CertificationId,
+    EducationId,
+    ExperienceId,
+    ServiceId,
+    SkillGroupFacts,
+    SkillGroupId
+} from "@/types/content";
+import type {ProjectId} from "@/types/project";
 
 /**
  * Every tool comes from the work, the coursework or the badges of the GitHub profile README
@@ -82,3 +90,127 @@ export const skillGroups: SkillGroupFacts[] = [
         ],
     },
 ];
+
+/** Every group in the order the general view shows them, which its pages follow from one to the next. */
+export const SKILL_IDS: SkillGroupId[] = [
+    "backend", "crm", "data", "devops", "databases", "frontend", "cloud", "testing", "languages", "security", "ai", "iot", "networks", "tools", "foundations",
+];
+
+/**
+ * Where each group shows in the work, linked from its page: the projects and jobs whose stacks use its tools (or, for
+ * the foundations, the coursework behind them), the programs and certificates that taught it, and the services it
+ * serves. Its copy (content/detail-pages/{en,es}.ts) may name these and nothing else.
+ */
+export const skillWork: Record<SkillGroupId, {
+    projects: ProjectId[];
+    experience: ExperienceId[];
+    education: EducationId[];
+    certifications: CertificationId[];
+    services: ServiceId[];
+}> = {
+    backend: {
+        projects: ["integrationPlatform", "peppercrm", "emailAutomations", "crmSnapshots", "gopoli", "schoolServices"],
+        experience: ["tivenos", "adcom"],
+        education: ["politecnico", "sena"],
+        certifications: ["djangoTwo", "pythonDjango", "softwareEngineering"],
+        services: ["integration", "automation", "consulting"],
+    },
+    crm: {
+        projects: ["martech", "crmWidgets", "admissionsForms", "zohoToolkit", "integrationPlatform", "crmSnapshots"],
+        experience: ["tivenos", "adcom", "muvu"],
+        education: [],
+        certifications: [],
+        services: ["crm", "automation", "integration"],
+    },
+    data: {
+        projects: ["crmSnapshots", "collectionAutomation", "taurus", "zohoToolkit", "lettuceDiseases"],
+        experience: ["muvu", "quipux", "tivenos"],
+        education: ["politecnico"],
+        certifications: ["daxPowerBi", "powerBiAnalysis", "dataVisualization", "excelMastery", "excelDataAnalysis", "sqlBasic"],
+        services: ["data", "automation"],
+    },
+    devops: {
+        projects: ["observability", "landingPlatform", "integrationPlatform", "portfolio", "smartpot", "peppercrm"],
+        experience: ["tivenos", "adcom"],
+        education: ["politecnico"],
+        certifications: ["gitGithub"],
+        services: ["infra", "observability"],
+    },
+    databases: {
+        projects: ["integrationPlatform", "crmSnapshots", "gopoli", "peppercrm", "taurus", "zohoToolkit"],
+        experience: ["tivenos", "adcom"],
+        education: ["politecnico", "sena", "pascual"],
+        certifications: ["sqlBasic"],
+        services: ["data", "integration"],
+    },
+    frontend: {
+        projects: ["gopoli", "realEstateSite", "martech", "admissionsForms", "portfolio", "crmWidgets"],
+        experience: ["adcom", "tivenos"],
+        education: ["sena", "pascual", "inem"],
+        certifications: ["webProgramming", "practicalJavascript", "css", "html"],
+        services: ["web"],
+    },
+    cloud: {
+        projects: ["emailAutomations", "observability", "crmSnapshots", "peppercrm", "fashionLine", "sitePersist"],
+        experience: ["tivenos", "adcom"],
+        education: ["sena"],
+        certifications: [],
+        services: ["infra", "observability"],
+    },
+    testing: {
+        projects: ["tddPolyglot", "portfolio", "smartpot", "gopoli", "landingPlatform", "lettuceDiseases"],
+        experience: ["adcom"],
+        education: ["politecnico"],
+        certifications: ["softwareEngineering"],
+        services: ["infra", "web"],
+    },
+    languages: {
+        projects: ["engineering", "tddPolyglot", "integrationPlatform", "emailAutomations", "technical", "vocational"],
+        experience: ["tivenos", "adcom", "muvu", "quipux"],
+        education: ["politecnico", "sena", "pascual"],
+        certifications: ["itSpecialistPython", "javaBasic", "practicalJavascript", "webProgramming", "pythonFundamentals"],
+        services: ["integration", "consulting"],
+    },
+    security: {
+        projects: ["cybersecurityLabs", "integrationPlatform", "gopoli", "peppercrm", "landingPlatform", "smartpot"],
+        experience: ["tivenos"],
+        education: ["cyberDiploma", "politecnico"],
+        certifications: ["cybersecurity", "hacklab"],
+        services: ["infra", "integration"],
+    },
+    ai: {
+        projects: ["aiTechniques", "lettuceDiseases", "radarImaging", "smartpot", "engineering"],
+        experience: [],
+        education: ["politecnico"],
+        certifications: ["dataScienceAi"],
+        services: ["data", "consulting"],
+    },
+    iot: {
+        projects: ["smartpot", "engineering"],
+        experience: [],
+        education: ["politecnico"],
+        certifications: ["iotProtocols"],
+        services: ["integration"],
+    },
+    networks: {
+        projects: ["engineering", "integrationPlatform", "observability"],
+        experience: ["tivenos"],
+        education: ["politecnico", "cyberDiploma"],
+        certifications: [],
+        services: ["infra", "observability"],
+    },
+    tools: {
+        projects: ["portfolio", "landingPlatform", "engineering", "smartpot"],
+        experience: ["tivenos", "adcom"],
+        education: ["politecnico", "sena"],
+        certifications: ["gitGithub"],
+        services: ["consulting"],
+    },
+    foundations: {
+        projects: ["engineering", "dataCompressor", "aiTechniques", "radarImaging"],
+        experience: [],
+        education: ["politecnico", "sena", "inem"],
+        certifications: ["problemSolving", "programmingFundamentals", "basicProgramming"],
+        services: ["consulting"],
+    },
+};

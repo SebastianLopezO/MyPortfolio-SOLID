@@ -7,12 +7,14 @@ import {
     EXPERIENCE_SLUG,
     ORGANIZATION_SLUG,
     REASON_SLUG,
-    SERVICE_SLUG
+    SERVICE_SLUG,
+    SKILL_SLUG
 } from "@/content/shared/detail-links";
 import {education} from "@/content/shared/education";
 import {experience} from "@/content/shared/experience";
 import {organizations} from "@/content/shared/organizations";
 import {benefitOrder, SERVICE_IDS} from "@/content/shared/services";
+import {SKILL_IDS} from "@/content/shared/skills";
 import {testimonials} from "@/content/shared/testimonials";
 import {absoluteUrl, SITE_URL} from "@/content/shared/site";
 import {
@@ -21,7 +23,8 @@ import {
     experienceBySlug,
     organizationBySlug,
     reasonBySlug,
-    serviceBySlug
+    serviceBySlug,
+    skillBySlug
 } from "@/lib/details";
 import {formatYearMonth} from "@/lib/format";
 import {widestVariant} from "@/lib/image-widths";
@@ -106,14 +109,15 @@ export const buildDetailHead = (content: StartupContent, copy: DetailPagesCopy, 
 };
 
 /**
- * The text a detail page's head needs besides its own: the job titles, the degrees, the certifications, and the
- * services and the reasons to hire me.
+ * The text a detail page's head needs besides its own: the job titles, the degrees, the certifications, the names of
+ * the groups of tools, and the services and the reasons to hire me.
  */
 export interface DetailHeadTexts {
     copy: DetailPagesCopy;
     about: Content["about"];
     certifications: Content["certifications"];
     services: Content["services"];
+    skills: Content["skills"];
 }
 
 const indexInput = (texts: DetailHeadTexts, collection: DetailCollection, items: {
@@ -257,6 +261,23 @@ const reasonInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInp
     };
 };
 
+/** A group of tools: what its page tells, about the skill it names. */
+const skillInput = (texts: DetailHeadTexts, slug: string | null): DetailHeadInput => {
+    if (!slug) return indexInput(texts, "skills", SKILL_IDS.map((id) => ({
+        slug: SKILL_SLUG[id],
+        name: texts.skills.groups[id]
+    })));
+    const id = skillBySlug(slug)!;
+    const name = texts.skills.groups[id];
+    return {
+        collection: "skills",
+        slug,
+        ...texts.copy.skills[id].seo,
+        name,
+        about: {"@type": "DefinedTerm", name, description: texts.skills.taglines[id]},
+    };
+};
+
 /** The metrics are a page with nothing under it. */
 const metricsInput = (texts: DetailHeadTexts): DetailHeadInput => {
     const index = texts.copy.indexes.metrics;
@@ -273,6 +294,7 @@ const INPUTS: Record<DetailCollection, (texts: DetailHeadTexts, slug: string | n
     experience: experienceInput,
     education: educationInput,
     certifications: certificationInput,
+    skills: skillInput,
     organizations: organizationInput,
     services: serviceInput,
     reasons: reasonInput,

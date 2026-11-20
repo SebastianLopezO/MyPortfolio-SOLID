@@ -79,6 +79,7 @@ import {
     useNumbers
 } from "@/views/detail-kit";
 import {ReasonPage, ReasonsIndex, ServicePage, ServicesIndex} from "@/views/OfferPages";
+import {SkillPage, SkillsIndex} from "@/views/SkillPages";
 
 /** Fills a template and puts a node where `{slot}` was, such as the large figure in "{mine} of {people} commits". */
 function Filled(props: {
@@ -1396,6 +1397,9 @@ export function DetailBody(props: { collection: DetailCollection; slug: string |
                 <Show when={props.slug} keyed fallback={<CertificationsIndex/>}>
                     {(slug) => <CertificationPage slug={slug}/>}
                 </Show>
+            </Match>
+            <Match when={props.collection === "skills"}>
+                <Show when={props.slug} keyed fallback={<SkillsIndex/>}>{(slug) => <SkillPage slug={slug}/>}</Show>
             </Match>
             <Match when={props.collection === "organizations"}>
                 <Show when={props.slug} keyed fallback={<OrganizationsIndex/>}>

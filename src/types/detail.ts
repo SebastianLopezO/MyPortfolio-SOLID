@@ -1,6 +1,6 @@
 import type {DetailCollection} from "@/content/shared/detail-links";
 import type {TimelineLabels} from "@/types/timeline";
-import type {EducationId, ExperienceId, OrganizationId, ServiceId, YearMonth} from "@/types/content";
+import type {EducationId, ExperienceId, OrganizationId, ServiceId, SkillGroupId, YearMonth} from "@/types/content";
 
 export type IssuerId =
     | "certiport"
@@ -85,6 +85,17 @@ export interface OrganizationPageCopy {
     seo: DetailSeo;
 }
 
+/** A group of tools told on its own page: what I aim at with it, what it covers and what a team gets from it. */
+export interface SkillPageCopy {
+    /** What I aim at with these tools, in a sentence or two. */
+    focus: string;
+    /** What the group covers and how it came into my work. */
+    description: string[];
+    /** What it is good for: what a team or a business gets from it. */
+    uses: string[];
+    seo: DetailSeo;
+}
+
 export interface DetailPagesUi {
     breadcrumb: string;
     eyebrow: Record<DetailCollection, string>;
@@ -134,6 +145,12 @@ export interface DetailPagesUi {
         practice: string;
         studies: string;
         services: string;
+        /** A skill's page: what I aim at, what it is, what it is good for, its tools, and the studies behind it. */
+        focus: string;
+        description: string;
+        uses: string;
+        tools: string;
+        education: string;
     };
     facts: {
         title: string;
@@ -156,6 +173,8 @@ export interface DetailPagesUi {
         roles: string;
         quotedBy: string;
         relationship: string;
+        /** How many tools a skill groups. */
+        tools: string;
     };
     /** `{hours}`: the length of a course as its certificate states it. */
     hours: string;
@@ -206,6 +225,8 @@ export interface DetailPagesUi {
         /** A service's call to talk about it, and the link from the services to the reasons. */
         talk: string;
         seeReasons: string;
+        /** A skill's call to talk about work that needs it. */
+        talkSkill: string;
     };
     /** Names of the pages linked from a certification: a project or a job. */
     workKinds: { project: string; experience: string };
@@ -231,6 +252,8 @@ export interface DetailPagesCopy {
     experience: Record<ExperienceId, ExperiencePageCopy>;
     education: Record<EducationId, EducationPageCopy>;
     organizations: Record<OrganizationId, OrganizationPageCopy>;
+    /** Each group of tools: what I aim at, what it is, what it is good for and what a search result says about it. */
+    skills: Record<SkillGroupId, SkillPageCopy>;
     /** What a search result says about each service's page. */
     services: Record<ServiceId, { seo: DetailSeo }>;
     /** Who issues each certification, in a sentence or two. */

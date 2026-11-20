@@ -25,6 +25,7 @@ export const HOME_SECTION: Record<DetailCollection, string> = {
     experience: "experience",
     education: "about",
     certifications: "certifications",
+    skills: "skills",
     organizations: "projects",
     services: "services",
     reasons: "reasons",

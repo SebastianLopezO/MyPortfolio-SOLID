@@ -7,6 +7,7 @@ export const detailPages: DetailPagesCopy = {
             experience: "Experiencia",
             education: "Educación",
             certifications: "Certificación",
+            skills: "Habilidad técnica",
             organizations: "Organización en GitHub",
             services: "Servicio",
             reasons: "Razón para contratarme",
@@ -16,6 +17,7 @@ export const detailPages: DetailPagesCopy = {
             experience: "Toda la experiencia",
             education: "Toda la educación",
             certifications: "Todas las certificaciones",
+            skills: "Todas las habilidades",
             organizations: "Todas las organizaciones",
             services: "Todos los servicios",
             reasons: "Todas las razones",
@@ -60,6 +62,11 @@ export const detailPages: DetailPagesCopy = {
             practice: "Cómo se ve en mi trabajo",
             studies: "En qué estudios",
             services: "Servicios donde se nota",
+            focus: "Enfoque",
+            description: "Qué es",
+            uses: "Para qué sirve",
+            tools: "Herramientas",
+            education: "Educación y certificaciones",
         },
         facts: {
             title: "Cargo",
@@ -81,6 +88,7 @@ export const detailPages: DetailPagesCopy = {
             roles: "Para los perfiles",
             quotedBy: "Lo escribió",
             relationship: "Relación",
+            tools: "Herramientas",
         },
         hours: "{hours} horas",
         curriculumSlider: {previous: "Bloque anterior", next: "Bloque siguiente"},
@@ -135,6 +143,7 @@ export const detailPages: DetailPagesCopy = {
             next: "Siguiente",
             talk: "Hablemos de este servicio",
             seeReasons: "Por qué contratarme",
+            talkSkill: "Hablemos de un proyecto así",
         },
         workKinds: {project: "Proyecto", experience: "Experiencia"},
         contextIntro: "Cuando la obtuve, trabajaba o estudiaba aquí:",
@@ -172,6 +181,14 @@ export const detailPages: DetailPagesCopy = {
             seo: {
                 title: "Certificaciones · Sebastián López Osorno",
                 description: "IT Specialist en Python, Power BI y DAX, ciencia de datos, ciberseguridad, desarrollo web y fundamentos de programación, con lo que aporta cada una.",
+            },
+        },
+        skills: {
+            title: "Habilidades técnicas",
+            subtitle: "Quince grupos de herramientas, del backend y el CRM a los fundamentos de la carrera. Cada uno tiene su página, con el enfoque que le doy, qué es, para qué sirve, todas sus herramientas y los proyectos, empleos, estudios y servicios donde se nota.",
+            seo: {
+                title: "Habilidades técnicas · Sebastián López Osorno",
+                description: "Backend, Zoho CRM, datos, DevOps, bases de datos, frontend, nube, seguridad, IA y más: quince grupos de herramientas, cada uno con los proyectos que lo prueban.",
             },
         },
         organizations: {
@@ -1019,6 +1036,263 @@ export const detailPages: DetailPagesCopy = {
             seo: {
                 title: "VocationalSebastian-s · Organización en GitHub",
                 description: "Los proyectos del bachillerato técnico, de 2021 y 2022: sitios en PHP, macros de Excel, una calculadora para Android y programas en Python.",
+            },
+        },
+    },
+    skills: {
+        backend: {
+            focus: "Servicios que conectan sistemas que no se conocen entre sí: APIs en FastAPI y Spring Boot que validan cada dato al entrar, corren lo largo en segundo plano y dejan rastro de cada corrida.",
+            description: [
+                "Es el grupo con el que más trabajo. En TIVENOS opero más de 20 servicios en FastAPI que mantienen sincronizado Zoho CRM con los sistemas académicos de más de 15 instituciones, por REST, SOAP con WS-Security, lectores de SQL Server y webhooks. Los Snapshots del CRM, que llevan los módulos de Zoho a PostgreSQL, salen de la misma forma de trabajar.",
+                "En Java el camino fue Spring Boot con JWT, en PepperCRM y en GoPoli, y GraphQL con Strawberry junto a REST en la práctica del colegio Cambridge. En ADCOM el correo hiperpersonalizado combina FastAPI, asyncpg y plantillas en Jinja2.",
+            ],
+            uses: [
+                "Que el CRM y los sistemas académicos o contables compartan datos sin que nadie los digite",
+                "Sincronizaciones largas que responden 202 Accepted y no dejan esperando a quien las pide",
+                "Contratos claros con OpenAPI y validación con Pydantic antes de tocar la base de datos",
+                "Datos expuestos con autenticación de verdad, con OAuth 2.0 o JWT",
+            ],
+            seo: {
+                title: "Backend y APIs con FastAPI y Spring Boot · Habilidades técnicas",
+                description: "Servicios en FastAPI y Spring Boot que integran Zoho CRM con sistemas académicos por REST, SOAP y SQL Server, con los proyectos y empleos donde los uso.",
+            },
+        },
+        crm: {
+            focus: "Que el proceso comercial viva en Zoho: módulos, flujos y funciones en Deluge que hacen el trabajo repetitivo, y conectores que traen cada lead desde donde llegue.",
+            description: [
+                "Empecé en MUV-U depurando el CRM y terminé a cargo del ecosistema Zoho. Hoy, en TIVENOS y ADCOM, escribo funciones en Deluge, widgets dentro del registro con Zoho Extension Toolkit y operaciones masivas con la Bulk API.",
+                "Del lado del marketing, el embudo de admisiones de ADCOM une formularios, Zoho Creator, Google Tag Manager y n8n, y los formularios de admisión y becas de TIVENOS llevan cada solicitud al CRM sin que nadie la digite.",
+            ],
+            uses: [
+                "Que ventas y admisiones trabajen en un solo lugar, con el historial completo de cada contacto",
+                "Tareas repetitivas resueltas por flujos y funciones en Deluge, no a mano",
+                "Leads de formularios, WhatsApp y campañas que llegan al CRM con su origen",
+                "Cargas, vínculos y limpiezas masivas sin dañar los datos que ya existen",
+            ],
+            seo: {
+                title: "Zoho CRM, Deluge y automatización · Habilidades técnicas",
+                description: "Zoho CRM, Creator, Analytics y Deluge, widgets, operaciones masivas con la Bulk API y automatización con n8n, con los proyectos de TIVENOS, ADCOM y MUV-U.",
+            },
+        },
+        data: {
+            focus: "Convertir datos dispersos en respuestas: extraer con SQL y Python, limpiar con Pandas y explicar con un tablero que alguien de negocio entienda sin ayuda.",
+            description: [
+                "Empezó en la práctica en Quipux, con cuadernos de Jupyter y Pandas que preparaban las campañas de recaudo, y siguió en MUV-U con los reportes de Power BI y DAX. Ahí aprendí que un tablero vale lo que valen los datos que lo alimentan.",
+                "En TIVENOS los Snapshots del CRM sacan los módulos de Zoho con la Bulk API a PostgreSQL para analizarlos con SQL, y la prueba técnica de Taurus llevó un CSV hasta un tablero con FastAPI y React.",
+            ],
+            uses: [
+                "Reportes que se actualizan solos en lugar de hojas que alguien arma cada semana",
+                "Datos del CRM listos para cruzar con SQL, sin exportarlos a mano",
+                "Listas limpias y cruzadas con Pandas antes de una campaña o una carga",
+                "Indicadores en Power BI con medidas en DAX que el negocio lee por su cuenta",
+            ],
+            seo: {
+                title: "Datos y BI con SQL, Python y Power BI · Habilidades técnicas",
+                description: "SQL, Pandas, Jupyter, Power BI y DAX para pasar del dato disperso al tablero, con los proyectos, empleos y certificaciones donde los aplico.",
+            },
+        },
+        devops: {
+            focus: "Que publicar sea un push y que un fallo avise antes de que lo note un usuario: contenedores, CI/CD, y métricas, logs y trazas en un mismo lugar.",
+            description: [
+                "En ADCOM armé la plataforma que publica más de 100 landing pages: cada repositorio construye en GitHub Actions y sube por rsync a un servidor con Nginx, y un script aplica el mismo cambio a todos los repositorios a la vez.",
+                "En TIVENOS los servicios salen como imágenes a GHCR, y la plataforma de observabilidad vigila unos veinte servicios con Prometheus, Grafana, Loki y Tempo, con alertas que llegan a Telegram. Este portafolio se construye, se prueba y se publica con el mismo criterio.",
+            ],
+            uses: [
+                "Despliegues repetibles que no dependen de quién los haga",
+                "Alertas con contexto: la métrica, el log y la traza del mismo fallo",
+                "Un cambio aplicado a decenas de repositorios con un script, no uno por uno",
+                "Servidores Linux con Nginx como proxy inverso y TLS",
+            ],
+            seo: {
+                title: "DevOps con Docker, CI/CD y Grafana · Habilidades técnicas",
+                description: "Docker, GitHub Actions, Nginx y Linux para publicar, y Prometheus, Grafana, Loki y Tempo para vigilar, con la plataforma de ADCOM y la observabilidad de TIVENOS.",
+            },
+        },
+        databases: {
+            focus: "Elegir dónde vive cada dato y modelarlo para la consulta que de verdad se va a hacer, sea relacional, de documentos o en memoria.",
+            description: [
+                "PostgreSQL está detrás de casi todo lo que hago hoy: los Snapshots del CRM, la plataforma de integraciones y GoPoli. En TIVENOS también leo SQL Server de los sistemas académicos, y en ADCOM las herramientas de operación masiva toman datos de Oracle.",
+                "Con MongoDB y Redis trabajé en PepperCRM, y con MySQL y MariaDB en la prueba técnica de Taurus. En la carrera, en el SENA y en el Pascual Bravo vi el modelado relacional, los objetos de bases de datos y NoSQL.",
+            ],
+            uses: [
+                "Modelos pensados para la consulta que se va a hacer, no para el formulario que los llena",
+                "Copias del CRM en PostgreSQL para analizar sin tocar el sistema en producción",
+                "Lectura de bases ajenas, como SQL Server, sin cambiar el sistema de origen",
+                "Caché en Redis para lo que se consulta mucho y cambia poco",
+            ],
+            seo: {
+                title: "Bases de datos PostgreSQL, SQL Server y MongoDB · Habilidades técnicas",
+                description: "PostgreSQL, SQL Server, MySQL, Oracle, MongoDB y Redis en integraciones, análisis del CRM y productos web, con los proyectos y estudios donde los uso.",
+            },
+        },
+        frontend: {
+            focus: "Interfaces claras que llevan cada dato a su lugar: formularios que validan, páginas rápidas y widgets que viven dentro de la herramienta que el equipo ya usa.",
+            description: [
+                "Mi frontend casi siempre está al servicio de un proceso. En TIVENOS son los formularios de admisión y becas y los widgets dentro de Zoho CRM; en ADCOM, el embudo de admisiones en React y TypeScript.",
+                "Para productos completos uso React, Next.js y Tailwind CSS, como en GoPoli y en la landing inmobiliaria con inventario sincronizado, y este portafolio está hecho con Astro y SolidJS.",
+            ],
+            uses: [
+                "Formularios que validan antes de enviar y llevan cada lead al CRM con su origen",
+                "Páginas rápidas y accesibles, medidas en lugar de supuestas",
+                "Herramientas dentro del CRM para que el equipo no cambie de pestaña",
+                "Mapas, PDFs y tablas que resuelven una tarea concreta",
+            ],
+            seo: {
+                title: "Frontend con React, TypeScript y Tailwind CSS · Habilidades técnicas",
+                description: "React, TypeScript, Next.js, Vite y Tailwind CSS en formularios, widgets de CRM, landing pages y productos web, con los proyectos y estudios detrás.",
+            },
+        },
+        cloud: {
+            focus: "Usar servicios gestionados donde ahorran trabajo de verdad, y servidores propios donde dan más control por menos costo.",
+            description: [
+                "El correo hiperpersonalizado de ADCOM envía con Amazon SES y recibe los eventos de entrega por Amazon SNS, y en TIVENOS la plataforma de observabilidad y los Snapshots del CRM corren en Azure.",
+                "En proyectos propios y de estudio he publicado en Render, Netlify, MongoDB Atlas y Heroku, como PepperCRM, FashionLine y SitePersist, que en el SENA usó una base MySQL en Azure.",
+            ],
+            uses: [
+                "Correo transaccional a escala sin mantener un servidor de correo",
+                "Demos publicadas en minutos para mostrar avances",
+                "Bases gestionadas, con copias y escalado, sin administrar el motor",
+                "Elegir entre nube y VPS según el costo, el control y lo que el equipo puede operar",
+            ],
+            seo: {
+                title: "Nube con Azure, AWS y hosting gestionado · Habilidades técnicas",
+                description: "Azure, Amazon SES y SNS, MongoDB Atlas, Render, Netlify y servidores VPS, con el correo de ADCOM y la observabilidad de TIVENOS como ejemplos.",
+            },
+        },
+        testing: {
+            focus: "Que un cambio llegue con su prueba y que el pipeline lo revise antes que una persona: pruebas unitarias, de extremo a extremo y de rendimiento en cada push.",
+            description: [
+                "En la carrera escribí el mismo CRUD prueba por prueba en seis lenguajes, con xUnit, pytest, Vitest, PHPUnit y las herramientas de Rust y Go, y ahí escribir la prueba primero dejó de ser una regla para volverse costumbre.",
+                "Este portafolio corre Vitest, Playwright y Lighthouse CI en cada cambio, y la plataforma de landing pages de ADCOM mide sus páginas con Lighthouse. En SmartPot la API tiene más de 130 pruebas JUnit, y GoPoli pasa por CodeQL.",
+            ],
+            uses: [
+                "Cambios que se hacen sin miedo, porque una prueba avisa si algo se rompe",
+                "Rendimiento y accesibilidad medidos en cada publicación",
+                "Fallas de seguridad y dependencias vulnerables detectadas en el pipeline",
+                "Pruebas de extremo a extremo que recorren lo que hace un usuario real",
+            ],
+            seo: {
+                title: "Testing con PyTest, JUnit, Vitest y Playwright · Habilidades técnicas",
+                description: "TDD, pruebas unitarias y de extremo a extremo y medición con Lighthouse en CI, con este portafolio, SmartPot, GoPoli y las prácticas de la carrera.",
+            },
+        },
+        languages: {
+            focus: "Python y Java son mi día a día, TypeScript y SQL están en casi todo, y el resto lo elijo por lo que pide el problema, no por costumbre.",
+            description: [
+                "Python mueve las integraciones de TIVENOS y el correo hiperpersonalizado de ADCOM, que también tiene una parte en Java con Spring Boot. Deluge es el lenguaje de Zoho, y lo escribo casi a diario.",
+                "La carrera y los programas técnicos sumaron C, C++, C#, PHP, VB.NET y ensamblador ARM: el repositorio de Ingeniería Informática tiene uno por materia, y las prácticas de TDD repitieron el mismo CRUD en seis lenguajes.",
+            ],
+            uses: [
+                "Trabajar en el lenguaje que ya usa el equipo o el sistema, no en el que más me gusta",
+                "Leer y mantener código escrito en lenguajes distintos",
+                "Scripts en Python o Bash para lo que hoy alguien hace a mano",
+                "SQL directo cuando un ORM esconde lo que hace la consulta",
+            ],
+            seo: {
+                title: "Lenguajes: Python, Java y TypeScript · Habilidades técnicas",
+                description: "Python, Java, TypeScript, JavaScript, SQL y Deluge en el trabajo, y C, C++, C#, PHP y ensamblador ARM en la carrera, con los proyectos de cada uno.",
+            },
+        },
+        security: {
+            focus: "Seguridad por defecto: secretos cifrados, accesos mínimos, autenticación bien hecha y un pipeline que revisa el código y las dependencias.",
+            description: [
+                "En TIVENOS las integraciones se autentican con OAuth 2.0 y hablan SOAP con WS-Security, y llevo el manejo seguro de las credenciales del equipo. En PepperCRM la autenticación va con Spring Security y JWT, y en GoPoli con JWT.",
+                "GoPoli corre CodeQL y Dependabot, y la plataforma de landing pages de ADCOM aplica una misma política de Dependabot a más de cien repositorios. Lo ofensivo empezó con HACKLAB y hoy lo practico en los laboratorios de Kali Linux del diplomado en ciberseguridad.",
+            ],
+            uses: [
+                "Credenciales y secretos fuera del código, cifrados y con acceso mínimo",
+                "APIs que exigen autenticación de verdad, con OAuth 2.0 o JWT",
+                "Vulnerabilidades del código y de las dependencias detectadas antes de publicar",
+                "Una mirada ofensiva para encontrar lo que un atacante vería primero",
+            ],
+            seo: {
+                title: "Seguridad: OAuth, JWT, OWASP y hacking ético · Habilidades técnicas",
+                description: "OAuth 2.0, JWT, Spring Security, WS-Security, CodeQL, Dependabot y Kali Linux, con las integraciones de TIVENOS y el diplomado en ciberseguridad.",
+            },
+        },
+        ai: {
+            focus: "Aplicar la técnica que el problema justifica, de un sistema de reglas a una red neuronal, y medir si de verdad mejora algo antes de quedarme con ella.",
+            description: [
+                "En la carrera recorrí la inteligencia artificial de las reglas al agente: sistemas expertos en CLIPS, lógica difusa con scikit-fuzzy, modelos de scikit-learn y una red con TensorFlow que reconoce enfermedades de la lechuga en fotos.",
+                "En SmartPot el asistente en FastAPI y scikit-learn diagnostica cada cultivo con un sistema experto, lógica difusa y modelos que pronostican cuándo una variable va a salir de su rango. Con imágenes de radar Sentinel-1 armé un dataset, y los dos modelos de restauración que probé no mejoraron la entrada, que también es un resultado.",
+            ],
+            uses: [
+                "Clasificar imágenes o datos cuando una regla fija ya no alcanza",
+                "Sistemas de reglas explicables para decisiones que hay que justificar",
+                "Datasets limpios, que son la mitad del trabajo de un modelo",
+                "Comprobar que un modelo mejora el resultado antes de ponerlo en producción",
+            ],
+            seo: {
+                title: "Machine learning e IA con scikit-learn · Habilidades técnicas",
+                description: "Sistemas expertos, lógica difusa, scikit-learn y TensorFlow en visión por computador y datos de sensores, con los proyectos de la carrera y SmartPot.",
+            },
+        },
+        iot: {
+            focus: "Dispositivos pequeños que miden y publican, y un backend que escucha: ESP32 con MicroPython, MQTT sobre TLS y los datos llegando a una API.",
+            description: [
+                "SmartPot es donde todo esto se junta: firmware para ESP32 en MicroPython que publica las lecturas de los sensores por MQTT sobre TLS, un broker Mosquitto y un simulador que alimenta la demo con clima real sin hardware.",
+                "En la carrera, las prácticas de arquitectura de hardware pasaron por ESP32, simulaciones en Wokwi y ensamblador ARM, y el curso de protocolos de IoT me dio la base de MQTT.",
+            ],
+            uses: [
+                "Medir el mundo físico y tener los datos en un tablero o una API",
+                "Mensajería liviana con MQTT para dispositivos con poca energía y red inestable",
+                "Probar el firmware en un simulador antes de tocar el hardware",
+                "Sensores conectados al mismo backend y la misma observabilidad que el resto",
+            ],
+            seo: {
+                title: "IoT con ESP32, MicroPython y MQTT · Habilidades técnicas",
+                description: "Firmware en MicroPython para ESP32, MQTT sobre TLS con Mosquitto y simulación en Wokwi, con SmartPot y las prácticas de la carrera como ejemplos.",
+            },
+        },
+        networks: {
+            focus: "Entender el camino que recorre cada paquete: enrutamiento, direccionamiento, VPN y monitoreo, para que un problema de red no se confunda con uno de código.",
+            description: [
+                "En la carrera configuré routers Cisco físicos con RIPv2, OSPF, EIGRP e IPv6 de doble pila, con monitoreo por SNMP y VoIP, además de Packet Tracer.",
+                "En el trabajo eso se nota en lo cotidiano: en TIVENOS los lectores de SQL Server llegan a los sistemas académicos por VPN, y la plataforma de observabilidad prueba desde afuera que cada servicio responde.",
+            ],
+            uses: [
+                "Saber si un fallo es de la red, del DNS o de la aplicación",
+                "Conexiones privadas por VPN hacia sistemas que no se exponen a internet",
+                "Disponibilidad vigilada desde afuera, como la ve un usuario",
+                "Redes con IPv6 y enrutamiento dinámico bien planeadas",
+            ],
+            seo: {
+                title: "Redes con Cisco, OSPF, IPv6 y VPN · Habilidades técnicas",
+                description: "Enrutamiento con OSPF, EIGRP e IPv6 en routers Cisco, SNMP, VoIP y VPN, con las prácticas de la carrera y las integraciones y sondas de TIVENOS.",
+            },
+        },
+        tools: {
+            focus: "Un taller ordenado: Git con una historia que se entiende, el editor bien configurado y las herramientas del equipo usadas como el equipo las usa.",
+            description: [
+                "Git y GitHub están en todo lo que hago: el código de la carrera vive en una organización con un repositorio por materia, y en ADCOM y TIVENOS los despliegues salen de GitHub Actions.",
+                "Escribo en los IDE de JetBrains y en VS Code, reviso pantallas en Figma y llevo la cuenta de mi tiempo de programación con WakaTime, que dice en qué lenguajes y editores se va.",
+            ],
+            uses: [
+                "Un historial de cambios que explica el porqué, no solo el qué",
+                "Ramas y revisiones de código que el equipo puede seguir",
+                "Lo repetitivo del día a día automatizado desde el editor o la terminal",
+                "Pasar de un diseño en Figma a código sin perder detalles",
+            ],
+            seo: {
+                title: "Herramientas: Git, GitHub y JetBrains · Habilidades técnicas",
+                description: "Git, GitHub, GitLab, los IDE de JetBrains, VS Code, Figma, Jira y WakaTime, las herramientas del día a día detrás de cada proyecto del portafolio.",
+            },
+        },
+        foundations: {
+            focus: "La teoría que explica por qué un programa es rápido o lento, correcto o frágil: estructuras de datos, algoritmos, autómatas, sistemas operativos y matemática aplicada.",
+            description: [
+                "La carrera de Ingeniería Informática cubrió estructuras de datos, autómatas y lenguajes formales, compiladores, sistemas operativos, arquitectura de computadores y programación distribuida y paralela, y cada materia tiene su repositorio.",
+                "Esa base aparece en proyectos concretos, como el compresor de Huffman, que arma el árbol, lo dibuja y devuelve el archivo idéntico, y en la parte numérica: análisis numérico, estadística, investigación de operaciones y simulación.",
+            ],
+            uses: [
+                "Elegir la estructura de datos que vuelve rápida una consulta o un proceso",
+                "Estimar el costo de un algoritmo antes de que llegue a producción",
+                "Entender lo que pasa debajo: memoria, procesos, concurrencia y red",
+                "Modelar y simular un problema antes de construir la solución",
+            ],
+            seo: {
+                title: "Fundamentos de computación y algoritmos · Habilidades técnicas",
+                description: "Estructuras de datos, algoritmos, autómatas, compiladores, sistemas operativos, programación distribuida y matemática aplicada de Ingeniería Informática.",
             },
         },
     },

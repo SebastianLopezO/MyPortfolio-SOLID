@@ -136,17 +136,70 @@ test("keeps the second layer of the home in the page and opens all of it at once
     await expect(more.first()).not.toHaveAttribute("open");
 });
 
-test("renders every group of tools as a tile and opens the full list on request", async ({page}) => {
+test("turns the skills gallery one card at a time, and stops when asked", async ({page, consoleErrors}) => {
     await gotoHydrated(page, "/en");
     const section = await hydrateSection(page, "skills");
-    const tiles = section.locator(".skill-tile");
-    await expect(tiles).toHaveCount(15);
-    await expect(tiles.first().locator(".skill-chip")).toHaveCount(6);
-    const disclosure = section.locator("details.more");
-    await expect(disclosure).not.toHaveAttribute("open");
-    await disclosure.locator("summary").click();
-    await expect(disclosure).toHaveAttribute("open", "");
-    await expect(disclosure.locator(":scope > ul > li")).toHaveCount(15);
+    const gallery = section.getByRole("region", {name: "Technical skills gallery"});
+    const cards = gallery.locator(".skill-card");
+    await expect(cards).toHaveCount(15);
+    await expect(cards.first()).toHaveAttribute("aria-label", "1 of 15");
+    await gallery.locator(".skill-stage").scrollIntoViewIfNeeded();
+    // In view it turns by itself, one card per step.
+    await expect(cards.nth(1)).toHaveAttribute("data-active", "true", {timeout: 8000});
+    await expect(gallery.locator(".skill-card[data-active]")).toHaveCount(1);
+    // Paused, it stays; the button then offers to resume.
+    await gallery.getByRole("button", {name: "Pause the gallery"}).click();
+    const resume = gallery.getByRole("button", {name: "Resume the gallery"});
+    await expect(resume).toBeVisible();
+    const held = await gallery.locator(".skill-ring").evaluate((ring) => (ring as HTMLElement).style.getPropertyValue("--turn"));
+    await page.mouse.move(0, 0);
+    await page.waitForTimeout(4500);
+    expect(await gallery.locator(".skill-ring").evaluate((ring) => (ring as HTMLElement).style.getPropertyValue("--turn"))).toBe(held);
+    // The buttons turn it either way, wrapping around the ring, and tell a screen reader where it stands.
+    const active = () => gallery.locator(".skill-card[data-active]").getAttribute("aria-label");
+    const before = Number((await active())!.split(" ")[0]);
+    await gallery.getByRole("button", {name: "Next skill"}).click();
+    await expect.poll(active).toBe(`${(before % 15) + 1} of 15`);
+    await gallery.getByRole("button", {name: "Previous skill"}).click();
+    await gallery.getByRole("button", {name: "Previous skill"}).click();
+    await expect.poll(active).toBe(`${((before - 2 + 15) % 15) + 1} of 15`);
+    await expect(gallery.getByRole("status")).toContainText("of 15");
+    expect(consoleErrors).toEqual([]);
+});
+
+test("brings a side card of the skills gallery to the front before opening it", async ({page, isMobile}) => {
+    await gotoHydrated(page, "/en");
+    const section = await hydrateSection(page, "skills");
+    const gallery = section.getByRole("region", {name: "Technical skills gallery"});
+    await gallery.getByRole("button", {name: "Pause the gallery"}).click();
+    const stage = gallery.locator(".skill-stage");
+    await stage.scrollIntoViewIfNeeded();
+    const front = gallery.locator(".skill-card[data-active]");
+    const first = await front.getAttribute("aria-label");
+    if (isMobile) {
+        // A swipe to the left turns the next card to the front.
+        const box = (await stage.boundingBox())!;
+        await page.mouse.move(box.x + box.width * 0.7, box.y + box.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2, {steps: 6});
+        await page.mouse.up();
+        await expect(front).not.toHaveAttribute("aria-label", first!);
+        return;
+    }
+    // A click on the card to the right of the front turns it to the front instead of leaving the page.
+    const neighbors = await gallery.locator(".skill-card").evaluateAll((cards) => cards
+        .filter((card) => (card as HTMLElement).style.getPropertyValue("--d").trim() === "1")
+        .map((card) => ({label: card.getAttribute("aria-label"), x: card.getBoundingClientRect().x})));
+    expect(neighbors).toHaveLength(2);
+    const side = neighbors.sort((a, b) => b.x - a.x)[0];
+    const card = gallery.locator(`.skill-card[aria-label="${side.label}"] a`);
+    await card.click();
+    await expect(page).toHaveURL(/\/en$/);
+    await expect(front).toHaveAttribute("aria-label", side.label!);
+    // At the front, the same click opens its page.
+    await card.click();
+    await expect(page).toHaveURL(/\/en\/skills\/[a-z-]+$/);
+    await expect(page.getByRole("heading", {level: 2, name: "Focus"})).toBeVisible();
 });
 
 test("tracks the active reason in the slide as its card crosses the screen", async ({page, isMobile}) => {
@@ -170,5 +223,14 @@ test.describe("for a reader who asks for less motion", () => {
         await page.waitForTimeout(300);
         await expect(figure).toHaveText(written!);
         expect(await page.locator(".reading-progress").evaluate((bar) => parseFloat(getComputedStyle(bar).scale))).toBe(0);
+    });
+
+    test("leaves the skills gallery paused until the reader starts it", async ({page}) => {
+        await gotoHydrated(page, "/en");
+        const section = await hydrateSection(page, "skills");
+        await section.locator(".skill-stage").scrollIntoViewIfNeeded();
+        await expect(section.getByRole("button", {name: "Resume the gallery"})).toBeVisible();
+        await page.waitForTimeout(4500);
+        await expect(section.locator(".skill-card").first()).toHaveAttribute("data-active", "true");
     });
 });

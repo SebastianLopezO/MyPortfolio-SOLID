@@ -28,6 +28,11 @@ const DETAILS: Record<string, string[]> = {
         "software-engineering", "django-two", "practical-javascript", "basic-programming", "python-fundamentals", "hacklab", "java-basic", "css",
         "python-django", "python-basic", "excel-professional", "sql-basic", "programming-fundamentals", "python-eia", "html",
     ],
+    skills: [
+        "backend-and-apis", "crm-and-automation", "data-and-business-intelligence", "devops-and-observability", "databases",
+        "frontend", "cloud-and-hosting", "testing-and-quality", "programming-languages", "security", "machine-learning-and-ai",
+        "iot-and-embedded", "networking", "developer-tools", "computer-science-foundations",
+    ],
     organizations: [
         "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s", "testlabdata",
         "technicalsebastians", "vocationalsebastian-s",
@@ -207,7 +212,8 @@ describe("prerendered pages", () => {
         expect(styles.length).toBeGreaterThan(20 * KB);
         // 17 KB since the redesign: every color answers in two themes (light-dark(), which Tailwind also writes as lab()
         // and hex for browsers without OKLCH), and the folding header, the tiles, the skill grid and the reasons joined.
-        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(17 * KB);
+        // 17.25 KB since the skill grid became the turning gallery of skills (about 240 bytes of its own).
+        expect(gzipSync(styles, {level: 9}).length).toBeLessThanOrEqual(17.25 * KB);
         // Each page carries its inlined CSS. What the first paint needs (the head, the styles, the hero and its figures,
         // everything before the first lazy section) must arrive within the first two TCP round trips (14 KB + 28 KB), so
         // the sections below never delay it; the whole page stays within three (+ 56 KB). 26 KB since the two themes.

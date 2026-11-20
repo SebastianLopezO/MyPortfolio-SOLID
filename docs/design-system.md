@@ -29,7 +29,7 @@ November 2026 moved the color out of the interface and into the images.
 | Token                          | Use                                                            | On `bg`, light / dark |
 |--------------------------------|----------------------------------------------------------------|-----------------------|
 | `bg`                           | Page background, also `theme-color`                            | —                     |
-| `surface`                      | Panels, the skill tiles, raised sections                       | —                     |
+| `surface`                      | Panels, the skill cards, raised sections                       | —                     |
 | `surface-raised`               | Chips, quiet buttons, hovers                                   | —                     |
 | `border`                       | Decorative dividers between rows                               | decorative only       |
 | `border-strong`                | Input borders and controls that must be visible                | 3.8:1 / 4.2:1         |
@@ -228,9 +228,12 @@ text; each bar has a labeled legend or row next to it.
   hydration. "Expand all" above the experience opens every one at once (`lib/disclosures.ts`). Each service and each
   reason to hire has a page (`/services/{slug}`, `/reasons/{slug}`, a `WebPage` with a `Service` schema for a service)
   under its index (`CollectionPage`); the home names each service by its object, name and few words, and shows the
-  reasons as a slide beside their list. The GitHub metrics have one page (`/metrics`, a `WebPage`), and the home keeps
+  reasons as a slide beside their list. Each group of tools has a page too (`/skills/{slug}`, a `WebPage` about a
+  `DefinedTerm`): its focus, what it is, what it is good for, all its tools, and the projects, jobs (with the tools of
+  the group each one used), programs, certifications and services where it shows (`skillWork` in
+  `src/content/shared/skills.ts`). The GitHub metrics have one page (`/metrics`, a `WebPage`), and the home keeps
   the strip of figures. The organizations are named on the home and described on their index.
-- Detail pages: a job, a program, an organization, a service and a reason carry their object on its tile beside the
+- Detail pages: a job, a program, an organization, a group of tools, a service and a reason carry their object on its tile beside the
   title (`DetailArticle`'s `art`), square from 48rem and a short band on a phone; their indexes open each row with the
   object. The projects of a job, a program or an organization are tiles (a single project adds its screens), and the
   pages of the services and reasons link jobs, programs, services and reasons as tiles or rows with their objects
@@ -252,10 +255,14 @@ text; each bar has a labeled legend or row next to it.
   stacked below that, so the portrait never floats in an empty box. A role view brightens its own steps of the log and
   dims the rest. Education is a timeline on phones and an index two across from 48rem, with the degree on a row of its
   own; each program links to its GitHub organization.
-- Skill groups: a grid of tiles, two across from 40rem and three from 64rem, each with its object on a layer of color,
-  its name, its count and its first six tools (the role view's first), which print one after another as the tile comes
-  up (`skill-chip`, a view timeline offset by `--i`); nothing is dragged or pressed. Under it, every group as open
-  blocks split by hairlines, two across from 48rem and three from 80rem, behind "Every tool by group". Certifications
+- Skill groups: a gallery of cards standing around a ring that turns one card at a time, every 3.6 s, while it is in
+  view (`skill-stage`, `skill-ring`, `skill-card` in `globals.css`; the card is 13.5rem on a phone and up to 17rem,
+  the radius follows from the card and the count with `tan()`). Each card is its object on a layer of color, its
+  count, its name and its line, and links to the group's page; the cards fade with their distance from the front and
+  the ones behind show their hidden back. Previous, pause and next come before the ring; the ring stops under a
+  pointer, while a card or an arrow has the focus, off screen and when paused, and a reader who asks for less motion
+  gets it paused. Tabbing to a card, clicking one at the side or swiping brings it to the front; a click on the front
+  card opens its page. A link under it leads to the index of every group. Certifications
   are index rows two per row from 48rem, so the full list of 29 reads as one index; each
   says what it covered, what it adds today and the journey stop that groups it, with that stop's line keys.
 - Figures (the highlights under the hero, the recommendation counts and the GitHub metrics): open strips with no box

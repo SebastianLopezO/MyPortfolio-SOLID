@@ -148,6 +148,7 @@ export const assistant: AssistantCopy = {
         experience: "All experience",
         education: "All education",
         certifications: "All certifications",
+        skills: "All technical skills",
         organizations: "GitHub organizations",
         services: "Services",
         reasons: "Why hire me",

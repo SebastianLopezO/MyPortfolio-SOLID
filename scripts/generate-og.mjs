@@ -16,6 +16,8 @@ import {journey as enJourney} from "../src/content/en/journey.ts";
 import {journey as esJourney} from "../src/content/es/journey.ts";
 import {services as enServices} from "../src/content/en/services.ts";
 import {services as esServices} from "../src/content/es/services.ts";
+import {skills as enSkills} from "../src/content/en/skills.ts";
+import {skills as esSkills} from "../src/content/es/skills.ts";
 import {ui as enUi} from "../src/content/en/ui.ts";
 import {ui as esUi} from "../src/content/es/ui.ts";
 import {
@@ -25,13 +27,15 @@ import {
     EXPERIENCE_SLUG,
     ORGANIZATION_SLUG,
     REASON_SLUG,
-    SERVICE_SLUG
+    SERVICE_SLUG,
+    SKILL_SLUG
 } from "../src/content/shared/detail-links.ts";
 import {certifications} from "../src/content/shared/certifications.ts";
 import {education} from "../src/content/shared/education.ts";
 import {experience} from "../src/content/shared/experience.ts";
 import {organizations} from "../src/content/shared/organizations.ts";
 import {benefitOrder, SERVICE_IDS, serviceRoles} from "../src/content/shared/services.ts";
+import {SKILL_IDS, skillGroups} from "../src/content/shared/skills.ts";
 import {testimonials} from "../src/content/shared/testimonials.ts";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -99,14 +103,15 @@ for (const [lang, {cards, pages}] of Object.entries({
     }
 }
 
-// Every job, program, certification, organization, service and reason page has an image of its own; the indexes share one per collection.
-for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Object.entries({
+// Every job, program, certification, group of tools, organization, service and reason page has an image of its own; the indexes share one per collection.
+for (const [lang, {details, journey, cards, months, servicesCopy, skillsCopy, siteUi}] of Object.entries({
     en: {
         details: enDetails,
         journey: enJourney,
         cards: enCards,
         months: enUi.months,
         servicesCopy: enServices,
+        skillsCopy: enSkills,
         siteUi: enUi
     },
     es: {
@@ -115,6 +120,7 @@ for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Ob
         cards: esCards,
         months: esUi.months,
         servicesCopy: esServices,
+        skillsCopy: esSkills,
         siteUi: esUi
     },
 })) {
@@ -125,6 +131,7 @@ for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Ob
             experience: `${experience.length} companies since 2022`,
             education: `${education.length} programs since 2019`,
             certifications: `${certifications.length} certifications · ${issuers} issuers`,
+            skills: `${SKILL_IDS.length} groups · ${new Set(skillGroups.flatMap((group) => group.items)).size} tools`,
             organizations: `${organizations.length} organizations`,
             services: "Integrations, CRM, data and DevOps",
             reasons: `${benefitOrder.length} reasons`,
@@ -134,6 +141,7 @@ for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Ob
             experience: `${experience.length} empresas desde 2022`,
             education: `${education.length} programas desde 2019`,
             certifications: `${certifications.length} certificaciones · ${issuers} emisores`,
+            skills: `${SKILL_IDS.length} grupos · ${new Set(skillGroups.flatMap((group) => group.items)).size} herramientas`,
             organizations: `${organizations.length} organizaciones`,
             services: "Integraciones, CRM, datos y DevOps",
             reasons: `${benefitOrder.length} razones`,
@@ -181,6 +189,17 @@ for (const [lang, {details, journey, cards, months, servicesCopy, siteUi}] of Ob
             tagline: item.issuer,
             location: `${months[month - 1]} ${year}`,
             ...(sheets.has(item.id) ? {aside: sheets.get(item.id)} : {}),
+        };
+    }
+    for (const id of SKILL_IDS) {
+        const group = skillGroups.find((item) => item.id === id);
+        variants[`skills-${SKILL_SLUG[id]}-${lang}`] = {
+            bodyClass: "case",
+            eyebrow: ui.eyebrow.skills,
+            heading: skillsCopy.groups[id],
+            subheading: NAME,
+            tagline: skillsCopy.taglines[id],
+            location: group.items.slice(0, 4).join(" · "),
         };
     }
     for (const organization of organizations) {

@@ -101,6 +101,11 @@ describe("paths", () => {
                 "java-basic", "css", "python-django", "python-basic", "excel-professional", "sql-basic", "programming-fundamentals", "python-eia",
                 "html",
             ],
+            skills: [
+                "backend-and-apis", "crm-and-automation", "data-and-business-intelligence", "devops-and-observability", "databases",
+                "frontend", "cloud-and-hosting", "testing-and-quality", "programming-languages", "security", "machine-learning-and-ai",
+                "iot-and-embedded", "networking", "developer-tools", "computer-science-foundations",
+            ],
             organizations: [
                 "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s",
                 "testlabdata", "technicalsebastians", "vocationalsebastian-s",
@@ -125,7 +130,7 @@ describe("paths", () => {
                 Object.entries(details).flatMap(([collection, items]) => [`/${lang}/${collection}`, ...items.map((slug) => `/${lang}/${collection}/${slug}`)]),
             ),
         ]);
-        expect(prerenderRoutes).toHaveLength(226);
+        expect(prerenderRoutes).toHaveLength(258);
     });
 
     it("links every page to both languages and an English default", () => {

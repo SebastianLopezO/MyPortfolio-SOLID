@@ -13,6 +13,11 @@ const DETAILS: Record<string, string[]> = {
         "tivenoseducation", "adcom-group", "smartpottech", "gopoli", "peppertechdev", "engineeringsebastian-s", "taurussebastian-s", "testlabdata",
         "technicalsebastians", "vocationalsebastian-s",
     ],
+    skills: [
+        "backend-and-apis", "crm-and-automation", "data-and-business-intelligence", "devops-and-observability", "databases",
+        "frontend", "cloud-and-hosting", "testing-and-quality", "programming-languages", "security", "machine-learning-and-ai",
+        "iot-and-embedded", "networking", "developer-tools", "computer-science-foundations",
+    ],
 };
 
 // Every English page and both languages' indexes; the Spanish pages share the components and are checked below.
@@ -223,7 +228,8 @@ test("links the detail pages from the home sections and the footer", async ({pag
     await expect(page.locator("#reasons").getByRole("link", {name: /Ver las once razones/})).toHaveAttribute("href", /^\/es\/reasons/);
     await expect(page.locator("#metrics").getByRole("link", {name: /Ver todas las métricas/})).toHaveAttribute("href", /^\/es\/metrics/);
     const explore = page.getByRole("navigation", {name: "Explora el portafolio"});
-    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Organizaciones en GitHub", "Servicios", "Por qué contratarme", "Métricas de GitHub"]);
+    await expect(page.locator("#skills").getByRole("link", {name: /Ver las 15 habilidades/})).toHaveAttribute("href", "/es/skills");
+    await expect(explore.getByRole("link")).toHaveText(["Proyectos", "Experiencia", "Educación", "Certificaciones", "Habilidades técnicas", "Organizaciones en GitHub", "Servicios", "Por qué contratarme", "Métricas de GitHub"]);
     await expect(explore.getByRole("link", {name: "Organizaciones en GitHub"})).toHaveAttribute("href", "/es/organizations");
 });
 
@@ -242,6 +248,31 @@ test("gives each service, reason and the metrics its own page", async ({page, co
     await gotoHydrated(page, "/es/metrics");
     await expect(page.getByRole("heading", {level: 1})).toHaveText("Métricas de GitHub");
     await expect(page.locator("#metrics-areas")).toBeVisible();
+    expect(consoleErrors).toEqual([]);
+});
+
+test("tells each skill's focus, use and work, and moves between skills", async ({page, consoleErrors}) => {
+    await gotoHydrated(page, "/es/skills");
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Habilidades técnicas");
+    await expect(page.getByRole("heading", {level: 2})).toHaveCount(15);
+    await page.getByRole("link", {name: /Backend & APIs/}).click();
+    await expect(page).toHaveURL(/\/es\/skills\/backend-and-apis$/);
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Backend & APIs");
+    for (const heading of ["Enfoque", "Qué es", "Para qué sirve", "Herramientas", "Proyectos", "En qué empleos", "Educación y certificaciones", "Servicios donde se nota"]) {
+        await expect(page.getByRole("heading", {level: 2, name: heading})).toBeVisible();
+    }
+    await expect(page.locator('section[aria-labelledby="detail-tools"] li')).toHaveCount(20);
+    await expect(page.locator('section[aria-labelledby="detail-projects"] a[href="/es/projects/integration-platform"]')).toBeVisible();
+    // Each job names the tools of the group it used.
+    await expect(page.locator('section[aria-labelledby="detail-jobs"] a[href="/es/experience/tivenos"]')).toContainText("FastAPI");
+    await expect(page.locator('section[aria-labelledby="detail-education"] a[href="/es/certifications/django-two"]')).toBeVisible();
+    await expect(page.locator('section[aria-labelledby="detail-services"] a[href="/es/services/integrations-and-backend"]')).toBeVisible();
+    const next = page.getByRole("link", {name: /^Siguiente/});
+    await expect(next).toHaveAttribute("href", "/es/skills/crm-and-automation");
+    // A group without jobs behind it leaves that section out.
+    await gotoHydrated(page, "/es/skills/machine-learning-and-ai");
+    await expect(page.locator("#detail-jobs")).toHaveCount(0);
+    await expect(page.locator("#detail-education")).toBeVisible();
     expect(consoleErrors).toEqual([]);
 });
 

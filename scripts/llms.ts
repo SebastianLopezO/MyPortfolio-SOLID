@@ -21,6 +21,7 @@ const SECTIONS = [
     {heading: "Projects and case studies", match: /^\/en\/projects(?:\/|$)/},
     {heading: "Experience", match: /^\/en\/experience(?:\/|$)/},
     {heading: "Education", match: /^\/en\/education(?:\/|$)/},
+    {heading: "Technical skills", match: /^\/en\/skills(?:\/|$)/},
     {heading: "GitHub organizations", match: /^\/en\/organizations(?:\/|$)/},
     {heading: "Services", match: /^\/en\/services(?:\/|$)/},
     {heading: "Reasons to hire", match: /^\/en\/reasons(?:\/|$)/},

@@ -38,9 +38,9 @@ charts. Pages read like a product designer's case files: a large name, a sentenc
 - **Variance 5, controlled asymmetry.** The hero splits text and board; the reasons to hire me are a slide beside a
   list; lists are strict index rows.
 - **Motion 6, Fluid CSS.** Illustrations rise onto their tiles as they come up, the page settles at the start of each
-  screen, a skill tile prints its tools one after another and the reasons slide in beside their slide. The browser
-  draws nearly all of it from CSS, nothing moves for more than five seconds on its own, and `prefers-reduced-motion`
-  turns it off.
+  screen, the skills turn on a ring one card at a time and the reasons slide in beside their slide. The browser
+  draws nearly all of it from CSS; the one thing that moves on its own for more than five seconds, the skills ring,
+  has a pause button, and `prefers-reduced-motion` turns the rest off and leaves the ring paused.
 
 ## 2. Color Palette & Roles
 
@@ -48,7 +48,7 @@ Every token is `light-dark(light, dark)` in OKLCH; the page follows the system a
 (`<html data-theme>`, remembered in `localStorage`). Hex values below are the sRGB conversions, light / dark.
 
 - **Paper / Night** (#FBFCFD / #0D0D0D, `bg`): page background and `theme-color`. Never pure white or pure black.
-- **Mist / Graphite** (#F2F4F5 / #161616, `surface`): panels, the skill tiles, raised sections.
+- **Mist / Graphite** (#F2F4F5 / #161616, `surface`): panels, the skill cards, raised sections.
 - **Fog / Smoke** (#E7EAEC / #202020, `surface-raised`): chips, quiet buttons, the menu's hover.
 - **Hairline** (#DCDEE0 / #2E2E2E, `border`): dividers between index rows. Decoration only.
 - **Control Edge** (#7D8185 / #747474, `border-strong`): borders that must be seen: inputs, outline buttons (3:1+).
@@ -107,10 +107,11 @@ every pair in both themes.
   once. Each device is a link to the project it stands for: with a pointer on the board a dashed outline marks every
   device, and the one under the pointer, or reached with the keyboard, shows a label with the project's name and a
   line about it, opening toward the middle of the board. Escape puts the label away.
-- **Skill tiles** (`SkillsSection`): every group of tools is a Mist tile with its object on a small layer of color,
-  its name, how many tools it holds and its first six, the role view's own first; a line says how many more, and a
-  disclosure under the grid lists them all. Nothing is dragged or pressed: as a tile comes up it rises, its object
-  lifts onto its layer and its tools print one after another, all drawn by the scroll position.
+- **Skills gallery** (`SkillsSection`): every group of tools is a Mist card on a 3D ring, with its object on a layer
+  of color, how many tools it holds, its name and a short line. The ring turns one card at a time while it is in
+  view and stops under a pointer, on focus, off screen or with its pause button; the cards at the sides fade and turn
+  away. Each card leads to the group's page (`/skills/{slug}`), which tells its focus, what it is, what it is good for,
+  all its tools and the projects, jobs, studies and services where it shows.
 - **Services** (`ServicesSection`): no cards and no lists of points on the home. Each service is its object on a
   rounded layer, its name with an arrow and a few words, and the whole of it leads to the service's page, which tells
   what it covers, the projects that prove it, the jobs it was done in and the reasons that go with it.
@@ -169,7 +170,7 @@ every pair in both themes.
   spring for what lands: a tile, a lifted object, the header). Transitions list their properties.
 - **Scroll-driven:** section headings, rows and tiles rise into place as they enter; a tile's illustration rises onto
   its layer; screens paint in from their top edge; a decision flows from its problem to its solution; the journey map
-  rises in as one piece; a skill tile prints its tools one by one; a reason's card slides in from the side of
+  rises in as one piece; a reason's card slides in from the side of
   its slide; bars grow; figures count up once. Browsers without scroll-driven animations get the page at rest.
 - **On load:** the illustrations' own lights pulse three times. Under five seconds in all.
 - **Hover:** a tile grows and lifts its illustration; a service's object lifts; an arrow leans the way it leads. Only

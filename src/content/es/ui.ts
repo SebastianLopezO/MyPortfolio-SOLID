@@ -69,6 +69,7 @@ export const ui: Content["ui"] = {
             experience: "Experiencia",
             education: "Educación",
             certifications: "Certificaciones",
+            skills: "Habilidades técnicas",
             organizations: "Organizaciones en GitHub",
             services: "Servicios",
             reasons: "Por qué contratarme",

@@ -330,7 +330,7 @@ export interface Content {
             elsewhere: string;
             /** The pages beyond the profile: the projects and the job, program, certification and organization pages. */
             explore: string;
-            pages: Record<"projects" | "experience" | "education" | "certifications" | "organizations" | "services" | "reasons" | "metrics", string>;
+            pages: Record<"projects" | "experience" | "education" | "certifications" | "skills" | "organizations" | "services" | "reasons" | "metrics", string>;
         };
         whatsapp: { label: string; message: string };
     };
@@ -419,11 +419,22 @@ export interface Content {
         title: string;
         subtitle: Record<ProfileKey, string>;
         groups: Record<SkillGroupId, string>;
+        /** A short line under each group's name, on its card and its page. */
+        taglines: Record<SkillGroupId, string>;
         /** `{count}` is replaced with how many tools a group lists. */
         count: string;
-        moreTitle: string;
-        /** After a group's first tools on its tile: `{count}` more, listed in the disclosure below. */
-        others: string;
+        /** The rotating gallery of the groups: its name, its controls and a card's place (`{index}`, `{count}`). */
+        gallery: {
+            label: string;
+            previous: string;
+            next: string;
+            pause: string;
+            play: string;
+            slide: string;
+            open: string;
+        };
+        /** The link from the gallery to the page that lists every group; `{count}` is the number of groups. */
+        all: string;
     };
     projects: {
         title: string;

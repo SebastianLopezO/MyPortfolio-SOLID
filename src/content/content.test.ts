@@ -19,7 +19,9 @@ import {projectPages as esPages} from "@/content/project-pages/es";
 import {isCaseStudy} from "@/content/shared/project-links";
 import {detailPages as enDetails} from "@/content/detail-pages/en";
 import {detailPages as esDetails} from "@/content/detail-pages/es";
-import {CERTIFICATION_IDS} from "@/content/shared/detail-links";
+import {CERTIFICATION_IDS, SKILL_SLUG} from "@/content/shared/detail-links";
+import {SKILL_IDS, skillGroups, skillWork} from "@/content/shared/skills";
+import {toolsOfGroupIn} from "@/lib/details";
 import {education} from "@/content/shared/education";
 import {organizationActivity} from "@/content/shared/organization-activity";
 import {organizations} from "@/content/shared/organizations";
@@ -301,10 +303,34 @@ describe("bilingual content", () => {
             expect(Object.keys(copy.education).sort()).toEqual(education.map((item) => item.id).sort());
             expect(Object.keys(copy.organizations).sort()).toEqual(organizations.map((item) => item.id).sort());
             expect(Object.keys(copy.issuers).sort()).toEqual([...new Set(certifications.map((item) => item.issuerId))].sort());
+            expect(Object.keys(copy.skills).sort()).toEqual(skillGroups.map((group) => group.id).sort());
             // Search results cut descriptions longer than this, and the build checks the shortest ones.
-            for (const {seo} of [...Object.values(copy.experience), ...Object.values(copy.education), ...Object.values(copy.organizations)]) {
+            for (const {seo} of [...Object.values(copy.experience), ...Object.values(copy.education), ...Object.values(copy.organizations), ...Object.values(copy.skills)]) {
                 expect(seo.description.length, seo.description).toBeGreaterThanOrEqual(70);
                 expect(seo.description.length, seo.description).toBeLessThanOrEqual(180);
+            }
+        }
+    });
+
+    it("gives every group of tools a page, a line and the work it shows in", () => {
+        expect([...SKILL_IDS].sort()).toEqual(skillGroups.map((group) => group.id).sort());
+        expect(Object.keys(SKILL_SLUG).sort()).toEqual([...SKILL_IDS].sort());
+        expect(new Set(Object.values(SKILL_SLUG)).size).toBe(SKILL_IDS.length);
+        for (const content of [es, en]) {
+            expect(Object.keys(content.skills.taglines).sort()).toEqual([...SKILL_IDS].sort());
+        }
+        for (const id of SKILL_IDS) {
+            const work = skillWork[id];
+            // A page always shows projects and services; jobs and studies only when the facts hold some.
+            expect(work.projects.length, id).toBeGreaterThanOrEqual(2);
+            expect(work.services.length, id).toBeGreaterThan(0);
+            for (const list of Object.values(work)) expect(new Set(list).size, id).toBe(list.length);
+        }
+        // A job linked from a group of tools used one of them, except where the group is a practice
+        // whose tools a stack does not list (networks, security and the everyday tools).
+        for (const id of SKILL_IDS.filter((group) => !["networks", "security", "tools"].includes(group))) {
+            for (const job of skillWork[id].experience) {
+                expect(toolsOfGroupIn(id, experience.find((item) => item.id === job)!.tech).length, `${id} ${job}`).toBeGreaterThan(0);
             }
         }
     });

@@ -3,7 +3,7 @@ import {buildRobots, buildSitemap} from "@/lib/sitemap";
 describe("sitemap and robots", () => {
     it("lists the profile, project and detail pages in both languages as plain XML", () => {
         const sitemap = buildSitemap();
-        expect(sitemap.match(/<url>/g)).toHaveLength(226);
+        expect(sitemap.match(/<url>/g)).toHaveLength(258);
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/data</loc>");
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/projects/smartpot</loc>");
         expect(sitemap).toContain("<loc>https://sebastianlopezo.page/es/projects/gopoli</loc>");
