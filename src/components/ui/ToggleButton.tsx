@@ -7,11 +7,13 @@ export function ToggleButton(props: {
     onClick: () => void;
     /** How many items the option shows, after the label. */
     count?: number;
+    "data-testid"?: string;
     children: JSX.Element;
 }) {
     return (
         <button
             type="button"
+            data-testid={props["data-testid"]}
             aria-pressed={props.pressed}
             onClick={() => props.onClick()}
             class={cn(

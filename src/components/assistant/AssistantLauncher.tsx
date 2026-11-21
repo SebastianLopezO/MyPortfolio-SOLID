@@ -50,6 +50,7 @@ export function AssistantLauncher() {
             <button
                 ref={button}
                 type="button"
+                data-testid="assistant-launcher"
                 aria-label={label}
                 title={label}
                 aria-haspopup="dialog"

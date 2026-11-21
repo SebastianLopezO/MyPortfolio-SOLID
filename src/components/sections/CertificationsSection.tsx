@@ -31,18 +31,18 @@ export function CertificationsSection() {
     return (
         <Section id="certifications" title={copy.title} subtitle={forProfile(copy.subtitle, role())} tone="raised">
             {/* Rows of an index split by hairlines, two across from 48rem; the full list of 29 reads the same way. */}
-            <ul class="enter-each grid border-b border-border md:grid-cols-2 md:gap-x-12">
+            <ul data-testid="certifications-list" class="enter-each grid border-b border-border md:grid-cols-2 md:gap-x-12">
                 <For each={items()}>{(item) => {
                     const text = copy.items[item.id];
                     const stop = STOPS.get(item.milestone)!;
                     return (
-                        <li class="flex gap-4 border-t border-border py-5">
+                        <li data-testid={`certification-item-${item.id}`} class="flex gap-4 border-t border-border py-5">
                             <div class="min-w-0 flex-1">
                                 <h3 class="text-fg">
                                     <Link to={buildDetailPath(lang, "certifications", {
                                         slug: CERTIFICATION_SLUG[item.id],
                                         locked: locked()
-                                    })} class="inline-block py-0.5 leading-snug hover:text-primary">
+                                    })} data-testid={`certification-link-${item.id}`} class="inline-block py-0.5 leading-snug hover:text-primary">
                                         {item.title}
                                     </Link>
                                 </h3>
@@ -58,6 +58,7 @@ export function CertificationsSection() {
                                     <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-subtle">
                                         <span>{copy.labels.stop}:</span>
                                         <a href="#journey"
+                                           data-testid={`certification-stop-${item.id}`}
                                            class="inline-flex min-h-7 items-center font-semibold text-fg-muted hover:text-primary">
                                             {journey.milestones[stop.id].title}
                                         </a>
@@ -72,6 +73,7 @@ export function CertificationsSection() {
                                             href={url()}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            data-testid={`certification-credential-${item.id}`}
                                             class="inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover"
                                         >
                                             {ui.actions.viewCredential}
@@ -88,6 +90,7 @@ export function CertificationsSection() {
                 <Show when={parts().hidden.length > 0}>
                     <button
                         type="button"
+                        data-testid="certifications-toggle"
                         aria-expanded={expanded()}
                         onClick={() => setExpanded((value) => !value)}
                         class="inline-flex min-h-10 items-center rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
@@ -97,6 +100,7 @@ export function CertificationsSection() {
                 </Show>
                 <Link
                     to={buildDetailPath(lang, "certifications", {locked: locked()})}
+                    data-testid="certifications-all-link"
                     class="inline-flex min-h-10 items-center gap-2 rounded-md px-2 text-sm font-semibold text-primary hover:text-primary-hover"
                 >
                     {copy.labels.index}

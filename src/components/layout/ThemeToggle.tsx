@@ -18,7 +18,7 @@ const currentTheme = (): Theme => {
 /**
  * Switches between the dark (default) and the light theme and remembers the choice for the next visit.
  */
-export function ThemeToggle(props: { class?: string }) {
+export function ThemeToggle(props: { class?: string; "data-testid"?: string }) {
     const {ui} = useContent();
     const [theme, setTheme] = createSignal<Theme>("dark");
 
@@ -41,6 +41,7 @@ export function ThemeToggle(props: { class?: string }) {
     return (
         <button
             type="button"
+            data-testid={props["data-testid"] ?? "theme-toggle"}
             onClick={toggle}
             aria-label={theme() === "dark" ? ui.theme.toLight : ui.theme.toDark}
             class={cn(

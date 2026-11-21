@@ -130,6 +130,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
     return (
         <dialog
             ref={dialog}
+            data-testid="assistant-dialog"
             aria-labelledby="assistant-title"
             onClose={() => props.onClose()}
             onClick={(event) => event.target === event.currentTarget && close()}
@@ -138,11 +139,12 @@ export default function AssistantPanel(props: AssistantPanelProps) {
             <div class="flex h-full flex-col">
                 <header class="flex items-start justify-between gap-4 border-b border-border px-5 py-4">
                     <div>
-                        <h2 id="assistant-title" class="font-display text-title">{copy.title}</h2>
-                        <p class="mt-1 text-sm text-fg-subtle">{copy.subtitle}</p>
+                        <h2 id="assistant-title" data-testid="assistant-title" class="font-display text-title">{copy.title}</h2>
+                        <p data-testid="assistant-subtitle" class="mt-1 text-sm text-fg-subtle">{copy.subtitle}</p>
                     </div>
                     <button
                         type="button"
+                        data-testid="assistant-close"
                         onClick={close}
                         aria-label={copy.close}
                         class="grid size-10 shrink-0 place-items-center rounded-md text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
@@ -151,10 +153,11 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                     </button>
                 </header>
 
-                <div role="log" aria-live="polite" aria-labelledby="assistant-title"
+                <div role="log" aria-live="polite" aria-labelledby="assistant-title" data-testid="assistant-log"
                      class="flex-1 space-y-4 overflow-y-auto overscroll-contain px-5 py-5">
                     <For each={messages()}>{(message) => (
                         <div
+                            data-testid={`assistant-message-${message.from}`}
                             class={message.from === "user" ? "flex justify-end" : "flex justify-start"}>
                             <div
                                 class={
@@ -164,14 +167,14 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                                 }
                             >
                                 <p class="sr-only">{message.from === "user" ? copy.you : copy.assistant}:</p>
-                                <p class="leading-relaxed">{message.text}</p>
+                                <p data-testid="assistant-message-text" class="leading-relaxed">{message.text}</p>
                                 <Show when={message.answer && message.answer.details.length > 0}>
-                                    <ul class="mt-3 list-disc space-y-1.5 ps-5 text-sm text-fg-muted">
+                                    <ul data-testid="assistant-answer-details" class="mt-3 list-disc space-y-1.5 ps-5 text-sm text-fg-muted">
                                         <For each={message.answer!.details}>{(detail) => <li>{detail}</li>}</For>
                                     </ul>
                                 </Show>
                                 <Show when={message.answer && message.answer.links.length > 0}>
-                                    <ul class="mt-3 flex flex-wrap gap-2">
+                                    <ul data-testid="assistant-answer-links" class="mt-3 flex flex-wrap gap-2">
                                         <For each={message.answer!.links}>{(link) => <li><AnswerLinkView link={link}/>
                                         </li>}</For>
                                     </ul>
@@ -185,15 +188,15 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                 <div class="border-t border-border px-5 pt-3">
                     {/* Every question the assistant knows, by topic; it opens above the suggestions and scrolls on its own. */}
                     <Show when={catalogOpen()}>
-                        <div id={catalogId}
+                        <div id={catalogId} data-testid="assistant-catalog"
                              class="mb-3 max-h-[40dvh] space-y-4 overflow-y-auto overscroll-contain border-b border-border pb-3">
                             <For each={copy.catalog.groups}>{(group) => (
-                                <section aria-label={group.title}>
+                                <section aria-label={group.title} data-testid="assistant-catalog-group">
                                     <h3 class="font-mono text-xs text-fg-subtle">{group.title}</h3>
                                     <ul class="mt-2 flex flex-wrap gap-2">
                                         <For each={group.questions}>{(question) => (
                                             <li>
-                                                <button type="button" onClick={() => send(question)}
+                                                <button type="button" data-testid="assistant-catalog-question" onClick={() => send(question)}
                                                         class={CHIP_CLASS}>
                                                     {question}
                                                 </button>
@@ -211,6 +214,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                         </p>
                         <button
                             type="button"
+                            data-testid="assistant-catalog-toggle"
                             aria-expanded={catalogOpen()}
                             aria-controls={catalogId}
                             onClick={() => setCatalogOpen((value) => !value)}
@@ -221,10 +225,10 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                         </button>
                     </div>
                     {/* The questions wrap instead of scrolling sideways, so a phone never gets a horizontal scrollbar. */}
-                    <ul aria-labelledby="assistant-suggestions" class="flex flex-wrap gap-2 pb-1">
+                    <ul aria-labelledby="assistant-suggestions" data-testid="assistant-suggestions-list" class="flex flex-wrap gap-2 pb-1">
                         <For each={offered()}>{(suggestion) => (
                             <li>
-                                <button type="button" onClick={() => send(suggestion)} class={CHIP_CLASS}>
+                                <button type="button" data-testid="assistant-suggestion" onClick={() => send(suggestion)} class={CHIP_CLASS}>
                                     {suggestion}
                                 </button>
                             </li>
@@ -232,11 +236,12 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                     </ul>
                 </div>
 
-                <form onSubmit={submit} class="flex gap-2 px-5 pt-3 pb-5">
+                <form onSubmit={submit} aria-label={copy.inputLabel} data-testid="assistant-form" class="flex gap-2 px-5 pt-3 pb-5">
                     <label for="assistant-input" class="sr-only">{copy.inputLabel}</label>
                     <Input
                         ref={input}
                         id="assistant-input"
+                        data-testid="assistant-input"
                         value={query()}
                         onInput={(event) => setQuery(event.currentTarget.value)}
                         placeholder={copy.placeholder}
@@ -246,6 +251,7 @@ export default function AssistantPanel(props: AssistantPanelProps) {
                     />
                     <button
                         type="submit"
+                        data-testid="assistant-send"
                         aria-label={copy.send}
                         disabled={!query().trim()}
                         class="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors hover:bg-primary-hover disabled:opacity-50"

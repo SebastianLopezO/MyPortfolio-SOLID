@@ -13,5 +13,5 @@ interface ProjectTileProps extends Omit<ArtTileProps, "art" | "keepName"> {
  */
 export function ProjectTile(props: ProjectTileProps) {
     const [local, rest] = splitProps(props, ["id"]);
-    return <ArtTile art={PROJECT_ART[local.id]} {...rest}/>;
+    return <ArtTile art={PROJECT_ART[local.id]} data-testid={`project-tile-${local.id}`} {...rest}/>;
 }

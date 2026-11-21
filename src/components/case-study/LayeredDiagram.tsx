@@ -15,7 +15,7 @@ interface LayeredDiagramProps {
  */
 export function LayeredDiagram(props: LayeredDiagramProps) {
     return (
-        <figure class="rounded-xl border border-border bg-surface/60 p-4 sm:p-6">
+        <figure data-testid="layered-diagram" class="rounded-xl border border-border bg-surface/60 p-4 sm:p-6">
             <figcaption class="mb-6">
                 <p class="font-semibold text-fg">{props.title}</p>
                 <p class="mt-1 text-sm text-fg-subtle">{props.caption}</p>

@@ -65,12 +65,13 @@ export function ReasonsSection() {
             <div class="reasons lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16">
                 {/* The slide: compact horizontal highlight below 64rem so it never fills a phone/tablet screen;
                     sticky presentation stage from 64rem capped to fit 768px-tall laptops without clipping. */}
-                <div class="reasons-stage grid lg:sticky lg:top-24 lg:self-start">
+                <div data-testid="reasons-stage" class="reasons-stage grid lg:sticky lg:top-24 lg:self-start">
                     <For each={ordered()}>
                         {(id, index) => {
                             const author = authorOf(id);
                             return (
                                 <figure
+                                    data-testid={`reason-slide-${id}`}
                                     class="reason-slide m-0 grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-border p-4 lg:block lg:border-0 lg:p-0"
                                     data-active={index() === active() || undefined}
                                 >
@@ -98,12 +99,13 @@ export function ReasonsSection() {
                     </For>
                 </div>
 
-                <ol ref={list} aria-label={services.reasons.listLabel} class="reasons-list mt-6 grid gap-3 lg:mt-0">
+                <ol ref={list} aria-label={services.reasons.listLabel} data-testid="reasons-list" class="reasons-list mt-6 grid gap-3 lg:mt-0">
                     <For each={ordered()}>
                         {(id, index) => (
-                            <li data-index={index()} data-active={index() === active() || undefined}
+                            <li data-index={index()} data-testid={`reason-item-${id}`} data-active={index() === active() || undefined}
                                 class="group/reason">
                                 <Link to={page(id)}
+                                      data-testid={`reason-card-${id}`}
                                       class="reason-card group grid grid-cols-[3.5rem_minmax(0,1fr)_auto] items-center gap-4 rounded-2xl border border-border bg-bg p-3 pr-4 hover:border-border-strong sm:grid-cols-[4.5rem_minmax(0,1fr)_auto] sm:p-4 lg:group-data-active/reason:border-fg">
                                     <span aria-hidden="true" class="grid aspect-square place-items-center rounded-xl"
                                           style={{background: `var(--color-tile-${REASON_ART[id].tile})`}}>
@@ -126,6 +128,7 @@ export function ReasonsSection() {
             </div>
             <Link
                 to={page()}
+                data-testid="reasons-all-link"
                 class="mt-10 inline-flex min-h-11 items-center gap-2 rounded-full border border-border-strong px-5 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised"
             >
                 {services.reasons.pageLink}

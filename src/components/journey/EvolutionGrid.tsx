@@ -56,18 +56,19 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
             <div class="space-y-3 lg:hidden">
                 <div
                     class="flex items-center justify-center gap-5 rounded-lg border border-border bg-surface/60 p-3">
-                    <button type="button" aria-label={copy.evolution.previousYear} disabled={yearIndex() === 0}
+                    <button type="button" data-testid="evolution-previous-year" aria-label={copy.evolution.previousYear} disabled={yearIndex() === 0}
                             onClick={() => moveYear(-1)} class={yearButton}>
                         <ChevronLeft class="size-5"/>
                     </button>
                     <p class="min-w-40 text-center">
-                        <span class="block font-display text-3xl text-fg">{focus().year}</span>
+                        <span data-testid="evolution-current-year" class="block font-display text-3xl text-fg">{focus().year}</span>
                         <span class="block text-xs text-fg-subtle">
                             {target() ? copy.evolution.target : activeDays()}
                         </span>
                     </p>
                     <button
                         type="button"
+                        data-testid="evolution-next-year"
                         aria-label={copy.evolution.nextYear}
                         disabled={yearIndex() === JOURNEY_YEARS.length - 1}
                         onClick={() => moveYear(1)}
@@ -83,6 +84,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                             <li>
                                 <button
                                     type="button"
+                                    data-testid={`evolution-mobile-area-${area}`}
                                     aria-pressed={focus().area === area}
                                     aria-label={label(area, focus().year, value())}
                                     onClick={() => setFocus({area, year: focus().year})}
@@ -108,7 +110,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
             </div>
 
             <div class="hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:block">
-                <table class="w-full min-w-[48rem] border-separate border-spacing-1 p-2 text-sm">
+                <table data-testid="evolution-table" class="w-full min-w-[48rem] border-separate border-spacing-1 p-2 text-sm">
                     <caption class="px-2 pb-2 text-left text-xs text-fg-subtle">{copy.evolution.caption}</caption>
                     <thead>
                     <tr>
@@ -167,6 +169,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                                     <td class="p-0">
                                         <button
                                             type="button"
+                                            data-testid={`evolution-cell-${area}-${year}`}
                                             aria-pressed={active()}
                                             aria-label={label(area, year, value)}
                                             onClick={() => setFocus({area, year})}
@@ -201,7 +204,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                 <span class="text-fg-subtle">* {copy.evolution.activeDaysNote}</span>
             </div>
 
-            <div aria-live="polite" class="rounded-lg border border-border bg-surface p-5">
+            <div aria-live="polite" data-testid="evolution-details" class="rounded-lg border border-border bg-surface p-5">
                 <p class="font-mono text-xs uppercase tracking-wider text-fg-subtle">
                     {focus().year}
                     {target() && ` · ${copy.evolution.target}`}
@@ -217,6 +220,7 @@ export function EvolutionGrid(props: { onSelectMilestone: (id: MilestoneId) => v
                             <li>
                                 <button
                                     type="button"
+                                    data-testid={`evolution-evidence-${id}`}
                                     onClick={() => props.onSelectMilestone(id)}
                                     class="min-h-9 rounded-full border border-border px-3 text-sm text-fg-muted hover:border-primary hover:text-fg"
                                 >

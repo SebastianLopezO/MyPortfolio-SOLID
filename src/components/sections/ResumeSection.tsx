@@ -36,10 +36,11 @@ export function ResumeSection() {
             <div
                 class="enter-each mx-auto grid max-w-5xl gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
                 <div>
-                    <div role="group" aria-label={resume.title} class="flex flex-wrap gap-2">
+                    <div role="group" aria-label={resume.title} data-testid="resume-versions" class="flex flex-wrap gap-2">
                         <For each={resumeVersions}>{(item) => (
                             <button
                                 type="button"
+                                data-testid={`resume-version-${item.id}`}
                                 aria-pressed={item.id === selected()}
                                 onClick={() => setSelected(item.id)}
                                 class={cn(
@@ -53,8 +54,8 @@ export function ResumeSection() {
                             </button>
                         )}</For>
                     </div>
-                    <p class="mt-6 text-lg text-fg-muted">{copy().description}</p>
-                    <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-y border-border py-4 text-sm text-fg-muted">
+                    <p data-testid="resume-description" class="mt-6 text-lg text-fg-muted">{copy().description}</p>
+                    <ul data-testid="resume-meta" class="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-y border-border py-4 text-sm text-fg-muted">
                         <li class="flex items-center gap-2 font-semibold text-fg">
                             <FileText class="size-4 text-primary"/>
                             {pages()}
@@ -66,7 +67,7 @@ export function ResumeSection() {
                         </Show>
                     </ul>
                     <h3 class="mt-6 font-mono text-xs uppercase tracking-wider text-fg-subtle">{resume.includesTitle}</h3>
-                    <ul class="mt-3 space-y-2.5">
+                    <ul data-testid="resume-includes" class="mt-3 space-y-2.5">
                         <For each={copy().includes}>
                             {(item) => (
                                 <li class="flex gap-3 text-fg-muted">
@@ -76,12 +77,13 @@ export function ResumeSection() {
                             )}
                         </For>
                     </ul>
-                    <div class="mt-8 flex flex-wrap gap-3">
+                    <div data-testid="resume-actions" class="mt-8 flex flex-wrap gap-3">
                         <Show when={!version().external} fallback={
                             <a
                                 href={file()}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                data-testid="resume-open"
                                 class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
                             >
                                 <ExternalLink class="size-5"/>
@@ -91,6 +93,7 @@ export function ResumeSection() {
                             <a
                                 href={file()}
                                 download=""
+                                data-testid="resume-download"
                                 class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover active:translate-y-px"
                             >
                                 <Download class="size-5"/>
@@ -100,6 +103,7 @@ export function ResumeSection() {
                                 href={file()}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                data-testid="resume-open"
                                 class="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-5 font-semibold text-fg hover:border-primary hover:text-primary active:translate-y-px"
                             >
                                 <ExternalLink class="size-5"/>
@@ -113,6 +117,7 @@ export function ResumeSection() {
                     href={file()}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-testid="resume-preview"
                     class="relative mx-auto mb-6 block w-full max-w-xs sm:max-w-sm lg:mb-0"
                     style={{
                         "padding-right": px(sheets() * SHEET_OFFSET),

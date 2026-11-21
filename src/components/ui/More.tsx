@@ -16,10 +16,12 @@ export function More(props: {
     children: JSX.Element;
     class?: string;
     summaryClass?: string;
+    "data-testid"?: string;
 }) {
     return (
-        <details class={cn("more", props.class)}>
+        <details data-testid={props["data-testid"]} class={cn("more", props.class)}>
             <summary
+                data-testid={props["data-testid"] ? `${props["data-testid"]}-summary` : undefined}
                 class={cn("inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover", props.summaryClass)}>
                 <span class="more-closed">{props.label}</span>
                 <span class="more-open">{props.openLabel}</span>

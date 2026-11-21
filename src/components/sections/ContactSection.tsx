@@ -84,7 +84,7 @@ export function ContactSection() {
             <div class="mt-10">
                 <h3 class="text-title text-fg">{contact.connect}</h3>
                 <p class="mt-3 text-fg-muted">{contact.description}</p>
-                <ul class="mt-8 space-y-5">
+                <ul data-testid="contact-details" class="mt-8 space-y-5">
                     <For each={details}>{(detail) => (
                         <li class="flex items-center gap-4">
                             <span
@@ -97,6 +97,7 @@ export function ContactSection() {
                                     <Show when={detail.href} fallback={detail.value}>
                                         {(href) => (
                                             <a href={href()} class="hover:text-primary"
+                                               data-testid={detail.copy ? "contact-email-link" : undefined}
                                                target={href().startsWith("http") ? "_blank" : undefined}
                                                rel={href().startsWith("http") ? "noopener noreferrer" : undefined}>
                                                 {detail.value}
@@ -105,12 +106,13 @@ export function ContactSection() {
                                     </Show>
                                 </p>
                                 <Show when={detail.copy}>
-                                    <p role="status" class="text-sm text-fg-subtle">{copiedLabel()}</p>
+                                    <p role="status" data-testid="contact-copy-status" class="text-sm text-fg-subtle">{copiedLabel()}</p>
                                 </Show>
                             </div>
                             <Show when={detail.copy}>
                                 <button
                                     type="button"
+                                    data-testid="contact-copy-email"
                                     onClick={copyEmail}
                                     aria-label={contact.copyEmail.label}
                                     title={contact.copyEmail.label}
@@ -127,18 +129,20 @@ export function ContactSection() {
             </div>
         }>
             <form onSubmit={submit}
+                  aria-labelledby="contact-title"
+                  data-testid="contact-form"
                   class="space-y-5 rounded-lg border border-border bg-surface p-6 shadow-card">
                 <div>
                     <label for="contact-name"
                            class="mb-2 block text-sm font-semibold text-fg">{contact.form.name}</label>
-                    <Input id="contact-name" name="name" autocomplete="name" required value={form().name}
+                    <Input id="contact-name" data-testid="contact-name-input" name="name" autocomplete="name" required value={form().name}
                            placeholder={contact.placeholders.name}
                            onInput={update("name")}/>
                 </div>
                 <div>
                     <label for="contact-email"
                            class="mb-2 block text-sm font-semibold text-fg">{contact.form.email}</label>
-                    <Input id="contact-email" name="email" type="email" autocomplete="email" spellcheck={false}
+                    <Input id="contact-email" data-testid="contact-email-input" name="email" type="email" autocomplete="email" spellcheck={false}
                            required value={form().email}
                            placeholder={contact.placeholders.email}
                            onInput={update("email")}/>
@@ -146,7 +150,7 @@ export function ContactSection() {
                 <div>
                     <label for="contact-message"
                            class="mb-2 block text-sm font-semibold text-fg">{contact.form.message}</label>
-                    <Textarea id="contact-message" name="message" rows={5} required prop:value={form().message}
+                    <Textarea id="contact-message" data-testid="contact-message-input" name="message" rows={5} required prop:value={form().message}
                               placeholder={contact.placeholders.message}
                               onInput={update("message")}/>
                 </div>
@@ -156,6 +160,7 @@ export function ContactSection() {
                         type="submit"
                         name="channel"
                         value="whatsapp"
+                        data-testid="contact-submit-whatsapp"
                         class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold whitespace-nowrap text-on-primary hover:bg-primary-hover active:translate-y-px"
                     >
                         <Send class="size-5"/>
@@ -165,13 +170,14 @@ export function ContactSection() {
                         type="submit"
                         name="channel"
                         value="email"
+                        data-testid="contact-submit-email"
                         class="inline-flex h-12 flex-auto items-center justify-center gap-2 rounded-full border border-border-strong px-5 font-semibold whitespace-nowrap text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px"
                     >
                         <Mail class="size-5"/>
                         {contact.form.sendEmail}
                     </button>
                 </div>
-                <p class="text-center text-xs text-fg-subtle">{contact.form.note}</p>
+                <p data-testid="contact-form-note" class="text-center text-xs text-fg-subtle">{contact.form.note}</p>
             </form>
         </Section>
     );

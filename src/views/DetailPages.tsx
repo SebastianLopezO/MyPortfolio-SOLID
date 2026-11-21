@@ -1094,13 +1094,14 @@ function ExperienceIndex() {
     const links = useLinks();
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="experience-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="experience"/>
-            <ol class="mt-12 border-b border-border">
+            <ol data-testid="experience-index-list" class="mt-12 border-b border-border">
                 <For each={experience}>{(job) => {
                     const item = jobs.items[job.id];
                     return (
                         <li
+                            data-testid={`experience-index-item-${job.id}`}
                             class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
                             <IndexArt art={EXPERIENCE_ART[job.id]}
                                       to={links.detail("experience", EXPERIENCE_SLUG[job.id])}/>
@@ -1108,6 +1109,7 @@ function ExperienceIndex() {
                                 <p class="font-mono text-xs text-fg-subtle">{formatRange(job.start, job.end, siteUi.months, siteUi.present)}</p>
                                 <h2 class="text-title text-fg">
                                     <Link to={links.detail("experience", EXPERIENCE_SLUG[job.id])}
+                                          data-testid={`experience-index-link-${job.id}`}
                                           class="hover:text-primary">{job.company}</Link>
                                 </h2>
                                 <p class="mt-1 font-semibold text-primary">{item.title}</p>
@@ -1135,13 +1137,14 @@ function EducationIndex() {
     const links = useLinks();
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="education-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="education"/>
-            <ol class="mt-12 border-b border-border">
+            <ol data-testid="education-index-list" class="mt-12 border-b border-border">
                 <For each={education}>{(program) => {
                     const copy = about.education[program.id];
                     return (
                         <li
+                            data-testid={`education-index-item-${program.id}`}
                             class="section-enter grid grid-cols-[5rem_minmax(0,1fr)] gap-x-5 gap-y-2 border-t border-border py-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-x-10">
                             <IndexArt art={EDUCATION_ART[program.id]}
                                       to={links.detail("education", EDUCATION_SLUG[program.id])}/>
@@ -1149,6 +1152,7 @@ function EducationIndex() {
                                 <p class="font-mono text-xs text-fg-subtle">{program.start === program.end ? program.start : `${program.start} – ${program.end}`}</p>
                                 <h2 class="text-title text-fg">
                                     <Link to={links.detail("education", EDUCATION_SLUG[program.id])}
+                                          data-testid={`education-index-link-${program.id}`}
                                           class="hover:text-primary">{copy.degree}</Link>
                                 </h2>
                                 <p class="mt-1 text-fg-muted">{program.school}</p>
@@ -1217,17 +1221,20 @@ function CertificationsIndex() {
     const groups = certificationsByIssuer();
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="certifications-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="certifications" subtitle={fill(indexes.certifications.subtitle, {
                 count: certifications.length,
                 issuers: groups.length
             })}/>
             {/* The prerendered page groups by issuer; the other grouping only exists once the page is interactive. */}
-            <div role="group" aria-label={ui.certificationGroups.label} data-interactive={interactive() || undefined}
+            <div role="group" aria-label={ui.certificationGroups.label} data-testid="certifications-grouping" data-interactive={interactive() || undefined}
                  class="mt-8 flex flex-wrap gap-2">
                 <For each={GROUPINGS}>
                     {(value) => (
-                        <ToggleButton pressed={grouping() === value} onClick={() => setGrouping(value)}>
+                        <ToggleButton
+                            data-testid={`certifications-group-${value}`}
+                            pressed={grouping() === value}
+                            onClick={() => setGrouping(value)}>
                             {ui.certificationGroups[value]}
                         </ToggleButton>
                     )}
@@ -1280,19 +1287,20 @@ function OrganizationsIndex() {
     const numbers = useNumbers();
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="organizations-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="organizations"/>
-            <ul class="mt-12 grid border-b border-border md:grid-cols-2 md:gap-x-12">
+            <ul data-testid="organizations-index-list" class="mt-12 grid border-b border-border md:grid-cols-2 md:gap-x-12">
                 <For each={organizations}>{(organization) => {
                     const activity = organizationActivity[organization.id];
                     return (
-                        <li class="section-enter grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-5 border-t border-border py-6">
+                        <li data-testid={`organization-index-item-${organization.id}`} class="section-enter grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-5 border-t border-border py-6">
                             <IndexArt art={ORGANIZATION_ART[organization.id]}
                                       to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}/>
                             <div>
                                 <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                                     <h2 class="text-title text-fg" translate="no">
                                         <Link to={links.detail("organizations", ORGANIZATION_SLUG[organization.id])}
+                                              data-testid={`organization-index-link-${organization.id}`}
                                               class="[overflow-wrap:anywhere] hover:text-primary">
                                             {organization.name}
                                         </Link>
@@ -1337,7 +1345,7 @@ function AboutIndex() {
     const about = useSectionCopy("about");
     const {role} = useRole();
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="about-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="about" subtitle={forProfile(about.subtitle, role())}/>
             <div class="mt-12">
                 <AboutContent/>
@@ -1349,7 +1357,7 @@ function AboutIndex() {
 /** Every GitHub figure with what it tells; the home keeps the headline figures. */
 function MetricsIndex() {
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="metrics-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="metrics"/>
             <div class="mt-12">
                 <MetricsContent/>

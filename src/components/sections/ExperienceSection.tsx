@@ -55,7 +55,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
     return (
         // One job is one row of the index: its dates, its title and company with a sentence, and what it is now. Its
         // achievements, stack and projects open in place; its page tells the whole story.
-        <li class="timeline-card grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[11rem_minmax(0,1fr)]">
+        <li data-testid={`experience-item-${props.facts.id}`} class="timeline-card grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[11rem_minmax(0,1fr)]">
             <div class="font-mono text-xs leading-relaxed text-fg-subtle">
                 <p>{formatRange(props.facts.start, props.facts.end, ui.months, ui.present)}</p>
                 <p>{formatDuration(monthsBetween(props.facts.start, props.facts.end), lang)}</p>
@@ -64,7 +64,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                 <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
                     <div>
                         <h3 class="text-title text-fg">
-                            <Link to={detail()} class="hover:text-fg-muted">{item().title}</Link>
+                            <Link to={detail()} data-testid={`experience-title-link-${props.facts.id}`} class="hover:text-fg-muted">{item().title}</Link>
                         </h3>
                         <p class="mt-1 text-sm text-fg-muted sm:text-base">
                             {props.facts.company}
@@ -73,12 +73,13 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <Show when={props.role && matches() > 0}>
-                            <span class="rounded-full bg-surface-raised px-3 py-1 font-mono text-xs text-fg">
+                            <span data-testid={`experience-matches-${props.facts.id}`} class="rounded-full bg-surface-raised px-3 py-1 font-mono text-xs text-fg">
                                 {copy.matches.replace("{count}", String(matches())).replace("{total}", String(item().bullets.length))}
                             </span>
                         </Show>
                         <Show when={props.facts.end === null}>
                             <span
+                                data-testid={`experience-current-${props.facts.id}`}
                                 class="inline-flex items-center gap-1.5 rounded-full bg-surface-raised px-3 py-1 font-mono text-xs text-fg">
                                 <span aria-hidden="true" class="size-1.5 rounded-full bg-success"/>
                                 {copy.current}
@@ -95,7 +96,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                     </ul>
                 </Show>
 
-                <More class="mt-2.5" label={`${ui.actions.showMore} (${bullets().hidden.length})`}
+                <More class="mt-2.5" data-testid={`experience-more-${props.facts.id}`} label={`${ui.actions.showMore} (${bullets().hidden.length})`}
                       openLabel={ui.actions.showLess}>
                     <div class="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
                         <ul class="space-y-2 text-sm text-fg-muted sm:text-base">
@@ -116,6 +117,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                                     <li>
                                         <Link
                                             to={buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()})}
+                                            data-testid={`experience-project-${props.facts.id}-${id}`}
                                             class="inline-flex min-h-9 items-center gap-2 rounded-full border border-border py-1 pr-3 pl-1 text-xs text-fg transition-colors hover:border-border-strong hover:bg-surface sm:text-sm"
                                         >
                                             <span class="grid size-6 shrink-0 place-items-center rounded-full"
@@ -135,6 +137,7 @@ function ExperienceItem(props: { facts: ExperienceFacts; role: RoleId | null }) 
                 {/* Titles, timeline, every achievement and the recommendations of this job live on its own page. */}
                 <Link
                     to={detail()}
+                    data-testid={`experience-detail-link-${props.facts.id}`}
                     class="mt-4 inline-flex min-h-10 items-center gap-1.5 rounded-full bg-surface-raised px-4 text-sm font-semibold text-fg transition-colors hover:bg-border"
                 >
                     {copy.detail}
@@ -159,7 +162,7 @@ export function ExperienceSection() {
         <Section id="experience" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
             <Show when={role()}>
                 {(current) => (
-                    <p class="-mt-4 mb-8 max-w-3xl text-sm text-fg-subtle">
+                    <p data-testid="experience-relevance-note" class="-mt-4 mb-8 max-w-3xl text-sm text-fg-subtle">
                         {copy.relevanceNote.replace("{role}", ui.roleNames[current()])}
                     </p>
                 )}
@@ -169,7 +172,9 @@ export function ExperienceSection() {
                 <div class="-mt-4 mb-6 flex justify-end">
                     <button
                         type="button"
+                        data-testid="experience-toggle-all"
                         aria-controls="experience-jobs"
+                        aria-expanded={everything()}
                         onClick={() => setAll(list!, !everything())}
                         class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised active:translate-y-px"
                     >
@@ -179,7 +184,7 @@ export function ExperienceSection() {
                     </button>
                 </div>
             </Show>
-            <ol ref={list} id="experience-jobs" class="enter-each border-b border-border">
+            <ol ref={list} id="experience-jobs" data-testid="experience-jobs" class="enter-each border-b border-border">
                 <For each={jobs()}>{(facts) => <ExperienceItem facts={facts} role={role()}/>}</For>
             </ol>
         </Section>

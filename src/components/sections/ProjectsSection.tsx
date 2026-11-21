@@ -69,7 +69,7 @@ export function ProjectsSection() {
                 sentence. Like every tile, the whole of it leads to its page. */}
             <Show when={config().featuredProject} keyed>
                 {(id) => (
-                    <div data-featured="true" class="section-enter">
+                    <div data-featured="true" data-testid="projects-featured" class="section-enter">
                         <ProjectTile
                             id={id}
                             name={copy.items[id].name}
@@ -81,6 +81,7 @@ export function ProjectsSection() {
                         />
                         <div class="mt-4 flex flex-wrap gap-2">
                             <Link to={hrefOf(id)}
+                                  data-testid="projects-featured-cta"
                                   class="inline-flex min-h-10 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover">
                                 {isCaseStudy(id) ? ui.actions.readCaseStudy : copy.readProject}
                                 <ArrowRight class="size-4"/>
@@ -88,6 +89,7 @@ export function ProjectsSection() {
                             <Show when={projectById(id).links.demo}>
                                 {(demo) => (
                                     <a href={demo()} target="_blank" rel="noopener noreferrer"
+                                       data-testid="projects-featured-demo"
                                        class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised">
                                         {ui.actions.liveDemo}
                                         <ExternalLink class="size-4"/>
@@ -97,6 +99,7 @@ export function ProjectsSection() {
                             <Show when={projectById(id).links.code}>
                                 {(code) => (
                                     <a href={code()} target="_blank" rel="noopener noreferrer"
+                                       data-testid="projects-featured-code"
                                        class="inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised">
                                         <GithubIcon class="size-4"/>
                                         {ui.actions.viewCode}
@@ -112,6 +115,7 @@ export function ProjectsSection() {
                 <div
                     role="tablist"
                     aria-label={copy.categoriesLabel}
+                    data-testid="projects-tablist"
                     data-interactive={interactive() || undefined}
                     onKeyDown={onTabKey}
                     class="flex flex-wrap gap-2"
@@ -124,6 +128,7 @@ export function ProjectsSection() {
                             type="button"
                             role="tab"
                             id={`projects-tab-${id}`}
+                            data-testid={`projects-tab-${id}`}
                             aria-selected={category() === id}
                             aria-controls={`projects-panel-${id}`}
                             tabindex={category() === id ? 0 : -1}
@@ -140,13 +145,13 @@ export function ProjectsSection() {
                     )}</For>
                 </div>
                 <For each={PROJECT_CATEGORIES}>{(id) => (
-                    <div role="tabpanel" id={`projects-panel-${id}`} aria-labelledby={`projects-tab-${id}`}
+                    <div role="tabpanel" id={`projects-panel-${id}`} data-testid={`projects-panel-${id}`} aria-labelledby={`projects-tab-${id}`}
                          hidden={category() !== id} tabindex={0}
                          class="appear mt-5 focus-visible:outline-offset-8">
                         {/* Only the open category is rendered, which keeps the prerendered page small. */}
                         <Show when={category() === id}>
                             <p class="mb-5 max-w-2xl text-sm text-fg-muted sm:text-base">{copy.categories[id].description}</p>
-                            <ul class="enter-each grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4">
+                            <ul data-testid={`projects-grid-${id}`} class="enter-each grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4">
                                 <For each={listed()}>{(project) => (
                                     <li>
                                         <ProjectTile
@@ -160,6 +165,7 @@ export function ProjectsSection() {
                             </ul>
                             <Link
                                 to={buildProjectPath(lang, {locked: locked()})}
+                                data-testid="projects-all-link"
                                 class="mt-7 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-surface-raised px-5 text-sm font-semibold text-fg transition-colors hover:bg-border"
                             >
                                 {ui.actions.allProjects}
@@ -177,7 +183,7 @@ export function ProjectsSection() {
                         <p class="mt-2 text-sm text-fg-muted sm:text-base">{copy.organizationsSubtitle}</p>
                     </div>
                     <div>
-                        <ul translate="no" class="flex flex-wrap gap-2">
+                        <ul translate="no" data-testid="projects-organizations-list" class="flex flex-wrap gap-2">
                             <For each={prioritize(organizations, (organization) => organization.roles, role())}>
                                 {(organization) => (
                                     <li>
@@ -186,6 +192,7 @@ export function ProjectsSection() {
                                                 slug: ORGANIZATION_SLUG[organization.id],
                                                 locked: locked()
                                             })}
+                                            data-testid={`projects-org-${organization.id}`}
                                             class="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border px-3.5 text-sm text-fg-muted transition-colors hover:border-fg-subtle hover:text-fg"
                                         >
                                             {organization.name}
@@ -200,6 +207,7 @@ export function ProjectsSection() {
                         </ul>
                         <Link
                             to={buildDetailPath(lang, "organizations", {locked: locked()})}
+                            data-testid="projects-organizations-index"
                             class="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-fg hover:text-fg-muted"
                         >
                             {copy.organizationsIndex}

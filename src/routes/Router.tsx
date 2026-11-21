@@ -37,6 +37,8 @@ interface LinkProps {
     onClick?: (event: MouseEvent) => void;
     tabindex?: number;
     translate?: "yes" | "no";
+    "data-testid"?: string;
+    "aria-label"?: string;
     "aria-current"?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>["aria-current"];
     "aria-hidden"?: "true";
     "aria-labelledby"?: string;
@@ -67,6 +69,8 @@ export function Link(props: LinkProps) {
             class={props.class}
             tabindex={props.tabindex}
             translate={props.translate}
+            data-testid={props["data-testid"]}
+            aria-label={props["aria-label"]}
             aria-current={props["aria-current"]}
             aria-hidden={props["aria-hidden"]}
             aria-labelledby={props["aria-labelledby"]}

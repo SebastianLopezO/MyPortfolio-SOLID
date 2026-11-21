@@ -40,14 +40,15 @@ export function TechExplorer(props: TechExplorerProps) {
     const empty = () => (props.exclude ? labels.noOther : labels.none);
 
     return (
-        <div>
+        <div data-testid="tech-explorer">
             <p class="mb-3 text-sm text-fg-subtle">{labels.hint}</p>
-            <ul translate="no" class="flex flex-wrap gap-1.5">
+            <ul translate="no" data-testid="tech-explorer-list" class="flex flex-wrap gap-1.5">
                 <For each={orderTech(props.tech, props.role)}>
                     {(item) => (
                         <li>
                             <button
                                 type="button"
+                                data-testid={`tech-chip-${item}`}
                                 aria-pressed={picked() === item}
                                 aria-controls={panel}
                                 onClick={() => setPicked(picked() === item ? null : item)}
@@ -64,7 +65,7 @@ export function TechExplorer(props: TechExplorerProps) {
                     )}
                 </For>
             </ul>
-            <div id={panel} aria-live="polite">
+            <div id={panel} data-testid="tech-explorer-results" aria-live="polite">
                 <Show when={picked()}>
                     {(tech) => (
                         <div class="mt-4 rounded-lg border border-border bg-surface p-4">

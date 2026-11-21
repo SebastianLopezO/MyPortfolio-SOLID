@@ -49,6 +49,7 @@ function AboutTerminal(props: { class?: string }) {
 
     return (
         <figure aria-label={about.terminal.label}
+                data-testid="about-terminal"
                 class={cn("@container flex flex-col overflow-clip rounded-lg border border-border bg-surface", props.class)}>
             <div aria-hidden="true" class="flex items-center gap-1.5 border-b border-border px-4 py-2.5">
                 <span class="size-2.5 rounded-full bg-danger/70"/>
@@ -59,7 +60,7 @@ function AboutTerminal(props: { class?: string }) {
             <div aria-hidden="true" translate="no"
                  class="ascii-frame flex flex-1 flex-col justify-center px-4 py-5 sm:px-6">
                 <p class="font-mono text-xs text-fg-subtle">$ cat engineer.txt</p>
-                <pre class="ascii-art my-auto pt-3 font-mono text-primary/80"
+                <pre data-testid="about-ascii-art" class="ascii-art my-auto pt-3 font-mono text-primary/80"
                      style={ASCII_STYLE}>{ASCII_ART}</pre>
             </div>
         </figure>
@@ -75,18 +76,19 @@ function EducationList(props: { compact?: boolean }) {
 
     return (
         <>
-            <h3 class="flex items-center gap-2 text-title text-fg">
+            <h3 data-testid="about-education-heading" class="flex items-center gap-2 text-title text-fg">
                 <GraduationCap class="size-5 text-primary"/>
                 {about.educationTitle}
             </h3>
             {/* A timeline on phones; from 48rem an index two across, with the degree on a row of its own. */}
-            <ol class="enter-each mt-5 grid gap-x-10 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
+            <ol data-testid="about-education-list" class="enter-each mt-5 grid gap-x-10 border-l border-border pl-5 md:grid-cols-2 md:border-l-0 md:pl-0">
                 <For each={education}>{(item, index) => {
                     const copy = about.education[item.id];
                     const chips = () => (props.compact ? copy.skills.slice(0, HOME_EDUCATION_CHIPS) : copy.skills);
                     const overflow = () => (props.compact ? Math.max(0, copy.skills.length - HOME_EDUCATION_CHIPS) : 0);
                     return (
                         <li
+                            data-testid={`education-item-${item.id}`}
                             class={cn("relative py-4 md:border-t md:border-border md:py-5", index() === 0 && "md:col-span-2")}>
                             <span aria-hidden="true"
                                   class="absolute top-6 -left-[1.6rem] size-2.5 rounded-full bg-primary md:hidden"/>
@@ -102,13 +104,13 @@ function EducationList(props: { compact?: boolean }) {
                                 <Link to={buildDetailPath(lang, "education", {
                                     slug: EDUCATION_SLUG[item.id],
                                     locked: locked()
-                                })} class={LINK}>
+                                })} data-testid={`education-link-${item.id}`} class={LINK}>
                                     {about.educationPage}
                                     <ArrowRight class="size-4"/>
                                 </Link>
                                 <Show when={item.url}>
                                     {(url) => (
-                                        <a href={url()} target="_blank" rel="noopener noreferrer" class={LINK}>
+                                        <a href={url()} target="_blank" rel="noopener noreferrer" data-testid={`education-coursework-${item.id}`} class={LINK}>
                                             {about.courseworkLink}
                                             <ExternalLink class="size-4"/>
                                         </a>
@@ -117,6 +119,7 @@ function EducationList(props: { compact?: boolean }) {
                                 <Show when={item.organization}>
                                     {(organization) => (
                                         <a href={organization().url} target="_blank" rel="noopener noreferrer"
+                                           data-testid={`education-org-${item.id}`}
                                            class={LINK}>
                                             <GithubIcon class="size-4"/>
                                             {about.organizationLink} · {organization().repositories} {about.repositories}
@@ -145,6 +148,7 @@ function EducationList(props: { compact?: boolean }) {
             </ol>
             <Link
                 to={buildDetailPath(lang, "education", {locked: locked()})}
+                data-testid="about-education-index"
                 class="mt-5 inline-flex min-h-10 w-fit items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
             >
                 {about.educationIndex}
@@ -170,13 +174,14 @@ export function AboutSection() {
             <div class="grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:items-stretch xl:gap-x-16">
                 <div class="flex flex-col justify-between gap-7 text-fg-muted">
                     <div class="space-y-4">
-                        <blockquote class="border-l-2 border-primary pl-4 font-display text-xl text-fg md:text-2xl">
+                        <blockquote data-testid="about-quote" class="border-l-2 border-primary pl-4 font-display text-xl text-fg md:text-2xl">
                             “{about.quote}”
                         </blockquote>
-                        <p class="max-w-[68ch]">{about.intro}</p>
-                        <p class="max-w-[68ch]">{leadStory()}</p>
+                        <p data-testid="about-intro" class="max-w-[68ch]">{about.intro}</p>
+                        <p data-testid="about-lead-story" class="max-w-[68ch]">{leadStory()}</p>
                         <Link
                             to={buildDetailPath(lang, "about", {locked: locked()})}
+                            data-testid="about-read-story"
                             class="inline-flex min-h-10 w-fit items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg transition-colors hover:border-primary hover:text-primary"
                         >
                             {ui.actions.readStory}
@@ -188,7 +193,7 @@ export function AboutSection() {
                             <Languages class="size-5 text-primary"/>
                             {about.languagesTitle}
                         </h3>
-                        <dl class="mt-3 grid grid-cols-3 gap-2">
+                        <dl data-testid="about-languages" class="mt-3 grid grid-cols-3 gap-2">
                             <For each={about.languages}>
                                 {(language) => (
                                     <div class="rounded-lg border border-border bg-surface p-3">
@@ -221,17 +226,17 @@ export function AboutContent() {
     const closing = () => forProfile(about.closing, role());
 
     return (
-        <div class="space-y-14">
+        <div data-testid="about-page-content" class="space-y-14">
             <div class="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:items-stretch xl:gap-x-16">
                 <div class="space-y-5 text-lg text-fg-muted">
-                    <blockquote class="border-l-2 border-primary pl-4 font-display text-2xl text-fg">
+                    <blockquote data-testid="about-quote" class="border-l-2 border-primary pl-4 font-display text-2xl text-fg">
                         “{about.quote}”
                     </blockquote>
-                    <p class="max-w-[68ch] text-fg">{about.intro}</p>
+                    <p data-testid="about-intro" class="max-w-[68ch] text-fg">{about.intro}</p>
                     <For each={story()}>
                         {(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}
                     </For>
-                    <p class="max-w-[68ch]">{about.versatility}</p>
+                    <p data-testid="about-versatility" class="max-w-[68ch]">{about.versatility}</p>
                 </div>
 
                 <div class="flex flex-col justify-between gap-8">
@@ -241,7 +246,7 @@ export function AboutContent() {
                             <Languages class="size-5 text-primary"/>
                             {about.languagesTitle}
                         </h2>
-                        <dl class="mt-3 grid gap-3 sm:grid-cols-3">
+                        <dl data-testid="about-languages" class="mt-3 grid gap-3 sm:grid-cols-3">
                             <For each={about.languages}>
                                 {(language) => (
                                     <div class="rounded-lg border border-border bg-surface p-4">
@@ -255,7 +260,7 @@ export function AboutContent() {
                 </div>
             </div>
 
-            <section class="section-enter rounded-2xl border border-border bg-surface p-6 sm:p-8">
+            <section data-testid="about-ai-section" class="section-enter rounded-2xl border border-border bg-surface p-6 sm:p-8">
                 <div class="max-w-4xl space-y-4 text-fg-muted">
                     <For each={about.ai}>
                         {(paragraph) => <p class="max-w-[68ch]">{paragraph}</p>}
@@ -263,7 +268,7 @@ export function AboutContent() {
                 </div>
             </section>
 
-            <section class="section-enter grid gap-6 md:grid-cols-2">
+            <section data-testid="about-vision-section" class="section-enter grid gap-6 md:grid-cols-2">
                 <div class="rounded-2xl border border-border bg-surface p-6">
                     <p class="max-w-[68ch] text-fg-muted">{about.ambition}</p>
                 </div>
@@ -272,7 +277,7 @@ export function AboutContent() {
                 </div>
             </section>
 
-            <section class="section-enter">
+            <section data-testid="about-education-section" class="section-enter">
                 <EducationList/>
             </section>
         </div>

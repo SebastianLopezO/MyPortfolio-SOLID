@@ -81,11 +81,12 @@ function Figures() {
     const {locale} = useContent();
     const metrics = useSectionCopy("metrics");
     return (
-        <dl class="enter-each grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
+        <dl data-testid="metrics-figures" class="enter-each grid grid-cols-2 gap-x-6 sm:gap-x-8 lg:grid-cols-4">
             <For each={METRICS}>{(id) => (
-                <div class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
+                <div data-testid={`metric-card-${id}`} class="flex flex-col-reverse justify-end gap-1 border-t border-border py-5">
                     <dt class="text-sm text-fg-muted">{metrics.labels[id]}</dt>
                     <dd data-count="true"
+                        data-testid={`metric-value-${id}`}
                         class="font-display text-4xl text-primary tabular-nums">{formatNumber(metricValues[id], locale)}</dd>
                 </div>
             )}</For>
@@ -104,9 +105,10 @@ export function MetricsSection() {
     return (
         <Section id="metrics" title={metrics.title} subtitle={forProfile(metrics.subtitle, role())}>
             <Figures/>
-            <p class="mt-4 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
+            <p data-testid="metrics-as-of" class="mt-4 font-mono text-xs text-fg-subtle">{fill(metrics.asOf, {date: formatDay(STATS_DAY, locale)})}</p>
             <Link
                 to={buildDetailPath(lang, "metrics", {locked: locked()})}
+                data-testid="metrics-all-link"
                 class="mt-6 inline-flex min-h-10 items-center gap-2 rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
             >
                 {metrics.pageLink}
@@ -136,7 +138,7 @@ export function MetricsContent() {
             <Figures/>
 
             <div class="enter-each mt-10 grid gap-6 lg:grid-cols-2">
-                <section aria-labelledby="metrics-areas" class="rounded-lg border border-border bg-surface p-6">
+                <section aria-labelledby="metrics-areas" data-testid="metrics-areas-section" class="rounded-lg border border-border bg-surface p-6">
                     <h3 id="metrics-areas" class="font-semibold text-fg">{metrics.areas.title}</h3>
                     <p class="mt-1 text-sm text-fg-subtle">
                         {fill(metrics.areas.note, {
@@ -177,7 +179,7 @@ export function MetricsContent() {
                     </ul>
                 </section>
 
-                <section aria-labelledby="metrics-languages" class="rounded-lg border border-border bg-surface p-6">
+                <section aria-labelledby="metrics-languages" data-testid="metrics-languages-section" class="rounded-lg border border-border bg-surface p-6">
                     <h3 id="metrics-languages" class="font-semibold text-fg">{metrics.languages.title}</h3>
                     <p class="mt-1 text-sm text-fg-subtle">{fill(metrics.languages.note, {hours: number(codingHours)})}</p>
                     <p class="mt-4 flex gap-5 text-xs text-fg-muted">
@@ -215,6 +217,7 @@ export function MetricsContent() {
             </div>
 
             <section aria-labelledby="metrics-years"
+                     data-testid="metrics-years-section"
                      class="section-enter mt-6 rounded-lg border border-border bg-surface p-6">
                 <h3 id="metrics-years" class="font-semibold text-fg">{metrics.years.title}</h3>
                 <p class="mt-1 text-sm text-fg-subtle">{metrics.years.note}</p>
@@ -319,13 +322,14 @@ export function MetricsContent() {
             <Show when={loaded()} fallback={
                 <button
                     type="button"
+                    data-testid="metrics-load-charts"
                     onClick={() => setLoaded(true)}
                     class="mt-8 inline-flex min-h-10 items-center rounded-full border border-border-strong px-4 text-sm font-semibold text-fg hover:border-primary hover:text-primary"
                 >
                     {metrics.load}
                 </button>
             }>
-                <div class="mt-10">
+                <div data-testid="metrics-charts" class="mt-10">
                     <h3 class="font-semibold text-fg">{metrics.imagesTitle}</h3>
                     <ul class="mt-5 grid gap-5 md:grid-cols-2">
                         <For each={metricImages}>{({wide, ...image}) => (

@@ -50,7 +50,7 @@ function MilestoneContent(props: { id: MilestoneId }) {
                 {journey.kinds[milestone.kind]} · {when}
                 {isFuture(milestone, BUILD_DATE) && ` · ${journey.planned}`}
             </p>
-            <h3 class="mt-2 text-title text-fg">{text.title}</h3>
+            <h3 data-testid="journey-milestone-title" class="mt-2 text-title text-fg">{text.title}</h3>
             <p class="mt-1 font-semibold text-primary">{text.place}</p>
             <p class="mt-3 max-w-4xl text-fg-muted">{text.summary}</p>
             <Show when={certificates.length > 0}>
@@ -127,7 +127,7 @@ function MilestoneContent(props: { id: MilestoneId }) {
 /** The live region stays in place while the stop it shows changes, so screen readers announce each new stop. */
 export function MilestoneDetails(props: { id: MilestoneId }) {
     return (
-        <div aria-live="polite" class="rounded-lg border border-border bg-surface p-5 md:p-6">
+        <div aria-live="polite" data-testid="journey-milestone-details" class="rounded-lg border border-border bg-surface p-5 md:p-6">
             <Show when={props.id} keyed>{(id) => <MilestoneContent id={id}/>}</Show>
         </div>
     );

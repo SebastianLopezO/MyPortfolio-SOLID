@@ -92,12 +92,13 @@ export function Carousel<T>(props: CarouselProps<T>) {
     const range = () => (position().perView > 1 ? `${position().index + 1}–${last()}` : `${position().index + 1}`);
 
     return (
-        <div class="min-w-0">
+        <div data-testid="carousel" class="min-w-0">
             {/* As a grid, each card rises as it enters the screen (globals.css, .enter-each); as a slider on a phone,
                 the cards at its edges turn away and dim (carousel-depth). */}
             <ul
                 id={trackId}
                 ref={track}
+                data-testid="carousel-track"
                 class={cn(
                     "enter-each carousel-depth scrollbar-none -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto scroll-smooth px-4 sm:mx-0 sm:scroll-px-0 sm:px-0",
                     props.trackClass,
@@ -105,7 +106,7 @@ export function Carousel<T>(props: CarouselProps<T>) {
             >
                 <For each={props.items}>
                     {(item, index) => (
-                        <li class={cn("shrink-0 snap-start", props.slideClass, props.itemClass?.(item, index()))}>
+                        <li data-testid="carousel-slide" class={cn("shrink-0 snap-start", props.slideClass, props.itemClass?.(item, index()))}>
                             {props.children(item, index)}
                         </li>
                     )}
@@ -113,9 +114,10 @@ export function Carousel<T>(props: CarouselProps<T>) {
             </ul>
             {/* Centered, so on phones the buttons stay clear of the floating WhatsApp and assistant buttons on the right. */}
             <Show when={props.items.length > 1}>
-                <div class={cn("mt-5 flex items-center justify-center gap-5", props.controlsClass)}>
+                <div data-testid="carousel-controls" class={cn("mt-5 flex items-center justify-center gap-5", props.controlsClass)}>
                     <button
                         type="button"
+                        data-testid="carousel-previous"
                         aria-label={props.previousLabel}
                         aria-controls={trackId}
                         disabled={position().index === 0}
@@ -124,11 +126,12 @@ export function Carousel<T>(props: CarouselProps<T>) {
                     >
                         <ChevronLeft class="size-5"/>
                     </button>
-                    <p aria-hidden="true" class="min-w-16 text-center font-mono text-sm text-fg-muted tabular-nums">
+                    <p aria-hidden="true" data-testid="carousel-counter" class="min-w-16 text-center font-mono text-sm text-fg-muted tabular-nums">
                         <span class="text-fg">{range()}</span> / {props.items.length}
                     </p>
                     <button
                         type="button"
+                        data-testid="carousel-next"
                         aria-label={props.nextLabel}
                         aria-controls={trackId}
                         disabled={last() >= props.items.length}

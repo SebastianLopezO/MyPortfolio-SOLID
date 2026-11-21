@@ -80,12 +80,13 @@ export function SkillsIndex() {
     const ordered = createMemo(() => orderSkillGroups(SKILL_IDS.map(skillGroupById), role()));
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="skills-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="skills"/>
-            <ul class="enter-each mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2">
+            <ul data-testid="skills-index-list" class="enter-each mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2">
                 <For each={ordered()}>{(group) => (
-                    <li>
+                    <li data-testid={`skill-index-item-${group.id}`}>
                         <Link to={links.detail("skills", SKILL_SLUG[group.id])}
+                              data-testid={`skill-index-link-${group.id}`}
                               class="service-entry group grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-7">
                             <span aria-hidden="true"
                                   class="service-icon grid aspect-square place-items-center rounded-3xl"

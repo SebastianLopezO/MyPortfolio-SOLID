@@ -6,7 +6,7 @@ import {buildPath} from "@/lib/paths";
 import {cn} from "@/lib/utils";
 
 /** On the project pages `href` points to the same page in the other language. */
-export function LanguageSwitcher(props: { class?: string; href?: string }) {
+export function LanguageSwitcher(props: { class?: string; href?: string; "data-testid"?: string }) {
     const {alternateLang, content} = useLanguage();
     const {role, locked} = useRole();
     const href = () => props.href ?? buildPath(alternateLang, role(), {locked: locked()});
@@ -25,6 +25,7 @@ export function LanguageSwitcher(props: { class?: string; href?: string }) {
             href={withBase(href())}
             hreflang={alternateLang}
             lang={alternateLang}
+            data-testid={props["data-testid"] ?? "language-switcher"}
             onClick={keepHash}
             class={cn(
                 "inline-flex h-10 items-center gap-2 rounded-full px-3 font-mono text-sm text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg",

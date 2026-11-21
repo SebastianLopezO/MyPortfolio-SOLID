@@ -74,9 +74,10 @@ export function JourneyMap(props: JourneyMapProps) {
 
     return (
         <div class="space-y-5">
-            <div role="group" aria-label={copy.map.emphasisHint} class="flex flex-wrap gap-2">
+            <div role="group" aria-label={copy.map.emphasisHint} data-testid="journey-line-filters" class="flex flex-wrap gap-2">
                 <button
                     type="button"
+                    data-testid="journey-line-all"
                     aria-pressed={props.emphasis === null}
                     onClick={() => props.onEmphasis(null)}
                     class={cn("min-h-10 shrink-0 rounded-full border px-3.5 text-sm whitespace-nowrap", props.emphasis === null ? "border-primary text-fg" : "border-border text-fg-muted hover:text-fg")}
@@ -86,6 +87,7 @@ export function JourneyMap(props: JourneyMapProps) {
                 <For each={JOURNEY_LINES}>{(line) => (
                     <button
                         type="button"
+                        data-testid={`journey-line-${line}`}
                         aria-pressed={props.emphasis === line}
                         aria-label={copy.lines[line]}
                         onClick={() => props.onEmphasis(props.emphasis === line ? null : line)}
@@ -104,6 +106,7 @@ export function JourneyMap(props: JourneyMapProps) {
 
             {/* The map rises into place as one piece, like the other blocks of the page (globals.css, section-enter). */}
             <div ref={scroller}
+                 data-testid="journey-chart"
                  class="journey-chart section-enter hidden overflow-x-auto rounded-lg border border-border bg-surface/60 lg:flex">
                 {/* Lane names, short since the chips above carry the full ones, stay pinned to the left edge if large
                     text makes the map scroll. */}
@@ -170,6 +173,7 @@ export function JourneyMap(props: JourneyMapProps) {
                             <g
                                 role="button"
                                 tabindex={0}
+                                data-testid={`journey-station-${station.id}`}
                                 aria-pressed={station.id === props.selected}
                                 aria-label={`${formatYearMonth(milestone.start, ui.months)} · ${copy.milestones[station.id].title}`}
                                 onClick={() => props.onSelect(station.id)}
@@ -232,6 +236,7 @@ export function JourneyMap(props: JourneyMapProps) {
             <div>
                 <button
                     type="button"
+                    data-testid="journey-list-toggle"
                     aria-expanded={showList()}
                     aria-controls="journey-list"
                     onClick={() => setShowList((value) => !value)}
@@ -240,13 +245,14 @@ export function JourneyMap(props: JourneyMapProps) {
                     {showList() ? copy.map.listToggle.hide : copy.map.listToggle.show}
                 </button>
                 <Show when={showList()}>
-                    <ol id="journey-list" class="appear mt-3 grid gap-2 sm:grid-cols-2">
+                    <ol id="journey-list" data-testid="journey-list" class="appear mt-3 grid gap-2 sm:grid-cols-2">
                         <For each={STATIONS}>{({id}) => {
                             const milestone = BY_ID.get(id)!;
                             return (
                                 <li>
                                     <button
                                         type="button"
+                                        data-testid={`journey-list-item-${id}`}
                                         aria-pressed={id === props.selected}
                                         onClick={() => props.onSelect(id)}
                                         class={cn(

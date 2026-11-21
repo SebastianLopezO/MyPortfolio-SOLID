@@ -46,11 +46,12 @@ function ClampedQuote(props: {
     return (
         <div class="flex-1">
             <blockquote class="text-fg-muted" lang={props.lang}>
-                <p id={props.id} ref={quote} class={cn(!open() && "line-clamp-6")}>“{props.text}”</p>
+                <p id={props.id} ref={quote} data-testid={`quote-${props.id}`} class={cn(!open() && "line-clamp-6")}>“{props.text}”</p>
             </blockquote>
             <Show when={clipped() || open()}>
                 <button
                     type="button"
+                    data-testid={`quote-toggle-${props.id}`}
                     aria-expanded={open()}
                     aria-controls={props.id}
                     onClick={() => setOpen((value) => !value)}
@@ -81,7 +82,7 @@ export function TestimonialsSection() {
     return (
         <Section id="testimonials" title={copy.title} subtitle={forProfile(copy.subtitle, role())}>
             {/* Compact horizontal strip of figures across every screen width so stats never bloat mobile vertical space. */}
-            <dl class="enter-each mb-8 grid max-w-3xl grid-cols-3 gap-0">
+            <dl data-testid="testimonials-stats" class="enter-each mb-8 grid max-w-3xl grid-cols-3 gap-0">
                 <For each={stats}>
                     {([label, value], index) => (
                         <div
@@ -108,7 +109,7 @@ export function TestimonialsSection() {
                 {(item) => {
                     const local = copy.items[item.id];
                     return (
-                        <article class="flex w-full flex-col rounded-lg border border-border bg-surface p-6">
+                        <article data-testid={`testimonial-card-${item.id}`} class="flex w-full flex-col rounded-lg border border-border bg-surface p-6">
                             <div class="flex items-center justify-between gap-3">
                                 <Quote class="size-6 text-primary"/>
                                 <span

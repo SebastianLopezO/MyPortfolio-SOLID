@@ -34,21 +34,24 @@ export function Timeline(props: { items: TimelineItem[]; labels: TimelineLabels 
     const countOf = (value: TimelineKind | null) => (value ? sorted().filter((item) => item.kind === value).length : sorted().length);
 
     return (
-        <div>
+        <div data-testid="timeline">
             <Show when={kinds().length > 1}>
-                <div role="group" aria-label={props.labels.filter} data-interactive={interactive() || undefined}
+                <div role="group" aria-label={props.labels.filter} data-testid="timeline-filter" data-interactive={interactive() || undefined}
                      class="mb-8 flex flex-wrap gap-2">
                     <For each={[null, ...kinds()]}>
                         {(value) => (
-                            <ToggleButton pressed={kind() === value} onClick={() => setKind(value)}
-                                          count={countOf(value)}>
+                            <ToggleButton
+                                data-testid={`timeline-filter-${value ?? "all"}`}
+                                pressed={kind() === value}
+                                onClick={() => setKind(value)}
+                                count={countOf(value)}>
                                 {value ? props.labels.kinds[value] : props.labels.all}
                             </ToggleButton>
                         )}
                     </For>
                 </div>
             </Show>
-            <ol class="space-y-8">
+            <ol data-testid="timeline-years" class="space-y-8">
                 <For each={years()}>{(year) => (
                     <li class="section-enter sm:grid sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-6">
                         {/* The year stays in view beside its entries while they scroll past. */}

@@ -9,8 +9,8 @@ import {Link} from "@/routes/Router";
 
 export function TextSection(props: { id: string; title: string; children: JSX.Element }) {
     return (
-        <section aria-labelledby={props.id} class="section-enter border-t border-border pt-10">
-            <h2 id={props.id} class="text-heading text-fg">{props.title}</h2>
+        <section aria-labelledby={props.id} data-testid={`section-${props.id}`} class="section-enter border-t border-border pt-10">
+            <h2 id={props.id} data-testid={`section-title-${props.id}`} class="text-heading text-fg">{props.title}</h2>
             <div class="mt-6">{props.children}</div>
         </section>
     );
@@ -88,12 +88,14 @@ export function PageIndex(props: { label: string; sections: { id: string; title:
     return (
         <>
             <details open={open()} onToggle={(event) => setOpen(event.currentTarget.open)}
+                     data-testid="page-index-mobile"
                      class="mt-8 rounded-lg border border-border bg-surface xl:hidden">
                 <summary
+                    data-testid="page-index-summary"
                     class="cursor-pointer px-4 py-3 font-mono text-xs text-fg-subtle">{props.label}</summary>
                 <nav aria-label={props.label} class="px-4 pb-4">{links(() => setOpen(false))}</nav>
             </details>
-            <nav aria-label={props.label} class="sticky top-24 mt-10 hidden xl:block">
+            <nav aria-label={props.label} data-testid="page-index-desktop" class="sticky top-24 mt-10 hidden xl:block">
                 <p class="font-mono text-xs text-fg-subtle">{props.label}</p>
                 {links()}
             </nav>
@@ -137,12 +139,12 @@ export function CopyLink() {
         return current ? ui.copyLink[current] : ui.copyLink.copy;
     };
     return (
-        <button type="button" onClick={copy}
+        <button type="button" data-testid="copy-link-button" onClick={copy}
                 class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-semibold text-fg-muted hover:border-primary hover:text-primary">
             <Show when={result() === "copied"} fallback={<Copy class="size-4"/>}>
                 <Check class="size-4"/>
             </Show>
-            <span aria-live="polite">{label()}</span>
+            <span aria-live="polite" data-testid="copy-link-status">{label()}</span>
         </button>
     );
 }
@@ -150,7 +152,7 @@ export function CopyLink() {
 /** The breadcrumb trail of a project or detail page, with the copy link button at its end. */
 export function PageTrail(props: { label: string; items: Crumb[] }) {
     return (
-        <div class="flex flex-wrap items-center justify-between gap-3">
+        <div data-testid="page-trail" class="flex flex-wrap items-center justify-between gap-3">
             <Breadcrumbs label={props.label} items={props.items}/>
             <CopyLink/>
         </div>
@@ -168,7 +170,7 @@ export interface Crumb {
  */
 export function Breadcrumbs(props: { label: string; items: Crumb[] }) {
     return (
-        <nav aria-label={props.label} id="trail">
+        <nav aria-label={props.label} id="trail" data-testid="breadcrumbs">
             <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm">
                 <For each={props.items}>
                     {(item, index) => (
@@ -178,10 +180,12 @@ export function Breadcrumbs(props: { label: string; items: Crumb[] }) {
                             </Show>
                             <Show when={item.to} fallback={
                                 <span aria-current="page"
+                                      data-testid="breadcrumb-current"
                                       class="text-fg-muted [overflow-wrap:anywhere]">{item.label}</span>
                             }>
                                 {(to) => (
                                     <Link to={to()}
+                                          data-testid={`breadcrumb-link-${index()}`}
                                           class="inline-flex min-h-9 items-center font-semibold text-primary hover:text-primary-hover">
                                         {item.label}
                                     </Link>
@@ -211,16 +215,16 @@ export function NeighborNavigation(props: {
 }) {
     const card = "section-enter group flex min-h-20 flex-col justify-center rounded-lg border border-border bg-surface p-4 hover:border-primary";
     return (
-        <nav aria-label={props.label} class="mt-16 border-t border-border pt-8">
+        <nav aria-label={props.label} data-testid="neighbor-nav" class="mt-16 border-t border-border pt-8">
             <div class="grid gap-4 sm:grid-cols-2">
-                <Link to={props.previous.to} class={card}>
+                <Link to={props.previous.to} data-testid="neighbor-previous" class={card}>
                     <span class="inline-flex items-center gap-1.5 text-sm text-fg-subtle">
                         <ArrowLeft class="size-4"/>
                         {props.previousLabel}
                     </span>
                     <span class="mt-1 font-semibold text-fg group-hover:text-primary">{props.previous.label}</span>
                 </Link>
-                <Link to={props.next.to} class={cn(card, "sm:items-end sm:text-right")}>
+                <Link to={props.next.to} data-testid="neighbor-next" class={cn(card, "sm:items-end sm:text-right")}>
                     <span class="inline-flex items-center gap-1.5 text-sm text-fg-subtle">
                         {props.nextLabel}
                         <ArrowRight class="size-4"/>
@@ -229,6 +233,7 @@ export function NeighborNavigation(props: {
                 </Link>
             </div>
             <Link to={props.all.to}
+                  data-testid="neighbor-all"
                   class="mt-6 inline-flex min-h-9 items-center gap-1.5 font-semibold text-primary hover:text-primary-hover">
                 <ArrowLeft class="size-4"/>
                 {props.all.label}

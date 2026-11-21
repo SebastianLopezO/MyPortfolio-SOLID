@@ -85,12 +85,13 @@ export function ServicesIndex() {
     const ordered = createMemo(() => prioritize(SERVICE_IDS, (id) => serviceRoles[id], role()));
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="services-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="services"/>
-            <ul class="enter-each mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2">
+            <ul data-testid="services-index-list" class="enter-each mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2">
                 <For each={ordered()}>{(id) => (
-                    <li>
+                    <li data-testid={`service-index-item-${id}`}>
                         <Link to={links.detail("services", SERVICE_SLUG[id])}
+                              data-testid={`service-index-link-${id}`}
                               class="service-entry group grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-7">
                             <span aria-hidden="true"
                                   class="service-icon grid aspect-square place-items-center rounded-3xl"
@@ -230,15 +231,16 @@ export function ReasonsIndex() {
     const ordered = createMemo(() => prioritize(benefitOrder, (id) => benefitRoles[id], role()));
 
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="reasons-index" class="container-page py-12 md:py-16">
             <IndexHeader collection="reasons"/>
-            <ol class="mt-14 grid gap-4">
+            <ol data-testid="reasons-index-list" class="mt-14 grid gap-4">
                 <For each={ordered()}>{(id, index) => {
                     const benefit = copy.benefits[id];
                     const author = testimonials.find((item) => item.id === benefit.evidence.testimonial)!;
                     return (
-                        <li class="reason-row">
+                        <li data-testid={`reason-index-item-${id}`} class="reason-row">
                             <Link to={links.detail("reasons", REASON_SLUG[id])}
+                                  data-testid={`reason-index-link-${id}`}
                                   class="group grid gap-5 rounded-2xl border border-border p-4 transition-colors hover:border-border-strong sm:grid-cols-[9rem_minmax(0,1fr)] sm:p-5 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-8">
                                 <span aria-hidden="true"
                                       class="grid aspect-[2/1] place-items-center rounded-xl sm:aspect-square"

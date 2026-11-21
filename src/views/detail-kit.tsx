@@ -80,7 +80,7 @@ export function useCrumbs(collection: DetailCollection, current: string | null):
 /** The overview beside the text: label and value pairs, and the links under them. */
 export function Glance(props: { items: { label: string; value: JSX.Element }[]; children?: JSX.Element }) {
     return (
-        <div class="grid content-start gap-4 rounded-lg border border-border bg-surface p-5 text-sm">
+        <div data-testid="detail-glance-box" class="grid content-start gap-4 rounded-lg border border-border bg-surface p-5 text-sm">
             <dl class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
                 <For each={props.items}>
                     {(item) => (
@@ -100,6 +100,7 @@ export function Glance(props: { items: { label: string; value: JSX.Element }[]; 
 function HeaderArt(props: { art: Art }) {
     return (
         <div aria-hidden="true"
+             data-testid="detail-header-art"
              class="detail-art grid aspect-[2/1] place-items-center overflow-clip rounded-2xl md:aspect-square"
              style={{background: `var(--color-tile-${props.art.tile})`}}>
             <img src={withBase(props.art.file)} alt="" width={400} height={400} decoding="async"
@@ -129,25 +130,26 @@ export function DetailArticle(props: ArticleProps) {
     // eslint-disable-next-line solid/reactivity
     const crumbs = useCrumbs(props.collection, props.title);
     return (
-        <article class="container-page py-10 md:py-14 xl:max-w-[80rem]">
+        <article data-testid={`detail-article-${props.collection}`} class="container-page py-10 md:py-14 xl:max-w-[80rem]">
             <PageTrail label={ui.breadcrumb} items={crumbs()}/>
-            <header class={cn("mt-6", props.art
+            <header data-testid="detail-header" class={cn("mt-6", props.art
                 ? "grid gap-6 md:grid-cols-[minmax(0,1fr)_13rem] md:items-center md:gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-16"
                 : "max-w-4xl")}>
                 <div class="max-w-4xl">
-                    <p class="font-mono text-xs text-fg-subtle">{ui.eyebrow[props.collection]}</p>
+                    <p data-testid="detail-eyebrow" class="font-mono text-xs text-fg-subtle">{ui.eyebrow[props.collection]}</p>
                     {/* A title stays within two lines at every width: up to 40 characters it grows to the display size
                         from 48rem, and up to 28 beside an illustration from 80rem; longer ones (most certificates) keep
                         the heading size. */}
                     <h1 translate={props.keepTitle ? "no" : undefined}
+                        data-testid="detail-title"
                         class={cn("mt-3 text-fg [overflow-wrap:anywhere]", props.title.length > (props.art ? 28 : 40) ? "text-heading" : props.art ? "text-heading xl:text-display" : "text-heading md:text-display")}>
                         {props.title.replaceAll(" – ", " – ")}
                     </h1>
                     <Show when={props.subtitle}>
-                        <p class="mt-4 max-w-[68ch] text-xl text-fg">{props.subtitle}</p>
+                        <p data-testid="detail-subtitle" class="mt-4 max-w-[68ch] text-xl text-fg">{props.subtitle}</p>
                     </Show>
                     <Show when={props.lead}>
-                        <p class="mt-4 max-w-[68ch] text-fg-muted">{props.lead}</p>
+                        <p data-testid="detail-lead" class="mt-4 max-w-[68ch] text-fg-muted">{props.lead}</p>
                     </Show>
                 </div>
                 <Show when={props.art}>{(art) => <HeaderArt art={art()}/>}</Show>
@@ -155,11 +157,11 @@ export function DetailArticle(props: ArticleProps) {
 
             {/* As on the project pages: on wide screens the overview and the page index sit beside the text. */}
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
-                <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
+                <aside aria-label={ui.atAGlance} data-testid="detail-glance" class="xl:col-start-2 xl:row-start-1">
                     {props.glance}
                     <PageIndex label={ui.onThisPage} sections={props.sections}/>
                 </aside>
-                <div class="mt-12 max-w-4xl space-y-12 xl:col-start-1 xl:row-start-1 xl:mt-0">{props.children}</div>
+                <div data-testid="detail-content" class="mt-12 max-w-4xl space-y-12 xl:col-start-1 xl:row-start-1 xl:mt-0">{props.children}</div>
             </div>
 
             {props.navigation}
@@ -175,9 +177,9 @@ export function IndexHeader(props: { collection: DetailCollection; subtitle?: st
     return (
         <>
             <Breadcrumbs label={ui.breadcrumb} items={crumbs()}/>
-            <header class="mt-6 max-w-3xl">
-                <h1 class="text-display text-fg">{indexes[props.collection].title}</h1>
-                <p class="mt-4 text-lg text-fg-muted">{props.subtitle ?? indexes[props.collection].subtitle}</p>
+            <header data-testid={`index-header-${props.collection}`} class="mt-6 max-w-3xl">
+                <h1 data-testid="index-title" class="text-display text-fg">{indexes[props.collection].title}</h1>
+                <p data-testid="index-subtitle" class="mt-4 text-lg text-fg-muted">{props.subtitle ?? indexes[props.collection].subtitle}</p>
             </header>
         </>
     );

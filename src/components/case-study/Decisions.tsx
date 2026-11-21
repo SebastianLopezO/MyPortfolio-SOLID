@@ -12,9 +12,9 @@ import type {DecisionCopy, DecisionLabels} from "@/types/case-study";
 export function Decisions(props: { items: DecisionCopy[]; labels: DecisionLabels; tile: Tile }) {
     const label = "flex items-center gap-2 font-mono text-xs text-fg-subtle";
     return (
-        <ol class="grid gap-10">
+        <ol data-testid="decisions-list" class="grid gap-10">
             <For each={props.items}>{(decision, index) => (
-                <li class="group grid border-t border-border pt-8 first:border-t-0 first:pt-0 md:grid-cols-[3.5rem_minmax(0,1fr)] md:gap-x-6">
+                <li data-testid={`decision-item-${index()}`} class="group grid border-t border-border pt-8 first:border-t-0 first:pt-0 md:grid-cols-[3.5rem_minmax(0,1fr)] md:gap-x-6">
                     {/* The list already numbers its items for a screen reader. */}
                     <span aria-hidden="true" class="font-mono text-sm leading-7 text-fg-subtle md:row-span-2">
                         {String(index() + 1).padStart(2, "0")}

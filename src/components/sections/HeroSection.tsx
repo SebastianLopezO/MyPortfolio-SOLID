@@ -69,24 +69,27 @@ export function HeroSection() {
     });
 
     return (
-        <section id="home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
+        <section id="home" data-testid="section-home" aria-labelledby="hero-title" class="hero-backdrop pt-(--header-height)">
             <div
                 class="container-page grid items-center gap-x-12 gap-y-8 pt-8 pb-12 md:py-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:py-8 xl:gap-x-16">
-                <div class="hero-copy">
+                <div data-testid="hero-copy" class="hero-copy">
                     {/* The name and the role read as one statement in two tones, the way a title card does. */}
                     <h1 id="hero-title"
+                        data-testid="hero-title"
                         class="text-display tracking-tight">
-                        <span class="block text-fg">{profile.name}</span>
+                        <span data-testid="hero-name" class="block text-fg">{profile.name}</span>
                         <span
+                            data-testid="hero-role"
                             class="mt-2.5 block text-[0.56em] leading-tight tracking-tight text-fg-subtle">{copy().title}</span>
                     </h1>
-                    <p class="mt-5 max-w-xl text-lg leading-snug text-fg md:text-xl">{copy().headline}</p>
-                    <p class="mt-3 max-w-xl text-sm leading-relaxed text-fg-muted sm:text-base">{copy().summary}</p>
+                    <p data-testid="hero-headline" class="mt-5 max-w-xl text-lg leading-snug text-fg md:text-xl">{copy().headline}</p>
+                    <p data-testid="hero-summary" class="mt-3 max-w-xl text-sm leading-relaxed text-fg-muted sm:text-base">{copy().summary}</p>
 
-                    <div ref={actions} class="mt-6 flex flex-wrap gap-3 md:mt-8">
+                    <div ref={actions} data-testid="hero-actions" class="mt-6 flex flex-wrap gap-3 md:mt-8">
                         <a
                             href={cv}
                             download=""
+                            data-testid="hero-download-cv"
                             class="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover active:translate-y-px sm:text-base"
                         >
                             <Download class="size-5"/>
@@ -94,6 +97,7 @@ export function HeroSection() {
                         </a>
                         <a
                             href="#contact"
+                            data-testid="hero-contact-cta"
                             class="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-5 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised active:translate-y-px sm:text-base"
                         >
                             {ui.actions.contact}
@@ -106,7 +110,7 @@ export function HeroSection() {
                     the work (scripts/illustrations/hero.mjs). The portrait is the largest paint, so it is drawn at
                     once; the drawing around it is decoration, and the links over its devices carry its meaning. The
                     role views have no switcher: each one is reached by its address (/en/backend, /es/data...). */}
-                <div class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-xs sm:max-w-sm lg:max-w-lg">
+                <div data-testid="hero-board" class="hero-portrait hero-board relative mx-auto aspect-square w-full max-w-xs sm:max-w-sm lg:max-w-lg">
                     <img
                         src={withBase(HERO_ART.file)}
                         alt=""
@@ -129,6 +133,7 @@ export function HeroSection() {
                             width={640}
                             height={640}
                             fetchpriority="high"
+                            data-testid="hero-portrait-img"
                             style={{
                                 left: `${HERO_ART.portrait.left}%`,
                                 top: `${HERO_ART.portrait.top}%`,
@@ -144,6 +149,7 @@ export function HeroSection() {
                         the box each link covers comes from the drawing itself (HERO_SPOTS). */}
                     <ul
                         aria-label={hero.board.label}
+                        data-testid="hero-board-spots"
                         class="board-spots"
                         data-quiet={quiet() ? "" : undefined}
                         onPointerLeave={() => setQuiet(false)}
@@ -155,6 +161,7 @@ export function HeroSection() {
                                 const id = `hero-device-${spot.id}`;
                                 return (
                                     <li
+                                        data-testid={`hero-spot-${spot.id}`}
                                         style={{
                                             left: `${spot.left}%`,
                                             top: `${spot.top}%`,
@@ -167,11 +174,12 @@ export function HeroSection() {
                                     >
                                         <Link
                                             to={buildProjectPath(lang, {slug: PROJECT_SLUG[spot.id], locked: locked()})}
+                                            data-testid={`hero-device-${spot.id}`}
                                             class="board-spot"
                                             aria-labelledby={`${id}-name`}
                                             aria-describedby={`${id}-note`}
                                         >
-                                            <span class="board-tip">
+                                            <span data-testid={`hero-device-tip-${spot.id}`} class="board-tip">
                                                 <span id={`${id}-name`}
                                                       class="flex items-center gap-1.5 font-semibold text-fg">
                                                     {device.name}

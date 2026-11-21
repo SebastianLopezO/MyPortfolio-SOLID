@@ -68,6 +68,7 @@ export function JourneySection() {
             <div
                 role="tablist"
                 aria-label={journey.tabsLabel}
+                data-testid="journey-tablist"
                 data-interactive={interactive() || undefined}
                 onKeyDown={onTabKey}
                 class="mb-6 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
@@ -81,6 +82,7 @@ export function JourneySection() {
                             type="button"
                             role="tab"
                             id={`journey-tab-${id}`}
+                            data-testid={`journey-tab-${id}`}
                             aria-selected={tab() === id}
                             aria-controls={`journey-panel-${id}`}
                             tabindex={tab() === id ? 0 : -1}
@@ -98,7 +100,7 @@ export function JourneySection() {
 
             <For each={TABS}>
                 {(id) => (
-                    <div role="tabpanel" id={`journey-panel-${id}`} aria-labelledby={`journey-tab-${id}`}
+                    <div role="tabpanel" id={`journey-panel-${id}`} data-testid={`journey-panel-${id}`} aria-labelledby={`journey-tab-${id}`}
                          hidden={tab() !== id} tabindex={0} class="appear">
                         {/* Only the open view is rendered, which keeps the prerendered HTML and the DOM small. */}
                         <Show when={tab() === id}>

@@ -155,18 +155,19 @@ function ProjectHeader(props: {
     const art = () => PROJECT_ART[props.id];
     return (
         <>
-            <header class="mt-10 md:mt-14">
-                <p class="font-mono text-xs text-fg-subtle">{props.eyebrow}</p>
-                <h1 class={cn("mt-4 text-fg", titleSize(props.name))}>{props.name}</h1>
+            <header data-testid="project-header" class="mt-10 md:mt-14">
+                <p data-testid="project-eyebrow" class="font-mono text-xs text-fg-subtle">{props.eyebrow}</p>
+                <h1 data-testid="project-title" class={cn("mt-4 text-fg", titleSize(props.name))}>{props.name}</h1>
                 <div class="mt-10 grid gap-10 md:mt-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-20">
                     <div class="max-w-2xl">
-                        <p class="text-xl leading-snug text-fg md:text-2xl">{props.tagline}</p>
-                        <p class="mt-5 text-fg-muted">{props.summary}</p>
+                        <p data-testid="project-tagline" class="text-xl leading-snug text-fg md:text-2xl">{props.tagline}</p>
+                        <p data-testid="project-summary" class="mt-5 text-fg-muted">{props.summary}</p>
                     </div>
                     {props.meta}
                 </div>
             </header>
             <div
+                data-testid="project-hero-art"
                 class="section-enter mt-10 grid aspect-[4/3] place-items-center overflow-clip rounded-xl sm:aspect-video md:mt-14 md:rounded-2xl lg:aspect-[21/9]"
                 style={{background: `var(--color-tile-${art().tile})`}}
             >
@@ -369,7 +370,7 @@ function CaseStudy(props: { slug: ProjectSlug }) {
 
     return (
         // A case study reads like an article: past 80rem the text and its side column keep their width instead of drifting apart.
-        <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
+        <article data-testid={`project-article-${id}`} class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <ProjectCrumbs current={copy.name}/>
             <ProjectHeader id={id} eyebrow={ui.eyebrow} name={copy.name} tagline={copy.tagline} summary={copy.summary}
                            meta={<ProjectMeta facts={facts} role={copy.role} place={copy.organization}
@@ -377,7 +378,7 @@ function CaseStudy(props: { slug: ProjectSlug }) {
 
             {/* On wide screens the figures and the page index sit beside the text instead of above it. */}
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
-                <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
+                <aside aria-label={ui.atAGlance} data-testid="project-glance" class="xl:col-start-2 xl:row-start-1">
                     <Show when={facts.figures.length > 0}>
                         <CaseFigures figures={facts.figures} labels={copy.figures} locale={content.locale} compact
                                      class="content-start sm:grid-cols-2 xl:grid-cols-1"/>
@@ -473,7 +474,7 @@ function ProjectPage(props: { slug: ProjectSlug }) {
     ];
 
     return (
-        <article class="container-page py-12 md:py-16 xl:max-w-[80rem]">
+        <article data-testid={`project-article-${id}`} class="container-page py-12 md:py-16 xl:max-w-[80rem]">
             <ProjectCrumbs current={card.name}/>
             <ProjectHeader id={id} eyebrow={pages.ui.eyebrow[facts.category]} name={card.name} tagline={page.tagline}
                            summary={card.summary}
@@ -481,7 +482,7 @@ function ProjectPage(props: { slug: ProjectSlug }) {
                                               status={page.status}/>}/>
 
             <div class="mt-10 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16">
-                <aside aria-label={ui.atAGlance} class="xl:col-start-2 xl:row-start-1">
+                <aside aria-label={ui.atAGlance} data-testid="project-glance" class="xl:col-start-2 xl:row-start-1">
                     <Show when={facts.figures && facts.figures.length > 0 && facts.figures}>
                         {(figures) => (
                             <CaseFigures figures={figures()} labels={page.figures} locale={content.locale} compact
@@ -588,24 +589,27 @@ function Archive() {
     });
 
     return (
-        <section aria-labelledby="archive" class="mt-16">
+        <section aria-labelledby="archive" data-testid="projects-archive" class="mt-16">
             <div class="flex items-baseline gap-3">
                 <h2 id="archive" class="text-heading text-fg">{ui.archiveTitle}</h2>
                 <span class="font-mono text-base text-fg-subtle">{archive.length}</span>
             </div>
             <p class="mt-2 text-fg-muted">{ui.archiveSubtitle}</p>
-            <div role="group" aria-label={pages.ui.archiveFilter} data-interactive={interactive() || undefined}
+            <div role="group" aria-label={pages.ui.archiveFilter} data-testid="archive-filter" data-interactive={interactive() || undefined}
                  class="mt-6 flex flex-wrap gap-2">
                 <For each={[null, ...archiveOrgs]}>
                     {(value) => (
-                        <ToggleButton pressed={org() === value} onClick={() => setOrg(value)}
-                                      count={value ? archiveOf(value).length : archive.length}>
+                        <ToggleButton
+                            data-testid={`archive-filter-${value ?? "all"}`}
+                            pressed={org() === value}
+                            onClick={() => setOrg(value)}
+                            count={value ? archiveOf(value).length : archive.length}>
                             <span translate={value ? "no" : undefined}>{value ?? pages.ui.archiveAll}</span>
                         </ToggleButton>
                     )}
                 </For>
             </div>
-            <div class="mt-6">
+            <div data-testid="archive-repositories" class="mt-6">
                 <RepositoryList entries={shown()}/>
             </div>
         </section>
@@ -618,15 +622,15 @@ function ProjectsIndex() {
     const {cases: {ui}} = useProjectsCopy();
     const cards = useSectionCopy("projects");
     return (
-        <div class="container-page py-12 md:py-16">
+        <div data-testid="projects-index" class="container-page py-12 md:py-16">
             <ProjectCrumbs/>
-            <header class="mt-10 max-w-4xl md:mt-14">
-                <h1 class="text-display text-fg">{ui.indexTitle}</h1>
-                <p class="mt-6 text-lg text-fg-muted md:text-xl">{ui.indexSubtitle}</p>
+            <header data-testid="index-header-projects" class="mt-10 max-w-4xl md:mt-14">
+                <h1 data-testid="index-title" class="text-display text-fg">{ui.indexTitle}</h1>
+                <p data-testid="index-subtitle" class="mt-6 text-lg text-fg-muted md:text-xl">{ui.indexSubtitle}</p>
             </header>
 
             <For each={PROJECT_CATEGORIES}>{(category, categoryIndex) => (
-                <section aria-labelledby={`projects-${category}`} class="mt-20">
+                <section aria-labelledby={`projects-${category}`} data-testid={`projects-category-${category}`} class="mt-20">
                     <div class="flex items-baseline gap-3">
                         <h2 id={`projects-${category}`}
                             class="text-heading text-fg">{cards.categories[category].label}</h2>

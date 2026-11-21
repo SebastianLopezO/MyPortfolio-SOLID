@@ -52,7 +52,7 @@ export function FocusRadar() {
     return (
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
             <div>
-                <svg viewBox={`0 0 ${SIZE} ${SIZE}`} class="mx-auto block h-auto w-full max-w-130 font-sans"
+                <svg viewBox={`0 0 ${SIZE} ${SIZE}`} data-testid="focus-radar-svg" class="mx-auto block h-auto w-full max-w-130 font-sans"
                      aria-hidden="true">
                     {/* When the tab opens, the rings grow from the center one after another and every technology then
                         flies out from the center to its place (globals.css, radar-ring and radar-blip). */}
@@ -119,17 +119,17 @@ export function FocusRadar() {
             </div>
 
             <div class="space-y-6">
-                <div aria-live="polite" class="rounded-lg border border-border bg-surface p-5">
+                <div aria-live="polite" data-testid="focus-radar-details" class="rounded-lg border border-border bg-surface p-5">
                     <p class="font-mono text-xs uppercase tracking-wider text-fg-subtle">
                         {radar.quadrants[activeItem().quadrant]} · {radar.rings[activeItem().ring].label}
                     </p>
-                    <p class="mt-1 text-title text-fg">{radar.items[active()].name}</p>
+                    <p data-testid="focus-radar-active-name" class="mt-1 text-title text-fg">{radar.items[active()].name}</p>
                     <p class="mt-2 text-fg-muted">{radar.items[active()].note}</p>
                     <p class="mt-2 text-sm text-fg-subtle">{radar.rings[activeItem().ring].description}</p>
                 </div>
                 <div class="grid gap-5 sm:grid-cols-2">
                     <For each={RADAR_QUADRANTS}>{(quadrant) => (
-                        <div>
+                        <div data-testid={`focus-radar-quadrant-${quadrant}`}>
                             <h3 class="font-semibold text-fg">{radar.quadrants[quadrant]}</h3>
                             <ol class="mt-2 space-y-1">
                                 <For each={ordered}>{(item, index) => (
@@ -137,6 +137,7 @@ export function FocusRadar() {
                                         <li>
                                             <button
                                                 type="button"
+                                                data-testid={`focus-radar-item-${item.id}`}
                                                 aria-pressed={item.id === active()}
                                                 onClick={() => setActive(item.id)}
                                                 onFocus={() => setActive(item.id)}

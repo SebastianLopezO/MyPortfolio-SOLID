@@ -52,6 +52,7 @@ export function Section(props: SectionProps) {
         // is no control it shows no ring.
         <section
             id={props.id}
+            data-testid={`section-${props.id}`}
             aria-labelledby={`${props.id}-title`}
             tabindex={-1}
             class={cn("section focus-visible:outline-none", props.tone === "raised" && "bg-surface", props.class)}
@@ -67,11 +68,11 @@ export function Section(props: SectionProps) {
                     <>
                         <header
                             class={cn("section-enter mb-8 md:mb-10", split() ? "lg:sticky lg:top-28 lg:mb-0 lg:self-start" : "lg:mb-0")}>
-                            <h2 id={`${props.id}-title`} class="text-heading text-fg">
+                            <h2 id={`${props.id}-title`} data-testid={`section-title-${props.id}`} class="text-heading text-fg">
                                 {props.title}
                             </h2>
                             <Show when={props.subtitle}>
-                                <p class={cn("mt-3 text-fg-muted", split() ? "text-base lg:text-lg" : "text-base sm:text-lg")}>{props.subtitle}</p>
+                                <p data-testid={`section-subtitle-${props.id}`} class={cn("mt-3 text-fg-muted", split() ? "text-base lg:text-lg" : "text-base sm:text-lg")}>{props.subtitle}</p>
                             </Show>
                             {props.intro}
                         </header>
@@ -81,11 +82,11 @@ export function Section(props: SectionProps) {
                     <div class="min-w-0">
                         {/* The heading rises into place as the section enters (globals.css, section-enter). */}
                         <header class="section-enter mb-8 max-w-3xl md:mb-10">
-                            <h2 id={`${props.id}-title`} class="text-heading text-fg">
+                            <h2 id={`${props.id}-title`} data-testid={`section-title-${props.id}`} class="text-heading text-fg">
                                 {props.title}
                             </h2>
                             <Show when={props.subtitle}>
-                                <p class="mt-3 text-base text-fg-muted sm:text-lg">{props.subtitle}</p>
+                                <p data-testid={`section-subtitle-${props.id}`} class="mt-3 text-base text-fg-muted sm:text-lg">{props.subtitle}</p>
                             </Show>
                             {props.intro}
                         </header>

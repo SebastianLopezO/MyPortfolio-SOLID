@@ -37,7 +37,7 @@ export function JourneySteps(props: JourneyStepsProps) {
         "grid size-11 place-items-center rounded-full border border-border-strong text-fg transition-colors hover:border-primary hover:text-primary active:translate-y-px disabled:opacity-40";
 
     return (
-        <div class={cn("rounded-lg border border-border bg-surface/60 p-4", props.class)}>
+        <div data-testid="journey-steps" class={cn("rounded-lg border border-border bg-surface/60 p-4", props.class)}>
             <div aria-hidden="true" class="relative">
                 <div class="flex justify-between font-mono text-[11px] text-fg-subtle">
                     <span>{JOURNEY_START}</span>
@@ -89,6 +89,7 @@ export function JourneySteps(props: JourneyStepsProps) {
             <div class="mt-4 flex items-center justify-center gap-5">
                 <button
                     type="button"
+                    data-testid="journey-previous-stop"
                     aria-label={copy.map.previousStop}
                     disabled={!props.steps.previous}
                     onClick={() => {
@@ -109,6 +110,7 @@ export function JourneySteps(props: JourneyStepsProps) {
                 </p>
                 <button
                     type="button"
+                    data-testid="journey-next-stop"
                     aria-label={copy.map.nextStop}
                     disabled={!props.steps.next}
                     onClick={() => {

@@ -26,11 +26,12 @@ export function ServicesSection() {
 
     return (
         <Section id="services" title={services.title} subtitle={forProfile(services.subtitle, role())} tone="raised">
-            <ul class="enter-each grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4 md:gap-8">
+            <ul data-testid="services-list" class="enter-each grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4 md:gap-8">
                 <For each={ordered()}>
                     {(id) => (
-                        <li>
+                        <li data-testid={`service-item-${id}`}>
                             <Link to={page(SERVICE_SLUG[id])}
+                                  data-testid={`service-card-${id}`}
                                   class="service-entry group flex h-full flex-col items-start">
                                 <span aria-hidden="true"
                                       class="service-icon grid size-16 place-items-center rounded-2xl md:size-20"
@@ -50,6 +51,7 @@ export function ServicesSection() {
             </ul>
             <Link
                 to={page()}
+                data-testid="services-all-link"
                 class="mt-10 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
             >
                 {services.pageLink}

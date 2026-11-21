@@ -117,28 +117,30 @@ export function SkillsSection() {
                 role="region"
                 aria-roledescription="carousel"
                 aria-label={skills.gallery.label}
+                data-testid="skills-gallery"
                 onFocusIn={(event) => setFocused(event.target !== toggle)}
                 onFocusOut={(event) => {
                     if (!root?.contains(event.relatedTarget as Node | null)) setFocused(false);
                 }}
             >
                 <div class="flex items-center justify-between gap-4">
-                    <p aria-hidden="true" class="min-w-0 truncate font-mono text-sm text-fg-muted tabular-nums">
+                    <p aria-hidden="true" data-testid="skills-counter" class="min-w-0 truncate font-mono text-sm text-fg-muted tabular-nums">
                         <span class="text-fg">{ordinal(active())}</span> / {String(count()).padStart(2, "0")}
                         <span class="ml-3 hidden text-fg-subtle sm:inline">{skills.groups[ordered()[active()].id]}</span>
                     </p>
                     <div class="flex shrink-0 items-center gap-2">
-                        <button type="button" aria-label={skills.gallery.previous} onClick={() => move(-1)}
+                        <button type="button" data-testid="skills-previous" aria-label={skills.gallery.previous} onClick={() => move(-1)}
                                 class={BUTTON}>
                             <ChevronLeft class="size-5"/>
                         </button>
                         {/* Its name says what it does next, so it carries no pressed state. */}
                         <button ref={toggle} type="button"
+                                data-testid="skills-pause-toggle"
                                 aria-label={paused() ? skills.gallery.play : skills.gallery.pause}
                                 onClick={() => setPaused((value) => !value)} class={BUTTON}>
                             {paused() ? <Play class="size-4"/> : <Pause class="size-4"/>}
                         </button>
-                        <button type="button" aria-label={skills.gallery.next} onClick={() => move(1)}
+                        <button type="button" data-testid="skills-next" aria-label={skills.gallery.next} onClick={() => move(1)}
                                 class={BUTTON}>
                             <ChevronRight class="size-5"/>
                         </button>
@@ -146,6 +148,7 @@ export function SkillsSection() {
                 </div>
 
                 <div
+                    data-testid="skills-stage"
                     class="skill-stage relative mt-6 touch-pan-y overflow-clip py-4"
                     style={{"--count": String(count())}}
                     onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
@@ -154,7 +157,7 @@ export function SkillsSection() {
                     onPointerUp={onPointerUp}
                     onPointerCancel={() => (start = null)}
                 >
-                    <div class="skill-ring relative mx-auto h-full" style={{"--turn": String(turn())}}>
+                    <div data-testid="skills-ring" class="skill-ring relative mx-auto h-full" style={{"--turn": String(turn())}}>
                         <For each={ordered()}>{(group, index) => {
                             const distance = () => Math.abs(offset(index()));
                             return (
@@ -162,6 +165,7 @@ export function SkillsSection() {
                                     role="group"
                                     aria-roledescription="slide"
                                     aria-label={fill(skills.gallery.slide, {index: index() + 1, count: count()})}
+                                    data-testid={`skill-card-${group.id}`}
                                     class="skill-card absolute inset-0"
                                     style={{"--i": String(index()), "--d": String(distance())}}
                                     data-active={distance() === 0 ? "true" : undefined}
@@ -171,6 +175,7 @@ export function SkillsSection() {
                                 >
                                     <a
                                         href={withBase(page(SKILL_SLUG[group.id]))}
+                                        data-testid={`skill-card-link-${group.id}`}
                                         draggable={false}
                                         tabindex={distance() > 2 ? -1 : undefined}
                                         class="art-row flex h-full flex-col rounded-2xl border border-border bg-surface p-4 transition-colors hover:border-border-strong"
@@ -211,10 +216,11 @@ export function SkillsSection() {
                     </div>
                 </div>
 
-                <p role="status" class="sr-only">{status()}</p>
+                <p role="status" data-testid="skills-status" class="sr-only">{status()}</p>
             </div>
 
             <Link to={page()}
+                  data-testid="skills-all-link"
                   class="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-border-strong px-5 text-sm font-semibold text-fg transition-colors hover:bg-surface-raised">
                 {fill(skills.all, {count: count()})}
                 <ArrowRight class="size-4"/>

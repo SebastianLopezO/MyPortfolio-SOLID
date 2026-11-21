@@ -24,6 +24,7 @@ export interface ArtTileProps {
     /** Names that stay as they are, such as a GitHub organization, are not translated by the browser. */
     keepName?: boolean;
     class?: string;
+    "data-testid"?: string;
 }
 
 /**
@@ -35,9 +36,10 @@ export function ArtTile(rawProps: ArtTileProps) {
     const props = mergeProps({headingLevel: "h3" as const, wide: false, eager: false}, rawProps);
 
     return (
-        <article class={cn("project-tile group h-full", props.class)}>
+        <article data-testid={props["data-testid"]} class={cn("project-tile group h-full", props.class)}>
             <Link
                 to={props.href}
+                data-testid={props["data-testid"] ? `${props["data-testid"]}-link` : undefined}
                 class={cn(
                     "tile-surface relative flex h-full flex-col overflow-clip rounded-xl text-fg md:rounded-2xl",
                     props.wide && "md:grid md:grid-cols-[1fr_1.15fr] md:items-stretch",

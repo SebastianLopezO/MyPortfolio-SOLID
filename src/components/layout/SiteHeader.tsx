@@ -102,6 +102,7 @@ export function SiteHeader(props: SiteHeaderProps) {
 
     return (
         <header
+            data-testid="site-header"
             class="site-header fixed inset-x-0 top-0 z-50"
             data-folded={folded() || undefined}
             data-open={open() || undefined}
@@ -110,19 +111,21 @@ export function SiteHeader(props: SiteHeaderProps) {
             <div class="container-page relative flex h-(--header-height) items-center justify-between gap-3 sm:gap-6">
                 {/* The whole name at every width: folded, it is the pill that keeps whose page this is in sight. */}
                 <Link to={pathFor(role())}
+                      data-testid="header-brand"
                       class="header-brand shrink-0 rounded-full text-sm leading-tight tracking-tight whitespace-nowrap text-fg hover:text-fg-muted sm:text-lg">
                     {profile.name}
                     <span class="sr-only"> · {ui.home}</span>
                 </Link>
 
                 {/* Primary sections in a strictly single-line bar; the full list of sections stays in the menu panel. */}
-                <nav aria-label={ui.navLabel} class="header-nav hidden min-w-0 flex-1 xl:block">
+                <nav aria-label={ui.navLabel} data-testid="header-nav" class="header-nav hidden min-w-0 flex-1 xl:block">
                     <ul class="flex flex-nowrap items-center justify-center gap-x-1.5">
                         <For each={primaryItems()}>
                             {(section) => (
                                 <li class="shrink-0">
                                     <a
                                         href={hrefOf(section)}
+                                        data-testid={`header-nav-${section}`}
                                         aria-current={current() === section ? "true" : undefined}
                                         class="block rounded-full px-3 py-1.5 text-sm whitespace-nowrap text-fg-muted decoration-1 underline-offset-[0.35rem] transition-colors hover:text-fg aria-[current=true]:text-fg aria-[current=true]:underline"
                                     >
@@ -134,12 +137,13 @@ export function SiteHeader(props: SiteHeaderProps) {
                     </ul>
                 </nav>
 
-                <div class="header-controls flex shrink-0 items-center gap-1 rounded-full p-1">
-                    <LanguageSwitcher href={props.languageHref} class="header-language"/>
-                    <ThemeToggle/>
+                <div data-testid="header-controls" class="header-controls flex shrink-0 items-center gap-1 rounded-full p-1">
+                    <LanguageSwitcher href={props.languageHref} data-testid="header-language-switcher" class="header-language"/>
+                    <ThemeToggle data-testid="theme-toggle"/>
                     <button
                         ref={toggle}
                         type="button"
+                        data-testid="header-menu-toggle"
                         class="header-menu-button inline-flex size-10 items-center justify-center rounded-full bg-primary text-on-primary transition-colors hover:bg-primary-hover"
                         aria-expanded={open()}
                         aria-controls="site-menu"
@@ -158,15 +162,17 @@ export function SiteHeader(props: SiteHeaderProps) {
                 <div
                     ref={panel}
                     id="site-menu"
+                    data-testid="site-menu"
                     class="site-menu appear"
                 >
-                    <nav aria-label={ui.navLabel}>
+                    <nav aria-label={ui.navLabel} data-testid="site-menu-nav">
                         <ul class="grid gap-0.5">
                             <For each={items()}>
                                 {(section) => (
                                     <li>
                                         <a
                                             href={hrefOf(section)}
+                                            data-testid={`site-menu-link-${section}`}
                                             aria-current={current() === section ? "true" : undefined}
                                             onClick={() => setOpen(false)}
                                             class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg aria-[current=true]:text-fg"
@@ -181,12 +187,12 @@ export function SiteHeader(props: SiteHeaderProps) {
                         </ul>
                     </nav>
                     <div class="mt-2 border-t border-border px-3 pt-3 pb-1">
-                        <LanguageSwitcher href={props.languageHref} class="w-full justify-center"/>
+                        <LanguageSwitcher href={props.languageHref} data-testid="site-menu-language-switcher" class="w-full justify-center"/>
                     </div>
                 </div>
             </Show>
             {/* How far down the page the reader is (globals.css, .reading-progress). */}
-            <span aria-hidden="true" class="reading-progress"/>
+            <span aria-hidden="true" data-testid="reading-progress" class="reading-progress"/>
         </header>
     );
 }

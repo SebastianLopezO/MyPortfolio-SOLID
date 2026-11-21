@@ -26,13 +26,13 @@ const NEAR = {rootMargin: "600px"};
     <PageIsland part="skip" {...common}/>
     <PageIsland client:settled part="header" {...common}/>
     {home ? (
-            <main id="main">
+            <main id="main" data-testid="main-content">
                 <PageIsland client:settled part="hero" {...common}/>
                 {sectionOrder(route.role).map((id) =>
                         <PageIsland client:settled={NEAR} part={`section:${id}`} {...common}/>)}
             </main>
     ) : (
-            <main id="main" class="pt-(--header-height)">
+            <main id="main" data-testid="main-content" class="pt-(--header-height)">
                 <PageIsland client:settled part={body} {...common}/>
             </main>
     )}
