@@ -183,6 +183,34 @@ describe("prerendered pages", () => {
         for (const path of ALL_PAGES) expect(page(path), path).not.toMatch(/href="[^"]*[?&]from=/);
     });
 
+    it("stamps Playwright data-testid hooks and semantic ARIA roles into the prerendered HTML", () => {
+        const home = page("/en");
+        for (const id of [
+            "app-root", "skip-link", "site-header", "header-brand", "header-nav", "header-controls",
+            "header-language-switcher", "theme-toggle", "header-menu-toggle", "reading-progress",
+            "main-content", "section-home", "hero-title", "hero-name", "hero-role", "hero-actions",
+            "hero-download-cv", "hero-contact-cta", "hero-board", "hero-board-spots",
+            "section-about", "section-experience", "section-projects", "section-skills", "section-services",
+            "section-reasons", "section-journey", "section-certifications", "section-metrics",
+            "section-resume", "section-testimonials", "section-contact", "contact-form",
+            "site-footer", "floating-whatsapp", "assistant-launcher",
+        ]) {
+            expect(home, id).toContain(`data-testid="${id}"`);
+        }
+        const casePage = page("/en/projects/smartpot");
+        for (const id of ["breadcrumbs", "copy-link-button", "project-article-smartpot", "project-title", "project-glance", "case-figures", "decisions-list", "tech-explorer", "neighbor-nav"]) {
+            expect(casePage, id).toContain(`data-testid="${id}"`);
+        }
+        const detailPage = page("/es/experience/tivenos");
+        for (const id of ["breadcrumbs", "copy-link-button", "detail-article-experience", "detail-title", "detail-glance", "timeline", "neighbor-nav"]) {
+            expect(detailPage, id).toContain(`data-testid="${id}"`);
+        }
+        const notFound = read("404.html");
+        for (const id of ["not-found-main", "not-found-code", "not-found-section-en", "not-found-section-es"]) {
+            expect(notFound, id).toContain(`data-testid="${id}"`);
+        }
+    });
+
     it("keeps the startup JavaScript, CSS and HTML within budget", () => {
         const html = page("/en");
         const assets = readdirSync(join(DIST, "assets")).map((file) => `assets/${file}`);

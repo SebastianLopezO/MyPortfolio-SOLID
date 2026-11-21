@@ -10,6 +10,7 @@ export default defineConfig({
     reporter: process.env.CI ? [["github"], ["list"], ["html", {open: "never"}]] : "list",
     use: {
         baseURL: BASE_URL ?? `http://127.0.0.1:${PORT}`,
+        testIdAttribute: "data-testid",
         trace: "retain-on-failure",
         screenshot: "only-on-failure",
     },
