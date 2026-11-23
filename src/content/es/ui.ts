@@ -56,8 +56,8 @@ export const ui: Content["ui"] = {
         collapseAll: "Contraer todo",
         achievements: "Logros ({count})",
         hideAchievements: "Ocultar logros",
-        readStory: "Leer la historia completa",
-        hideStory: "Ocultar la historia",
+        readStory: "Conocer más sobre mí",
+        hideStory: "Ocultar detalles",
     },
     footer: {
         rights: "Todos los derechos reservados.",

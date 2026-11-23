@@ -56,8 +56,8 @@ export const ui: Content["ui"] = {
         collapseAll: "Collapse all",
         achievements: "Achievements ({count})",
         hideAchievements: "Hide achievements",
-        readStory: "Read the full story",
-        hideStory: "Hide the story",
+        readStory: "Get to know me",
+        hideStory: "Hide details",
     },
     footer: {
         rights: "All rights reserved.",

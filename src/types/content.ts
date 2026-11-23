@@ -347,7 +347,9 @@ export interface Content {
         subtitle: Record<ProfileKey, string>;
         quote: string;
         intro: string;
-        /** How the mindset shows in practice, then how the trajectory went, told for each view. */
+        /** Simplified home pillars: four short cues of how Sebastián thinks and learns. */
+        homePillars: { title: string; text: string }[];
+        /** How he works (index 0, shown on home) and how his trajectory went (index 1, for assistant), per role view. */
         story: Record<ProfileKey, [string, string]>;
         versatility: string;
         /** The path with artificial intelligence: rule systems, models and agents, language models at both scales, and
@@ -355,9 +357,79 @@ export interface Content {
         ai: string[];
         ambition: string;
         closing: Record<ProfileKey, string>;
-        /** The terminal under the text: the ASCII portrait and the trajectory as a log, one line per step. */
+        /** The dedicated /{lang}/about page: non-repeating deep dive into worldview, curiosity, choices and connections. */
+        page: {
+            lead: string;
+            glance: {
+                baseLabel: string;
+                base: string;
+                spanLabel: string;
+                span: string;
+                driveLabel: string;
+                drive: string;
+                focusLabel: string;
+                focus: string;
+                lensLabel: string;
+                generalLens: string;
+                talkCta: string;
+                resumeCta: string;
+                backHomeCta: string;
+            };
+            sections: {
+                worldview: string;
+                curiosity: string;
+                choices: string;
+                approach: string;
+                horizon: string;
+                explore: string;
+            };
+            worldview: {
+                paragraphs: string[];
+                principles: { title: string; text: string }[];
+                skillsTitle: string;
+                skillsText: string;
+                metricsTitle: string;
+                metricsText: string;
+            };
+            curiosity: {
+                paragraphs: string[];
+                projectsHeading: string;
+                projectsCta: string;
+                organizationsCta: string;
+            };
+            choices: {
+                paragraphs: string[];
+                programsHeading: string;
+                certsHeading: string;
+                certsIntro: string;
+                educationCta: string;
+                certsCta: string;
+            };
+            approach: {
+                paragraphs: string[];
+                aiHeading: string;
+                reasonsHeading: string;
+                experienceCta: string;
+                servicesCta: string;
+            };
+            horizon: {
+                paragraphs: string[];
+                learningHeading: string;
+                learningItems: string[];
+            };
+            explore: {
+                intro: string;
+                items: {
+                    key: "experience" | "projects" | "journey" | "skills" | "education" | "services" | "reasons" | "metrics";
+                    title: string;
+                    description: string;
+                }[];
+            };
+        };
+        /** The terminal beside the home summary: the ASCII portrait and the prompt above it. */
         terminal: {
             label: string;
+            command: string;
             logCommand: string;
             entries: { year: string; text: string; roles: RoleId[] }[];
         };

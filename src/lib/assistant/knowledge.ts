@@ -100,7 +100,19 @@ export const buildKnowledgeBase = (content: Content, cases?: Record<CaseStudyId,
         add(`organizations.${organization.id}`, "projects", organization.name, text, organization.roles, content.projects.organizations[organization.id], page);
     }
 
-    [content.about.intro, ...content.about.story.general, content.about.versatility, ...content.about.ai, content.about.ambition, content.about.closing.general].forEach((paragraph, index) =>
+    [
+        content.about.intro,
+        ...content.about.story.general,
+        content.about.versatility,
+        ...content.about.ai,
+        content.about.ambition,
+        content.about.closing.general,
+        ...content.about.page.worldview.paragraphs,
+        ...content.about.page.curiosity.paragraphs,
+        ...content.about.page.choices.paragraphs,
+        ...content.about.page.approach.paragraphs,
+        ...content.about.page.horizon.paragraphs,
+    ].forEach((paragraph, index) =>
         add(`about.${index}`, "about", content.ui.nav.about, paragraph, []),
     );
     for (const role of ROLE_IDS) {

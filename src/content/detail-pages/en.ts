@@ -155,11 +155,11 @@ export const detailPages: DetailPagesCopy = {
     },
     indexes: {
         about: {
-            title: "The Engineer's Mindset",
-            subtitle: "How I went from data analysis and PHP sites to running 20+ integration services, building products end to end, and working with language models and coding agents.",
+            title: "About me",
+            subtitle: "How I think, why I chose each path, and what keeps me building in technology.",
             seo: {
-                title: "About me & the engineer's mindset · Sebastián López Osorno",
-                description: "My story from Medellín: four years connecting CRM, ERP and data systems, building AI and IoT products, and leading integrations at TIVENOS and ADCOM.",
+                title: "About me · Sebastián López Osorno",
+                description: "Practical curiosity, self-directed learning, and how I build digital systems across layers from Medellín.",
             },
         },
         experience: {

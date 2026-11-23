@@ -155,11 +155,11 @@ export const detailPages: DetailPagesCopy = {
     },
     indexes: {
         about: {
-            title: "La mentalidad del ingeniero",
-            subtitle: "Cómo pasé del análisis de datos y los sitios en PHP a operar más de 20 servicios de integración, construir productos de punta a punta y trabajar con modelos de lenguaje y agentes de código.",
+            title: "Sobre mí",
+            subtitle: "Cómo pienso, por qué elegí cada camino y qué me mueve a construir en tecnología.",
             seo: {
-                title: "Sobre mí y la mentalidad del ingeniero · Sebastián López Osorno",
-                description: "Mi historia desde Medellín: más de cuatro años conectando sistemas de CRM, ERP y datos, construyendo productos con IA e IoT y liderando integraciones.",
+                title: "Sobre mí · Sebastián López Osorno",
+                description: "Curiosidad práctica, aprendizaje autónomo y mi forma de crear sistemas digitales sin casillas desde Medellín.",
             },
         },
         experience: {
