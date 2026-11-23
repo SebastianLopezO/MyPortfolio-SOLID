@@ -843,6 +843,90 @@ export const REASON_SCENES = {
     ],
 };
 
+/** The dedicated About page object: a modular drafting slate where digital rules and layers connect from scratch. */
+export const ABOUT_SCENE = () => [
+    // Main graphite drafting slate seen slightly angled
+    slab(56, 78, 288, 232, {r: 28, depth: 16, color: P.graphite}),
+    // Recessed blueprint / digital world canvas inside the slate
+    well(76, 98, 176, 152, {r: 14, color: P.ink}),
+    // Fine technical grid inside the canvas
+    ...[0, 1, 2, 3, 4].map((col) => el("line", {
+        x1: 104 + col * 30,
+        x2: 104 + col * 30,
+        y1: 108,
+        y2: 240,
+        stroke: "#fff",
+        "stroke-opacity": 0.08,
+        "stroke-width": 1.2,
+    })),
+    ...[0, 1, 2, 3].map((row) => el("line", {
+        x1: 86,
+        x2: 242,
+        y1: 126 + row * 32,
+        y2: 126 + row * 32,
+        stroke: "#fff",
+        "stroke-opacity": 0.08,
+        "stroke-width": 1.2,
+    })),
+    // Connecting signal paths linking layers inside the digital canvas
+    el("path", {
+        d: "M114 142C146 142 150 176 184 176M114 206C150 206 154 176 184 176M184 176C202 176 206 140 220 140",
+        fill: "none",
+        stroke: P.mint,
+        "stroke-width": 3.5,
+        "stroke-linecap": "round",
+    }),
+    el("path", {
+        d: "M184 176C202 176 206 212 220 212",
+        fill: "none",
+        stroke: P.sky,
+        "stroke-width": 3.5,
+        "stroke-linecap": "round",
+    }),
+    // Layered modular blocks/nodes placed on the canvas
+    slab(94, 124, 38, 36, {r: 9, depth: 5, color: P.cobalt, shadow: false}),
+    slab(94, 188, 38, 36, {r: 9, depth: 5, color: P.orange, shadow: false}),
+    disc(184, 176, 17, {color: P.mint, depth: 4, shadow: false}),
+    el("circle", {cx: 184, cy: 176, r: 6, fill: P.paper}),
+    disc(220, 140, 11, {color: P.butter, depth: 3, shadow: false}),
+    disc(220, 212, 11, {color: P.lilac, depth: 3, shadow: false}),
+    // Right control column: precision compass/curiosity dial + tactile keys
+    disc(294, 142, 34, {color: P.alu, depth: 8, shadow: false}),
+    el("circle", {cx: 294, cy: 142, r: 24, fill: P.ink}),
+    ...Array.from({length: 8}, (_, index) => {
+        const angle = (Math.PI / 4) * index;
+        return el("line", {
+            x1: 294 + Math.cos(angle) * 18,
+            y1: 142 + Math.sin(angle) * 18,
+            x2: 294 + Math.cos(angle) * 21,
+            y2: 142 + Math.sin(angle) * 21,
+            stroke: "#fff",
+            "stroke-opacity": 0.45,
+            "stroke-width": 2,
+            "stroke-linecap": "round",
+        });
+    }),
+    group([
+        el("path", {d: "M294 123l5.5 19h-11z", fill: P.orange}),
+        el("path", {d: "M294 161l5.5-19h-11z", fill: P.alu}),
+    ], {class: "sweep"}),
+    disc(294, 142, 4.5, {color: P.paper, depth: 1, shadow: false}),
+    // Tactile keys under the dial
+    key(268, 198, 52, 18, P.butter, {depth: 4}),
+    key(268, 228, 52, 18, P.alu, {depth: 4}),
+    // Bottom toolbar keys + status lights
+    key(78, 266, 64, 22, P.alu, {depth: 5}),
+    key(154, 266, 44, 22, P.cobalt, {depth: 5}),
+    key(210, 266, 44, 22, P.alu, {depth: 5}),
+    led(278, 277, P.mint, {r: 4.5, pulse: true}),
+    led(300, 277, P.butter, {r: 4}),
+    led(320, 277, P.sky, {r: 4}),
+    screw(70, 92),
+    screw(330, 92),
+];
+
+export const ABOUT_TILE = "mint";
+
 /** Every collection's objects and the tile each one sits on (tokens.css, --color-tile-*). */
 export const PAGE_ART = {
     services: {

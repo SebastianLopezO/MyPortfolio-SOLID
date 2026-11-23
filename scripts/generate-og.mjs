@@ -30,6 +30,7 @@ import {
     SKILL_SLUG
 } from "../src/content/shared/detail-links.ts";
 import {
+    ABOUT_ART,
     EDUCATION_ART,
     EXPERIENCE_ART,
     ORGANIZATION_ART,
@@ -69,7 +70,7 @@ const heroBoard = `<div class="tile board">${await inlineSvg(HERO_ART.file, "boa
 const artTile = async ({file, tile}) => `<div class="tile" style="background:var(--tile-${tile})">${await inlineSvg(file, "illustration")}</div>`;
 
 const INDEX_ART = {
-    about: REASON_ART.vision,
+    about: ABOUT_ART,
     experience: EXPERIENCE_ART.tivenos,
     education: EDUCATION_ART.politecnico,
     certifications: EDUCATION_ART.cyberDiploma,

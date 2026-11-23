@@ -8,6 +8,9 @@ export interface Art {
     tile: Tile;
 }
 
+/** The dedicated About page object, in public/, and the tile it sits on. */
+export const ABOUT_ART: Art = {file: "/illustrations/about.svg", tile: "mint"};
+
 /** Each service's object, in public/, and the tile it sits on. */
 export const SERVICE_ART: Record<ServiceId, Art> = {
     integration: {file: "/illustrations/services/integration.svg", tile: "sky"},

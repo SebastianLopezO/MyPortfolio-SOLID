@@ -12,7 +12,7 @@ import {group, svg} from "./illustrations/kit.mjs";
 import {SCENES, TILES} from "./illustrations/scenes.mjs";
 import {HERO} from "./illustrations/hero.mjs";
 import {LAB, LAB_SCENES} from "./illustrations/lab.mjs";
-import {PAGE_ART} from "./illustrations/pages.mjs";
+import {ABOUT_SCENE, ABOUT_TILE, PAGE_ART} from "./illustrations/pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "illustrations");
@@ -28,6 +28,7 @@ for (const [id, scene] of Object.entries(SCENES)) {
     files[id] = file;
 }
 writeFileSync(join(OUT, "hero.svg"), svg("", HERO.body(), {width: HERO.width, height: HERO.height}));
+writeFileSync(join(OUT, "about.svg"), svg("", group(ABOUT_SCENE())));
 for (const [id, scene] of Object.entries(LAB_SCENES)) writeFileSync(join(OUT, "lab", `${id}.svg`), svg("", group(scene())));
 
 // The objects of the services, the reasons, the jobs, the programs and the organizations, a folder per collection.
@@ -57,6 +58,9 @@ export interface Art {
     file: string;
     tile: Tile;
 }
+
+/** The dedicated About page object, in public/, and the tile it sits on. */
+export const ABOUT_ART: Art = {file: "/illustrations/about.svg", tile: "${ABOUT_TILE}"};
 ${Object.entries(PAGE_TYPES).map(([collection, [name, type, doc]]) => `
 /** ${doc}, in public/, and the tile it sits on. */
 export const ${name}: Record<${type}, Art> = {
@@ -103,7 +107,7 @@ export const LAB_ART: Record<SkillGroupId, string> = {
 ${Object.entries(LAB).map(([id, file]) => `    ${id}: "/illustrations/${file}.svg",`).join("\n")}
 };
 `;
-writeFileSync(join(ROOT, "src", "content", "shared", "project-art.ts"), art);
+writeIfChanged(join(ROOT, "src", "content", "shared", "project-art.ts"), art);
 
 if (process.argv.includes("--sheet")) {
     const tiles = {
