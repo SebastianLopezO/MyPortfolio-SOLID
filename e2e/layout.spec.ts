@@ -33,6 +33,7 @@ for (const viewport of VIEWPORTS) {
 
 for (const viewport of VIEWPORTS) {
     for (const path of [
+        "/en/about", "/es/about",
         "/en/projects", "/es/projects/integration-platform", "/en/projects/smartpot", "/es/projects/computer-engineering",
         "/es/experience/tivenos", "/en/education/computer-engineering", "/en/certifications/search-console-seo", "/es/organizations/engineeringsebastian-s",
         "/en/certifications",

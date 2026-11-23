@@ -245,11 +245,19 @@ text; each bar has a labeled legend or row next to it.
 - Experience: an index of rows split by hairlines, the dates and duration in a mono column at the left from 48rem, then
   the title (a link to the job's page), the company, place and mode, the status and one sentence. The achievements,
   the stack and the job's projects (each with its illustration in small) open in place.
-- About: from 64rem the story sits beside the terminal and the languages. The terminal holds the ASCII portrait and
-  the trajectory as a `cat` of a log, side by side once the terminal itself is 42rem wide (a container query) and
-  stacked below that, so the portrait never floats in an empty box. A role view brightens its own steps of the log and
-  dims the rest. Education is a timeline on phones and an index two across from 48rem, with the degree on a row of its
-  own; each program links to its GitHub organization.
+- About: on the home page, `#about` stays simplified and identity-first: a quote, two short paragraphs on mindset and
+  approach, a 2×2 hairline pillar index (`01`–`04`) and a primary pill link to `/{lang}/about`, balanced beside the
+  ASCII terminal (`$ cat mindset.txt`) and responsive languages strip (`grid-cols-1 sm:grid-cols-3`). Below a hairline
+  divider, education renders as a quiet index without chip walls. On `/{lang}/about` (`views/AboutPage.tsx`), the page
+  avoids repeating the home copy: it opens with its own modular drafting-slate illustration (`ABOUT_ART` on `tile-mint`),
+  a sticky identity `Glance` card and `PageIndex`, and six thematic chapters covering digital-world philosophy, curiosity,
+  study and certification choices, work approach and AI, next horizon and an illustrated `ArtRows` directory linking
+  organically to every inner collection. Both surfaces apply Nielsen's 10 usability heuristics: visible system status
+  (`PageIndex` active chapter, `CopyLink` live feedback, active role-lens badge), real-world language and hardware
+  metaphors, user control and freedom (breadcrumbs, bottom return-to-home nav, one-click role-lens reset), strict visual
+  consistency, error prevention (44px+ touch targets, `ExternalLink` markers), recognition rather than recall (inline
+  illustrated tiles and sticky `Glance` summary), flexibility for both 15-second scanners and deep readers, minimalist
+  hierarchy without duplicated text, clipboard/404 error recovery and contextual explanations before each directory.
 - Skill groups: a gallery of cards standing around a ring that turns one card at a time, every 3.6 s, while it is in
   view (`skill-stage`, `skill-ring`, `skill-card` in `globals.css`; the card is 13.5rem on a phone and up to 17rem,
   the radius follows from the card and the count with `tan()`). Each card is its object on a layer of color, its

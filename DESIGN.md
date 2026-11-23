@@ -95,7 +95,8 @@ every pair in both themes.
   their color; a light may pulse three times, a dial sweeps once, and nothing loops. The pages beyond the projects
   have objects of the same family (`scripts/illustrations/pages.mjs`): a job is a badge on its lanyard with a button of
   what it was about, a program is a book with what it led to on top (a mortarboard, a shield, a laptop), a GitHub
-  organization is a cabinet of drawers with its sticker and a padlock when its code is private, and each service and
+  organization is a cabinet of drawers with its sticker and a padlock when its code is private, the dedicated about page
+  has a modular drafting slate with a compass dial and connected layer nodes (`about.svg` on `tile-mint`), and each service and
   each reason to hire me is one object that says it (a hub of cables, a stopwatch, a spirit level, one ball thrown in
   and three coming back). A flat glyph pressed into a face, the way a logo is, tells the objects of one kind apart.
 - **The hero:** the name, the role, a sentence, a summary and two buttons beside the board; nothing that reads as a
@@ -163,8 +164,17 @@ every pair in both themes.
 ## 5. Layout Principles
 
 - **The home is the first glance, not the archive.** Each section keeps its claim and its best proof; the rest opens in
-  place or lives on its own page. Every job, project, certification and organization has a page, and so do the
-  services, the reasons to hire me and the GitHub metrics.
+  place or lives on its own page. About on the home focuses on identity and mindset (quote, two short paragraphs, four
+  hairline pillars, ASCII terminal, languages and a quiet hairline education index) and leads to `/about`, which opens
+  into non-repeating deep chapters (digital worldview, curiosity, study choices, engineering approach and AI, horizon)
+  with organic illustrated links to projects, programs, certifications, reasons, services, skills, experience and metrics.
+  Both views follow Jakob Nielsen's 10 usability heuristics: live scroll/section status (`PageIndex`, `CopyLink` polite
+  feedback, active role-lens indicator), real-world hardware objects and plain language, explicit exit/reset paths,
+  strict token and component consistency, touch-target and external-link error prevention, recognition over recall via
+  inline illustrated tiles and a sticky `Glance` card, two-speed scanning and role accelerators, minimalist density
+  without repeated prose, graceful clipboard/404 recovery and contextual lead-ins before every interactive directory.
+  Every job, project, certification and organization has a page, and so do the services, the reasons to hire me and the
+  GitHub metrics.
 - **Three section layouts:** `wide`, the heading above content that needs the whole row (the projects, the skills, the
   journey); `split`, the heading in a left column that stays in view beside a list; `pair`, the heading and what it
   carries in the left half and the content in the right half, its top level with the title (the contact: the ways to

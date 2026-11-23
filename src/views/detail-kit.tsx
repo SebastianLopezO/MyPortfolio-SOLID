@@ -52,6 +52,7 @@ export function useLinks() {
             locked: locked()
         }),
         project: (id: ProjectId) => buildProjectPath(lang, {slug: PROJECT_SLUG[id], locked: locked()}),
+        projectsIndex: () => buildProjectPath(lang, {slug: null, locked: locked()}),
     };
 }
 

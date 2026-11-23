@@ -218,7 +218,7 @@ test("moves between programs and switches language on the same page", async ({pa
 
 test("links the detail pages from the home sections and the footer", async ({page}) => {
     await gotoHydrated(page, "/es");
-    await expect(page.locator("#about").getByRole("link", {name: "Leer la historia completa"})).toHaveAttribute("href", "/es/about");
+    await expect(page.locator("#about").getByRole("link", {name: "Conocer más sobre mí"})).toHaveAttribute("href", "/es/about");
     await expect(page.locator("#about").getByRole("link", {name: "Ver el programa"}).first()).toHaveAttribute("href", "/es/education/computer-engineering");
     await expect(page.locator("#about").getByRole("link", {name: /Toda la educación/})).toHaveAttribute("href", "/es/education");
     await expect(page.locator("#certifications h3").getByRole("link", {name: "IT Specialist – Python"})).toHaveAttribute("href", "/es/certifications/it-specialist-python");
@@ -281,4 +281,19 @@ test("answers an unknown detail page with the 404 page", async ({page}) => {
     const response = await page.goto("/en/experience/unknown");
     expect(response?.status()).toBe(404);
     await expect(page.getByText("Page not found")).toBeVisible();
+});
+
+test("renders the dedicated about page with non-repeating sections and organic links", async ({page, consoleErrors}) => {
+    await gotoHydrated(page, "/es/about");
+    await expect(page.getByRole("heading", {level: 1})).toHaveText("Sobre mí");
+    await expect(page.locator("#about-worldview")).toBeVisible();
+    await expect(page.locator("#about-curiosity")).toBeVisible();
+    await expect(page.locator("#about-choices")).toBeVisible();
+    await expect(page.locator("#about-approach")).toBeVisible();
+    await expect(page.locator("#about-horizon")).toBeVisible();
+    await expect(page.locator("#about-explore")).toBeVisible();
+    await expect(page.locator('section[aria-labelledby="about-curiosity"] a[href="/es/projects/smartpot"]')).toBeVisible();
+    await expect(page.locator('section[aria-labelledby="about-choices"] a[href="/es/education/computer-engineering"]')).toBeVisible();
+    await expect(page.locator('section[aria-labelledby="about-explore"] a[href="/es/experience"]')).toBeVisible();
+    expect(consoleErrors).toEqual([]);
 });

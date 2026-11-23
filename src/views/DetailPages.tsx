@@ -29,8 +29,8 @@ import {Timeline} from "@/components/page/Timeline";
 import {Carousel} from "@/components/ui/Carousel";
 import {SvgImage} from "@/components/ui/SvgImage";
 import {TechExplorer} from "@/components/projects/TechExplorer";
-import {AboutContent} from "@/components/sections/AboutSection";
 import {MetricsContent} from "@/components/sections/MetricsSection";
+import {AboutPage} from "@/views/AboutPage";
 import {TechList} from "@/components/ui/TechList";
 import {ToggleButton} from "@/components/ui/ToggleButton";
 import {
@@ -1340,18 +1340,9 @@ function IndexArt(props: { art: Art; to: string }) {
     );
 }
 
-/** The full About Me story, AI workflow, terminal and education; the home keeps the summary. */
+/** The dedicated /{lang}/about page; the home section keeps a simplified non-repeating introduction. */
 function AboutIndex() {
-    const about = useSectionCopy("about");
-    const {role} = useRole();
-    return (
-        <div data-testid="about-index" class="container-page py-12 md:py-16">
-            <IndexHeader collection="about" subtitle={forProfile(about.subtitle, role())}/>
-            <div class="mt-12">
-                <AboutContent/>
-            </div>
-        </div>
-    );
+    return <AboutPage/>;
 }
 
 /** Every GitHub figure with what it tells; the home keeps the headline figures. */
